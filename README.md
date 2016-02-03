@@ -4,6 +4,7 @@ Live External Access: 99.238.212.39 <br />
 MySQL Guide: http://www.sitepoint.com/using-node-mysql-javascript-client/ <br />
 Git & Node Quick Start: https://www.dropbox.com/s/8mepnr7avyr40aq/Node_Git_QuickStart.zip?dl=0 <br />
 Web Design Resource Kit: https://www.dropbox.com/s/neaq3fpegy3w3cl/Web_design_and_development_resources.pdf?dl=0 <br />
+Web Design Cheatsheet: https://www.dropbox.com/s/uey5zv4nwq903av/cheatsheet.txt?dl=0 <br />
 <ul>
 	<h4>Telus Color Palette:</h4>
 	<li><strong>Color</strong>: Bold Foreground <strong>Purple</strong> - Strong:#49166d Basic:#4b286d Light:#8c68a6</li>
