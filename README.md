@@ -14,7 +14,7 @@ Web Design Resource Kit: https://www.dropbox.com/s/neaq3fpegy3w3cl/Web_design_an
 		Also, it is often associated with money. In design, green can have a balancing and harmonizing effect.</li>
 	<li><strong>Color</strong>: Mellow Background <strong>Gray</strong> - Strong:#333333 Basic:#5b5b5b Light:#f5f6f7 White:#ffffff</li>
 </ul>
-<strong>Free</strong> Flash Content:
+<strong>Free</strong> Flash Content: <br />
 Bootstrap Course (1 day remaining) - https://stacksocial.com/sales/free-the-joy-of-bootstrap-course <br />
 Git Training (5 days remaining) - https://stacksocial.com/sales/git-training-course <br />
 Bootstrap Themes (2 days remaining) - https://stacksocial.com/sales/bootstrap-3-0-themes-mega-bundle <br />
