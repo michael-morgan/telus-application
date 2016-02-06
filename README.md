@@ -1,12 +1,12 @@
 # telus-application
 Telus application for Systems Project <br />
-Live External Access: 99.238.212.39 <br />
+<strong>Live</strong> Access: 99.238.212.39 <br />
 MySQL Guide: http://www.sitepoint.com/using-node-mysql-javascript-client/ <br />
 Git & Node Quick Start: https://www.dropbox.com/s/8mepnr7avyr40aq/Node_Git_QuickStart.zip?dl=0 <br />
 Web Design Resource Kit: https://www.dropbox.com/s/neaq3fpegy3w3cl/Web_design_and_development_resources.pdf?dl=0 <br />
 Web Design Cheatsheet: https://www.dropbox.com/s/uey5zv4nwq903av/cheatsheet.txt?dl=0 <br />
 <ul>
-	<h4>Telus Color Palette:</h4>
+	<h6>Telus Color Palette:</h6>
 	<li><strong>Color</strong>: Bold Foreground <strong>Purple</strong> - Strong:#49166d Basic:#4b286d Light:#8c68a6</li>
 	<li><strong>Description</strong>: Purple is traditionally associated with power, nobility and wealth. 
 		In your design, purple can give a sense of wisdom, royalty, nobility, luxury, and mystery.</li>
@@ -20,3 +20,21 @@ Bootstrap Course (1 day remaining) - https://stacksocial.com/sales/free-the-joy-
 Git Training (5 days remaining) - https://stacksocial.com/sales/git-training-course <br />
 Bootstrap Themes (2 days remaining) - https://stacksocial.com/sales/bootstrap-3-0-themes-mega-bundle <br />
 6 Months of Web Hosting (2 days remaining) - https://stacksocial.com/sales/free-6-months-of-hosting-from-doteasy <br />
+<br />
+Development Environments: <br />
+<ul>
+	<h6>JavaScript IDE - WebStorm:</h6>
+	<li>https://www.jetbrains.com/student/</li>
+	<li>Use STUDENT#@student.georgianc.on.ca</li>
+	<li>Install <strong>WebStorm</strong></li>
+	<h6>Web Text Editor:</h6>
+	<li>http://brackets.io/</li>
+</ul>
+Development Utilities: <br />
+<ul>
+	<h6>Postman (Chrome Extension):</h6>
+	<li>http://www.getpostman.com/</li>
+	<h6>Git Bash</h6>
+	<li>https://git-scm.com/downloads</li>
+	<li>Book: https://git-scm.com/book/en/v2</li>
+</ul>
