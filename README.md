@@ -34,7 +34,7 @@ Development Utilities: <br />
 <ul>
 	<h6>Postman (Chrome Extension):</h6>
 	<li>http://www.getpostman.com/</li>
-	<h6>Git Bash</h6>
+	<h6>Git Bash:</h6>
 	<li>https://git-scm.com/downloads</li>
 	<li>Book: https://git-scm.com/book/en/v2</li>
 </ul>
