@@ -29,6 +29,8 @@ Development Environments: <br />
 	<li>Install <strong>WebStorm</strong></li>
 	<h6>Web Text Editor:</h6>
 	<li>http://brackets.io/</li>
+	<h6>Node.js Tools extension for Visual Studio:</h6>
+	<li>https://visualstudiogallery.msdn.microsoft.com/b0da18c5-24da-4fe2-9fe4-8c5525971f48/file/189199/1/NTVS%201.1%20VS%202013.msi?SRC=VSIDE</li>
 </ul>
 Development Utilities: <br />
 <ul>
