@@ -51,6 +51,3 @@ Documentation: <br />
 	<li>Session: https://github.com/expressjs/session</li>
 	<li>Validator: https://www.npmjs.com/package/express-validator</li>
 </ul>
-
-ben was here, bringing good cheer 
-***
