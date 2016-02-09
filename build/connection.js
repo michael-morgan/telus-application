@@ -23,6 +23,15 @@ exports.get = function() {
     return state.pool;
 };
 
+exports.userExists = function(username) {
+    var pool = state.pool;
+    if (!pool) {
+        return done(new Error('Missing database connection'));
+    }
+
+    //TODO: async check if user exists
+};
+
 exports.fixtures = function(data) {
     var pool = state.pool;
     if (!pool) {

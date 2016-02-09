@@ -5,7 +5,13 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var session = require('express-session');
+var expressValidator = require('express-validator');
+var expressMessages = require('express-messages');
 var connection = require('./connection');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+var flash = require('flash');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -21,6 +27,29 @@ app.set('view engine', 'jade');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(session({
+    secret: 'telus_build',
+    saveUninitialized: true,
+    resave: true
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(expressValidator({
+    errorFormatter: function(param, msg, value) {
+        var namespace = param.split('.'),
+            root = namespace.shift(),
+            formParam = root;
+
+        while(namespace.length) {
+            formParam += '[' + namespace.shift() + ']';
+        }
+        return {
+            param : formParam,
+            msg   : msg,
+            value : value
+        };
+    }
+}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -33,6 +62,39 @@ connection.connect(function(err) {
   else {
     console.log('Database connection established');
   }
+});
+
+passport.serializeUser(function(user, done) {
+    done(null, user);
+});
+
+passport.deserializeUser(function(obj, done) {
+    done(null, obj);
+});
+
+passport.use(new LocalStrategy(
+    function(username, password, done) {
+        connection.get().query('SELECT * FROM user WHERE username = \'' + username + '\'', function(err, rows) {
+            if(err) {
+                throw done(err);
+            }
+            if(!rows[0]) {
+                return done(null, false, {message: 'Incorrect username'});
+            }
+            if(rows[0].password != password) {
+                return done(null, false, {message: 'Incorrect password'});
+            }
+
+            return done(null, rows[0]);
+        });
+    }
+));
+
+app.use(flash());
+
+app.use(function(req, res, next) {
+    res.locals.messages = expressMessages(req, res);
+    next();
 });
 
 app.use('/', routes);

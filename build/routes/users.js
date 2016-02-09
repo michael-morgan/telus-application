@@ -1,4 +1,8 @@
 var express = require('express');
+
+var connection = require('../connection');
+var passport = require('passport');
+
 var router = express.Router();
 
 /* GET users listing. */
@@ -16,7 +20,7 @@ router.post('/register', function(req, res, next) {
     if(!req.body) {
         return res.sendStatus(400);
     }
-    res.send('Welcome, ' + req.body.username);
+
 });
 
 router.get('/login', function(req, res, next) {
@@ -25,7 +29,11 @@ router.get('/login', function(req, res, next) {
   });
 });
 
-//router.post('/login', passport.authenticate('local', {});
+router.post('/login', passport.authenticate('local', {
+    successRedirect: '/',
+    failureRedirect: '/users/login',
+    failureFlash: true
+}));
 
 //router.get('/logout', function(req, res) {});
 

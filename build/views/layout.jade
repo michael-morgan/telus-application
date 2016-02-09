@@ -26,6 +26,9 @@ html
             li
               a(href='/users/logout') Logout
     .container
+      for message in flash
+        a.alert(class='alert-' + message.type)
+          p= message.message
       block content
   script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js')
   script(src='/javascripts/bootstrap.min.js')
