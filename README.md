@@ -16,10 +16,7 @@ Web Design Cheatsheet: https://www.dropbox.com/s/uey5zv4nwq903av/cheatsheet.txt?
 	<li><strong>Color</strong>: Mellow Background <strong>Gray</strong> - Strong:#333333 Basic:#5b5b5b Light:#f5f6f7 White:#ffffff</li>
 </ul>
 <strong>Free</strong> Flash Content: <br />
-Bootstrap Course (1 day remaining) - https://stacksocial.com/sales/free-the-joy-of-bootstrap-course <br />
 Git Training (5 days remaining) - https://stacksocial.com/sales/git-training-course <br />
-Bootstrap Themes (2 days remaining) - https://stacksocial.com/sales/bootstrap-3-0-themes-mega-bundle <br />
-6 Months of Web Hosting (2 days remaining) - https://stacksocial.com/sales/free-6-months-of-hosting-from-doteasy <br />
 <br />
 Development Environments: <br />
 <ul>
