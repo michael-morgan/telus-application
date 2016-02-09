@@ -5,6 +5,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var connection = require('./connection');
+
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
@@ -21,6 +23,17 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// use mysql connection
+connection.connect(function(err) {
+  if (err) {
+    console.log('Unable to connect to MySQL');
+    process.exit(1);
+  }
+  else {
+    console.log('Database connection established');
+  }
+});
 
 app.use('/', routes);
 app.use('/users', users);
@@ -55,6 +68,5 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
-
 
 module.exports = app;
