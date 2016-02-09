@@ -1,3 +1,7 @@
+create database build_db;
+
+--use database we just created fool
+USE build_db;
 -- phpMyAdmin SQL Dump
 -- version 4.1.14
 -- http://www.phpmyadmin.net
