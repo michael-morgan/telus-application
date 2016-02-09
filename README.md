@@ -3,6 +3,7 @@ Telus application for Systems Project <br />
 <strong>Live</strong> Access: 99.238.212.39 <br />
 MySQL Guide: http://www.sitepoint.com/using-node-mysql-javascript-client/ <br />
 Git & Node Quick Start: https://www.dropbox.com/s/8mepnr7avyr40aq/Node_Git_QuickStart.zip?dl=0 <br />
+<strong>If</strong> doing Node Quick Start: here is the completed project as reference -> https://www.dropbox.com/s/3g1phvb71vh0c1y/express-website.zip?dl=0 <br />
 Web Design Resource Kit: https://www.dropbox.com/s/neaq3fpegy3w3cl/Web_design_and_development_resources.pdf?dl=0 <br />
 Web Design Cheatsheet: https://www.dropbox.com/s/uey5zv4nwq903av/cheatsheet.txt?dl=0 <br />
 <ul>
