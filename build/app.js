@@ -11,7 +11,7 @@ var expressMessages = require('express-messages');
 var connection = require('./connection');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-var flash = require('flash');
+var flash = require('connect-flash');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -32,6 +32,7 @@ app.use(session({
     saveUninitialized: true,
     resave: true
 }));
+app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(expressValidator({
@@ -90,10 +91,13 @@ passport.use(new LocalStrategy(
     }
 ));
 
-app.use(flash());
-
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
     res.locals.messages = expressMessages(req, res);
+    next();
+});
+
+app.get('*', function(req, res, next) {
+    res.locals.user = req.user || null;
     next();
 });
 

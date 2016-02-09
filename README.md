@@ -47,5 +47,8 @@ Documentation: <br />
 	<li>Passport: http://passportjs.org/docs</li>
 	<li>Jade: http://jade-lang.com/reference/</li>
 	<li>Bootstrap: http://getbootstrap.com/components/</li>
+	<li>Flash: https://www.npmjs.com/package/connect-flash</li>
+	<li>Session: https://github.com/expressjs/session</li>
+	<li>Validator: https://www.npmjs.com/package/express-validator</li>
 </ul>
 

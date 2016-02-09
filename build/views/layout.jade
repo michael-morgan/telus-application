@@ -18,17 +18,17 @@ html
           ul.nav.navbar-nav
             li(class=(title == 'Home' ? 'active' : ''))
               a(href='/') Home
-            li(class=(title == 'Register' ? 'active' : ''))
-              a(href='/users/register') Register
-            li(class=(title == 'Login' ? 'active' : ''))
-              a(href='/users/login') Log In
+            if !user
+              li(class=(title == 'Register' ? 'active' : ''))
+                a(href='/users/register') Register
+              li(class=(title == 'Login' ? 'active' : ''))
+                a(href='/users/login') Log In
           ul.nav.navbar-nav.navbar-right
-            li
-              a(href='/users/logout') Logout
+            if user
+              li
+                a(href='/users/logout') Logout
     .container
-      for message in flash
-        a.alert(class='alert-' + message.type)
-          p= message.message
+      != messages()
       block content
   script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js')
   script(src='/javascripts/bootstrap.min.js')

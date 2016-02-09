@@ -20,7 +20,6 @@ router.post('/register', function(req, res, next) {
     if(!req.body) {
         return res.sendStatus(400);
     }
-
 });
 
 router.get('/login', function(req, res, next) {
@@ -30,11 +29,18 @@ router.get('/login', function(req, res, next) {
 });
 
 router.post('/login', passport.authenticate('local', {
-    successRedirect: '/',
     failureRedirect: '/users/login',
-    failureFlash: true
-}));
+    failureFlash: 'Invalid username or password'
+}), function(req, res) {
+    console.log('Authentication successful');
+    req.flash('success', 'You are logged in');
+    res.redirect('/');
+});
 
-//router.get('/logout', function(req, res) {});
+router.get('/logout', function(req, res) {
+    req.logout();
+    req.flash('success', 'You have logged out');
+    res.redirect('/users/login');
+});
 
 module.exports = router;
