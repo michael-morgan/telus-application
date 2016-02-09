@@ -12,7 +12,12 @@ router.get('/register', function(req, res, next) {
   });
 });
 
-//router.post('/register', function(req, res, next) {});
+router.post('/register', function(req, res, next) {
+    if(!req.body) {
+        return res.sendStatus(400);
+    }
+    res.send('Welcome, ' + req.body.username);
+});
 
 router.get('/login', function(req, res, next) {
   res.render('login', {

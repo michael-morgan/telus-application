@@ -3,7 +3,7 @@ extends layout
 block content
   h1 Register
   p Please register using the form below
-  form(method='POST', action='/users/register', enctype='multipart/form-data')
+  form(method='POST', action='/users/register')
     .form-group
       label Name
       input.form-control(name='name', type='text', placeholder='Enter Name')
@@ -18,5 +18,5 @@ block content
       input.form-control(name='password', type='password', placeholder='Enter Password')
     .form-group
       label Confirm Password
-      input.form-control(name='password2', type='password', placeholder='Confirm Password')
+      input.form-control(name='passwordVerify', type='password', placeholder='Confirm Password')
     input.btn.btn-default(name='submit', type='submit', value='Register')
