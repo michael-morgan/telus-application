@@ -20,6 +20,7 @@ router.post('/register', function(req, res, next) {
     if(!req.body) {
         return res.sendStatus(400);
     }
+    console.log(request.body.username);
 });
 
 router.get('/login', function(req, res, next) {
