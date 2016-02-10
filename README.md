@@ -4,6 +4,7 @@ Telus application for Systems Project <br />
 Discord Text/Voice Server: https://discord.gg/0oiEFS60xCk7KKBL <br />
 Git & Node Quick Start: https://www.dropbox.com/s/8mepnr7avyr40aq/Node_Git_QuickStart.zip?dl=0 <br />
 <strong>If</strong> doing Node Quick Start: here is the completed project as reference -> https://www.dropbox.com/s/3g1phvb71vh0c1y/express-website.zip?dl=0 <br />
+Node MySQL Portfolio Quick Start: https://www.dropbox.com/s/9yu738jabor6i13/Node_MySQL_Portfolio_QuickStart.zip?dl=0 <br />
 Web Design Resource Kit: https://www.dropbox.com/s/neaq3fpegy3w3cl/Web_design_and_development_resources.pdf?dl=0 <br />
 Web Design Cheatsheet: https://www.dropbox.com/s/uey5zv4nwq903av/cheatsheet.txt?dl=0 <br />
 <ul>
@@ -50,4 +51,8 @@ Documentation: <br />
 	<li>Flash: https://www.npmjs.com/package/connect-flash</li>
 	<li>Session: https://github.com/expressjs/session</li>
 	<li>Validator: https://www.npmjs.com/package/express-validator</li>
+</ul>
+Templates: <br />
+<ul>
+	<li>Admin Dashboard: http://startbootstrap.com/template-overviews/sb-admin-2/</li>
 </ul>
