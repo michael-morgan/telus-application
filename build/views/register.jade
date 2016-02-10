@@ -1,22 +1,35 @@
 extends layout
 
 block content
-  h1 Register
-  p Please register using the form below
-  form(method='POST', action='/users/register')
-    .form-group
-      label Name
-      input.form-control(name='name', type='text', placeholder='Enter Name')
-    .form-group
-      label Email
-      input.form-control(name='email', type='email', placeholder='Enter Email')
-    .form-group
-      label Username
-      input.form-control(name='username', type='text', placeholder='Username')
-    .form-group
-      label Password
-      input.form-control(name='password', type='password', placeholder='Enter Password')
-    .form-group
-      label Confirm Password
-      input.form-control(name='passwordVerify', type='password', placeholder='Confirm Password')
-    input.btn.btn-default(name='submit', type='submit', value='Register')
+  .container
+    .spacer
+  .row
+    .col-md-4.col-md-offset-4(style='paddingTop:50px')
+      .panel.panel-default
+        .panel-heading.text-center
+          strong  Register
+        .panel-body
+          form.form-horizontal(role='form', method='POST', action='/users/register')
+            .form-group
+              label.col-sm-3.control-label(for='inputName') Name
+              .col-sm-9
+                input#inputName.form-control(placeholder='Name', type='text')
+            .form-group
+              label.col-sm-3.control-label(for='inputUsername') Username
+              .col-sm-9
+                input#inputUsername.form-control(placeholder='Username', type='text')
+            .form-group
+              label.col-sm-3.control-label(for='inputEmail3') Email
+              .col-sm-9
+                input#inputEmail3.form-control(placeholder='Email',  type='email')
+            .form-group
+              label.col-sm-3.control-label(for='inputPassword') Password
+              .col-sm-9
+                input#inputPassword.form-control(placeholder='Password', type='password')
+            .form-group
+              label.col-sm-3.control-label(for='inputConfirmPassword') Password
+              .col-sm-9
+                input#inputConfirmPassword.form-control(placeholder='Confirm Password', type='password')
+            .form-group.last
+              .col-sm-offset-5.col-sm-8
+                button.btn.btn-success.btn-sm(type='submit', value='register') Register
