@@ -9,30 +9,30 @@ block content
         .panel-heading.text-center
           strong  Register
         .panel-body
-          form.form-horizontal(role='form', method='POST', action='/users/register')
+          form.form-horizontal(method='post', action='/users/register', role='form')
             .form-group
               label.col-sm-3.control-label(for='inputName') Name
               .col-sm-9
-                input#inputName.form-control(placeholder='Name', type='text')
+                input#inputName.form-control(name='name', placeholder='Name', type='text')
             .form-group
               label.col-sm-3.control-label(for='inputUsername') Username
               .col-sm-9
-                input#inputUsername.form-control(placeholder='Username', type='text')
+                input#inputUsername.form-control(name='username', placeholder='Username', type='text')
             .form-group
-              label.col-sm-3.control-label(for='inputEmail3') Email
+              label.col-sm-3.control-label(for='inputEmail') Email
               .col-sm-9
-                input#inputEmail3.form-control(placeholder='Email',  type='email')
+                input#inputEmail.form-control(name='email', placeholder='Email',  type='email')
             .form-group
               label.col-sm-3.control-label(for='inputPassword') Password
               .col-sm-9
-                input#inputPassword.form-control(placeholder='Password', type='password')
+                input#inputPassword.form-control(name='password', placeholder='Password', type='password')
             .form-group
               label.col-sm-3.control-label(for='inputConfirmPassword') Password
               .col-sm-9
-                input#inputConfirmPassword.form-control(placeholder='Confirm Password', type='password')
+                input#inputConfirmPassword.form-control(name='passwordVerify', placeholder='Confirm Password', type='password')
             .form-group.last
               .col-sm-offset-5.col-sm-8
-                button.btn.btn-success.btn-sm(type='submit', value='register') Register
+                button.btn.btn-success.btn-sm(name='submit', type='submit', value='register') Register
         .panel-footer
           | Already Registered?
           a(href='/users/login')  Login here

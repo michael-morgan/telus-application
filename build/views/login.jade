@@ -10,20 +10,18 @@ block content
           .panel-heading.text-center
             strong  Login
           .panel-body
-            form.form-horizontal(role='form')
+            form.form-horizontal(method='post', action='/users/login', role='form')
               .form-group
-                label.col-sm-3.control-label(for='inputEmail') Email
+                label.col-sm-3.control-label(for='inputUsername') Username
                 .col-sm-9
-                  input#inputEmail.form-control(placeholder='Email', type='email')
+                  input#inputUsername.form-control(name='username', placeholder='Username', type='text')
               .form-group
                 label.col-sm-3.control-label(for='inputPassword') Password
                 .col-sm-9
-                  input#inputPassword.form-control(placeholder='Password', type='password')
+                  input#inputPassword.form-control(name='password', placeholder='Password', type='password')
               .form-group.last
                 .col-sm-offset-5.col-sm-8
-                  button.btn.btn-success.btn-sm(type='submit') Sign in
+                  button.btn.btn-success.btn-sm(name='submit', type='submit') Sign in
           .panel-footer
             | Not Registered?
             a(href='/users/register')  Register here
-
-
