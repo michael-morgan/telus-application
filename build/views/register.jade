@@ -9,27 +9,24 @@ block content
         .panel-heading.text-center
           strong  Register
         .panel-body
+          != messages()
           form.form-horizontal(method='post', action='/users/register', role='form')
             .form-group
-              label.col-sm-3.control-label(for='inputName') Name
+              label.col-sm-3.control-label(for='inputFirst') First Name
               .col-sm-9
-                input#inputName.form-control(name='name', placeholder='Name', type='text')
+                input#inputFirst.form-control(name='firstName', placeholder='First Name', required type='text' value='#{first}')
+            .form-group
+              label.col-sm-3.control-label(for='inputLast') Last Name
+              .col-sm-9
+                input#inputLast.form-control(name='lastName', placeholder='Last Name', required type='text' value='#{last}')
             .form-group
               label.col-sm-3.control-label(for='inputUsername') Username
               .col-sm-9
-                input#inputUsername.form-control(name='username', placeholder='Username', type='text')
+                input#inputUsername.form-control(name='username', maxlength='7' placeholder='t######', required  type='text' value='#{username}')
             .form-group
               label.col-sm-3.control-label(for='inputEmail') Email
               .col-sm-9
-                input#inputEmail.form-control(name='email', placeholder='Email',  type='email')
-            .form-group
-              label.col-sm-3.control-label(for='inputPassword') Password
-              .col-sm-9
-                input#inputPassword.form-control(name='password', placeholder='Password', type='password')
-            .form-group
-              label.col-sm-3.control-label(for='inputConfirmPassword') Password
-              .col-sm-9
-                input#inputConfirmPassword.form-control(name='passwordVerify', placeholder='Confirm Password', type='password')
+                input#inputEmail.form-control(name='email', placeholder='Email', required  type='email' value='#{email}')
             .form-group.last
               .col-sm-offset-5.col-sm-8
                 button.btn.btn-success.btn-sm(name='submit', type='submit', value='register') Register
