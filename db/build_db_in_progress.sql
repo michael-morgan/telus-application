@@ -45,7 +45,7 @@ PRIMARY KEY (behaviour_id)
 CREATE TABLE observations
 (
 observation_id int(50) NOT NULL AUTO_INCREMENT,
-behaviour_id int(50) NOT NULL
+behaviour_id int(50) NOT NULL,
 t_number int(7) NOT NULL,
 observation_date date NOT NULL,
 observation_type tinyint(1) NOT NULL,
