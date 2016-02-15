@@ -53,6 +53,7 @@ app.use(expressValidator({
 }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/bower_components', express.static(__dirname + '/bower_components'));
 
 // use mysql connection
 connection.connect(function(err) {

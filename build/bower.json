@@ -1,0 +1,34 @@
+{
+  "name": "telus-applcation",
+  "description": "Web application",
+  "main": [
+    "public/stylesheets/sb-admin-2.css",
+    "public/javascripts/sb-admin-2.js"
+  ],
+  "authors": [
+    "Michael"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/michael-morgan/telus-application",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.6",
+    "datatables": "^1.10.11",
+    "datatables-plugins": "^1.10.11",
+    "Flot": "flot#^0.8.3",
+    "font-awesome": "^4.5.0",
+    "holderjs": "^2.9.1",
+    "metisMenu": "^2.4.0",
+    "morris.js": "morrisjs#^0.5.1",
+    "datatables-responsive": "^2.0.2",
+    "bootstrap-social": "^4.12.0",
+    "flot.tooltip": "^0.8.5"
+  }
+}
