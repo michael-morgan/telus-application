@@ -52,6 +52,7 @@ Documentation: <br />
 	<li>Session: https://github.com/expressjs/session</li>
 	<li>Validator: https://www.npmjs.com/package/express-validator</li>
 	<li>Bower: http://bower.io/</li>
+	<li>Nodemailer: http://nodemailer.com/</li>
 </ul>
 Templates: <br />
 <ul>
