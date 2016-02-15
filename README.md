@@ -1,6 +1,6 @@
 # telus-application
 Telus application for Systems Project <br />
-<strong>Live</strong> Access: 99.238.212.39 <br />
+<strong>Live</strong> Access (DOWN): 99.238.212.39 <br />
 Discord Text/Voice Server: https://discord.gg/0oiEFS60xCk7KKBL <br />
 Git & Node Quick Start: https://www.dropbox.com/s/8mepnr7avyr40aq/Node_Git_QuickStart.zip?dl=0 <br />
 <strong>If</strong> doing Node Quick Start: here is the completed project as reference -> https://www.dropbox.com/s/3g1phvb71vh0c1y/express-website.zip?dl=0 <br />
@@ -18,7 +18,7 @@ Web Design Cheatsheet: https://www.dropbox.com/s/uey5zv4nwq903av/cheatsheet.txt?
 	<li><strong>Color</strong>: Mellow Background <strong>Gray</strong> - Strong:#333333 Basic:#5b5b5b Light:#f5f6f7 White:#ffffff</li>
 </ul>
 <strong>Free</strong> Flash Content: <br />
-Git Training (5 days remaining) - https://stacksocial.com/sales/git-training-course <br />
+Git Training (11 hours remaining) - https://stacksocial.com/sales/git-training-course <br />
 <br />
 Development Environments: <br />
 <ul>
@@ -51,6 +51,7 @@ Documentation: <br />
 	<li>Flash: https://www.npmjs.com/package/connect-flash</li>
 	<li>Session: https://github.com/expressjs/session</li>
 	<li>Validator: https://www.npmjs.com/package/express-validator</li>
+	<li>Bower: http://bower.io/</li>
 </ul>
 Templates: <br />
 <ul>
