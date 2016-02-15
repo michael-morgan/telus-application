@@ -13,7 +13,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var flash = require('connect-flash');
 
-var routes = require('./routes/index');
+var index = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
@@ -75,7 +75,7 @@ passport.deserializeUser(function(obj, done) {
 
 passport.use(new LocalStrategy(
     function(username, password, done) {
-        connection.get().query('SELECT * FROM user WHERE username = \'' + username + '\'', function(err, rows) {
+        connection.get().query('SELECT * FROM users WHERE username = \'' + username + '\'', function(err, rows) {
             if(err) {
                 throw done(err);
             }
@@ -101,7 +101,7 @@ app.get('*', function(req, res, next) {
     next();
 });
 
-app.use('/', routes);
+app.use('/', index);
 app.use('/users', users);
 
 // catch 404 and forward to error handler

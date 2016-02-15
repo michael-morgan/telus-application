@@ -1,25 +1,23 @@
 var express = require('express');
+
 var connection = require('../connection');
+var passport = require('passport');
 
 var router = express.Router();
 
-/* GET home page. */
-router.get('/', ensureAuthenticated, function(req, res, next) {
-    connection.get().query('SELECT * FROM user', function(err, rows) {
-        if(err) {
-            throw err;
-        }
-        console.log(rows[0]);
+router.get('/', function(req, res, next) {
+    res.render('login', {
+        'title': 'Login'
     });
-
-    res.render('index', { title: 'Home' });
 });
 
-function ensureAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    res.redirect('/users/login');
-}
+router.post('/', passport.authenticate('local', {
+    failureRedirect: '/',
+    failureFlash: 'Invalid username or password'
+}), function(req, res) {
+    console.log('Authentication successful');
+    req.flash('success', 'You are logged in');
+    res.redirect('/users/');
+});
 
 module.exports = router;

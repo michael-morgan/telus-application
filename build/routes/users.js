@@ -6,9 +6,23 @@ var passport = require('passport');
 var router = express.Router();
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+router.get('/', ensureAuthenticated, function(req, res, next) {
+    connection.get().query('SELECT * FROM users', function(err, rows) {
+        if(err) {
+            throw err;
+        }
+        console.log(rows[0]);
+    });
+
+    res.render('index', { title: 'Dashboard' });
 });
+
+function ensureAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    res.redirect('/');
+}
 
 router.get('/register', function(req, res, next) {
   res.render('register', {
@@ -84,28 +98,14 @@ router.post('/register', function(req, res, next) {
 
             console.log("User added");
         });
-        res.redirect('/users/login');
+        res.redirect('/users/');
     }
-});
-
-router.get('/login', function(req, res, next) {
-    res.render('login', {
-        'title': 'Login'
-    });
-});
-router.post('/login', passport.authenticate('local', {
-    failureRedirect: '/users/login',
-    failureFlash: 'Invalid username or password'
-}), function(req, res) {
-    console.log('Authentication successful');
-    req.flash('success', 'You are logged in');
-    res.redirect('/');
 });
 
 router.get('/logout', function(req, res) {
     req.logout();
     req.flash('success', 'You have logged out');
-    res.redirect('/users/login');
+    res.redirect('/');
 });
 
 module.exports = router;
