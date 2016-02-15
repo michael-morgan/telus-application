@@ -7,7 +7,7 @@ var randtoken = require('rand-token');
 
 var router = express.Router();
 
-/* GET users listing. */
+//Get the users listing
 router.get('/', ensureAuthenticated, function(req, res, next) {
     connection.get().query('SELECT * FROM users', function(err, rows) {
         if(err) {
@@ -18,14 +18,14 @@ router.get('/', ensureAuthenticated, function(req, res, next) {
 
     res.render('index', { title: 'Dashboard' });
 });
-
+//Make sure the user is authenticated
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
         return next();
     }
     res.redirect('/');
 }
-
+//If accessing the register page, reset the form variables
 router.get('/register', ensureAuthenticated, function(req, res, next) {
   res.render('register', {
 	'title': 'Register',
@@ -35,7 +35,7 @@ router.get('/register', ensureAuthenticated, function(req, res, next) {
     'email': ''
   });
 });
-
+//Form validation for the register page
 router.post('/register', function(req, res, next) {
     if(!req.body) {
         return res.sendStatus(400);
@@ -150,7 +150,7 @@ router.post('/register', function(req, res, next) {
         res.redirect('/users/');
     }
 });
-
+//Logout functionality
 router.get('/logout', function(req, res) {
     req.logout();
     req.flash('success', 'You have logged out');
