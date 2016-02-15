@@ -4,13 +4,15 @@ var connection = require('../connection');
 var passport = require('passport');
 
 var router = express.Router();
-/*Render the login page when the user goes to index/root */
+
+//Render the login page when the user goes to index/root
 router.get('/', function(req, res, next) {
     res.render('login', {
         'title': 'Login'
     });
 });
-/*Authenticate the login, if successful redirect to the users page*/
+
+//Authenticate the login, if successful redirect to the users page
 router.post('/', passport.authenticate('local', {
     failureRedirect: '/',
     failureFlash: 'Invalid username or password'
@@ -21,6 +23,10 @@ router.post('/', passport.authenticate('local', {
 });
 
 router.get('/activate/:token', function(req, res, next) {
+    if(req.params.token.length != 16) {
+        res.redirect('/');
+    }
+
     connection.get().query('SELECT * FROM tokens WHERE token = ?', req.params.token, function(err, rows) {
         if(err) {
             throw err;

@@ -26,7 +26,7 @@ function ensureAuthenticated(req, res, next) {
     res.redirect('/');
 }
 
-router.get('/register', function(req, res, next) {
+router.get('/register', ensureAuthenticated, function(req, res, next) {
   res.render('register', {
 	'title': 'Register',
     'first': '',
