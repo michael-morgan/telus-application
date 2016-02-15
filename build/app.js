@@ -13,6 +13,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var flash = require('connect-flash');
 var nodemailer = require('nodemailer');
+var randtoken = require('rand-token');
 
 var index = require('./routes/index');
 var users = require('./routes/users');

@@ -2,6 +2,8 @@ var express = require('express');
 
 var connection = require('../connection');
 var passport = require('passport');
+var nodemailer = require('nodemailer');
+var randtoken = require('rand-token');
 
 var router = express.Router();
 
@@ -38,6 +40,7 @@ router.post('/register', function(req, res, next) {
     if(!req.body) {
         return res.sendStatus(400);
     }
+
     //Store form variables
     var first = req.body.firstName;
     var last = req.body.lastName;
@@ -83,21 +86,67 @@ router.post('/register', function(req, res, next) {
         });
     }
     else {
+        //generate token
+        var token = randtoken.generate(16);
+
+        // create reusable transporter object using the default SMTP transport
+        //var transporter = nodemailer.createTransport('smtps://user%40gmail.com:pass@smtp.gmail.com');
+        var transporter = nodemailer.createTransport({
+            service: 'Gmail',
+            auth: {
+                user: 'maplefssb@gmail.com',
+                pass: '123Maple123'
+            }
+        });
+
+        // setup e-mail data with unicode symbols
+        var mailOptions = {
+            from: 'no-reply <no-reply@telus.com>', // sender address
+            to: email, // list of receivers
+            subject: 'Verification', // Subject line
+            html: '<p>Hello, ' + first + ' ' + last + ', </p>' +
+                '<p>Click the following link to activate your account: </p>' +
+                'http://localhost:3000/activate/' + token
+        };
+
+        // send mail with defined transport object
+        transporter.sendMail(mailOptions, function(error, info){
+            if(error){
+                return console.log(error);
+            }
+            console.log('Message sent: ' + info.response);
+        });
+
         var user = {
           first_name: first,
           last_name: last,
           email: email,
-          username: username
+          username: username,
+          t_number: username
         };
 
         //Database insertion
-        connection.get().query('INSERT INTO user SET ?', user, function(err, result) {
+        connection.get().query('INSERT INTO users SET ?', user, function(err, result) {
             if(err) {
                 throw err;
             }
 
             console.log("User added");
         });
+
+        var token = {
+            t_number: username,
+            token: token
+        };
+
+        connection.get().query('INSERT INTO tokens SET ?', token, function(err, result) {
+            if(err) {
+                throw err;
+            }
+
+            console.log("Token added");
+        });
+
         res.redirect('/users/');
     }
 });
