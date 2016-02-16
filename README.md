@@ -17,9 +17,6 @@ Web Design Cheatsheet: https://www.dropbox.com/s/uey5zv4nwq903av/cheatsheet.txt?
 		Also, it is often associated with money. In design, green can have a balancing and harmonizing effect.</li>
 	<li><strong>Color</strong>: Mellow Background <strong>Gray</strong> - Strong:#333333 Basic:#5b5b5b Light:#f5f6f7 White:#ffffff</li>
 </ul>
-<strong>Free</strong> Flash Content: <br />
-Git Training (11 hours remaining) - https://stacksocial.com/sales/git-training-course <br />
-<br />
 Development Environments: <br />
 <ul>
 	<h6>JavaScript IDE - WebStorm:</h6>
@@ -53,6 +50,11 @@ Documentation: <br />
 	<li>Validator: https://www.npmjs.com/package/express-validator</li>
 	<li>Bower: http://bower.io/</li>
 	<li>Nodemailer: http://nodemailer.com/</li>
+	<li>Bcrypt: https://www.npmjs.com/package/bcrypt</li>
+	<ul>
+		<h6>Bcrypt Dependencies</h6>
+		<li>Scroll down to Installation: https://github.com/nodejs/node-gyp</li>
+	</ul>
 </ul>
 Templates: <br />
 <ul>
