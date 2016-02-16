@@ -14,6 +14,7 @@ var LocalStrategy = require('passport-local').Strategy;
 var flash = require('connect-flash');
 var nodemailer = require('nodemailer');
 var randtoken = require('rand-token');
+var bcrypt = require('bcrypt');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -85,7 +86,7 @@ passport.use(new LocalStrategy(
             if(!rows[0]) {
                 return done(null, false, {message: 'Incorrect username'});
             }
-            if(rows[0].password != password) {
+            if(!bcrypt.compareSync(password, rows[0].password)) {
                 return done(null, false, {message: 'Incorrect password'});
             }
 
