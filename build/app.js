@@ -70,11 +70,13 @@ connection.connect(function(err) {
 });
 
 passport.serializeUser(function(user, done) {
-    done(null, user);
+    done(null, user.t_number);
 });
 
-passport.deserializeUser(function(obj, done) {
-    done(null, obj);
+passport.deserializeUser(function(t_number, done) {
+    connection.get().query('SELECT * FROM users WHERE t_number = \'' + t_number + '\'', function(err, rows) {
+        done(err, rows[0]);
+    });
 });
 
 passport.use(new LocalStrategy(
@@ -101,6 +103,11 @@ app.use(function (req, res, next) {
 });
 
 app.get('*', function(req, res, next) {
+    res.locals.user = req.user || null;
+    next();
+});
+
+app.post('*', function(req, res, next) {
     res.locals.user = req.user || null;
     next();
 });

@@ -22,8 +22,9 @@ router.post('/', passport.authenticate('local', {
     req.flash('success', 'You are logged in');
     res.redirect('/users/');
 });
-//After the user has clicked the register button, check if the token generated is valid and if so go to the activate
-//page
+
+// after the user has clicked the register button, check if the token generated is valid.
+// if valid go to the activate page
 router.get('/activate/:token', function(req, res, next) {
     if(req.params.token.length != 16) {
         res.redirect('/');
@@ -36,12 +37,15 @@ router.get('/activate/:token', function(req, res, next) {
 
         res.render('activate', {
             title: 'Activate',
-            'row': rows[0]
+            row: rows[0]
         });
     });
 });
-//When the activate button is clicked/submitted make sure the new passwords match, then insert the user into the users
-//table with the generated token and finally delete the token from the tokens table. Lastly, redirect to the login page
+
+// when the activate form is submitted make sure the new passwords match.
+// then insert the password into the users table where the generated token match.
+// then delete the token from the tokens table.
+// lastly redirect to the login page.
 router.post('/activate/:token', function(req, res, next) {
     if(!req.body) {
         return res.sendStatus(400);
@@ -50,46 +54,54 @@ router.post('/activate/:token', function(req, res, next) {
     // store form variables
     var password = req.body.password;
     var passwordVerify = req.body.passwordVerify;
-    var hashedPassword = password;
 
-    if(password != passwordVerify) {
-        req.flash('error', 'Passwords do not match');
-        res.render('activate/' + req.params.token);
+    req.checkBody('password', "Passwords must match").equals(passwordVerify);
+
+    var errors = req.validationErrors();
+    if(errors) {
+        res.render('activate', {
+            title: 'Activate',
+            errors: errors,
+            row: {
+                token: req.params.token
+            }
+        });
     }
+    else {
+        bcrypt.hash(password, 10, function (err, hash) {
+            if (err) {
+                throw err;
+            }
 
-    bcrypt.hash(password, 10, function(err, hash) {
-        if(err) {
-            throw err;
-        }
+            // set hashed password
+            var hashedPassword = hash;
 
-        // set hashed password
-        hashedPassword = hash;
-    });
+            // construct query string
+            var query = 'UPDATE users ' +
+                'INNER JOIN tokens ON users.t_number = tokens.t_number ' +
+                'SET users.password = \'' + hashedPassword + '\' ' +
+                'WHERE tokens.token = \'' + req.params.token + '\'';
 
-    // construct query string
-    var query = 'UPDATE users ' +
-        'INNER JOIN tokens ON users.t_number = tokens.t_number ' +
-        'SET users.password = \'' + hashedPassword + '\' ' +
-        'WHERE tokens.token = \'' + req.params.token + '\'';
+            connection.get().query(query, function (err, rows) {
+                if (err) {
+                    throw err;
+                }
 
-    connection.get().query(query, function(err, rows) {
-        if(err) {
-            throw err;
-        }
+                console.log('Updated user password');
+            });
 
-        console.log('Updated user password');
-    });
+            connection.get().query('DELETE FROM tokens WHERE token = ?', req.params.token, function (err, rows) {
+                if (err) {
+                    throw err;
+                }
 
-    connection.get().query('DELETE FROM tokens WHERE token = ?', req.params.token, function(err, rows) {
-        if(err) {
-            throw err;
-        }
+                console.log('Token record removed');
+            });
 
-        console.log('Token record removed');
-    });
-
-    res.location('/');
-    res.redirect('/');
+            res.location('/');
+            res.redirect('/');
+        });
+    }
 });
 
 module.exports = router;

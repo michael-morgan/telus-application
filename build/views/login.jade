@@ -5,6 +5,10 @@ block content
     .spacer
     .row
       .col-md-4.col-md-offset-4
+        if errors
+          ul
+            for error in errors
+              li!= error.msg
         .panel.panel-default
           .panel-heading.text-center
             strong  Login

@@ -7,7 +7,7 @@ var randtoken = require('rand-token');
 
 var router = express.Router();
 
-//Get the users listing
+// get the users listing
 router.get('/', ensureAuthenticated, function(req, res, next) {
     connection.get().query('SELECT * FROM users', function(err, rows) {
         if(err) {
@@ -18,25 +18,27 @@ router.get('/', ensureAuthenticated, function(req, res, next) {
 
     res.render('index', { title: 'Dashboard' });
 });
-//Make sure the user is authenticated
+
+// make sure the user is authenticated
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
         return next();
     }
     res.redirect('/');
 }
-//If accessing the register page, reset the form variables
+// if accessing the register page, reset the form variables
 router.get('/register', ensureAuthenticated, function(req, res, next) {
   res.render('register', {
-	'title': 'Register',
-    'first': '',
-    'last': '',
-    'username': '',
-    'email': ''
+	title: 'Register',
+    first: '',
+    last: '',
+    username: '',
+    email: ''
   });
 });
-//Form validation for the register page
-router.post('/register', function(req, res, next) {
+
+// form validation for the register page
+router.post('/register', ensureAuthenticated, function(req, res, next) {
     if(!req.body) {
         return res.sendStatus(400);
     }
@@ -48,36 +50,16 @@ router.post('/register', function(req, res, next) {
     var email = req.body.email;
 
     //Custom form validation
-    req.checkBody({
-        'firstName': {
-            notEmpty: true,
-                errorMessage: 'First name field is required'
-        },
-        'lastName': {
-            notEmpty: true,
-            errorMessage: 'Last name field is required'
-        },
-        'email': {
-            notEmpty: true,
-            isEmail: {
-                errorMessage: 'Invalid Email'
-            }
-        },
-        'username': {
-            notEmpty: true,
-            isLength: {
-                options: [{min: 7, max: 7}],
-                errorMessage: 'T# required'
-            }
-            //TODO: /t[0-9]{6}/
-        }
-    });
+    req.checkBody('firstName', "First name field is required").notEmpty();
+    req.checkBody('lastName', "Last name field is required").notEmpty();
+    req.checkBody('email', "Invalid email").isEmail();
+    req.checkBody('username', "T number required format: t123456").matches(/t[0-9]{6}/);
 
     //Check for errors
     var errors = req.validationErrors();
     if(errors) {
-        req.flash('error', 'Missing required fields');
         res.render('register', {
+            title: 'Register',
             errors: errors,
             first: first,
             last: last,
@@ -149,8 +131,9 @@ router.post('/register', function(req, res, next) {
         res.redirect('/users/');
     }
 });
-//Logout functionality
-router.get('/logout', function(req, res) {
+
+// logout functionality
+router.get('/logout', ensureAuthenticated, function(req, res) {
     req.logout();
     req.flash('success', 'You have logged out');
     res.redirect('/');
