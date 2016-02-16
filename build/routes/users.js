@@ -90,7 +90,6 @@ router.post('/register', function(req, res, next) {
         var token = randtoken.generate(16);
 
         // create reusable transporter object using the default SMTP transport
-        //var transporter = nodemailer.createTransport('smtps://user%40gmail.com:pass@smtp.gmail.com');
         var transporter = nodemailer.createTransport({
             service: 'Gmail',
             auth: {
@@ -103,8 +102,8 @@ router.post('/register', function(req, res, next) {
         var mailOptions = {
             from: 'no-reply <no-reply@telus.com>', // sender address
             to: email, // list of receivers
-            subject: 'Verification', // Subject line
-            html: '<p>Hello, ' + first + ' ' + last + ', </p>' +
+            subject: 'Verification', // subject line
+            html: '<p>Hello ' + first + ' ' + last + ', </p>' +
                 '<p>Click the following link to activate your account: </p>' +
                 'http://localhost:3000/activate/' + token
         };
@@ -125,7 +124,7 @@ router.post('/register', function(req, res, next) {
           t_number: username
         };
 
-        //Database insertion
+        // database insertion
         connection.get().query('INSERT INTO users SET ?', user, function(err, result) {
             if(err) {
                 throw err;

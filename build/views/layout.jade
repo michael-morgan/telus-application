@@ -19,7 +19,7 @@ html
               span.icon-bar
               span.icon-bar
               span.icon-bar
-            a.navbar-brand(href='/users/') Telus Dashboard
+            a.navbar-brand(href='/users/') Coaching Dashboard
           ul.nav.navbar-top-links.navbar-right
             li.dropdown
               a.dropdown-toggle(data-toggle='dropdown', href='#')
@@ -181,75 +181,11 @@ html
                   a(href='/users/')
                     i.fa.fa-dashboard.fa-fw
                     |  Dashboard
-                li
-                  a(href='#')
-                    i.fa.fa-bar-chart-o.fa-fw
-                    |  Charts
-                    span.fa.arrow
-                  ul.nav.nav-second-level
-                    li
-                      a(href='#') Flot Charts
-                    li
-                      a(href='#') Morris.js Charts
-                li
-                  a(href='#')
-                    i.fa.fa-table.fa-fw
-                    |  Tables
-                li
-                  a(href='#')
-                    i.fa.fa-edit.fa-fw
-                    |  Forms
-                li
-                  a(href='#')
-                    i.fa.fa-wrench.fa-fw
-                    |  UI Elements
-                    span.fa.arrow
-                  ul.nav.nav-second-level
-                    li
-                      a(href='#') Panels and Wells
-                    li
-                      a(href='#') Buttons
-                    li
-                      a(href='#') Notifications
-                    li
-                      a(href='#') Typography
-                    li
-                      a(href='#')  Icons
-                    li
-                      a(href='#') Grid
-                li
-                  a(href='#')
-                    i.fa.fa-sitemap.fa-fw
-                    |  Multi-Level Dropdown
-                    span.fa.arrow
-                  ul.nav.nav-second-level
-                    li
-                      a(href='#') Second Level Item
-                    li
-                      a(href='#') Second Level Item
-                    li
-                      a(href='#')
-                        | Third Level
-                        span.fa.arrow
-                      ul.nav.nav-third-level
-                        li
-                          a(href='#') Third Level Item
-                        li
-                          a(href='#') Third Level Item
-                        li
-                          a(href='#') Third Level Item
-                        li
-                          a(href='#') Third Level Item
-                li
-                  a(href='#')
-                    i.fa.fa-files-o.fa-fw
-                    |  Sample Pages
-                    span.fa.arrow
-                  ul.nav.nav-second-level
-                    li
-                      a(href='#') Blank Page
-                    li
-                      a(href='#') Login Page
+                if user.privileged
+                  li
+                    a(href='/users/register')
+                      i.fa.fa-user-plus.fa-fw
+                      |  Add User
       != messages()
         block content
   script(src='/bower_components/jquery/dist/jquery.min.js')

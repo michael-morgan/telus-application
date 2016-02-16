@@ -2,17 +2,18 @@ var express = require('express');
 
 var connection = require('../connection');
 var passport = require('passport');
+var bcrypt = require('bcrypt');
 
 var router = express.Router();
 
-//Render the login page when the user goes to index/root
+// render the login page when the user goes to index/root
 router.get('/', function(req, res, next) {
     res.render('login', {
         'title': 'Login'
     });
 });
 
-//Authenticate the login, if successful redirect to the users page
+// authenticate the login, if successful redirect to the users page
 router.post('/', passport.authenticate('local', {
     failureRedirect: '/',
     failureFlash: 'Invalid username or password'
@@ -46,21 +47,32 @@ router.post('/activate/:token', function(req, res, next) {
         return res.sendStatus(400);
     }
 
-    //Store form variables
+    // store form variables
     var password = req.body.password;
     var passwordVerify = req.body.passwordVerify;
+    var hashedPassword = password;
 
     if(password != passwordVerify) {
         req.flash('error', 'Passwords do not match');
         res.render('activate/' + req.params.token);
     }
 
-    console.log(req.params.token);
+    bcrypt.hash(password, 10, function(err, hash) {
+        if(err) {
+            throw err;
+        }
 
-    connection.get().query('UPDATE users ' +
-                            'INNER JOIN tokens ON users.t_number = tokens.t_number ' +
-                            'SET users.password = \'' + password + '\' ' +
-                            'WHERE tokens.token = \'' + req.params.token + '\'', function(err, rows) {
+        // set hashed password
+        hashedPassword = hash;
+    });
+
+    // construct query string
+    var query = 'UPDATE users ' +
+        'INNER JOIN tokens ON users.t_number = tokens.t_number ' +
+        'SET users.password = \'' + hashedPassword + '\' ' +
+        'WHERE tokens.token = \'' + req.params.token + '\'';
+
+    connection.get().query(query, function(err, rows) {
         if(err) {
             throw err;
         }
@@ -69,11 +81,11 @@ router.post('/activate/:token', function(req, res, next) {
     });
 
     connection.get().query('DELETE FROM tokens WHERE token = ?', req.params.token, function(err, rows) {
-            if(err) {
-                throw err;
-            }
+        if(err) {
+            throw err;
+        }
 
-            console.log('Token record removed');
+        console.log('Token record removed');
     });
 
     res.location('/');
