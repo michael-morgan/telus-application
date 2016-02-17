@@ -14,7 +14,7 @@ var LocalStrategy = require('passport-local').Strategy;
 var flash = require('connect-flash');
 var nodemailer = require('nodemailer');
 var randtoken = require('rand-token');
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcryptjs');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
