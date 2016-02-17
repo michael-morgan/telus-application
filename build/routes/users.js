@@ -93,7 +93,7 @@ router.post('/register', ensureAuthenticated, function(req, res, next) {
         // send mail with defined transport object
         transporter.sendMail(mailOptions, function(error, info){
             if(error){
-                return console.log(error);
+                return error;
             }
             console.log('Message sent: ' + info.response);
         });
@@ -151,26 +151,31 @@ router.post('/remove', ensureAuthenticated, function(req, res, next) {
         return res.sendStatus(400);
     }
 
-    connection.get().query('SELECT * FROM users', function(err, results) {
-        if(err) {
+    connection.get().query('SELECT * FROM users', function (err, results) {
+        if (err) {
             throw err;
         }
 
-        results.forEach(function(value, index) {
-            if(req.body.hasOwnProperty('remove' + value.t_number)) {
-                connection.get().query('DELETE FROM users WHERE t_number = ?', value.t_number, function(err, results) {
-                    if(err) {
-                        throw err;
-                    }
-                    console.log('User removed');
-                });
+        var removeIds = [];
+        results.forEach(function (value, index) {
+            if (req.body.hasOwnProperty('remove' + value.t_number)) {
+                removeIds.push('\'' + value.t_number + '\'');
             }
         });
 
-        connection.get().query('SELECT * FROM users', function(err, results) {
-            res.render('remove', {
-                title: 'Remove',
-                users: results
+        console.log(removeIds.toString());
+
+        connection.get().query('DELETE FROM users WHERE t_number IN (' + removeIds.toString() + ')', function (err, results) {
+            if (err) {
+                throw err;
+            }
+            console.log('Users removed');
+
+            connection.get().query('SELECT * FROM users', function (err, results) {
+                res.render('remove', {
+                    title: 'Remove',
+                    users: results
+                });
             });
         });
     });

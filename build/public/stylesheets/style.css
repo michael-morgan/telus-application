@@ -1,11 +1,5 @@
-@import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
-
 body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-}
-
-a {
-  color: #00B7FF;
 }
 
 .spacer {
@@ -19,61 +13,61 @@ a {
   border: none;
 }
 
-#usernameInput{
-   margin-bottom:35px;
- }
-
-#passwordInput{
-  margin-bottom:35px;
+#usernameInput {
+  margin-bottom:20px;
 }
 
-#lblWarning{
+#passwordInput {
+   margin-bottom:25px;
+}
+
+#lblWarning {
   text-align:center;
-  width:100%;
+  /*width:100%;*/
 
+  /*
+  display is set to none now
+  but will be changed in backend when user triggers and error
   display: none;
-  /*display is set to none now, but will be changed in backend when user triggers and error*/
+  */
 }
 
-#btnLogin{
+#btnLogin {
   border:0px;
   border-radius:0px;
 }
 
-.loginInput{
+.loginInput {
   height:54px;
   font-size:20px;
   border-radius:0px;
   background-color:#ffffff;
-
 }
 
-#loginTitle{
+#loginTitle {
   font-size:30px;
   color: #5b5d58;
   padding-top:35px;
   padding-bottom:10px;
-
 }
 
-#checkBoxRemember{
-
+#checkBoxRemember {
   margin-right:20px;
 }
 
-#lblRemember{
+#lblRemember {
   padding:20px;
 }
 
-#loginPanel{
+#loginPanel {
   border:none;
   border-radius:0px;
 }
 
-#wrapper{
-  height:100%;
-  background-color:#8c68a6;
+#wrapper {
+  /*height:100%;*/
+  /*background-color:#8c68a6;*/
   /*background-color: #4b286d;*/
   /*background-color: #49166d;*/
-  position:absolute;
+  /*position:absolute;*/
 }
