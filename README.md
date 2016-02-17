@@ -51,10 +51,6 @@ Documentation: <br />
 	<li>Bower: http://bower.io/</li>
 	<li>Nodemailer: http://nodemailer.com/</li>
 	<li>Bcryptjs: https://www.npmjs.com/package/bcryptjs</li>
-	<ul>
-		<h6>Bcrypt Dependencies</h6>
-		<li>Scroll down to Installation: https://github.com/nodejs/node-gyp</li>
-	</ul>
 </ul>
 Templates: <br />
 <ul>
