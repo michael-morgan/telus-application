@@ -183,9 +183,19 @@ html
                     |  Dashboard
                 if user.privileged
                   li
-                    a(href='/users/register')
-                      i.fa.fa-user-plus.fa-fw
-                      |  Add User
+                    a(href='#')
+                      i.fa.fa-users.fa-fw
+                      |  Manage Users
+                      span.fa.arrow
+                    ul.nav.nav-second-level
+                      li
+                        a(href='/users/register')
+                          i.fa.fa-user-plus.fa-fw
+                          |  Add User
+                      li
+                        a(href='/users/remove')
+                          i.fa.fa-user-times.fa-fw
+                          |  Remove User
       block content
   script(src='/bower_components/jquery/dist/jquery.min.js')
   script(src='/bower_components/bootstrap/dist/js/bootstrap.min.js')

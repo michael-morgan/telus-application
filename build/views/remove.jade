@@ -1,0 +1,38 @@
+extends layout
+
+block content
+  .container
+    .spacer
+  .row
+    .col-lg-6.col-md-offset-3
+      if errors
+        ul
+          for error in errors
+            li!= error.msg
+      .panel.panel-default
+        .panel-heading
+          | Hover Rows
+        // /.panel-heading
+        .panel-body
+          .table-responsive
+            form.form-horizontal(method='post', action='/users/remove', role='form')
+              table.table.table-hover
+                thead
+                  tr
+                    th T Number
+                    th First Name
+                    th Last Name
+                    th Email
+                    th Privileged
+                    th Remove
+                tbody
+                  each user, i in users
+                    tr
+                      td #{user.t_number}
+                      td #{user.first_name}
+                      td #{user.last_name}
+                      td #{user.email}
+                      td #{user.privileged}
+                      td
+                        input(name='remove#{user.t_number}' type='checkbox')
+              button.btn.btn-danger.btn-lg.btn-block(name='submit', type='submit', value='remove') Remove

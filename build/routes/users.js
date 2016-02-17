@@ -132,6 +132,50 @@ router.post('/register', ensureAuthenticated, function(req, res, next) {
     }
 });
 
+// if accessing the register page, reset the form variables
+router.get('/remove', ensureAuthenticated, function(req, res, next) {
+    connection.get().query('SELECT * FROM users', function(err, results) {
+        if(err) {
+            throw err;
+        }
+
+        res.render('remove', {
+            title: 'Remove',
+            users: results
+        });
+    });
+});
+
+router.post('/remove', ensureAuthenticated, function(req, res, next) {
+    if(!req.body) {
+        return res.sendStatus(400);
+    }
+
+    connection.get().query('SELECT * FROM users', function(err, results) {
+        if(err) {
+            throw err;
+        }
+
+        results.forEach(function(value, index) {
+            if(req.body.hasOwnProperty('remove' + value.t_number)) {
+                connection.get().query('DELETE FROM users WHERE t_number = ?', value.t_number, function(err, results) {
+                    if(err) {
+                        throw err;
+                    }
+                    console.log('User removed');
+                });
+            }
+        });
+
+        connection.get().query('SELECT * FROM users', function(err, results) {
+            res.render('remove', {
+                title: 'Remove',
+                users: results
+            });
+        });
+    });
+});
+
 // logout functionality
 router.get('/logout', ensureAuthenticated, function(req, res) {
     req.logout();
