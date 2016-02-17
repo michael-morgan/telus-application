@@ -19,7 +19,7 @@ router.post('/', passport.authenticate('local', {
     failureFlash: 'Invalid username or password'
 }), function(req, res) {
     console.log('Authentication successful');
-    req.flash('success', 'You are logged in');
+    req.flash('success', 'You are now logged in');
     res.redirect('/users/');
 });
 
