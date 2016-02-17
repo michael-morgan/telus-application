@@ -25,11 +25,11 @@ block content
             .form-group
               label.col-sm-3.control-label(for='inputUsername') Username
               .col-sm-9
-                input#inputUsername.form-control(name='username', maxlength='7' placeholder='t######', required  type='text' value='#{username}')
+                input#inputUsername.form-control(name='username', maxlength='7' placeholder='t######', required  type='text' value='#{username}' pattern="^[t]{1}[0-9]{6}")
             .form-group
               label.col-sm-3.control-label(for='inputEmail') Email
               .col-sm-9
-                input#inputEmail.form-control(name='email', placeholder='Email', required  type='email' value='#{email}')
+                input#inputEmail.form-control(name='email', placeholder='Email', required  type='email' value='#{email}' )
             .form-group.last
               .col-sm-offset-3.col-sm-9
                 button.btn.btn-success.btn-lg.btn-block(name='submit', type='submit', value='register') Register

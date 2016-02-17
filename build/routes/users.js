@@ -75,7 +75,7 @@ router.post('/register', ensureAuthenticated, function(req, res, next) {
         var transporter = nodemailer.createTransport({
             service: 'Gmail',
             auth: {
-                user: 'maplefssb@gmail.com',
+                user: 'benjaminvanarragon@gmail.com',
                 pass: '123Maple123'
             }
         });

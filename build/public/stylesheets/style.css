@@ -1,3 +1,5 @@
+@import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
+
 body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
@@ -10,4 +12,68 @@ a {
   margin:0;
   padding:0;
   height:200px;
+}
+
+.panel-default>.panel-heading{
+  background-color: #ffffff;
+  border: none;
+}
+
+#usernameInput{
+   margin-bottom:35px;
+ }
+
+#passwordInput{
+  margin-bottom:35px;
+}
+
+#lblWarning{
+  text-align:center;
+  width:100%;
+
+  display: none;
+  /*display is set to none now, but will be changed in backend when user triggers and error*/
+}
+
+#btnLogin{
+  border:0px;
+  border-radius:0px;
+}
+
+.loginInput{
+  height:54px;
+  font-size:20px;
+  border-radius:0px;
+  background-color:#ffffff;
+
+}
+
+#loginTitle{
+  font-size:30px;
+  color: #5b5d58;
+  padding-top:35px;
+  padding-bottom:10px;
+
+}
+
+#checkBoxRemember{
+
+  margin-right:20px;
+}
+
+#lblRemember{
+  padding:20px;
+}
+
+#loginPanel{
+  border:none;
+  border-radius:0px;
+}
+
+#wrapper{
+  height:100%;
+  background-color:#8c68a6;
+  /*background-color: #4b286d;*/
+  /*background-color: #49166d;*/
+  position:absolute;
 }
