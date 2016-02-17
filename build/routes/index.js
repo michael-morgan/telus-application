@@ -68,33 +68,39 @@ router.post('/activate/:token', function(req, res, next) {
         });
     }
     else {
-        // set hashed password
-        var hashedPassword = bcrypt.hashSync(password, 10);
-
-        // construct query string
-        var query = 'UPDATE users ' +
-            'INNER JOIN tokens ON users.t_number = tokens.t_number ' +
-            'SET users.password = \'' + hashedPassword + '\' ' +
-            'WHERE tokens.token = \'' + req.params.token + '\'';
-
-        connection.get().query(query, function (err, rows) {
-            if (err) {
+        bcrypt.hash(password, 10, function(err, hash) {
+            if(err) {
                 throw err;
             }
 
-            console.log('Updated user password');
+            // set hashed password
+            var hashedPassword = hash;
+
+            // construct query string
+            var query = 'UPDATE users ' +
+                'INNER JOIN tokens ON users.t_number = tokens.t_number ' +
+                'SET users.password = \'' + hashedPassword + '\' ' +
+                'WHERE tokens.token = \'' + req.params.token + '\'';
+
+            connection.get().query(query, function (err, rows) {
+                if (err) {
+                    throw err;
+                }
+
+                console.log('Updated user password');
+            });
+
+            connection.get().query('DELETE FROM tokens WHERE token = ?', req.params.token, function (err, rows) {
+                if (err) {
+                    throw err;
+                }
+
+                console.log('Token record removed');
+            });
+
+            res.location('/');
+            res.redirect('/');
         });
-
-        connection.get().query('DELETE FROM tokens WHERE token = ?', req.params.token, function (err, rows) {
-            if (err) {
-                throw err;
-            }
-
-            console.log('Token record removed');
-        });
-
-        res.location('/');
-        res.redirect('/');
     }
 });
 
