@@ -4,26 +4,34 @@ block content
   .container
     .spacer
     .row
-      .col-md-4.col-md-offset-4
+      .col-md-6.col-md-offset-3
         if errors
           ul
             for error in errors
               li!= error.msg
-        .panel.panel-default
-          .panel-heading.text-center
-            strong  Login
+        .panel.panel-default(id="loginPanel")
+          .panel-heading.text-center(id="loginTitle")
+              | Coaching App Login
           .panel-body
             form.form-horizontal(method='post', action='/', role='form')
-              .input-group
-                span.input-group-addon
-                  i.fa.fa-user.fa-fw
-                input.form-control(name='username', placeholder='Username', type='text')
-              .input-group
-                span.input-group-addon
-                  i.fa.fa-key.fa-fw
-                input.form-control(name='password', placeholder='Password', type='password')
-              .checkbox
-                label
-                  input(name='remember', type='checkbox', value='Remember Me')
-                  | Remember Me
-              button.btn.btn-success.btn-lg.btn-block(name='submit', type='submit') Sign in
+              .col-md-10.col-md-offset-1(id="usernameInput")
+                .input-group
+                  span.input-group-addon.loginInput
+                    i.fa.fa-user.fa-fw
+                  input.form-control.loginInput(name='username', placeholder='Username', type='text' pattern="^[t]{1}[0-9]{6}")
+              .col-md-10.col-md-offset-1(id="passwordInput")
+                .input-group
+                  span.input-group-addon.loginInput
+                    i.fa.fa-key.fa-fw
+                  input.form-control.loginInput(name='password', placeholder='Password', type='password')
+              .col-md-10.col-md-offset-1
+                .danger
+                  label.alert.alert-danger.text-center(name='lblWarning' type='text' id="lblWarning" )
+                    | <!--  BACKEND CODE HERE FOR WARNINGS "WRONG PASSWORD/USERNAME"  -->
+              .col-md-4.col-md-offset-4.col-sm-8.col-sm-offset-2.col-xs-8.col-xs-offset-2
+                button.btn.btn-success.btn-lg.btn-block(name='submit', type='submit' id="btnLogin") Sign in
+              .col-md-6.col-md-offset-1
+                .checkbox
+                  label(id="lblRemember")
+                    input(name='remember', type='checkbox', value='Remember Me' id="checkBoxRemember")
+                    |Remember Me
