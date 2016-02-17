@@ -3,9 +3,9 @@ body {
 }
 
 .spacer {
-  margin:0;
-  padding:0;
-  height:200px;
+  margin: 0;
+  padding: 0;
+  height: 200px;
 }
 
 .panel-default>.panel-heading{
@@ -14,41 +14,34 @@ body {
 }
 
 #usernameInput {
-  margin-bottom:20px;
+  margin-bottom: 20px;
 }
 
 #passwordInput {
-   margin-bottom:25px;
+   margin-bottom: 25px;
 }
 
 #lblWarning {
   text-align:center;
-  /*width:100%;*/
-
-  /*
-  display is set to none now
-  but will be changed in backend when user triggers and error
-  display: none;
-  */
 }
 
 #btnLogin {
-  border:0px;
-  border-radius:0px;
+  border: 0px;
+  border-radius: 0px;
 }
 
 .loginInput {
-  height:54px;
-  font-size:20px;
-  border-radius:0px;
-  background-color:#ffffff;
+  height: 54px;
+  font-size: 20px;
+  border-radius: 0px;
+  background-color: #ffffff;
 }
 
 #loginTitle {
-  font-size:30px;
+  font-size: 30px;
   color: #5b5d58;
-  padding-top:35px;
-  padding-bottom:10px;
+  padding-top: 35px;
+  padding-bottom: 10px;
 }
 
 #checkBoxRemember {
@@ -56,18 +49,25 @@ body {
 }
 
 #lblRemember {
-  padding:20px;
+  padding: 20px;
 }
 
 #loginPanel {
-  border:none;
-  border-radius:0px;
+  border: none;
+  border-radius: 0px;
 }
 
-#wrapper {
-  /*height:100%;*/
-  /*background-color:#8c68a6;*/
+#login-wrapper {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #8c68a6;
   /*background-color: #4b286d;*/
   /*background-color: #49166d;*/
-  /*position:absolute;*/
+}
+
+#login-wrapper>.container {
+  min-height: 100%;
 }

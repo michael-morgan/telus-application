@@ -28,7 +28,8 @@ $(function() {
 
     var url = window.location;
     var element = $('ul.nav a').filter(function() {
-        return this.href == url || url.href.indexOf(this.href) == 0;
+        return (this.href.split("/")[this.href.split("/").length - 1])
+             == (url.href.split("/")[url.href.split("/").length - 1]);
     }).addClass('active').parent().parent().addClass('in').parent();
     if (element.is('li')) {
         element.addClass('active');

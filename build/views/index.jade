@@ -1,5 +1,9 @@
 extends layout
 
+block append stylesheet
+  link(rel='stylesheet', href='/stylesheets/timeline.css')
+  link(rel='stylesheet', href='/bower_components/morris.js/morris.css')
+
 block content
   #page-wrapper
     .row
@@ -389,3 +393,8 @@ block content
               span.input-group-btn
                 button#btn-chat.btn.btn-warning.btn-sm
                   | Send
+
+block append script
+  script(src='/bower_components/raphael/raphael-min.js')
+  script(src='/bower_components/morris.js/morris.min.js')
+  script(src='/javascripts/morris-data.js')
