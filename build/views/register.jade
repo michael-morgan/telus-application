@@ -9,27 +9,27 @@ block content
         ul
           for error in errors
             li!= error.msg
-      .panel.panel-default(id='registerPanel')
-        .panel-heading.text-center(class='formTitle')
+      .panel.panel-default.formPanel
+        .panel-heading.text-center.formTitle
           i.fa.fa-user.fa-2x.col-sm-12
           | Register
         .panel-body
           form.form-horizontal(method='post', action='/users/register', role='form')
             .form-group
               .col-sm-10.col-sm-offset-1
-                input#inputFirst.form-control.formInput(name='firstName', placeholder='First Name', required type='text' value='#{first}')
+                input.form-control.formInput(name='firstName', placeholder='First Name', required type='text' value='#{first}')
             .form-group
               .col-sm-10.col-sm-offset-1
-                input#inputLast.form-control.formInput(name='lastName', placeholder='Last Name', required type='text' value='#{last}')
+                input.form-control.formInput(name='lastName', placeholder='Last Name', required type='text' value='#{last}')
             .form-group
               .col-sm-10.col-sm-offset-1
-                input#inputUsername.form-control.formInput(name='username', maxlength='7' placeholder='t#####', required  type='text' value='#{username}' pattern="^[t]{1}[0-9]{6}")
+                input.form-control.formInput(name='username', maxlength='7' placeholder='t#####', required  type='text' value='#{username}' pattern="^[t]{1}[0-9]{6}")
             .form-group
               .col-sm-10.col-sm-offset-1
-                input#inputEmail.form-control.formInput(name='email', placeholder='example@email.com', required  type='email' value='#{email}')
+                input.form-control.formInput(name='email', placeholder='example@email.com', required  type='email' value='#{email}')
             .form-group.last
               .col-sm-10.col-sm-offset-2
                 .col-sm-5
-                  button.btnCancel.btn.btn-primary.btn-lg.btn-block(name='submit', type='submit', value='cancel') Cancel
+                  button.form-btn.btn.btn-primary.btn-lg.btn-block(name='submit', type='submit', value='cancel') Cancel
                 .col-sm-5
-                  button#btnRegister.btn.btn-success.btn-lg.btn-block(name='submit', type='submit', value='register') Register
+                  button.form-btn.btn.btn-success.btn-lg.btn-block(name='submit', type='submit', value='register') Register

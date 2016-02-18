@@ -9,8 +9,8 @@ block content
         ul
           for error in errors
             li!= error.msg
-      .panel.panel-default
-        .panel-heading
+      .panel.panel-default.formPanel
+        .panel-heading.formTitle
           h2 Remove User
         .panel-body
           .table-responsive
@@ -36,6 +36,6 @@ block content
                         input(name='remove#{user.t_number}' type='checkbox')
               .col-sm-10.col-sm-offset-2
                 .col-sm-5
-                  button.btn.btn-primary.btn-lg.btn-block(name='submit', type='submit', value='cancel') Cancel
+                  button.form-btn.btn.btn-primary.btn-lg.btn-block(name='submit', type='submit', value='cancel') Cancel
                 .col-sm-5
-                  button.btn.btn-danger.btn-lg.btn-block(name='submit', type='submit', value='remove') Remove
+                  button.form-btn.btn.btn-danger.btn-lg.btn-block(name='submit', type='submit', value='remove') Remove

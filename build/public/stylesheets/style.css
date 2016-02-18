@@ -25,7 +25,7 @@ body {
   text-align:center;
 }
 
-#btnLogin, #btnRegister, .btnCancel {
+.form-btn {
    border: 0px;
    border-radius: 0px;
 }
@@ -47,13 +47,8 @@ body {
   padding: 20px;
 }
 
-#loginPanel {
-   border: none;
+.formPanel {
    border-radius: 0px;
-}
-
-#registerPanel {
-  border-radius: 0px;
 }
 
 #login-wrapper {

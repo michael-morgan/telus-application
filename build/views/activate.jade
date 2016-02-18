@@ -9,19 +9,23 @@ block content
         ul
           for error in errors
             li!= error.msg
-      .panel.panel-default
-        .panel-heading.text-center
+      .panel.panel-default.formPanel
+        .panel-heading.text-center.formTitle
           h2  #{title}
         .panel-body
           form.form-horizontal(method='post', action='/activate/#{row.token}', role='form')
             .form-group
               .col-sm-10.col-sm-offset-1
-                label(for='inputPassword') Password
-                input#inputPassword.form-control(name='password', placeholder='Password', type='password')
+                .input-group
+                  span.input-group-addon.formInput
+                    i.fa.fa-lock.fa-fw
+                  input.form-control.formInput(name='password', placeholder='Password', type='password')
             .form-group
               .col-sm-10.col-sm-offset-1
-                label(for='inputPasswordVerify') Password Verify
-                input#inputPasswordVerify.form-control(name='passwordVerify', placeholder='Password Verify', type='password')
+                .input-group
+                  span.input-group-addon.formInput
+                    i.fa.fa-lock.fa-fw
+                  input.form-control.formInput(name='passwordVerify', placeholder='Password Verify', type='password')
             .form-group.last
               .col-sm-6.col-sm-offset-3
-                button.btn.btn-success.btn-lg.btn-block(name='submit', type='submit', value='activate') Activate
+                button.form-btn.btn.btn-success.btn-lg.btn-block(name='submit', type='submit', value='activate') Activate

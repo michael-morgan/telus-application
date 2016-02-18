@@ -6,20 +6,20 @@ block content
       .spacer
       .row
         .col-md-6.col-md-offset-3
-          .panel.panel-default(id='loginPanel')
-            .panel-heading.text-center(class='formTitle')
+          .panel.panel-default.formPanel
+            .panel-heading.text-center.formTitle
               | Login
             .panel-body
               form.form-horizontal(method='post', action='/', role='form')
-                .col-md-10.col-md-offset-1(id='usernameInput')
+                .col-md-10.col-md-offset-1#usernameInput
                   .input-group
                     span.input-group-addon.formInput
                       i.fa.fa-user.fa-fw
                     input.form-control.formInput(name='username', placeholder='Username', type='text' pattern='^[t]{1}[0-9]{6}')
-                .col-md-10.col-md-offset-1(id='passwordInput')
+                .col-md-10.col-md-offset-1#passwordInput
                   .input-group
                     span.input-group-addon.formInput
-                      i.fa.fa-key.fa-fw
+                      i.fa.fa-lock.fa-fw
                     input.form-control.formInput(name='password', placeholder='Password', type='password')
                 .col-md-10.col-md-offset-1
                   .danger
@@ -30,4 +30,4 @@ block content
                             label.alert.alert-danger.text-center(name='lblWarning' type='text' id='lblWarning')
                               | #{error}
                 .col-sm-6.col-sm-offset-3
-                  button.btn.btn-success.btn-lg.btn-block(name='submit', type='submit' id='btnLogin') Sign in
+                  button.form-btn.btn.btn-success.btn-lg.btn-block(name='submit', type='submit') Sign in
