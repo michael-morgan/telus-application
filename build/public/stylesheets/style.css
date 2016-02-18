@@ -26,6 +26,11 @@ body {
 }
 
 #btnLogin {
+   border: 0px;
+   border-radius: 0px;
+ }
+
+#btnRegister {
   border: 0px;
   border-radius: 0px;
 }
@@ -53,7 +58,12 @@ body {
 }
 
 #loginPanel {
-  border: none;
+   border: none;
+   border-radius: 0px;
+ }
+
+#registerPanel {
+
   border-radius: 0px;
 }
 
