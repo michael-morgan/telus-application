@@ -25,27 +25,22 @@ body {
   text-align:center;
 }
 
-#btnLogin {
-  border: 0px;
-  border-radius: 0px;
+#btnLogin, #btnRegister, .btnCancel {
+   border: 0px;
+   border-radius: 0px;
 }
 
-.loginInput {
+.formInput {
   height: 54px;
   font-size: 20px;
   border-radius: 0px;
   background-color: #ffffff;
 }
 
-#loginTitle {
+.formTitle {
   font-size: 30px;
-  color: #5b5d58;
   padding-top: 35px;
   padding-bottom: 10px;
-}
-
-#checkBoxRemember {
-  margin-right:20px;
 }
 
 #lblRemember {
@@ -53,7 +48,11 @@ body {
 }
 
 #loginPanel {
-  border: none;
+   border: none;
+   border-radius: 0px;
+}
+
+#registerPanel {
   border-radius: 0px;
 }
 

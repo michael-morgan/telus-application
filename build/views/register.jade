@@ -4,35 +4,32 @@ block content
   .container
     .spacer
   .row
-    .col-md-4.col-md-offset-4
+    .col-md-6.col-md-offset-3
       if errors
         ul
           for error in errors
             li!= error.msg
-      .panel.panel-default
-        .panel-heading.text-center
-          h2  Register
+      .panel.panel-default(id='registerPanel')
+        .panel-heading.text-center(class='formTitle')
+          i.fa.fa-user.fa-2x.col-sm-12
+          | Register
         .panel-body
           form.form-horizontal(method='post', action='/users/register', role='form')
             .form-group
               .col-sm-10.col-sm-offset-1
-                label(for='inputFirst') First Name
-                input#inputFirst.form-control(name='firstName', placeholder='First Name', required type='text' value='#{first}')
+                input#inputFirst.form-control.formInput(name='firstName', placeholder='First Name', required type='text' value='#{first}')
             .form-group
               .col-sm-10.col-sm-offset-1
-                label(for='inputLast') Last Name
-                input#inputLast.form-control(name='lastName', placeholder='Last Name', required type='text' value='#{last}')
+                input#inputLast.form-control.formInput(name='lastName', placeholder='Last Name', required type='text' value='#{last}')
             .form-group
               .col-sm-10.col-sm-offset-1
-                label(for='inputUsername') Username
-                input#inputUsername.form-control(name='username', maxlength='7' placeholder='t######', required  type='text' value='#{username}' pattern="^[t]{1}[0-9]{6}")
+                input#inputUsername.form-control.formInput(name='username', maxlength='7' placeholder='t#####', required  type='text' value='#{username}' pattern="^[t]{1}[0-9]{6}")
             .form-group
               .col-sm-10.col-sm-offset-1
-                label(for='inputEmail') Email
-                input#inputEmail.form-control(name='email', placeholder='Email', required  type='email' value='#{email}')
+                input#inputEmail.form-control.formInput(name='email', placeholder='example@email.com', required  type='email' value='#{email}')
             .form-group.last
               .col-sm-10.col-sm-offset-2
                 .col-sm-5
-                  button.btn.btn-primary.btn-lg.btn-block(name='submit', type='submit', value='cancel') Cancel
+                  button.btnCancel.btn.btn-primary.btn-lg.btn-block(name='submit', type='submit', value='cancel') Cancel
                 .col-sm-5
-                  button.btn.btn-success.btn-lg.btn-block(name='submit', type='submit', value='register') Register
+                  button#btnRegister.btn.btn-success.btn-lg.btn-block(name='submit', type='submit', value='register') Register
