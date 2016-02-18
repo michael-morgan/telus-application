@@ -11,17 +11,17 @@ block content
             li!= error.msg
       .panel.panel-default
         .panel-heading.text-center
-          strong  #{title}
+          h2  #{title}
         .panel-body
           form.form-horizontal(method='post', action='/activate/#{row.token}', role='form')
             .form-group
-              label.col-sm-3.control-label(for='inputPassword') Password
-              .col-sm-9
+              .col-sm-10.col-sm-offset-1
+                label(for='inputPassword') Password
                 input#inputPassword.form-control(name='password', placeholder='Password', type='password')
             .form-group
-              label.col-sm-3.control-label(for='inputPasswordVerify') Password Verify
-              .col-sm-9
+              .col-sm-10.col-sm-offset-1
+                label(for='inputPasswordVerify') Password Verify
                 input#inputPasswordVerify.form-control(name='passwordVerify', placeholder='Password Verify', type='password')
             .form-group.last
-              .col-sm-offset-5.col-sm-8
-                button.btn.btn-success.btn-sm(name='submit', type='submit') Activate
+              .col-sm-6.col-sm-offset-3
+                button.btn.btn-success.btn-lg.btn-block(name='submit', type='submit', value='activate') Activate

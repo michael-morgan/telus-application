@@ -75,7 +75,7 @@ router.post('/register', ensureAuthenticated, function(req, res, next) {
         var transporter = nodemailer.createTransport({
             service: 'Gmail',
             auth: {
-                user: 'benjaminvanarragon@gmail.com',
+                user: 'maplefssb@gmail.com',
                 pass: '123Maple123'
             }
         });
@@ -111,7 +111,6 @@ router.post('/register', ensureAuthenticated, function(req, res, next) {
             if(err) {
                 throw err;
             }
-
             console.log("User added");
         });
 
@@ -124,11 +123,10 @@ router.post('/register', ensureAuthenticated, function(req, res, next) {
             if(err) {
                 throw err;
             }
-
             console.log("Token added");
-        });
 
-        res.redirect('/users/');
+            res.redirect('/users/');
+        });
     }
 });
 
@@ -151,34 +149,37 @@ router.post('/remove', ensureAuthenticated, function(req, res, next) {
         return res.sendStatus(400);
     }
 
-    connection.get().query('SELECT * FROM users', function (err, results) {
-        if (err) {
-            throw err;
-        }
-
-        var removeIds = [];
-        results.forEach(function (value, index) {
-            if (req.body.hasOwnProperty('remove' + value.t_number)) {
-                removeIds.push('\'' + value.t_number + '\'');
-            }
-        });
-
-        console.log(removeIds.toString());
-
-        connection.get().query('DELETE FROM users WHERE t_number IN (' + removeIds.toString() + ')', function (err, results) {
+    if(req.body.submit == "cancel") {
+        res.redirect('/users/');
+    }
+    else {
+        connection.get().query('SELECT * FROM users', function (err, results) {
             if (err) {
                 throw err;
             }
-            console.log('Users removed');
 
-            connection.get().query('SELECT * FROM users', function (err, results) {
-                res.render('remove', {
-                    title: 'Remove',
-                    users: results
+            var removeIds = [];
+            results.forEach(function (value, index) {
+                if (req.body.hasOwnProperty('remove' + value.t_number)) {
+                    removeIds.push('\'' + value.t_number + '\'');
+                }
+            });
+
+            connection.get().query('DELETE FROM users WHERE t_number IN (' + removeIds.toString() + ')', function (err, results) {
+                if (err) {
+                    throw err;
+                }
+                console.log('Users removed');
+
+                connection.get().query('SELECT * FROM users', function (err, results) {
+                    res.render('remove', {
+                        title: 'Remove',
+                        users: results
+                    });
                 });
             });
         });
-    });
+    }
 });
 
 // logout functionality

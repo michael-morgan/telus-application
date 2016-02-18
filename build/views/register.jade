@@ -11,25 +11,28 @@ block content
             li!= error.msg
       .panel.panel-default
         .panel-heading.text-center
-          strong  Register
+          h2  Register
         .panel-body
           form.form-horizontal(method='post', action='/users/register', role='form')
             .form-group
-              label.col-sm-3.control-label(for='inputFirst') First Name
-              .col-sm-9
+              .col-sm-10.col-sm-offset-1
+                label(for='inputFirst') First Name
                 input#inputFirst.form-control(name='firstName', placeholder='First Name', required type='text' value='#{first}')
             .form-group
-              label.col-sm-3.control-label(for='inputLast') Last Name
-              .col-sm-9
+              .col-sm-10.col-sm-offset-1
+                label(for='inputLast') Last Name
                 input#inputLast.form-control(name='lastName', placeholder='Last Name', required type='text' value='#{last}')
             .form-group
-              label.col-sm-3.control-label(for='inputUsername') Username
-              .col-sm-9
+              .col-sm-10.col-sm-offset-1
+                label(for='inputUsername') Username
                 input#inputUsername.form-control(name='username', maxlength='7' placeholder='t######', required  type='text' value='#{username}' pattern="^[t]{1}[0-9]{6}")
             .form-group
-              label.col-sm-3.control-label(for='inputEmail') Email
-              .col-sm-9
-                input#inputEmail.form-control(name='email', placeholder='Email', required  type='email' value='#{email}' )
+              .col-sm-10.col-sm-offset-1
+                label(for='inputEmail') Email
+                input#inputEmail.form-control(name='email', placeholder='Email', required  type='email' value='#{email}')
             .form-group.last
-              .col-sm-offset-3.col-sm-9
-                button.btn.btn-success.btn-lg.btn-block(name='submit', type='submit', value='register') Register
+              .col-sm-10.col-sm-offset-2
+                .col-sm-5
+                  button.btn.btn-primary.btn-lg.btn-block(name='submit', type='submit', value='cancel') Cancel
+                .col-sm-5
+                  button.btn.btn-success.btn-lg.btn-block(name='submit', type='submit', value='register') Register

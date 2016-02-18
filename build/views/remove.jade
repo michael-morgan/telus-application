@@ -11,8 +11,7 @@ block content
             li!= error.msg
       .panel.panel-default
         .panel-heading
-          | Hover Rows
-        // /.panel-heading
+          h2 Remove User
         .panel-body
           .table-responsive
             form.form-horizontal(method='post', action='/users/remove', role='form')
@@ -35,4 +34,8 @@ block content
                       td #{user.privileged}
                       td
                         input(name='remove#{user.t_number}' type='checkbox')
-              button.btn.btn-danger.btn-lg.btn-block(name='submit', type='submit', value='remove') Remove
+              .col-sm-10.col-sm-offset-2
+                .col-sm-5
+                  button.btn.btn-primary.btn-lg.btn-block(name='submit', type='submit', value='cancel') Cancel
+                .col-sm-5
+                  button.btn.btn-danger.btn-lg.btn-block(name='submit', type='submit', value='remove') Remove

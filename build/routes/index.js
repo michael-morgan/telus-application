@@ -29,17 +29,18 @@ router.get('/activate/:token', function(req, res, next) {
     if(req.params.token.length != 16) {
         res.redirect('/');
     }
+    else {
+        connection.get().query('SELECT * FROM tokens WHERE token = ?', req.params.token, function (err, rows) {
+            if (err) {
+                throw err;
+            }
 
-    connection.get().query('SELECT * FROM tokens WHERE token = ?', req.params.token, function(err, rows) {
-        if(err) {
-            throw err;
-        }
-
-        res.render('activate', {
-            title: 'Activate',
-            row: rows[0]
+            res.render('activate', {
+                title: 'Activate',
+                row: rows[0]
+            });
         });
-    });
+    }
 });
 
 // when the activate form is submitted make sure the new passwords match.
@@ -68,7 +69,7 @@ router.post('/activate/:token', function(req, res, next) {
         });
     }
     else {
-        bcrypt.hash(password, 10, function(err, hash) {
+        bcrypt.hash(password, 8, function(err, hash) {
             if(err) {
                 throw err;
             }
@@ -86,7 +87,6 @@ router.post('/activate/:token', function(req, res, next) {
                 if (err) {
                     throw err;
                 }
-
                 console.log('Updated user password');
             });
 
@@ -94,12 +94,15 @@ router.post('/activate/:token', function(req, res, next) {
                 if (err) {
                     throw err;
                 }
-
                 console.log('Token record removed');
-            });
 
-            res.location('/');
-            res.redirect('/');
+                if(req.user) {
+                    res.redirect('/users/');
+                }
+                else {
+                    res.redirect('/');
+                }
+            });
         });
     }
 });
