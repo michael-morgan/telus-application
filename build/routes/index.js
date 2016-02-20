@@ -8,6 +8,10 @@ var router = express.Router();
 
 // render the login page when the user goes to index/root
 router.get('/', function(req, res, next) {
+    if(req.user) {
+        return res.redirect('/users/');
+    }
+
     res.render('login', {
         'title': 'Login'
     });
@@ -27,20 +31,23 @@ router.post('/', passport.authenticate('local', {
 // if valid go to the activate page
 router.get('/activate/:token', function(req, res, next) {
     if(req.params.token.length != 16) {
-        res.redirect('/');
+        return res.redirect('/');
     }
-    else {
-        connection.get().query('SELECT * FROM tokens WHERE token = ?', req.params.token, function (err, rows) {
-            if (err) {
-                throw err;
-            }
 
+    connection.get().query('SELECT * FROM tokens WHERE token = ?', req.params.token, function (err, rows) {
+        if (err) {
+            throw err;
+        }
+        if(rows.length <= 0) {
+            res.redirect('/');
+        }
+        else {
             res.render('activate', {
                 title: 'Activate',
                 row: rows[0]
             });
-        });
-    }
+        }
+    });
 });
 
 // when the activate form is submitted make sure the new passwords match.
@@ -50,6 +57,9 @@ router.get('/activate/:token', function(req, res, next) {
 router.post('/activate/:token', function(req, res, next) {
     if(!req.body) {
         return res.sendStatus(400);
+    }
+    if(req.params.token.length != 16) {
+        return res.redirect('/');
     }
 
     // store form variables

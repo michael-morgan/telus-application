@@ -9,38 +9,31 @@ var router = express.Router();
 
 // get the users listing
 router.get('/', ensureAuthenticated, function(req, res, next) {
-    connection.get().query('SELECT * FROM users', function(err, rows) {
-        if(err) {
-            throw err;
-        }
-        console.log(rows[0]);
-    });
-
     res.render('index', { title: 'Dashboard' });
 });
 
-// make sure the user is authenticated
-function ensureAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    res.redirect('/');
-}
 // if accessing the register page, reset the form variables
 router.get('/register', ensureAuthenticated, function(req, res, next) {
-  res.render('register', {
-	title: 'Register',
-    first: '',
-    last: '',
-    username: '',
-    email: ''
-  });
+    if(!req.user.privileged) {
+        return res.redirect('/users/');
+    }
+
+    res.render('register', {
+        title: 'Register',
+        first: '',
+        last: '',
+        username: '',
+        email: ''
+    });
 });
 
 // form validation for the register page
 router.post('/register', ensureAuthenticated, function(req, res, next) {
     if(!req.body) {
         return res.sendStatus(400);
+    }
+    if(!req.user.privileged) {
+        return res.redirect('/users/');
     }
 
     //Store form variables
@@ -132,6 +125,10 @@ router.post('/register', ensureAuthenticated, function(req, res, next) {
 
 // if accessing the register page, reset the form variables
 router.get('/remove', ensureAuthenticated, function(req, res, next) {
+    if(!req.user.privileged) {
+        return res.redirect('/users/');
+    }
+
     connection.get().query('SELECT * FROM users', function(err, results) {
         if(err) {
             throw err;
@@ -148,38 +145,39 @@ router.post('/remove', ensureAuthenticated, function(req, res, next) {
     if(!req.body) {
         return res.sendStatus(400);
     }
-
-    if(req.body.submit == "cancel") {
-        res.redirect('/users/');
+    if(!req.user.privileged) {
+        return res.redirect('/users/');
     }
-    else {
-        connection.get().query('SELECT * FROM users', function (err, results) {
+    if(req.body.submit == "cancel") {
+        return res.redirect('/users/');
+    }
+
+    connection.get().query('SELECT * FROM users', function (err, results) {
+        if (err) {
+            throw err;
+        }
+
+        var removeIds = [];
+        results.forEach(function (value, index) {
+            if (req.body.hasOwnProperty('remove' + value.t_number)) {
+                removeIds.push('\'' + value.t_number + '\'');
+            }
+        });
+
+        connection.get().query('DELETE FROM users WHERE t_number IN (' + removeIds.toString() + ')', function (err, results) {
             if (err) {
                 throw err;
             }
+            console.log('Users removed');
 
-            var removeIds = [];
-            results.forEach(function (value, index) {
-                if (req.body.hasOwnProperty('remove' + value.t_number)) {
-                    removeIds.push('\'' + value.t_number + '\'');
-                }
-            });
-
-            connection.get().query('DELETE FROM users WHERE t_number IN (' + removeIds.toString() + ')', function (err, results) {
-                if (err) {
-                    throw err;
-                }
-                console.log('Users removed');
-
-                connection.get().query('SELECT * FROM users', function (err, results) {
-                    res.render('remove', {
-                        title: 'Remove',
-                        users: results
-                    });
+            connection.get().query('SELECT * FROM users', function (err, results) {
+                res.render('remove', {
+                    title: 'Remove',
+                    users: results
                 });
             });
         });
-    }
+    });
 });
 
 // logout functionality
@@ -188,5 +186,13 @@ router.get('/logout', ensureAuthenticated, function(req, res) {
     req.flash('success', 'You have logged out');
     res.redirect('/');
 });
+
+// make sure the user is authenticated
+function ensureAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    res.redirect('/');
+}
 
 module.exports = router;
