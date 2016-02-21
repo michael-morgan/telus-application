@@ -58,17 +58,17 @@ body {
   min-height: 100%;
 }
 
-.alert-title {
+.row .alert .alert-title {
   margin-bottom: 5px;
 }
 
-#login-wrapper .container .alert {
+.row .alert {
   margin-bottom: 0;
   border-radius: 0;
   border: none;
 }
 
-#login-wrapper .container .alert-title>strong {
+.row .alert .alert-title>strong {
   margin-left: 5px;
   font-size: 20px;
 }

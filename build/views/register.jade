@@ -3,12 +3,18 @@ extends layout
 block content
   .container
     .spacer
+  if errors
+    .row
+      .col-md-6.col-md-offset-3
+        div.alert.alert-danger(role='alert')
+          .alert-title
+            i.fa.fa-exclamation-circle.fa-2x
+            strong Something went wrong!
+          ul
+            for error in errors
+              li!= error.msg
   .row
     .col-md-6.col-md-offset-3
-      if errors
-        ul
-          for error in errors
-            li!= error.msg
       .panel.panel-default.formPanel
         .panel-heading.text-center.formTitle
           i.fa.fa-user.fa-2x.col-sm-12
@@ -17,16 +23,16 @@ block content
           form.form-horizontal(method='post', action='/users/register', role='form')
             .form-group
               .col-sm-10.col-sm-offset-1
-                input.form-control.formInput(name='firstName', placeholder='First Name', required type='text' value='#{first}')
+                input.form-control.formInput(name='firstName', placeholder='First Name', type='text', value='#{first}', required)
             .form-group
               .col-sm-10.col-sm-offset-1
-                input.form-control.formInput(name='lastName', placeholder='Last Name', required type='text' value='#{last}')
+                input.form-control.formInput(name='lastName', placeholder='Last Name', type='text', value='#{last}', required)
             .form-group
               .col-sm-10.col-sm-offset-1
-                input.form-control.formInput(name='username', maxlength='7' placeholder='t#####', required  type='text' value='#{username}' pattern="^[t]{1}[0-9]{6}")
+                input.form-control.formInput(name='username', maxlength='7' placeholder='t#####', type='text', value='#{username}', pattern='^[t]{1}[0-9]{6}', required)
             .form-group
               .col-sm-10.col-sm-offset-1
-                input.form-control.formInput(name='email', placeholder='example@email.com', required  type='email' value='#{email}')
+                input.form-control.formInput(name='email', placeholder='example@email.com', type='email', value='#{email}', required)
             .form-group.last
               .col-sm-10.col-sm-offset-2
                 .col-sm-5
