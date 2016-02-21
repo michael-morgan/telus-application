@@ -74,14 +74,14 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(t_number, done) {
-    connection.get().query('SELECT * FROM users WHERE t_number = \'' + t_number + '\'', function(err, rows) {
+    connection.get().query('SELECT * FROM users WHERE t_number = ?', [t_number], function(err, rows) {
         done(err, rows[0]);
     });
 });
 
 passport.use(new LocalStrategy(
     function(username, password, done) {
-        connection.get().query('SELECT * FROM users WHERE username = \'' + username + '\'', function(err, rows) {
+        connection.get().query('SELECT * FROM users WHERE username = ?', [username], function(err, rows) {
             if(err) {
                 throw done(err);
             }

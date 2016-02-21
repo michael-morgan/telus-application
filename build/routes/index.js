@@ -13,19 +13,17 @@ router.get('/', function(req, res, next) {
     }
 
     res.render('login', {
-        'title': 'Login'
+        title: 'Login',
+        messages: req.flash('error')
     });
 });
 
 // authenticate the login, if successful redirect to the users page
 router.post('/', passport.authenticate('local', {
+    successRedirect: '/users/',
     failureRedirect: '/',
-    failureFlash: 'Invalid username or password'
-}), function(req, res) {
-    console.log('Authentication successful');
-    req.flash('success', 'You are now logged in');
-    res.redirect('/users/');
-});
+    failureFlash: true
+}));
 
 // after the user has clicked the register button, check if the token generated is valid.
 // if valid go to the activate page
@@ -34,9 +32,9 @@ router.get('/activate/:token', function(req, res, next) {
         return res.redirect('/');
     }
 
-    connection.get().query('SELECT * FROM tokens WHERE token = ?', req.params.token, function (err, rows) {
+    connection.get().query('SELECT * FROM tokens WHERE token = ?', [req.params.token], function (err, rows) {
         if (err) {
-            throw err;
+            throw next(err);
         }
         if(rows.length <= 0) {
             res.redirect('/');
@@ -81,28 +79,25 @@ router.post('/activate/:token', function(req, res, next) {
     else {
         bcrypt.hash(password, 8, function(err, hash) {
             if(err) {
-                throw err;
+                throw next(err);
             }
 
             // set hashed password
             var hashedPassword = hash;
 
-            // construct query string
-            var query = 'UPDATE users ' +
-                'INNER JOIN tokens ON users.t_number = tokens.t_number ' +
-                'SET users.password = \'' + hashedPassword + '\' ' +
-                'WHERE tokens.token = \'' + req.params.token + '\'';
-
-            connection.get().query(query, function (err, rows) {
+            connection.get().query('UPDATE users ' +
+                'INNER JOIN tokens ON users.t_number = tokens.t_number' +
+                ' SET users.password = ?' +
+                ' WHERE tokens.token = ?', [hashedPassword, req.params.token], function (err, rows) {
                 if (err) {
-                    throw err;
+                    throw next(err);
                 }
                 console.log('Updated user password');
             });
 
-            connection.get().query('DELETE FROM tokens WHERE token = ?', req.params.token, function (err, rows) {
+            connection.get().query('DELETE FROM tokens WHERE token = ?', [req.params.token], function (err, rows) {
                 if (err) {
-                    throw err;
+                    throw next(err);
                 }
                 console.log('Token record removed');
 

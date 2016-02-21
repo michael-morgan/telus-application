@@ -84,9 +84,9 @@ router.post('/register', ensureAuthenticated, function(req, res, next) {
         };
 
         // send mail with defined transport object
-        transporter.sendMail(mailOptions, function(error, info){
-            if(error){
-                return error;
+        transporter.sendMail(mailOptions, function(err, info){
+            if(err){
+                return next(err);
             }
             console.log('Message sent: ' + info.response);
         });
@@ -100,9 +100,9 @@ router.post('/register', ensureAuthenticated, function(req, res, next) {
         };
 
         // database insertion
-        connection.get().query('INSERT INTO users SET ?', user, function(err, result) {
+        connection.get().query('INSERT INTO users SET ?', [user], function(err, result) {
             if(err) {
-                throw err;
+                throw next(err);
             }
             console.log("User added");
         });
@@ -112,9 +112,9 @@ router.post('/register', ensureAuthenticated, function(req, res, next) {
             token: token
         };
 
-        connection.get().query('INSERT INTO tokens SET ?', token, function(err, result) {
+        connection.get().query('INSERT INTO tokens SET ?', [token], function(err, result) {
             if(err) {
-                throw err;
+                throw next(err);
             }
             console.log("Token added");
 
@@ -131,7 +131,7 @@ router.get('/remove', ensureAuthenticated, function(req, res, next) {
 
     connection.get().query('SELECT * FROM users', function(err, results) {
         if(err) {
-            throw err;
+            throw next(err);
         }
 
         res.render('remove', {
@@ -154,19 +154,19 @@ router.post('/remove', ensureAuthenticated, function(req, res, next) {
 
     connection.get().query('SELECT * FROM users', function (err, results) {
         if (err) {
-            throw err;
+            throw next(err);
         }
 
         var removeIds = [];
         results.forEach(function (value, index) {
             if (req.body.hasOwnProperty('remove' + value.t_number)) {
-                removeIds.push('\'' + value.t_number + '\'');
+                removeIds.push(value.t_number);
             }
         });
 
-        connection.get().query('DELETE FROM users WHERE t_number IN (' + removeIds.toString() + ')', function (err, results) {
+        connection.get().query('DELETE FROM users WHERE t_number IN (?)', [removeIds.toString()], function (err, results) {
             if (err) {
-                throw err;
+                throw next(err);
             }
             console.log('Users removed');
 
