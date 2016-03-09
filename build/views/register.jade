@@ -3,6 +3,14 @@ extends layout
 block content
   .container
     .spacer
+  if(message)
+    .row
+      .col-md-6.col-md-offset-3
+        div.alert.alert-danger(role='alert')
+          .alert-title
+            i.fa.fa-exclamation-circle.fa-2x
+            strong Something went wrong!
+          p !{message}
   if errors
     .row
       .col-md-6.col-md-offset-3

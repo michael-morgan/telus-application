@@ -44,7 +44,9 @@ router.post('/register', ensureAuthenticated, function(req, res, next) {
 
     //Custom form validation
     req.checkBody('firstName', "First name field is required").notEmpty();
+    req.checkBody('firstName', "Only letters A-Z maybe used in the first name").matches(/^[a-zA-Z]*$/);
     req.checkBody('lastName', "Last name field is required").notEmpty();
+    req.checkBody('lastName', "Only letters A-Z maybe used in the last name").matches(/^[a-zA-Z]*$/);
     req.checkBody('email', "Invalid email").isEmail();
     req.checkBody('username', "T number required format: t123456").matches(/t[0-9]{6}/);
 
@@ -61,65 +63,110 @@ router.post('/register', ensureAuthenticated, function(req, res, next) {
         });
     }
     else {
-        //generate token
-        var token = randtoken.generate(16);
+        //Check for duplicate users
+        connection.get().query('SELECT username FROM users WHERE username = ?',username, function (err, rows) {
+            if(rows.length > 0)
+            {
+                req.flash('Duplicate T#, please enter a unique T#','Duplicate T#, please enter a unique T#');
+                res.render('register', {
+                    title: 'Register',
+                    first: first,
+                    last: last,
+                    email: email,
+                    username: username,
+                    message: req.flash('Duplicate T#, please enter a unique T#')});
+                    return;
+            }
+            //The user is unique, insert the user into the database and send them a token
+            else
+            {
+                //generate token
+                var token = randtoken.generate(16);
 
-        // create reusable transporter object using the default SMTP transport
-        var transporter = nodemailer.createTransport({
-            service: 'Gmail',
-            auth: {
-                user: 'maplefssb@gmail.com',
-                pass: '123Maple123'
+                // create reusable transporter object using the default SMTP transport
+                var transporter = nodemailer.createTransport({
+                    service: 'Gmail',
+                    auth: {
+                        user: 'maplefssb@gmail.com',
+                        pass: '123Maple123'
+                    }
+                });
+
+                // setup e-mail data with unicode symbols
+                var mailOptions = {
+                    from: 'no-reply <no-reply@telus.com>', // sender address
+                    to: email, // list of receivers
+                    subject: 'Verification', // subject line
+                    html: '<p>Hello ' + first + ' ' + last + ', </p>' +
+                    '<p>Click the following link to activate your account: </p>' +
+                    'http://localhost:3000/activate/' + token
+                };
+
+                // send mail with defined transport object
+                transporter.sendMail(mailOptions, function(err, info){
+                    if(err){
+                        //Check if email can be sent
+                        req.flash('The activation email did not send, please try again','The activation email did not send, please try again');
+                        res.render('register', {
+                            title: 'Register',
+                            first: first,
+                            last: last,
+                            email: email,
+                            username: username,
+                            message: req.flash('The activation email did not send, please try again')});
+                            return;
+                    }
+                    console.log('Message sent: ' + info.response);
+                });
+
+                var user = {
+                    first_name: first,
+                    last_name: last,
+                    email: email,
+                    username: username,
+                    t_number: username
+                };
+
+                // database insertion
+                connection.get().query('INSERT INTO users SET ?', [user], function(err, result) {
+                    if(err) {
+                        req.flash('Our database servers maybe down, please try again','Our database servers maybe down, please try again');
+                        res.render('register', {
+                            title: 'Register',
+                            first: first,
+                            last: last,
+                            email: email,
+                            username: username,
+                            message: req.flash('Our database servers maybe down, please try again')});
+                            return;
+                    }
+                    console.log("User added");
+                });
+
+                var token = {
+                    t_number: username,
+                    token: token
+                };
+
+                connection.get().query('INSERT INTO tokens SET ?', [token], function(err, result) {
+                    if(err) {
+                        req.flash('Our database servers maybe down, please try again','Our database servers maybe down, please try again');
+                        res.render('register', {
+                            title: 'Register',
+                            first: first,
+                            last: last,
+                            email: email,
+                            username: username,
+                            message: req.flash('Our database servers maybe down, please try again')});
+                        return;
+                    }
+                    console.log("Token added");
+
+                    res.redirect('/users/');
+                });
             }
         });
 
-        // setup e-mail data with unicode symbols
-        var mailOptions = {
-            from: 'no-reply <no-reply@telus.com>', // sender address
-            to: email, // list of receivers
-            subject: 'Verification', // subject line
-            html: '<p>Hello ' + first + ' ' + last + ', </p>' +
-                '<p>Click the following link to activate your account: </p>' +
-                'http://localhost:3000/activate/' + token
-        };
-
-        // send mail with defined transport object
-        transporter.sendMail(mailOptions, function(err, info){
-            if(err){
-                return next(err);
-            }
-            console.log('Message sent: ' + info.response);
-        });
-
-        var user = {
-          first_name: first,
-          last_name: last,
-          email: email,
-          username: username,
-          t_number: username
-        };
-
-        // database insertion
-        connection.get().query('INSERT INTO users SET ?', [user], function(err, result) {
-            if(err) {
-                throw next(err);
-            }
-            console.log("User added");
-        });
-
-        var token = {
-            t_number: username,
-            token: token
-        };
-
-        connection.get().query('INSERT INTO tokens SET ?', [token], function(err, result) {
-            if(err) {
-                throw next(err);
-            }
-            console.log("Token added");
-
-            res.redirect('/users/');
-        });
     }
 });
 
