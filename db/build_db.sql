@@ -29,6 +29,7 @@ DROP TABLE IF EXISTS `behaviours`;
 CREATE TABLE `behaviours` (
   `behaviour_id` int(50) NOT NULL AUTO_INCREMENT,
   `behaviour_desc` varchar(255) NOT NULL,
+  `behaviour_category` varchar(255) NOT NULL,
   PRIMARY KEY (`behaviour_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -53,15 +54,17 @@ DROP TABLE IF EXISTS `observations`;
 CREATE TABLE `observations` (
   `observation_id` int(50) NOT NULL AUTO_INCREMENT,
   `behaviour_id` int(50) NOT NULL,
-  `t_number` varchar(7) NOT NULL,
+  `assigned_to` varchar(7) NOT NULL,
+  `assigned_by` varchar(7) NOT NULL,
   `observation_date` date NOT NULL,
   `observation_type` tinyint(1) NOT NULL,
   `observation_comment` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`observation_id`),
   KEY `t_number` (`t_number`),
   KEY `behaviour_id` (`behaviour_id`),
-  CONSTRAINT `observations_ibfk_1` FOREIGN KEY (`t_number`) REFERENCES `users` (`t_number`),
-  CONSTRAINT `observations_ibfk_2` FOREIGN KEY (`behaviour_id`) REFERENCES `behaviours` (`behaviour_id`)
+  CONSTRAINT `observations_ibfk_1` FOREIGN KEY (`assigned_to`) REFERENCES `users` (`t_number`),
+  CONSTRAINT `observations_ibfk_2` FOREIGN KEY (`assigned_by`) REFERENCES `users` (`t_number`),
+  CONSTRAINT `observations_ibfk_3` FOREIGN KEY (`behaviour_id`) REFERENCES `behaviours` (`behaviour_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -71,7 +74,7 @@ CREATE TABLE `observations` (
 
 LOCK TABLES `observations` WRITE;
 /*!40000 ALTER TABLE `observations` DISABLE KEYS */;
-INSERT INTO `observations` VALUES (3,1,'t901159','2016-02-01',1,'Employee greeted all customers as they entered the store'),(4,1,'t901159','2016-02-01',1,'Employee greeted all customers as they entered the store');
+INSERT INTO `observations` VALUES (3,1,'t901159', 't111111', '2016-02-01',1,'Employee greeted all customers as they entered the store'),(4,1,'t901159', 't901159', '2016-02-01',1,'Employee greeted all customers as they entered the store');
 /*!40000 ALTER TABLE `observations` ENABLE KEYS */;
 UNLOCK TABLES;
 
