@@ -20,6 +20,30 @@ CREATE DATABASE `build_db`;
 USE `build_db`;
 
 --
+-- Table structure for table `skills`
+--
+
+DROP TABLE IF EXISTS `skills`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `skills` (
+	`skill_id` int(50) NOT NULL AUTO_INCREMENT,
+    `skill_title` varchar(255) NOT NULL,
+    PRIMARY KEY (`skill_id`)
+)	ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `skills`
+--
+
+LOCK TABLES `skills` WRITE;
+/*!40000 ALTER TABLE `skills` DISABLE KEYS */;
+INSERT INTO `behaviours` VALUES (1,'Welcome'),(2,'Building Trust'),(3,'Consultative Selling Skills'),(4,'Recommending solutions post sale');
+/*!40000 ALTER TABLE `skills` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `behaviours`
 --
 
@@ -29,8 +53,9 @@ DROP TABLE IF EXISTS `behaviours`;
 CREATE TABLE `behaviours` (
   `behaviour_id` int(50) NOT NULL AUTO_INCREMENT,
   `behaviour_desc` varchar(255) NOT NULL,
-  `behaviour_category` varchar(255) NOT NULL,
-  PRIMARY KEY (`behaviour_id`)
+  `cc_skill` varchar(255) NOT NULL,
+  PRIMARY KEY (`behaviour_id`),
+  CONSTRAINT `observations_ibfk_1` FOREIGN KEY (`cc_skill`) REFERENCES `skills` (`skill_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -40,13 +65,34 @@ CREATE TABLE `behaviours` (
 
 LOCK TABLES `behaviours` WRITE;
 /*!40000 ALTER TABLE `behaviours` DISABLE KEYS */;
-INSERT INTO `behaviours` VALUES (1,'Greeting clients'),(2,'Top-down selling'),(3,'Another one'),(4,'Another one');
+INSERT INTO `behaviours` VALUES 
+(1,'If all reps are busy, the sales rep acknowledged and welcomed the customer into the store quoting a time that someone can help them.', 1),
+(2,'If reps are free, they offer a genuine, warm welcome into the store using positive body language.', 1),
+(3,'Shook the customer’s hand, introduced themselves and asked the customer’s name.', 1),
+(4,'Began to build the relationship with the customer by asking non-business questions to establish rapport, make the customer feel comfortable and personalize the conversation.', 2),
+(5,'Showed Credibility, Reliability, Intimacy (made the session personalized) & reduced Self-Orientation.', 2),
+(6,'Asked open-ended lifestyle questions using trigger verbs and the FORE model.', 3),
+(7,'UNREADABLE', 3),
+(8,'Confirmed customer’s needs by paraphrasing back often.', 3),
+(9,'Checked-in with the customer to ensure paraphrase was correct.', 3),
+(10,'Resisted the temptation to respond with a recommendation and during the conversation in general, allowing the customer time to speak and feel listened to.', 3),
+(11,'Took notes during the interaction to ensure accuracy and understanding.', 3),
+(12,'Activity listened and drew out additional solution needs to offer life solutions.', 3),
+(13,'Seamlessly recommended a packaged life solution.', 4),
+(14,'Reminded the customer of the values uncovered before introducing the product aligned to lifestyle benefits.', 4),
+(15,'UNREADABLE', 4),
+(16,'Painted a picture by showing them how to use a specific feature of the product to solve a need, want or desire.', 4),
+(17,'Demonstrated the feature the most directly meets the customer’s needs.', 4),
+(18,'Linked features to day-to-day life benefits.', 4),
+(19,'Used exciting, positive language when speaking about the recommendation.', 4),
+(20,'Avoided using the words “could”, “maybe” and “if”. Instead used “will”, “definitely” and “when”.', 4),
+(21,'Reused the customer’s words or used similar language when walking them through recommendation.', 4),
+(22,'Used the words “you” and “your” often to personalize the recommendation.', 4),
+(23,'Whenever describing a feature, followed up with a benefit of that feature related to the customer’s day-to-day, or a “what it’s going to do for you” statement.', 4);
 /*!40000 ALTER TABLE `behaviours` ENABLE KEYS */;
 UNLOCK TABLES;
 
---
--- Table structure for table `observations`
---
+
 
 DROP TABLE IF EXISTS `observations`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
