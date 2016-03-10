@@ -160,9 +160,18 @@ router.post('/register', ensureAuthenticated, function(req, res, next) {
                             message: req.flash('Our database servers maybe down, please try again')});
                         return;
                     }
-                    console.log("Token added");
 
-                    res.redirect('/users/');
+                        console.log("Token added");
+                        req.flash('success_messages', 'User successfully registered, a registration email has been sent');
+                        res.locals.success_messages = req.flash('success_messages');
+                        res.render('register', {
+                            title: 'Register',
+                            first: '',
+                            last: '',
+                            username: '',
+                            email: ''
+                        });
+
                 });
             }
         });
@@ -201,23 +210,48 @@ router.post('/remove', ensureAuthenticated, function(req, res, next) {
 
     connection.get().query('SELECT * FROM users', function (err, results) {
         if (err) {
-            throw next(err);
+            req.flash('Failed to delete user,our database servers maybe down.Please try again',
+                'Failed to delete user,our database servers maybe down.Please try again');
+            res.render('remove', {
+                title: 'Remove',
+                users: results,
+                message: req.flash('Failed to delete user,our database servers maybe down.Please try again')});
+            return;
         }
 
         var removeIds = [];
         results.forEach(function (value, index) {
             if (req.body.hasOwnProperty('remove' + value.t_number)) {
                 removeIds.push(value.t_number);
+                req.flash('success_messages', 'User successfully deleted');
+                res.locals.success_messages = req.flash('success_messages');
             }
         });
 
         connection.get().query('DELETE FROM users WHERE t_number IN (?)', [removeIds.toString()], function (err, results) {
             if (err) {
-                throw next(err);
+                req.flash('Failed to delete user,our database servers maybe down.Please try again',
+                    'Failed to delete user,our database servers maybe down.Please try again');
+                res.render('remove', {
+                    title: 'Remove',
+                    users: results,
+                    message: req.flash('Failed to delete user,our database servers maybe down.Please try again')});
+                return;
             }
             console.log('Users removed');
 
             connection.get().query('SELECT * FROM users', function (err, results) {
+                if(err)
+                {
+                    req.flash('Failed to delete user,our database servers maybe down.Please try again',
+                        'Failed to delete user,our database servers maybe down.Please try again');
+                    res.render('remove', {
+                        title: 'Remove',
+                        users: results,
+                        message: req.flash('Failed to delete user,our database servers maybe down.Please try again')});
+                    return;
+                }
+                //else successful removal of user
                 res.render('remove', {
                     title: 'Remove',
                     users: results

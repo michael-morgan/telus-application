@@ -9,6 +9,14 @@ block content
     .row
       .col-lg-12
         h1.page-header #{title}
+        if(success_messages != null)
+          .row
+            .col-md-6.col-md-offset-3
+              div.success.alert-success(role='success')
+                .alert-title
+                  i.fa.fa-check.fa-2x
+                  strong Great!
+                p !{success_messages}
     .row
       .col-lg-3.col-md-6
         .panel.panel-primary

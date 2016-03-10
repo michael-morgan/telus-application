@@ -5,6 +5,22 @@ block content
     .spacer
   .row
     .col-sm-8.col-sm-offset-3
+      if(message)
+        .row
+          .col-md-6.col-md-offset-0
+            div.alert.alert-danger(role='alert')
+              .alert-title
+                i.fa.fa-exclamation-circle.fa-2x
+                strong Something went wrong!
+              p !{message}
+      if(success_messages != null)
+        .row
+          .col-md-6.col-md-offset-0
+            div.success.alert-success(role='success')
+              .alert-title
+                i.fa.fa-check.fa-2x
+                strong Great!
+              p !{success_messages}
       if errors
         ul
           for error in errors

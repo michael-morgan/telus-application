@@ -11,6 +11,14 @@ block content
             i.fa.fa-exclamation-circle.fa-2x
             strong Something went wrong!
           p !{message}
+  if(success_messages != null)
+    .row
+      .col-md-6.col-md-offset-3
+        div.success.alert-success(role='success')
+          .alert-title
+            i.fa.fa-check.fa-2x
+            strong Great!
+          p !{success_messages}
   if errors
     .row
       .col-md-6.col-md-offset-3
