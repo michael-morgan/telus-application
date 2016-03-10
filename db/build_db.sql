@@ -108,7 +108,7 @@ CREATE TABLE `observations` (
   `observation_type` tinyint(1) NOT NULL,
   `observation_comment` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`observation_id`),
-  KEY `t_number` (`t_number`),
+  KEY `assigned_to` (`assigned_to`),
   KEY `behaviour_id` (`behaviour_id`),
   CONSTRAINT `observations_ibfk_1` FOREIGN KEY (`assigned_to`) REFERENCES `users` (`t_number`),
   CONSTRAINT `observations_ibfk_2` FOREIGN KEY (`assigned_by`) REFERENCES `users` (`t_number`),
