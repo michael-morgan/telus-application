@@ -90,14 +90,24 @@ router.post('/activate/:token', function(req, res, next) {
                 ' SET users.password = ?' +
                 ' WHERE tokens.token = ?', [hashedPassword, req.params.token], function (err, rows) {
                 if (err) {
-                    throw next(err);
+                    req.flash('Our database servers maybe down, please try again','Our database servers maybe down, please try again');
+                    res.render('activate', {
+                        title: 'Activate',
+                        token: req.params.token,
+                        message: req.flash('Our database servers maybe down, please try again')});
+                    return;
                 }
                 console.log('Updated user password');
             });
 
             connection.get().query('DELETE FROM tokens WHERE token = ?', [req.params.token], function (err, rows) {
                 if (err) {
-                    throw next(err);
+                    req.flash('Our database servers maybe down, please try again','Our database servers maybe down, please try again');
+                    res.render('activate', {
+                        title: 'Activate',
+                        token: req.params.token,
+                        message: req.flash('Our database servers maybe down, please try again')});
+                    return;
                 }
                 console.log('Token record removed');
 
