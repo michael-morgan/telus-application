@@ -102,17 +102,20 @@ DROP TABLE IF EXISTS `observations`;
 CREATE TABLE `observations` (
   `observation_id` int(50) NOT NULL AUTO_INCREMENT,
   `behaviour_id` int(50) NOT NULL,
+  `skill_id` int(50) NOT NULL,
   `assigned_to` varchar(7) NOT NULL,
   `assigned_by` varchar(7) NOT NULL,
   `observation_date` date NOT NULL,
+  -- obervation_type determines if the observation is positive (1) or negative (0)
   `observation_type` tinyint(1) NOT NULL,
-  `observation_comment` varchar(100) DEFAULT NULL,
+  `observation_comment` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`observation_id`),
   KEY `assigned_to` (`assigned_to`),
   KEY `behaviour_id` (`behaviour_id`),
   CONSTRAINT `observations_ibfk_1` FOREIGN KEY (`assigned_to`) REFERENCES `users` (`t_number`),
   CONSTRAINT `observations_ibfk_2` FOREIGN KEY (`assigned_by`) REFERENCES `users` (`t_number`),
-  CONSTRAINT `observations_ibfk_3` FOREIGN KEY (`behaviour_id`) REFERENCES `behaviours` (`behaviour_id`)
+  CONSTRAINT `observations_ibfk_3` FOREIGN KEY (`behaviour_id`) REFERENCES `behaviours` (`behaviour_id`),
+  CONSTRAINT `observations_ibfk_4` FOREIGN KEY (`skill_id`) REFERENCES `behaviours` (`cc_skill`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -122,7 +125,7 @@ CREATE TABLE `observations` (
 
 LOCK TABLES `observations` WRITE;
 /*!40000 ALTER TABLE `observations` DISABLE KEYS */;
-INSERT INTO `observations` VALUES (3,1,'t901159', 't111111', '2016-02-01',1,'Employee greeted all customers as they entered the store'),(4,1,'t901159', 't901159', '2016-02-01',1,'Employee greeted all customers as they entered the store');
+INSERT INTO `observations` VALUES (3,1,1,'t901159', 't111111', '2016-02-01',1,'Employee greeted all customers as they entered the store'),(4,8,3,'t901159', 't901159', '2016-02-01',1,'Employee greeted all customers as they entered the store');
 /*!40000 ALTER TABLE `observations` ENABLE KEYS */;
 UNLOCK TABLES;
 
