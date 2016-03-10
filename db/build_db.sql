@@ -43,6 +43,8 @@ INSERT INTO `skills` VALUES (1,'Welcome'),(2,'Building Trust'),(3,'Consultative 
 /*!40000 ALTER TABLE `skills` ENABLE KEYS */;
 UNLOCK TABLES;
 
+
+
 --
 -- Table structure for table `behaviours`
 --
@@ -53,7 +55,7 @@ DROP TABLE IF EXISTS `behaviours`;
 CREATE TABLE `behaviours` (
   `behaviour_id` int(50) NOT NULL AUTO_INCREMENT,
   `behaviour_desc` varchar(255) NOT NULL,
-  `cc_skill` varchar(255) NOT NULL,
+  `cc_skill` int(50) NOT NULL,
   PRIMARY KEY (`behaviour_id`),
   CONSTRAINT `behaviours_ibfk_1` FOREIGN KEY (`cc_skill`) REFERENCES `skills` (`skill_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
