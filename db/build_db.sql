@@ -39,7 +39,7 @@ CREATE TABLE `skills` (
 
 LOCK TABLES `skills` WRITE;
 /*!40000 ALTER TABLE `skills` DISABLE KEYS */;
-INSERT INTO `behaviours` VALUES (1,'Welcome'),(2,'Building Trust'),(3,'Consultative Selling Skills'),(4,'Recommending solutions post sale');
+INSERT INTO `skills` VALUES (1,'Welcome'),(2,'Building Trust'),(3,'Consultative Selling Skills'),(4,'Recommending solutions post sale');
 /*!40000 ALTER TABLE `skills` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -55,7 +55,7 @@ CREATE TABLE `behaviours` (
   `behaviour_desc` varchar(255) NOT NULL,
   `cc_skill` varchar(255) NOT NULL,
   PRIMARY KEY (`behaviour_id`),
-  CONSTRAINT `observations_ibfk_1` FOREIGN KEY (`cc_skill`) REFERENCES `skills` (`skill_id`)
+  CONSTRAINT `behaviours_ibfk_1` FOREIGN KEY (`cc_skill`) REFERENCES `skills` (`skill_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
