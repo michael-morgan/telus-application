@@ -261,6 +261,35 @@ router.post('/remove', ensureAuthenticated, function(req, res, next) {
     });
 });
 
+
+router.get('/observations', ensureAuthenticated, function(req, res, next) {
+    if(!req.body) {
+        return res.sendStatus(400);
+    }
+    if(!req.user.privileged) {
+        return res.redirect('/users/');
+    }
+
+    res.render('observations', {
+        title: 'Observation List'
+    });
+
+});
+
+router.get('/observations/add-observation', ensureAuthenticated, function(req, res, next) {
+    if(!req.body) {
+        return res.sendStatus(400);
+    }
+    if(!req.user.privileged) {
+        return res.redirect('/users/');
+    }
+
+    res.render('add-observation', {
+        title: 'Add Observation'
+    });
+
+});
+
 // logout functionality
 router.get('/logout', ensureAuthenticated, function(req, res) {
     req.logout();
