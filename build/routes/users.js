@@ -290,6 +290,58 @@ router.get('/observations/add-observation', ensureAuthenticated, function(req, r
 
 });
 
+router.post('/observations/add-observation', ensureAuthenticated, function(req, res, next) {
+    if (!req.body) {
+        return res.sendStatus(400);
+    }
+    if (!req.user.privileged) {
+        return res.redirect('/users/');
+    }
+
+    //Store form variables
+    var behaviour = req.body.behaviour;
+    var ccSkill = req.body.ccSkill;
+    var assignedTo = req.body.assignedTo;
+    var assignedBy = req.body.assignedBy;
+    var observationDate = req.body.observationDate;
+    var observationType = req.body.observationType;
+    var observationComment = req.body.observationComment;
+
+    var observation = {
+        behaviour_id: behaviour,
+        skill_id: ccSkill,
+        assigned_to: assignedTo,
+        assigned_by: assignedBy,
+        observation_date: observationDate,
+        observation_type: observationType,
+        observation_comment: observationComment
+    };
+
+    connection.get().query('INSERT INTO observations SET ?', [observation], function(err, result){
+        if(err) {
+            req.flash('Our database servers maybe down, please try again', 'Our database servers maybe down, please try again');
+            res.render('add-observation', {
+                behaviour: behaviour,
+                ccSkill: ccSkill,
+                assignedTo: assignedTo,
+                assignedBy: assignedBy,
+                observationDate: observationDate,
+                observationType: observationType,
+                observationComment: observationComment,
+                message: req.flash('Our database servers maybe down, please try again')
+            });
+            return;
+        }
+
+        console.log("Observation added");
+        req.flash('success_messages', 'The observation was successfully added to the database.');
+        res.locals.success_messages = req.flash('success_messages');
+        res.render('observations', { title: 'Observations' });
+
+    });
+});
+
+
 // logout functionality
 router.get('/logout', ensureAuthenticated, function(req, res) {
     req.logout();
