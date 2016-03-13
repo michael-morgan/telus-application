@@ -276,7 +276,7 @@ router.get('/observations', ensureAuthenticated, function(req, res, next) {
 
 });
 
-router.get('/observations/add-observation', ensureAuthenticated, function(req, res, next) {
+router.get('/add-observation', ensureAuthenticated, function(req, res, next) {
     if(!req.body) {
         return res.sendStatus(400);
     }
@@ -290,7 +290,7 @@ router.get('/observations/add-observation', ensureAuthenticated, function(req, r
 
 });
 
-router.post('/observations/add-observation', ensureAuthenticated, function(req, res, next) {
+router.post('/add-observation', ensureAuthenticated, function(req, res, next) {
     if (!req.body) {
         return res.sendStatus(400);
     }
@@ -316,6 +316,8 @@ router.post('/observations/add-observation', ensureAuthenticated, function(req, 
         observation_type: observationType,
         observation_comment: observationComment
     };
+
+    console.debug(observation);
 
     connection.get().query('INSERT INTO observations SET ?', [observation], function(err, result){
         if(err) {
