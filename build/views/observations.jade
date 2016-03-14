@@ -33,24 +33,25 @@ block content
                                                     each observation, j in observations
                                                         if user.t_number == observation.t_number
                                                             tr
-                                                                td#observations.accordion-toggle(data-toggle='collapse', data-parent='#AllObservations', data-target='.obs#{observation.observation_id}') - #{observation.behaviour_desc}
-                                                                    tr.hiddenRow(colspan='3')
-                                                                        td
-                                                                            div(class="accordion-body collapse obs#{observation.observation_id}" id="accordion2")
-                                                                                table
-                                                                                    tr
-                                                                                        td
-                                                                                            br
+                                                                if observation.behaviour_desc != undefined
+                                                                    td#observations.accordion-toggle(data-toggle='collapse', data-parent='#AllObservations', data-target='.obs#{observation.observation_id}') - #{observation.behaviour_desc}
+                                                                        tr.hiddenRow(colspan='3')
+                                                                            td
+                                                                                div(class="accordion-body collapse obs#{observation.observation_id}" id="accordion2")
+                                                                                    table
+                                                                                        tr
+                                                                                            td
+                                                                                                br
 
-                                                                                    tr
-                                                                                        td &nbsp;-- Category: #{observation.skill_title}
-                                                                                    tr
-                                                                                        td &nbsp;-- Date: #{observation.observation_date}
-                                                                                    tr
-                                                                                        td &nbsp;-- Assigned by: #{observation.assigned_by}
-                                                                                    tr
-                                                                                        td
-                                                                                            br
+                                                                                        tr
+                                                                                            td &nbsp;-- Category: #{observation.skill_title}
+                                                                                        tr
+                                                                                            td &nbsp;-- Date: #{observation.observation_date}
+                                                                                        tr
+                                                                                            td &nbsp;-- Assigned by: #{observation.assigned_by}
+                                                                                        tr
+                                                                                            td
+                                                                                                br
 
 
 
