@@ -276,6 +276,7 @@ router.get('/observations', ensureAuthenticated, function(req, res, next) {
 
 });
 
+//When the add-observation page is loaded, this router.get sets the page title
 router.get('/add-observation', ensureAuthenticated, function(req, res, next) {
     if(!req.body) {
         return res.sendStatus(400);
@@ -290,6 +291,8 @@ router.get('/add-observation', ensureAuthenticated, function(req, res, next) {
 
 });
 
+//When the observation is submitted, this router.post gets triggered.  It takes the form values from the front-end page
+//and inserts them into the observations table
 router.post('/add-observation', ensureAuthenticated, function(req, res, next) {
     if (!req.body) {
         return res.sendStatus(400);
@@ -307,6 +310,7 @@ router.post('/add-observation', ensureAuthenticated, function(req, res, next) {
     var observationType = req.body.observationType;
     var observationComment = req.body.observationComment;
 
+    //Creating the JSON array to store the observation data
     var observation = {
         behaviour_id: behaviour,
         skill_id: ccSkill,
@@ -319,6 +323,7 @@ router.post('/add-observation', ensureAuthenticated, function(req, res, next) {
 
     console.debug(observation);
 
+    //Inserting the data into the observations table using a JSON array
     connection.get().query('INSERT INTO observations SET ?', [observation], function(err, result){
         if(err) {
             req.flash('Our database servers maybe down, please try again', 'Our database servers maybe down, please try again');
@@ -335,6 +340,7 @@ router.post('/add-observation', ensureAuthenticated, function(req, res, next) {
             return;
         }
 
+        //Display a message in the console if the observation was successfully added
         console.log("Observation added");
         req.flash('success_messages', 'The observation was successfully added to the database.');
         res.locals.success_messages = req.flash('success_messages');
