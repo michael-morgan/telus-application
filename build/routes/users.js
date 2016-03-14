@@ -124,7 +124,7 @@ router.post('/register', ensureAuthenticated, function(req, res, next) {
                     last_name: last,
                     email: email,
                     username: username,
-                    t_number: username
+                    t_number: username,
                 };
 
                 // database insertion
@@ -261,7 +261,7 @@ router.post('/remove', ensureAuthenticated, function(req, res, next) {
     });
 });
 
-
+//Observations list page
 router.get('/observations', ensureAuthenticated, function(req, res, next) {
     if(!req.body) {
         return res.sendStatus(400);
@@ -270,10 +270,50 @@ router.get('/observations', ensureAuthenticated, function(req, res, next) {
         return res.redirect('/users/');
     }
 
-    res.render('observations', {
-        title: 'Observation List'
-    });
+    var observation = {
+        observation_comment: undefined,
+        behaviour_desc: undefined,
+        skill_title: undefined,
+        observation_date: undefined,
+        observation_id: undefined,
+        assigned_by: undefined
+    };
+    //get all of the employees in the users table
+    connection.get().query('SELECT first_name, last_name,t_number FROM users ', function (err, userResults) {
+        if(err)
+        {
+            req.flash('Our database servers maybe down.Please try again',
+                'Our database servers maybe down.Please try again');
+            res.render('observations', {
+                title: 'Observations',
+                message: req.flash('Our database servers maybe down.Please try again')});
+            return;
+        }
+        //Get all of the observations for each employee
 
+        connection.get().query('SELECT users.t_number, behaviour_desc, observations.observation_id, skills.skill_title, observations.observation_comment , observations.observation_date , observations.assigned_by FROM users ' +
+        'LEFT JOIN observations on users.t_number = observations.assigned_to ' +
+        'LEFT JOIN behaviours on observations.behaviour_id = behaviours.behaviour_id ' +
+        'LEFT JOIN skills on observations.skill_id = skills.skill_id', function (err, obsResults) {
+            if(err)
+            {
+                req.flash('Our database servers maybe down.Please try again',
+                    'Our database servers maybe down.Please try again');
+                res.render('observations', {
+                    title: 'Observations',
+                    message: req.flash('Our database servers maybe down.Please try again')});
+                return;
+            }
+
+            //Render the observations page with the list of users and observations
+            res.render('observations', {
+                title: 'Observations List',
+                users: userResults,
+                observations: obsResults
+            });
+
+            });
+        });
 });
 
 //When the add-observation page is loaded, this router.get sets the page title
@@ -365,4 +405,25 @@ function ensureAuthenticated(req, res, next) {
     res.redirect('/');
 }
 
+function getAssignedBy(t_number){
+    connection.get().query('SELECT first_name, last_name from users '+
+    'WHERE t_number = ?', t_number, function (err, results) {
+        if(err)
+        {
+            req.flash('Fail to Find User',
+                'Fail to Find User');
+            res.render('observations', {
+                title: 'Observations',
+                users: results,
+                message: req.flash('Fail to Find User')});
+            return;
+        }
+        var name = results[0].first_name;
+
+        //The User was found
+        return name;
+    });
+}
+
 module.exports = router;
+

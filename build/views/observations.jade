@@ -8,3 +8,61 @@ block content
             .panel.panel-default.formPanel
                 .panel-heading.text-center.formTitle
                     h2  #{title}
+    .panel.panel-default.formPanel
+        .panel-heading.formTitle
+            .panel-body
+                form.form-horizontal(method='post', role='form')
+                    #OrderPackages
+                        table#tableSearchResults.table.table-hover.table-striped.table-condensed
+                            thead
+                                tr
+                                    th Name
+                            tbody
+                                each user, i in users
+                                    tr
+                                        td#users.accordion-toggle(data-toggle='collapse', data-parent='#AllUsers', data-target='.#{i}')
+                                            i.indicator.glyphicon.glyphicon-chevron-up.pull-left
+                                                a(href='#') #{user.first_name} #{user.last_name}
+                                        td
+                                            a(href='/users/observations/add-observation')
+                                                i.glyphicon.glyphicon-plus-sign.pull-right
+                                    tr
+                                        td.hiddenRow(colspan='3')
+                                            div(class="accordion-body collapse #{i}" id="accordion1")
+                                                table
+                                                    each observation, j in observations
+                                                        if user.t_number == observation.t_number
+                                                            tr
+                                                                td#observations.accordion-toggle(data-toggle='collapse', data-parent='#AllObservations', data-target='.obs#{observation.observation_id}') - #{observation.behaviour_desc}
+                                                                    tr.hiddenRow(colspan='3')
+                                                                        td
+                                                                            div(class="accordion-body collapse obs#{observation.observation_id}" id="accordion2")
+                                                                                table
+                                                                                    tr
+                                                                                        td
+                                                                                            br
+
+                                                                                    tr
+                                                                                        td &nbsp;-- Category: #{observation.skill_title}
+                                                                                    tr
+                                                                                        td &nbsp;-- Date: #{observation.observation_date}
+                                                                                    tr
+                                                                                        td &nbsp;-- Assigned by: #{observation.assigned_by}
+                                                                                    tr
+                                                                                        td
+                                                                                            br
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
