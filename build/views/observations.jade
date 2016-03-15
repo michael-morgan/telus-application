@@ -13,7 +13,7 @@ block content
             .panel-body
                 form.form-horizontal(method='post', role='form')
                     #Employees
-                        table#tableSearchResults.table.table-hover.table-striped.table-condensed
+                        table#tableSearchResults.table.table-striped.table-condensed
                             thead
                                 tr
                                     th Name
@@ -49,6 +49,9 @@ block content
                                                                                             td &nbsp;-- Date: #{observation.observation_date}
                                                                                         tr
                                                                                             td &nbsp;-- Assigned by: #{observation.assigned_by}
+                                                                                        if observation.observation_comment
+                                                                                            tr
+                                                                                                td &nbsp;-- Comments: #{observation.observation_comment}
                                                                                         tr
                                                                                             td
                                                                                                 br

@@ -12,7 +12,7 @@ block content
                         .form-group
                             .col-sm-10.col-sm-offset-1
                                 |Add Observation for
-                                select(required)
+                                select(required id='employeeDropdown' name='employeeDropdown')
                                     option(disabled selected) Select Employee
                                     each user, i in users
                                         if employee != undefined && employee == user.t_number
@@ -39,20 +39,15 @@ block content
                                                                         tr
                                                                             td(class="col-sm-8", id="behaviour#{behaviour.behaviour_id}") - #{behaviour.behaviour_desc}
                                                                             td.col-sm-4
-                                                                                input(type="radio", name="goodorbad", value="1", checked=goodorbad == "Good")
+                                                                                input(type="radio",id="good#{behaviour.behaviour_id}", name="goodorbad", value="good#{behaviour.behaviour_id}", checked=goodorbad == "Good")
                                                                                 | &nbsp; Good &nbsp;
-                                                                                input(type="radio", name="goodorbad", value="0", checked=goodorbad == "Bad")
+                                                                                input(type="radio",id="bad#{behaviour.behaviour_id}", name="goodorbad", value="bad#{behaviour.behaviour_id}", checked=goodorbad == "Bad")
                                                                                 | &nbsp; Bad &nbsp;
                                                                         tr
                                                                             td
                                                                                 br
 
                         .form-group
-                            textarea(placeholder="Enter new Skill to Database", maxlength="300", id="newCommentBox")
-                            input(type="radio", name="goodorbad", value="1", checked=goodorbad == "Good")
-                            | &nbsp; Good &nbsp;
-                            input(type="radio", name="goodorbad", value="0", checked=goodorbad == "Bad")
-                            | &nbsp; Bad &nbsp;
-
+                            textarea(placeholder="Comments...", maxlength="300", id="commentBox" name="commentBox")
                         .form-group
                             button.form-btn.btn.btn-success.btn-lg.btn-block(name='submit', type='submit') Submit
