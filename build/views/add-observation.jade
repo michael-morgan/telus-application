@@ -47,9 +47,12 @@ block content
                                                                             td
                                                                                 br
 
-
-
-
+                        .form-group
+                            textarea(placeholder="Enter new Skill to Database", maxlength="300", id="newCommentBox")
+                            input(type="radio", name="goodorbad", value="1", checked=goodorbad == "Good")
+                            | &nbsp; Good &nbsp;
+                            input(type="radio", name="goodorbad", value="0", checked=goodorbad == "Bad")
+                            | &nbsp; Bad &nbsp;
 
                         .form-group
                             button.form-btn.btn.btn-success.btn-lg.btn-block(name='submit', type='submit') Submit
