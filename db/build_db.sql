@@ -104,7 +104,7 @@ CREATE TABLE `observations` (
   `behaviour_id` int(50) NOT NULL,
   `assigned_to` varchar(7) NOT NULL,
   `assigned_by` varchar(7) NOT NULL,
-  `observation_date` date NOT NULL,
+  `observation_date` datetime NOT NULL,
   -- obervation_type determines if the observation is positive (1) or negative (0)
   `observation_type` tinyint(1) NOT NULL,
   `observation_comment` varchar(255) DEFAULT NULL,
@@ -123,7 +123,7 @@ CREATE TABLE `observations` (
 
 LOCK TABLES `observations` WRITE;
 /*!40000 ALTER TABLE `observations` DISABLE KEYS */;
-INSERT INTO `observations` VALUES (3,1,'t901159', 't111111', '2016-02-01',1,'Employee greeted all customers as they entered the store'),(4,8,'t901159', 't901159', '2016-02-01',1,'Employee greeted all customers as they entered the store');
+INSERT INTO `observations` VALUES (3,1,'t901159', 't111111', '2016-02-01 18:57:44',1,'Employee greeted all customers as they entered the store'),(4,8,'t901159', 't901159', '2016-02-01',1,'Employee greeted all customers as they entered the store');
 /*!40000 ALTER TABLE `observations` ENABLE KEYS */;
 UNLOCK TABLES;
 
