@@ -12,7 +12,7 @@ block content
         .panel-heading.formTitle
             .panel-body
                 form.form-horizontal(method='post', role='form')
-                    #OrderPackages
+                    #Employees
                         table#tableSearchResults.table.table-hover.table-striped.table-condensed
                             thead
                                 tr
@@ -24,7 +24,7 @@ block content
                                             i.indicator.glyphicon.glyphicon-chevron-up.pull-left
                                                 a(href='#') #{user.first_name} #{user.last_name}
                                         td
-                                            a(href='/users/add-observation')
+                                            a(href='/users/add-observation/' + user.t_number)
                                                 i.glyphicon.glyphicon-plus-sign.pull-right
                                     tr
                                         td.hiddenRow(colspan='3')
