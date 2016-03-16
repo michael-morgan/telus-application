@@ -1,3 +1,7 @@
+#wrapper #page-wrapper * {
+  border-radius: 0;
+}
+
 body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
