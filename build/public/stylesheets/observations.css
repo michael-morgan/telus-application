@@ -6,3 +6,11 @@
     font-weight: bold;
     font-size: 24px;
 }
+
+#accordion h4 .ellipsis {
+    text-overflow: ellipsis;
+
+    /* Required for text-overflow to do anything */
+    white-space: nowrap;
+    overflow: hidden;
+}

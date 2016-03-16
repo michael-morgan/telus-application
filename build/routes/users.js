@@ -307,7 +307,7 @@ router.get('/observations', ensureAuthenticated, function(req, res, next) {
             }
             //Render the observations page with the list of users and observations
             res.render('observations', {
-                title: 'Observations List',
+                title: 'Observations',
                 users: userResults,
                 observations: obsResults
             });
