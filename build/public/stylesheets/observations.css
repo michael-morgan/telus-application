@@ -9,8 +9,22 @@
 
 #accordion h4 .ellipsis {
     text-overflow: ellipsis;
-
-    /* Required for text-overflow to do anything */
     white-space: nowrap;
     overflow: hidden;
+}
+
+#accordion .panel-body .row span {
+    line-height: 2.0;
+}
+
+#accordion .panel-body .row span>strong {
+    margin-right: 5px;
+}
+
+#accordion .bad-observation {
+    background-color: #f2dede;
+}
+
+#accordion .good-observation {
+    background-color: #dff0d8;
 }

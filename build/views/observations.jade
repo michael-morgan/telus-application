@@ -5,34 +5,53 @@ block append stylesheet
 
 block content
     .row
-        .col-md-4.col-md-offset-4
-            .panel-heading.text-center
-                h2  #{title}
+        .col-md-12
+            h1.page-header Observations
     #accordion.panel-group(role='tablist', aria-multiselectable='true')
         each user, i in users
             .row
                 .panel.panel-default
                     .panel-heading(role='tab', id='userHeading#{i}', data-toggle='collapse', data-target='#userCollapse#{i}')
-                        h3.panel-title.col-xs-10
-                            a(role='button', data-parent='#accordion', href='#userCollapse#{i}', aria-expanded='false', aria-controls='userCollapse#{i}')
-                                | #{user.first_name} #{user.last_name}
-                        a(href='/users/add-observation/' + user.t_number)
-                            i.fa.fa-plus-circle.fa-2x.pull-right
+                        .col-xs-10
+                            h3.panel-title
+                                a(role='button', data-parent='#accordion', href='#userCollapse#{i}', aria-expanded='false', aria-controls='userCollapse#{i}')
+                                    | #{user.first_name} #{user.last_name}
+                        .col-xs-2
+                            a(href='/users/add-observation/' + user.t_number)
+                                i.fa.fa-plus-circle.fa-2x.pull-right
                     .panel-collapse.collapse(role='tabpanel', aria-labelledby='userHeading#{i}', id='userCollapse#{i}')
                         .panel-body
                             each observation, j in observations
                                 if (user.t_number == observation.t_number) && (observation.behaviour_desc != undefined)
                                     .panel.panel-default
-                                        .panel-heading(role='tab', id='observationHeading#{j}', data-toggle='collapse', data-target='#observationCollapse#{j}')
+                                        .panel-heading(role='tab', class=((observation.observation_type == 1) ? 'good-observation' : 'bad-observation'), id='observationHeading#{j}', data-toggle='collapse', data-target='#observationCollapse#{j}')
                                             h4.panel-title
                                                 a(role='button', data-parent='#accordion', href='#observationCollapse#{j}', aria-expanded='false', aria-controls='observationCollapse#{j}')
-                                                    .col-sm-2
+                                                    .col-sm-1
                                                         | #{observation.observation_date.toLocaleDateString()}
+                                                    .col-sm-1.text-center
+                                                        i.fa(class=((observation.observation_type == 1) ? 'fa-thumbs-up' : 'fa-thumbs-down'))
                                                     .col-sm-10.ellipsis
                                                         | #{observation.behaviour_desc}
                                         .panel-collapse.collapse(role='tabpanel', aria-labelledby='observationHeading#{j}', id='observationCollapse#{j}')
                                             .panel-body
-                                                | Category: #{observation.skill_title}
-                                                | Date: #{observation.observation_date}
-                                                | Assigned by: #{observation.assigned_by}
-                                                | Comments: #{observation.observation_comment}
+                                                .row
+                                                    .col-sm-12
+                                                        span.pull-left
+                                                            strong Description:
+                                                            | #{observation.behaviour_desc}
+                                                .row
+                                                    .col-sm-12
+                                                        span.pull-left
+                                                            strong Skill:
+                                                            | #{observation.skill_title}
+                                                .row
+                                                    .col-sm-12
+                                                        span.pull-left
+                                                            strong Comment:
+                                                            | #{observation.observation_comment}
+                                                .row
+                                                    .col-sm-12
+                                                        span.pull-right
+                                                            strong Observed by:
+                                                            | #{observation.assigned_by}
