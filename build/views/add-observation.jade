@@ -7,19 +7,28 @@ block append stylesheet
 block content
     .row
         .col-md-12
-            h1.page-header Add Observation
+            h1.page-header #{title}
+            if(message)
+                .row
+                    .col-md-6.col-md-offset-3
+                        div.alert.alert-danger(role='alert')
+                            .alert-title
+                                i.fa.fa-exclamation-circle.fa-2x
+                                strong Something went wrong!
+                            p !{message}
     .row
         .container
             .panel-heading.text-center.formTitle
-                h1  #{title}
                 form.form-horizontal(method='post', role='form')
                     .form-group
                         .col-sm-10.col-sm-offset-1
                             | Add Observation for
                             select(required id='employeeDropdown' name='employeeDropdown')
-                                option(disabled selected) Select Employee
+                                option(disabled selected value='0') Select Employee
                                 each user, i in users
                                     if employee != undefined && employee == user.t_number
+                                        option(value='#{user.t_number}' selected) #{user.first_name} #{user.last_name}
+                                    else if selectedEmployee != undefined && selectedEmployee == user.t_number
                                         option(value='#{user.t_number}' selected) #{user.first_name} #{user.last_name}
                                     else
                                         option(value='#{user.t_number}') #{user.first_name} #{user.last_name}
