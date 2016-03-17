@@ -292,7 +292,7 @@ router.get('/observations', ensureAuthenticated, function(req, res, next) {
         }
         //Get all of the observations for each employee
 
-        connection.get().query('SELECT users.t_number, behaviour_desc, observations.observation_id, skills.skill_title, observations.observation_comment, observations.observation_date , observations.assigned_by FROM users ' +
+        connection.get().query('SELECT users.t_number, behaviour_desc, observations.observation_id, skills.skill_title, observations.observation_comment, observations.observation_date , CONCAT_WS(" ", users.first_name, users.last_name) AS '+'assigned_by'+' FROM users ' +
         'LEFT JOIN observations on users.t_number = observations.assigned_to ' +
         'LEFT JOIN behaviours on observations.behaviour_id = behaviours.behaviour_id ' +
         'LEFT JOIN skills on behaviours.skill_id = skills.skill_id', function (err, obsResults) {
