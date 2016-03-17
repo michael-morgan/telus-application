@@ -1,54 +1,48 @@
 extends layout
 
+block append stylesheet
+    link(rel='stylesheet', href='/stylesheets/observations.css')
+
+
 block content
     .row
         .col-md-12
             h1.page-header Add Observation
     .row
         .container
-            .panel.panel-default.formPanel
-                .panel-heading.text-center.formTitle
-                    h1  #{title}
-                    form.form-horizontal(method='post', role='form')
-                        .form-group
-                            .col-sm-10.col-sm-offset-1
-                                |Add Observation for
-                                select(required id='employeeDropdown' name='employeeDropdown')
-                                    option(disabled selected) Select Employee
-                                    each user, i in users
-                                        if employee != undefined && employee == user.t_number
-                                            option(value='#{user.t_number}' selected) #{user.first_name} #{user.last_name}
-                                        else
-                                            option(value='#{user.t_number}') #{user.first_name} #{user.last_name}
-                                #Behaviours
-                                    table#tableSearchResults.table.table-striped.table-condensed
-                                        thead
-                                            tr
-                                                th
-                                        tbody
-                                            each skill, i in skills
-                                                tr
-                                                    td#behaviours.accordion-toggle(data-toggle='collapse', data-parent='#AllBehaviours', data-target='.#{i}')
-                                                        i.indicator.glyphicon.glyphicon-chevron-up.pull-left
-                                                            a(id='#{ skill.skill_id }' href='#') #{ skill.skill_title }
-                                                tr
-                                                    td.hiddenRow(colspan='3')
-                                                        div(class="accordion-body collapse #{i}" id="accordion1")
-                                                            table
-                                                                each behaviour, j in behaviours
-                                                                    if behaviour.behaviour_desc != undefined && skill.skill_id == behaviour.skill_id
-                                                                        tr
-                                                                            td(class="col-sm-8", id="behaviour#{behaviour.behaviour_id}") - #{behaviour.behaviour_desc}
-                                                                            td.col-sm-4
-                                                                                input(type="radio",id="good#{behaviour.behaviour_id}", name="goodorbad", value="good#{behaviour.behaviour_id}", checked=goodorbad == "Good")
-                                                                                | &nbsp; Good &nbsp;
-                                                                                input(type="radio",id="bad#{behaviour.behaviour_id}", name="goodorbad", value="bad#{behaviour.behaviour_id}", checked=goodorbad == "Bad")
-                                                                                | &nbsp; Bad &nbsp;
-                                                                        tr
-                                                                            td
-                                                                                br
+            .panel-heading.text-center.formTitle
+                h1  #{title}
+                form.form-horizontal(method='post', role='form')
+                    .form-group
+                        .col-sm-10.col-sm-offset-1
+                            | Add Observation for
+                            select(required id='employeeDropdown' name='employeeDropdown')
+                                option(disabled selected) Select Employee
+                                each user, i in users
+                                    if employee != undefined && employee == user.t_number
+                                        option(value='#{user.t_number}' selected) #{user.first_name} #{user.last_name}
+                                    else
+                                        option(value='#{user.t_number}') #{user.first_name} #{user.last_name}
+                            #Behaviours
+                                #accordion.panel-group(role='tablist', aria-multiselectable='true')
+                                    each skill, i in skills
+                                        .panel.panel-default
+                                            .panel-heading(role='tab', id='heading#{i}', data-toggle='collapse', data-target='#collapse#{i}')
+                                                h3.panel-title.col-xs-6
+                                                    a(role='button', data-toggle="collapse", data-parent='#accordion', href='#collapse#{i}', aria-expanded='false', aria-controls='collapse#{i}')
+                                                        | #{skill.skill_title}
 
-                        .form-group
-                            textarea(placeholder="Comments...", maxlength="300", id="commentBox" name="commentBox")
-                        .form-group
-                            button.form-btn.btn.btn-success.btn-lg.btn-block(name='submit', type='submit') Submit
+                                            .panel-collapse.collapse(role='tabpanel', aria-labelledby='heading#{i}', id='collapse#{i}')
+                                                .panel-body
+                                                    each behaviour, j in behaviours
+                                                        if behaviour.behaviour_desc != undefined && skill.skill_id == behaviour.skill_id
+                                                            .col-sm-8(id="behaviour#{behaviour.behaviour_id}") - #{behaviour.behaviour_desc}
+                                                            .col-sm-4
+                                                                input(type="radio",id="good#{behaviour.behaviour_id}", name="goodorbad", value="good#{behaviour.behaviour_id}", checked=goodorbad == "Good")
+                                                                | &nbsp; Good &nbsp;
+                                                                input(type="radio",id="bad#{behaviour.behaviour_id}", name="goodorbad", value="bad#{behaviour.behaviour_id}", checked=goodorbad == "Bad")
+                                                                | &nbsp; Bad &nbsp;
+                    .form-group
+                        textarea(placeholder="Comments...", maxlength="300", id="commentBox" name="commentBox")
+                    .form-group
+                        button.form-btn.btn.btn-success.btn-lg.btn-block(name='submit', type='submit') Submit
