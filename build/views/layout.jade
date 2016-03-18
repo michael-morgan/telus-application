@@ -196,20 +196,21 @@ html
                         a(href='/users/remove')
                           i.fa.fa-user-times.fa-fw
                           |  Remove User
-                li
-                  a(href='/users/observations')
-                        i.fa.fa-list-alt.fa-fw
-                        |  Observations
-                        span.fa.arrow
-                    ul.nav.nav-second-level
-                      li
-                        a(href='/users/observations')
-                          i.fa.fa-list.fa-fw
-                          |  List Observations
-                      li
-                        a(href='/users/add-observation')
-                          i.fa.fa-plus.fa-fw
-                          |  Add Observation
+                if user.privileged
+                  li
+                    a(href='/users/observations')
+                          i.fa.fa-list-alt.fa-fw
+                          |  Observations
+                          span.fa.arrow
+                      ul.nav.nav-second-level
+                        li
+                          a(href='/users/observations')
+                            i.fa.fa-list.fa-fw
+                            |  List Observations
+                        li
+                          a(href='/users/add-observation')
+                            i.fa.fa-plus.fa-fw
+                            |  Add Observation
       #page-wrapper
         block content
     block script
@@ -217,3 +218,4 @@ html
       script(src='/bower_components/bootstrap/dist/js/bootstrap.min.js')
       script(src='/bower_components/metisMenu/dist/metisMenu.min.js')
       script(src='/javascripts/sb-admin-2.js')
+      script(src='/javascripts/main.js')
