@@ -196,20 +196,21 @@ html
                         a(href='/users/remove')
                           i.fa.fa-user-times.fa-fw
                           |  Remove User
-                li
-                  a(href='/users/observations')
-                        i.fa.fa-list-alt.fa-fw
-                        |  Observations
-                        span.fa.arrow
-                    ul.nav.nav-second-level
-                      li
-                        a(href='/users/observations')
-                          i.fa.fa-list.fa-fw
-                          |  List Observations
-                      li
-                        a(href='/users/add-observation')
-                          i.fa.fa-plus.fa-fw
-                          |  Add Observation
+                if user.privileged
+                  li
+                    a(href='/users/observations')
+                          i.fa.fa-list-alt.fa-fw
+                          |  Observations
+                          span.fa.arrow
+                      ul.nav.nav-second-level
+                        li
+                          a(href='/users/observations')
+                            i.fa.fa-list.fa-fw
+                            |  List Observations
+                        li
+                          a(href='/users/add-observation')
+                            i.fa.fa-plus.fa-fw
+                            |  Add Observation
       #page-wrapper
         block content
     block script
