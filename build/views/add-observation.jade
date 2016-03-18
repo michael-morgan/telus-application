@@ -35,11 +35,13 @@ block content
                             #Behaviours
                                 #accordion.panel-group(role='tablist', aria-multiselectable='true')
                                     each skill, i in skills
-                                        .panel.panel-default
-                                            .panel-heading(role='tab', id='heading#{i}', data-toggle='collapse', data-target='#collapse#{i}')
-                                                h3.panel-title.col-xs-6
-                                                    a(role='button', data-toggle="collapse", data-parent='#accordion', href='#collapse#{i}', aria-expanded='false', aria-controls='collapse#{i}')
-                                                        | #{skill.skill_title}
+                                        .row
+                                            .panel.panel-default
+                                                .panel-heading(role='tab', id='heading#{i}', data-toggle='collapse', data-target='#collapse#{i}')
+                                                    .col-xs-10
+                                                        h3.panel-title.text-left
+                                                            a(role='button', data-toggle="collapse", data-parent='#accordion', href='#collapse#{i}', aria-expanded='false', aria-controls='collapse#{i}')
+                                                                | #{skill.skill_title}
 
                                             .panel-collapse.collapse(role='tabpanel', aria-labelledby='heading#{i}', id='collapse#{i}')
                                                 .panel-body

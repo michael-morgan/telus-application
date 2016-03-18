@@ -13,12 +13,13 @@ router.get('/', ensureAuthenticated, function(req, res, next) {
 
 });
 
-// if accessing the register page, reset the form variables
+// If accessing the register page, reset the form variables
 router.get('/register', ensureAuthenticated, function(req, res, next) {
     if(!req.user.privileged) {
         return res.redirect('/users/');
     }
 
+    //Show the register page
     res.render('register', {
         title: 'Register',
         first: '',
@@ -28,7 +29,9 @@ router.get('/register', ensureAuthenticated, function(req, res, next) {
     });
 });
 
-// form validation for the register page
+/**
+ * Form validation for the register page
+ */
 router.post('/register', ensureAuthenticated, function(req, res, next) {
     if(!req.body) {
         return res.sendStatus(400);
@@ -37,7 +40,7 @@ router.post('/register', ensureAuthenticated, function(req, res, next) {
         return res.redirect('/users/');
     }
 
-    //Store form variables
+    //Store the variables form the register page
     var first = req.body.firstName;
     var last = req.body.lastName;
     var username = req.body.username;
@@ -66,8 +69,7 @@ router.post('/register', ensureAuthenticated, function(req, res, next) {
     else {
         //Check for duplicate users
         connection.get().query('SELECT username FROM users WHERE username = ?',username, function (err, rows) {
-            if(rows.length > 0)
-            {
+            if(rows.length > 0) {
                 req.flash('Duplicate T#, please enter a unique T#','Duplicate T#, please enter a unique T#');
                 res.render('register', {
                     title: 'Register',
@@ -77,10 +79,10 @@ router.post('/register', ensureAuthenticated, function(req, res, next) {
                     username: username,
                     message: req.flash('Duplicate T#, please enter a unique T#')});
                     return;
-            }
+            } // End if
+
             //The user is unique, insert the user into the database and send them a token
-            else
-            {
+            else {
                 //generate token
                 var token = randtoken.generate(16);
 
@@ -91,7 +93,7 @@ router.post('/register', ensureAuthenticated, function(req, res, next) {
                         user: 'maplefssb@gmail.com',
                         pass: '123Maple123'
                     }
-                });
+                }); // End createTransport
 
                 // setup e-mail data with unicode symbols
                 var mailOptions = {
@@ -101,9 +103,9 @@ router.post('/register', ensureAuthenticated, function(req, res, next) {
                     html: '<p>Hello ' + first + ' ' + last + ', </p>' +
                     '<p>Click the following link to activate your account: </p>' +
                     'http://localhost:3000/activate/' + token
-                };
+                }; //End mailOptions
 
-                // send mail with defined transport object
+                // Send mail with defined transport object
                 transporter.sendMail(mailOptions, function(err, info){
                     if(err){
                         //Check if email can be sent
@@ -116,10 +118,11 @@ router.post('/register', ensureAuthenticated, function(req, res, next) {
                             username: username,
                             message: req.flash('The activation email did not send, please try again')});
                             return;
-                    }
+                    } //End if
                     console.log('Message sent: ' + info.response);
-                });
+                }); //End sendMail
 
+                //Create a user object
                 var user = {
                     first_name: first,
                     last_name: last,
@@ -128,7 +131,7 @@ router.post('/register', ensureAuthenticated, function(req, res, next) {
                     t_number: username,
                 };
 
-                // database insertion
+                // Create connection to add the user to the database
                 connection.get().query('INSERT INTO users SET ?', [user], function(err, result) {
                     if(err) {
                         req.flash('Our database servers maybe down, please try again','Our database servers maybe down, please try again');
@@ -140,15 +143,17 @@ router.post('/register', ensureAuthenticated, function(req, res, next) {
                             username: username,
                             message: req.flash('Our database servers maybe down, please try again')});
                             return;
-                    }
+                    } //End if
                     console.log("User added");
-                });
+                }); //End connection
 
+                //Create a token object
                 var token = {
                     t_number: username,
                     token: token
-                };
+                }; //End token
 
+                //Create a connection to add the email token to the database
                 connection.get().query('INSERT INTO tokens SET ?', [token], function(err, result) {
                     if(err) {
                         req.flash('Our database servers maybe down, please try again','Our database servers maybe down, please try again');
@@ -160,55 +165,66 @@ router.post('/register', ensureAuthenticated, function(req, res, next) {
                             username: username,
                             message: req.flash('Our database servers maybe down, please try again')});
                         return;
-                    }
+                    } //End if
 
-                        console.log("Token added");
-                        req.flash('success_messages', 'User successfully registered, a registration email has been sent');
-                        res.locals.success_messages = req.flash('success_messages');
-                        res.render('register', {
-                            title: 'Register',
-                            first: '',
-                            last: '',
-                            username: '',
-                            email: ''
-                        });
+                    console.log("Token added");
+                    req.flash('success_messages', 'User successfully registered, a registration email has been sent');
+                    res.locals.success_messages = req.flash('success_messages');
+                    res.render('register', {
+                         title: 'Register',
+                         first: '',
+                         last: '',
+                         username: '',
+                         email: ''
+                    }); //End render
+                }); //End connection for token
+            } //End else
+        }); //End connection for adding user to the database
+    } //End else
+}); //End post for register
 
-                });
-            }
-        });
 
-    }
-});
-
-// if accessing the register page, reset the form variables
+/**
+ * Get method for remove users
+ * When the page is loaded
+ */
 router.get('/remove', ensureAuthenticated, function(req, res, next) {
+    //Ensure user is logged in
     if(!req.user.privileged) {
-        return res.redirect('/users/');
+        return res.redirect('/users/'); //redirect if not
     }
 
+    //Connect to the database and get all the user to show the user the list of deletable users
     connection.get().query('SELECT * FROM users', function(err, results) {
         if(err) {
             throw next(err);
-        }
+        } //End if
 
         res.render('remove', {
             title: 'Remove',
             users: results
-        });
-    });
-});
+        }); //End user
+    }); // End connection for getting users
+}); //End get for Remove
 
+/**
+ * Post for remove
+ * When the submit button is pressed
+ */
 router.post('/remove', ensureAuthenticated, function(req, res, next) {
     if(!req.body) {
         return res.sendStatus(400);
-    }
+    } //End if
+
     if(!req.user.privileged) {
         return res.redirect('/users/');
-    }
+    } //End if
+
     if(req.body.submit == "cancel") {
         return res.redirect('/users/');
-    }
+    } //End if
 
+    //Connection for getting all the users
     connection.get().query('SELECT * FROM users', function (err, results) {
         if (err) {
             req.flash('Failed to delete user,our database servers maybe down.Please try again',
@@ -218,17 +234,20 @@ router.post('/remove', ensureAuthenticated, function(req, res, next) {
                 users: results,
                 message: req.flash('Failed to delete user,our database servers maybe down.Please try again')});
             return;
-        }
+        } //End if
 
-        var removeIds = [];
+        var removeIds = []; //User to be deleted
+
+        //Add to removeIds the user that where selected of the remove page
         results.forEach(function (value, index) {
             if (req.body.hasOwnProperty('remove' + value.t_number)) {
                 removeIds.push(value.t_number);
                 req.flash('success_messages', 'User successfully deleted');
                 res.locals.success_messages = req.flash('success_messages');
-            }
-        });
+            } //End is
+        }); //End forEach
 
+        //Connection for deleted the users. Deletes the users who are in 'removeIds'
         connection.get().query('DELETE FROM users WHERE t_number IN (?)', [removeIds.toString()], function (err, results) {
             if (err) {
                 req.flash('Failed to delete user,our database servers maybe down.Please try again',
@@ -238,12 +257,13 @@ router.post('/remove', ensureAuthenticated, function(req, res, next) {
                     users: results,
                     message: req.flash('Failed to delete user,our database servers maybe down.Please try again')});
                 return;
-            }
+            } //End if
+
             console.log('Users removed');
 
+            //Connection to get the the users after the selected users where deleted
             connection.get().query('SELECT * FROM users', function (err, results) {
-                if(err)
-                {
+                if(err) {
                     req.flash('Failed to delete user,our database servers maybe down.Please try again',
                         'Failed to delete user,our database servers maybe down.Please try again');
                     res.render('remove', {
@@ -251,26 +271,32 @@ router.post('/remove', ensureAuthenticated, function(req, res, next) {
                         users: results,
                         message: req.flash('Failed to delete user,our database servers maybe down.Please try again')});
                     return;
-                }
-                //else successful removal of user
+                } //End if
+
+                //Re render the remove users page
                 res.render('remove', {
                     title: 'Remove',
                     users: results
-                });
-            });
-        });
-    });
-});
+                }); //End render
+            }); //End connection for getting the users
+        }); //End connection for deleted the user
+    }); //End connection for selecting all the users
+}); //End post for remove
 
-//Observations list page
+/**
+ * Get for observations
+ * When the page is loaded, show the observations for each user
+ */
 router.get('/observations', ensureAuthenticated, function(req, res, next) {
     if(!req.body) {
         return res.sendStatus(400);
-    }
+    } //End if
+
     if(!req.user.privileged) {
         return res.redirect('/users/');
-    }
+    } //End if
 
+    //Create a observation object
     var observation = {
         observation_comment: undefined,
         behaviour_desc: undefined,
@@ -279,11 +305,14 @@ router.get('/observations', ensureAuthenticated, function(req, res, next) {
         observation_id: undefined,
         assigned_by: undefined,
         observation_type: undefined
-    };
+    }; //End observation object
+
+
+    //Brad you are here!!!!!!!!!!
+
     //get all of the employees in the users table
     connection.get().query('SELECT first_name, last_name,t_number FROM users ', function (err, userResults) {
-        if(err)
-        {
+        if(err) {
             req.flash('Our database servers maybe down.Please try again',
                 'Our database servers maybe down.Please try again');
             res.render('observations', {
@@ -291,13 +320,26 @@ router.get('/observations', ensureAuthenticated, function(req, res, next) {
                 message: req.flash('Our database servers maybe down.Please try again')});
             return;
         }
+        //TODO:Figure out how to assigned by to name, SQL is working below but jade cannot access json data
         //Get all of the observations for each employee ordered by date
+        /*
+        connection.get().query('DROP VIEW IF EXISTS namesColumn; '+
+            'CREATE VIEW namesColumn AS '+
+            'SELECT users.t_number, users.first_name, users.last_name, observations.assigned_by '+
+            'FROM users '+
+            'LEFT JOIN observations on users.t_number = observations.assigned_by; '+
+        'SELECT users.t_number, behaviour_desc, observations.observation_id, skills.skill_title, observations.observation_comment, observations.observation_date ,  observations.assigned_by, CONCAT_WS(" ", namesColumn.first_name, namesColumn.last_name) AS '+'assigned_by'+ ' FROM users '+
+        'LEFT JOIN observations on users.t_number = observations.assigned_to '+
+        'LEFT JOIN behaviours on observations.behaviour_id = behaviours.behaviour_id '+
+        'LEFT JOIN skills on behaviours.skill_id = skills.skill_id '+
+        'LEFT JOIN namesColumn on namesColumn.assigned_by = observations.assigned_by ', function (err, obsResults) {*/
+        connection.get().query(
+            'SELECT users.t_number, behaviour_desc, observations.observation_id, skills.skill_title, observations.observation_comment, observations.observation_date ,  observations.assigned_by, observations.observation_type  FROM users '+
+            'LEFT JOIN observations on users.t_number = observations.assigned_to '+
+            'LEFT JOIN behaviours on observations.behaviour_id = behaviours.behaviour_id '+
+            'LEFT JOIN skills on behaviours.skill_id = skills.skill_id ', function (err, obsResults) {
 
-        connection.get().query('SELECT users.t_number, behaviour_desc, observations.observation_id, skills.skill_title, observations.observation_comment, observations.observation_date, observations.observation_type , observations.assigned_by FROM users ' +
-        'LEFT JOIN observations on users.t_number = observations.assigned_to ' +
-        'LEFT JOIN behaviours on observations.behaviour_id = behaviours.behaviour_id ' +
-        'LEFT JOIN skills on behaviours.skill_id = skills.skill_id ' +
-        'ORDER BY observations.observation_date DESC', function (err, obsResults) {
+
             if(err)
             {
                 req.flash('Our database servers maybe down.Please try again',
@@ -307,6 +349,7 @@ router.get('/observations', ensureAuthenticated, function(req, res, next) {
                     message: req.flash('Our database servers maybe down.Please try again')});
                 return;
             }
+            console.log(obsResults);
             //Render the observations page with the list of users and observations
             res.render('observations', {
                 title: 'Observations',

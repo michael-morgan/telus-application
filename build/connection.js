@@ -14,7 +14,8 @@ exports.connect = function(done) {
         port: '3306',
         user: 'root',
         password: 'password',
-        database: 'build_db'
+        database: 'build_db',
+        multipleStatements: true
     });
     done();
 };
