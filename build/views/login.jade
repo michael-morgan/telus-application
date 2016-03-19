@@ -1,33 +1,33 @@
 extends layout
 
 block content
-  #login-wrapper
-    .container
-      .spacer
-      if (messages.length != 0)
-        .row
-          .col-md-6.col-md-offset-3
-            div.alert.alert-danger(role='alert')
-              .alert-title
-                i.fa.fa-exclamation-circle.fa-2x
-                strong Something went wrong!
-              p Sorry, the username or password you entered does not match our records. Please try again.
-      .row
-        .col-md-6.col-md-offset-3
-          .panel.panel-default.formPanel
-            .panel-heading.text-center.formTitle
-              | Login
-            .panel-body
-              form.form-horizontal(method='post', action='/', role='form')
-                .col-md-10.col-md-offset-1#usernameInput
-                  .input-group
-                    span.input-group-addon.formInput
-                      i.fa.fa-user.fa-fw
-                    input.form-control.formInput(name='username', placeholder='Username', type='text', maxlength='7', pattern='^[t]{1}[0-9]{6}')
-                .col-md-10.col-md-offset-1#passwordInput
-                  .input-group
-                    span.input-group-addon.formInput
-                      i.fa.fa-lock.fa-fw
-                    input.form-control.formInput(name='password', placeholder='Password', type='password')
-                .col-sm-6.col-sm-offset-3
-                  button.form-btn.btn.btn-success.btn-lg.btn-block(name='submit', type='submit') Sign in
+    #login-wrapper
+        .container
+            .spacer
+            if (messages.length != 0)
+                .row
+                    .col-md-6.col-md-offset-3
+                        div.alert.alert-danger(role='alert')
+                            .alert-title
+                                i.fa.fa-exclamation-circle.fa-2x
+                                strong Something went wrong!
+                            p Sorry, the username or password you entered does not match our records. Please try again.
+            .row
+                .col-md-6.col-md-offset-3
+                    .panel.panel-default.formPanel
+                        .panel-heading.text-center.formTitle
+                            | Login
+                        .panel-body
+                            form.form-horizontal(method='post', action='/', role='form')
+                                .col-md-10.col-md-offset-1#usernameInput
+                                    .input-group
+                                        span.input-group-addon.formInput
+                                            i.fa.fa-user.fa-fw
+                                        input.form-control.formInput(name='username', placeholder='Username', type='text', maxlength='7', pattern='^[t]{1}[0-9]{6}')
+                                .col-md-10.col-md-offset-1#passwordInput
+                                    .input-group
+                                        span.input-group-addon.formInput
+                                            i.fa.fa-lock.fa-fw
+                                        input.form-control.formInput(name='password', placeholder='Password', type='password')
+                                .col-sm-6.col-sm-offset-3
+                                    button.form-btn.btn.btn-success.btn-lg.btn-block(name='submit', type='submit') Sign in

@@ -22,6 +22,7 @@ block content
                 form.form-horizontal(method='post', role='form')
                     .form-group
                         .col-sm-10.col-sm-offset-1
+                            //Employee dropdown
                             | Add Observation for
                             select(required id='employeeDropdown' name='employeeDropdown')
                                 option(disabled selected value='0') Select Employee
@@ -34,6 +35,7 @@ block content
                                         option(value='#{user.t_number}') #{user.first_name} #{user.last_name}
                             #Behaviours
                                 #accordion.panel-group(role='tablist', aria-multiselectable='true')
+                                    //Show the list of skills
                                     each skill, i in skills
                                         .row
                                             .panel.panel-default
@@ -42,9 +44,9 @@ block content
                                                         h3.panel-title.text-left
                                                             a(role='button', data-toggle="collapse", data-parent='#accordion', href='#collapse#{i}', aria-expanded='false', aria-controls='collapse#{i}')
                                                                 | #{skill.skill_title}
-
                                             .panel-collapse.collapse(role='tabpanel', aria-labelledby='heading#{i}', id='collapse#{i}')
                                                 .panel-body
+                                                    //Show the list of behaviours for each skills
                                                     each behaviour, j in behaviours
                                                         if behaviour.behaviour_desc != undefined && skill.skill_id == behaviour.skill_id
                                                             .col-sm-8(id="behaviour#{behaviour.behaviour_id}") - #{behaviour.behaviour_desc}

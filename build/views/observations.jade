@@ -8,6 +8,7 @@ block content
         .col-md-12
             h1.page-header Observations
     #accordion.panel-group(role='tablist', aria-multiselectable='true')
+        //Show list of users
         each user, i in users
             .row
                 .panel.panel-default
@@ -21,6 +22,8 @@ block content
                                 i.fa.fa-plus-circle.fa-2x.pull-right
                     .panel-collapse.collapse(role='tabpanel', aria-labelledby='userHeading#{i}', id='userCollapse#{i}')
                         .panel-body
+
+                            //Show list of observations for each user
                             each observation, j in observations
                                 if (user.t_number == observation.t_number) && (observation.behaviour_desc != undefined)
                                     .panel.panel-default
@@ -33,6 +36,7 @@ block content
                                                         i.fa(class=((observation.observation_type == 1) ? 'fa-thumbs-up' : 'fa-thumbs-down'))
                                                     .col-sm-10.ellipsis
                                                         | #{observation.behaviour_desc}
+                                        //More details tab
                                         .panel-collapse.collapse(role='tabpanel', aria-labelledby='observationHeading#{j}', id='observationCollapse#{j}')
                                             .panel-body
                                                 .row
