@@ -8,6 +8,7 @@ block content
     .row
         .col-md-12
             h1.page-header #{title}
+            //If there is some kind of error, display something went wrong
             if(message)
                 .row
                     .col-md-6.col-md-offset-3
@@ -19,13 +20,16 @@ block content
     .row
         .container
             .panel-heading.text-center.formTitle
+                //Form for adding observation
                 form.form-horizontal(method='post', role='form')
                     .form-group
+                        //Area for the dropdown to select employee
                         .col-sm-10.col-sm-offset-1
                             //Employee dropdown
-                            | Add Observation for
+                            | Add Observation for &nbsp
                             select(required id='employeeDropdown' name='employeeDropdown')
                                 option(disabled selected value='0') Select Employee
+                                //Code gets every user in the employee table of the database for the select employee drop down
                                 each user, i in users
                                     if employee != undefined && employee == user.t_number
                                         option(value='#{user.t_number}' selected) #{user.first_name} #{user.last_name}
@@ -35,7 +39,7 @@ block content
                                         option(value='#{user.t_number}') #{user.first_name} #{user.last_name}
                             #Behaviours
                                 #accordion.panel-group(role='tablist', aria-multiselectable='true')
-                                    //Show the list of skills
+                                    //Show the list of skills from the skills table
                                     each skill, i in skills
                                         .row
                                             .panel.panel-default
@@ -49,8 +53,12 @@ block content
                                                     //Show the list of behaviours for each skills
                                                     each behaviour, j in behaviours
                                                         if behaviour.behaviour_desc != undefined && skill.skill_id == behaviour.skill_id
-                                                            .col-sm-8(id="behaviour#{behaviour.behaviour_id}") - #{behaviour.behaviour_desc}
-                                                            .col-sm-4
+                                                            //Display the behaviours on the left
+                                                            .col-sm-10(id="behaviour#{behaviour.behaviour_id}") - #{behaviour.behaviour_desc}
+                                                                //Separate between each behaviour
+                                                                hr
+                                                                //Display the thumbs up, thumbs down radio buttons on the right
+                                                            .col-sm-2
                                                                 .btn-group(data-toggle='buttons')
                                                                     label.btn.btn-primary
                                                                         input(type='radio', name='goodorbad', id='good#{behaviour.behaviour_id}', value='good#{behaviour.behaviour_id}', checked=goodorbad == "Good")

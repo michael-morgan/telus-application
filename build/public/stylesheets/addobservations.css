@@ -37,14 +37,12 @@ body {
 .btn-primary:hover, .btn-primary:active, .btn.btn-primary.active:hover {
 
     background-color: white !important;
-    bacground-image: none !important;
     box-shadow: none;
     color: green;
 }
 
 .btn-default:hover, .btn-default:active, .btn.btn-default.active:hover, .btn.btn-default:focus, .btn.btn-default.active:focus {
     background-color: white;
-    bacground-image: none !important;
     box-shadow: none;
     color: red;
     border-color: white;
@@ -70,4 +68,13 @@ body {
 
 .glyphicon-thumbs-up:before, .glyphicon-thumbs-down:before  {
     font-size:30px
+}
+.col-sm-10 {
+    font-size: 18px;
+    text-align: left;
+}
+
+.col-sm-10.col-sm-offset-1 {
+    font-size: 24px;
+    text-align: right;
 }
