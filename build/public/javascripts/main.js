@@ -4,7 +4,7 @@
 $(function() {
     $( ".unchecked" ).click(function() {
         $( ".btn").removeClass('active')
+        $("#submitObservation").removeClass('disabled')
+        var submitButton = document.getElementById("submitObservation").type = "submit";
     });
-
-
 });
