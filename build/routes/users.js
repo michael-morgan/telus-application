@@ -633,7 +633,7 @@ router.get('/add-observation/:employee', ensureAuthenticated, function (req, res
     }
     if(req.user.privileged == 1) {
         //Connection to get all of the employees in the users table
-        connection.get().query('SELECT first_name, last_name,t_number FROM users ', function (err, userResults) {
+        connection.get().query('SELECT first_name, last_name,t_number FROM users WHERE store_id = ? ', req.user.store_id, function (err, userResults) {
             //If an error is thrown
             if (err) {
                 req.flash('Our database servers maybe down.Please try again',
