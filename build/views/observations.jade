@@ -8,62 +8,74 @@ block content
         .col-md-12
             h1.page-header Observations
     #accordion.panel-group(role='tablist', aria-multiselectable='true')
-        //Show list of users
-        each user, i in users
+        //Show list of stores
+        each store, s in stores
             .row
                 .panel.panel-default
-                    .panel-heading(role='tab', id='userHeading#{i}', data-toggle='collapse', data-target='#userCollapse#{i}')
-                        //User
-                        .col-xs-10
-                            h3.panel-title
-                                a(role='button', data-parent='#accordion', href='#userCollapse#{i}', aria-expanded='false', aria-controls='userCollapse#{i}')
-                                    | #{user.first_name} #{user.last_name}
-                        //Add observation button
-                        .col-xs-2
-                            a(href='/users/add-observation/' + user.t_number)
-                                i.fa.fa-plus-circle.fa-2x.pull-right
-                    .panel-collapse.collapse(role='tabpanel', aria-labelledby='userHeading#{i}', id='userCollapse#{i}')
+                    .panel-heading(role='tab', id='storeHeading#{s}', data-toggle='collapse', data-target='#storeCollapse#{s}')
+                            //User
+                            .col-xs-10
+                                h3.panel-title
+                                    a(role='button', data-parent='#accordion', href='#storeCollapse#{s}', aria-expanded='false', aria-controls='storeCollapse#{s}')
+                                        | Store #: #{store.store_id} #{store.store_name}
+                    .panel-collapse.collapse(role='tabpanel', aria-labelledby='storeHeading#{s}', id='storeCollapse#{s}')
                         .panel-body
-                            //Show list of observations recorded for each user
-                            each observation, j in observations
-                                if (user.t_number == observation.t_number) && (observation.behaviour_desc != undefined)
+                            //Show list of users
+                            each user, i in users
+                                if user.store_id == store.store_id
                                     .panel.panel-default
-                                        .panel-heading(role='tab', class=((observation.observation_type == 1) ? 'good-observation' : 'bad-observation'), id='observationHeading#{j}', data-toggle='collapse', data-target='#observationCollapse#{j}')
-                                            h4.panel-title
-                                                a(role='button', data-parent='#accordion', href='#observationCollapse#{j}', aria-expanded='false', aria-controls='observationCollapse#{j}')
-                                                    //Area for the date
-                                                    .col-sm-1
-                                                        | #{observation.observation_date.toLocaleDateString()}
-                                                    //Area for the thumbs up or down, based on good/bad
-                                                    .col-sm-1.text-center
-                                                        i.fa(class=((observation.observation_type == 1) ? 'fa-thumbs-up' : 'fa-thumbs-down'))
-                                                    //Area for the observation
-                                                    .col-sm-10.ellipsis
-                                                        | #{observation.behaviour_desc}
-                                        //More details tab
-                                        .panel-collapse.collapse(role='tabpanel', aria-labelledby='observationHeading#{j}', id='observationCollapse#{j}')
+                                        .panel-heading(role='tab', id='userHeading#{i}', data-toggle='collapse', data-target='#userCollapse#{i}')
+                                            //User
+                                            .col-xs-10
+                                                h3.panel-title
+                                                    a(role='button', data-parent='#accordion', href='#userCollapse#{i}', aria-expanded='false', aria-controls='userCollapse#{i}')
+                                                        | #{user.first_name} #{user.last_name}
+                                            //Add observation button
+                                            .col-xs-2
+                                                a(href='/users/add-observation/' + user.t_number)
+                                                    i.fa.fa-plus-circle.fa-2x.pull-right
+                                        .panel-collapse.collapse(role='tabpanel', aria-labelledby='userHeading#{i}', id='userCollapse#{i}')
                                             .panel-body
-                                                .row
-                                                    //description of the behaviour
-                                                    .col-sm-12
-                                                        span.pull-left
-                                                            strong Description:
-                                                            | #{observation.behaviour_desc}
-                                                .row
-                                                    //Skill the behaviour belongs to
-                                                    .col-sm-12
-                                                        span.pull-left
-                                                            strong Skill:
-                                                            | #{observation.skill_title}
-                                                .row
-                                                    //Comments if there were any
-                                                    .col-sm-12
-                                                        span.pull-left
-                                                            strong Comment:
-                                                            | #{observation.observation_comment}
-                                                .row
-                                                    //Who assigned the observation
-                                                    .col-sm-12
-                                                        span.pull-right
-                                                            strong Observed by:
-                                                            | #{observation.assigned_by}
+                                                //Show list of observations recorded for each user
+                                                each observation, j in observations
+                                                    if (user.t_number == observation.t_number) && (observation.behaviour_desc != undefined)
+                                                        .panel.panel-default
+                                                            .panel-heading(role='tab', class=((observation.observation_type == 1) ? 'good-observation' : 'bad-observation'), id='observationHeading#{j}', data-toggle='collapse', data-target='#observationCollapse#{j}')
+                                                                h4.panel-title
+                                                                    a(role='button', data-parent='#accordion', href='#observationCollapse#{j}', aria-expanded='false', aria-controls='observationCollapse#{j}')
+                                                                        //Area for the date
+                                                                        .col-sm-1
+                                                                            | #{observation.observation_date.toLocaleDateString()}
+                                                                        //Area for the thumbs up or down, based on good/bad
+                                                                        .col-sm-1.text-center
+                                                                            i.fa(class=((observation.observation_type == 1) ? 'fa-thumbs-up' : 'fa-thumbs-down'))
+                                                                        //Area for the observation
+                                                                        .col-sm-10.ellipsis
+                                                                            | #{observation.behaviour_desc}
+                                                            //More details tab
+                                                            .panel-collapse.collapse(role='tabpanel', aria-labelledby='observationHeading#{j}', id='observationCollapse#{j}')
+                                                                .panel-body
+                                                                    .row
+                                                                        //description of the behaviour
+                                                                        .col-sm-12
+                                                                            span.pull-left
+                                                                                strong Description:
+                                                                                | #{observation.behaviour_desc}
+                                                                    .row
+                                                                        //Skill the behaviour belongs to
+                                                                        .col-sm-12
+                                                                            span.pull-left
+                                                                                strong Skill:
+                                                                                | #{observation.skill_title}
+                                                                    .row
+                                                                        //Comments if there were any
+                                                                        .col-sm-12
+                                                                            span.pull-left
+                                                                                strong Comment:
+                                                                                | #{observation.observation_comment}
+                                                                    .row
+                                                                        //Who assigned the observation
+                                                                        .col-sm-12
+                                                                            span.pull-right
+                                                                                strong Observed by:
+                                                                                | #{observation.assigned_by}
