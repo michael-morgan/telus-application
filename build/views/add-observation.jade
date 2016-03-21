@@ -62,12 +62,12 @@ block content
                                                                 .btn-group(data-toggle='buttons')
                                                                     label.btn.btn-primary
                                                                         input(type='radio', name='goodorbad', id='good#{behaviour.behaviour_id}', value='good#{behaviour.behaviour_id}', checked=goodorbad == "Good")
-                                                                        span.glyphicon.glyphicon-thumbs-up.unchecked
-                                                                        span.glyphicon.glyphicon-thumbs-up.checked
+                                                                        i.fa.fa-thumbs-up.unchecked
+                                                                        i.fa.fa-thumbs-up.checked
                                                                     label.btn.btn-default
                                                                         input(type='radio', name='goodorbad', id='good#{behaviour.behaviour_id}', value='bad#{behaviour.behaviour_id}',checked=goodorbad == "Bad")
-                                                                        span.glyphicon.glyphicon-thumbs-down.unchecked
-                                                                        span.glyphicon.glyphicon-thumbs-down.checked
+                                                                        i.fa.fa-thumbs-down.unchecked
+                                                                        i.fa.fa-thumbs-down.checked
                     .form-group
                         textarea(placeholder="Comments...", maxlength="300", id="commentBox" name="commentBox")
                     .form-group

@@ -66,7 +66,7 @@ body {
     color: black;
 }
 
-.glyphicon-thumbs-up:before, .glyphicon-thumbs-down:before  {
+.fa-thumbs-up:before, .fa-thumbs-down:before  {
     font-size:30px
 }
 .col-sm-10 {

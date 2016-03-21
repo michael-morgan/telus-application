@@ -74,6 +74,12 @@ block content
                                                                                 strong Comment:
                                                                                 | #{observation.observation_comment}
                                                                     .row
+                                                                        //Time of the observations
+                                                                        .col-sm-12
+                                                                            span.pull-left
+                                                                                strong Time:
+                                                                                | #{observation.observation_date.toLocaleTimeString()}
+                                                                    .row
                                                                         //Who assigned the observation
                                                                         .col-sm-12
                                                                             span.pull-right
