@@ -326,6 +326,7 @@ router.get('/observations', ensureAuthenticated, function (req, res, next) {
         observation_date: undefined,
         observation_id: undefined,
         assigned_by: undefined,
+        assigned_by_name: undefined,
         observation_type: undefined
     }; //End observation object
 
@@ -363,26 +364,24 @@ router.get('/observations', ensureAuthenticated, function (req, res, next) {
                     return;
                 } //End if
 
-                //TODO:Figure out how to assigned by to name, SQL is working below but jade cannot access json data
-                /*
-                 connection.get().query('DROP VIEW IF EXISTS namesColumn; '+
-                 'CREATE VIEW namesColumn AS '+
-                 'SELECT users.t_number, users.first_name, users.last_name, observations.assigned_by '+
-                 'FROM users '+
-                 'LEFT JOIN observations on users.t_number = observations.assigned_by; '+
-                 'SELECT users.t_number, behaviour_desc, observations.observation_id, skills.skill_title, observations.observation_comment, observations.observation_date ,  observations.assigned_by, CONCAT_WS(" ", namesColumn.first_name, namesColumn.last_name) AS '+'assigned_by'+ ' FROM users '+
-                 'LEFT JOIN observations on users.t_number = observations.assigned_to '+
-                 'LEFT JOIN behaviours on observations.behaviour_id = behaviours.behaviour_id '+
-                 'LEFT JOIN skills on behaviours.skill_id = skills.skill_id '+
-                 'LEFT JOIN namesColumn on namesColumn.assigned_by = observations.assigned_by ', function (err, obsResults) {*/
+                //Connection to get all of the observations for each employee ordered by date
+                //connection.get().query(
+                //    'SELECT users.t_number, behaviour_desc, observations.observation_id, skills.skill_title, observations.observation_comment, ' +
+                //    'observations.observation_date ,  observations.assigned_by, observations.observation_type  FROM users ' +
+                //    'LEFT JOIN observations on users.t_number = observations.assigned_to ' +
+                //    'LEFT JOIN behaviours on observations.behaviour_id = behaviours.behaviour_id ' +
+                //    'LEFT JOIN skills on behaviours.skill_id = skills.skill_id ORDER BY observations.observation_date DESC ', function (err, obsResults) {
 
                 //Connection to get all of the observations for each employee ordered by date
                 connection.get().query(
-                    'SELECT users.t_number, behaviour_desc, observations.observation_id, skills.skill_title, observations.observation_comment, ' +
-                    'observations.observation_date ,  observations.assigned_by, observations.observation_type  FROM users ' +
-                    'LEFT JOIN observations on users.t_number = observations.assigned_to ' +
-                    'LEFT JOIN behaviours on observations.behaviour_id = behaviours.behaviour_id ' +
-                    'LEFT JOIN skills on behaviours.skill_id = skills.skill_id ORDER BY observations.observation_date DESC ', function (err, obsResults) {
+                    'SELECT users.t_number, behaviour_desc, observations.observation_id, skills.skill_title, observations.observation_comment, observations.observation_date , ' +
+                    'observations.assigned_by, ASSIGNED_BY_STATEMENT.full_name AS assigned_by_name, observations.observation_type FROM users ' +
+                    'INNER JOIN observations on users.t_number = observations.assigned_to ' +
+                    'INNER JOIN behaviours on observations.behaviour_id = behaviours.behaviour_id ' +
+                    'INNER JOIN skills on behaviours.skill_id = skills.skill_id ' +
+                    'INNER JOIN (SELECT users.t_number AS assigned_by, observations.assigned_to AS assigned_to, CONCAT(users.first_name, " ", users.last_name) AS full_name FROM users ' +
+                    'INNER JOIN observations on users.t_number = observations.assigned_by) as ASSIGNED_BY_STATEMENT on observations.assigned_by = ASSIGNED_BY_STATEMENT.assigned_by ' +
+                    'GROUP BY observations.observation_id ORDER BY observations.observation_date DESC ', function (err, obsResults) {
                         //If an error is thrown
                         if (err) {
                             req.flash('Our database servers maybe down.Please try again',
@@ -423,26 +422,24 @@ router.get('/observations', ensureAuthenticated, function (req, res, next) {
                         return;
                     } //End if
 
-                    //TODO:Figure out how to assigned by to name, SQL is working below but jade cannot access json data
-                    /*
-                     connection.get().query('DROP VIEW IF EXISTS namesColumn; '+
-                     'CREATE VIEW namesColumn AS '+
-                     'SELECT users.t_number, users.first_name, users.last_name, observations.assigned_by '+
-                     'FROM users '+
-                     'LEFT JOIN observations on users.t_number = observations.assigned_by; '+
-                     'SELECT users.t_number, behaviour_desc, observations.observation_id, skills.skill_title, observations.observation_comment, observations.observation_date ,  observations.assigned_by, CONCAT_WS(" ", namesColumn.first_name, namesColumn.last_name) AS '+'assigned_by'+ ' FROM users '+
-                     'LEFT JOIN observations on users.t_number = observations.assigned_to '+
-                     'LEFT JOIN behaviours on observations.behaviour_id = behaviours.behaviour_id '+
-                     'LEFT JOIN skills on behaviours.skill_id = skills.skill_id '+
-                     'LEFT JOIN namesColumn on namesColumn.assigned_by = observations.assigned_by ', function (err, obsResults) {*/
+                    //Connection to get all of the observations for each employee ordered by date
+                    //connection.get().query(
+                    //    'SELECT users.t_number, behaviour_desc, observations.observation_id, skills.skill_title, observations.observation_comment, ' +
+                    //    'observations.observation_date ,  observations.assigned_by, observations.observation_type  FROM users ' +
+                    //    'LEFT JOIN observations on users.t_number = observations.assigned_to ' +
+                    //    'LEFT JOIN behaviours on observations.behaviour_id = behaviours.behaviour_id ' +
+                    //    'LEFT JOIN skills on behaviours.skill_id = skills.skill_id ORDER BY observations.observation_date DESC ', function (err, obsResults) {
 
                     //Connection to get all of the observations for each employee ordered by date
                     connection.get().query(
-                        'SELECT users.t_number, behaviour_desc, observations.observation_id, skills.skill_title, observations.observation_comment, ' +
-                        'observations.observation_date ,  observations.assigned_by, observations.observation_type  FROM users ' +
-                        'LEFT JOIN observations on users.t_number = observations.assigned_to ' +
-                        'LEFT JOIN behaviours on observations.behaviour_id = behaviours.behaviour_id ' +
-                        'LEFT JOIN skills on behaviours.skill_id = skills.skill_id ORDER BY observations.observation_date DESC ', function (err, obsResults) {
+                        'SELECT users.t_number, behaviour_desc, observations.observation_id, skills.skill_title, observations.observation_comment, observations.observation_date , ' +
+                        'observations.assigned_by, ASSIGNED_BY_STATEMENT.full_name AS assigned_by_name, observations.observation_type FROM users ' +
+                        'INNER JOIN observations on users.t_number = observations.assigned_to ' +
+                        'INNER JOIN behaviours on observations.behaviour_id = behaviours.behaviour_id ' +
+                        'INNER JOIN skills on behaviours.skill_id = skills.skill_id ' +
+                        'INNER JOIN (SELECT users.t_number AS assigned_by, observations.assigned_to AS assigned_to, CONCAT(users.first_name, " ", users.last_name) AS full_name FROM users ' +
+                        'INNER JOIN observations on users.t_number = observations.assigned_by) as ASSIGNED_BY_STATEMENT on observations.assigned_by = ASSIGNED_BY_STATEMENT.assigned_by ' +
+                        'GROUP BY observations.observation_id ORDER BY observations.observation_date DESC ', function (err, obsResults) {
                             //If an error is thrown
                             if (err) {
                                 req.flash('Our database servers maybe down.Please try again',
@@ -782,9 +779,10 @@ router.post('/add-observation', ensureAuthenticated, function (req, res, next) {
     }
 
     //Ensure user is logged in
-    if (!req.user.privileged) {
-        return res.redirect('/users/');
-    }
+    //if (!req.user.privileged == null) {
+    //    return res.redirect('/users/');
+    //}
+
     //Check that the user has selected an employee
     if (req.body.employeeDropdown != undefined && req.body.goodorbad != undefined) {
         //Store form variables
@@ -977,9 +975,9 @@ router.post('/add-observation/:employee', ensureAuthenticated, function (req, re
     }
 
     //Ensure user is logged in
-    if (!req.user.privileged) {
-        return res.redirect('/users/');
-    }
+    //if (!req.user.privileged) {
+    //    return res.redirect('/users/');
+    //}
     //Check that the user has selected an employee
     if (req.body.employeeDropdown != undefined && req.body.goodorbad != undefined) {
         //Store form variables
