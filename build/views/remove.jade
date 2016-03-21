@@ -17,11 +17,19 @@ block content
             if(success_messages != null)
                 .row
                     .col-md-6.col-md-offset-0
-                        div.success.alert-success(role='success')
+                        div.success.alert.alert-success(role='success')
                             .alert-title
                                 i.fa.fa-check.fa-2x
                                 strong Great!
                             p !{success_messages}
+            if(error_messages != null)
+                .row
+                    .col-md-6.col-md-offset-0
+                        div.alert.alert-danger(role='alert')
+                            .alert-title
+                                i.fa.fa-exclamation-circle.fa-2x
+                                strong Whoops...
+                            p !{error_messages}
             if errors
                 ul
                     for error in errors

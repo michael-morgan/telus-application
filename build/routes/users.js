@@ -261,9 +261,21 @@ router.post('/remove', ensureAuthenticated, function (req, res, next) {
         //Add to removeIds the user that where selected of the remove page
         results.forEach(function (value, index) {
             if (req.body.hasOwnProperty('remove' + value.t_number)) {
-                removeIds.push(value.t_number);
-                req.flash('success_messages', 'User successfully deleted');
-                res.locals.success_messages = req.flash('success_messages');
+                //Check if the user is trying to delete themselves
+                if(req.user.t_number == value.t_number){
+                    console.log("Can\'t delete yourself!")
+                    req.flash('message', 'Can\'t delete yourself! Please try again.');
+
+                    req.flash('error_messages', 'Can\'t delete yourself!');
+                    res.locals.error_messages = req.flash('error_messages');
+                } //End if
+
+                //Else add to the delete query
+                else {
+                    removeIds.push(value.t_number);
+                    req.flash('success_messages', 'User successfully deleted');
+                    res.locals.success_messages = req.flash('success_messages');
+                } //End else
             } //End is
         }); //End forEach
 
