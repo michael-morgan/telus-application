@@ -1225,5 +1225,16 @@ function getCurrentDate() {
     return today;
 } //End getCurrentDate
 
+// If accessing the register page, reset the form variables
+router.get('/settings', ensureAuthenticated, function (req, res, next) {
+    if (!req.user.privileged) {
+        return res.redirect('/users/');
+    }
+
+    //Show the register page
+    res.render('settings', {
+        title: 'Settings'
+    });
+});
 module.exports = router;
 
