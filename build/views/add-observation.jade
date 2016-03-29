@@ -3,7 +3,7 @@ extends layout
 block append stylesheet
     link(rel='stylesheets', href='/stylesheets/bootstrap.min.css')
     link(rel='stylesheet', href='/stylesheets/observations.css')
-    link(rel='stylesheet', href='/stylesheets/addobservations.css')
+    link(rel='stylesheet', href='/stylesheets/add-observations.css')
 block content
     .row
         .col-md-12
@@ -18,57 +18,55 @@ block content
                                 strong Something went wrong!
                             p !{message}
     .row
-        .container
-            .panel-heading.text-center.formTitle
-                //Form for adding observation
-                form.form-horizontal(method='post', role='form')
-                    .form-group
-                        //Area for the dropdown to select employee
-                        .col-sm-10.col-sm-offset-1
-                            //Employee dropdown
-                            | Add Observation for &nbsp
-                            select(required id='employeeDropdown' name='employeeDropdown')
-                                option(disabled selected value='0') Select Employee
-                                //Code gets every user in the employee table of the database for the select employee drop down
-                                each user, i in users
-                                    if employee != undefined && employee == user.t_number
-                                        option(value='#{user.t_number}' selected) #{user.first_name} #{user.last_name}
-                                    else if selectedEmployee != undefined && selectedEmployee == user.t_number
-                                        option(value='#{user.t_number}' selected) #{user.first_name} #{user.last_name}
-                                    else
-                                        option(value='#{user.t_number}') #{user.first_name} #{user.last_name}
-                            #Behaviours
-                                #accordion.panel-group(role='tablist', aria-multiselectable='true')
-                                    //Show the list of skills from the skills table
-                                    each skill, i in skills
-                                        .row
-                                            .panel.panel-default
-                                                .panel-heading(role='tab', id='heading#{i}', data-toggle='collapse', data-target='#collapse#{i}')
-                                                    .col-xs-10
-                                                        h3.panel-title.text-left
-                                                            a(role='button', data-toggle="collapse", data-parent='#accordion', href='#collapse#{i}', aria-expanded='false', aria-controls='collapse#{i}')
-                                                                | #{skill.skill_title}
-                                            .panel-collapse.collapse(role='tabpanel', aria-labelledby='heading#{i}', id='collapse#{i}')
-                                                .panel-body
-                                                    //Show the list of behaviours for each skills
-                                                    each behaviour, j in behaviours
-                                                        if behaviour.behaviour_desc != undefined && skill.skill_id == behaviour.skill_id
-                                                            //Display the behaviours on the left
-                                                            .col-sm-10(id="behaviour#{behaviour.behaviour_id}") - #{behaviour.behaviour_desc}
-                                                                //Separate between each behaviour
-                                                                hr
-                                                                //Display the thumbs up, thumbs down radio buttons on the right
-                                                            .col-sm-2
-                                                                .btn-group(data-toggle='buttons')
-                                                                    label.btn.btn-primary
-                                                                        input(type='radio', name='goodorbad', id='good#{behaviour.behaviour_id}', value='good#{behaviour.behaviour_id}', checked=goodorbad == "Good")
-                                                                        i.fa.fa-thumbs-up.unchecked
-                                                                        i.fa.fa-thumbs-up.checked
-                                                                    label.btn.btn-default
-                                                                        input(type='radio', name='goodorbad', id='good#{behaviour.behaviour_id}', value='bad#{behaviour.behaviour_id}',checked=goodorbad == "Bad")
-                                                                        i.fa.fa-thumbs-down.unchecked
-                                                                        i.fa.fa-thumbs-down.checked
-                    .form-group
-                        textarea(placeholder="Comments...", maxlength="300", id="commentBox" name="commentBox")
-                    .form-group
-                        button#submitObservation.form-btn.btn.btn-lg.btn-block.disabled(name='submit', type='button') Submit
+        .panel-heading.text-center.formTitle
+            //Form for adding observation
+            form.form-horizontal(method='post', role='form')
+                .form-group
+                    //Area for the dropdown to select employee
+                    .col-sm-10.col-sm-offset-1
+                        //Employee dropdown
+                        | Add Observation for &nbsp
+                        select(required id='employeeDropdown' name='employeeDropdown')
+                            option(disabled selected value='0') Select Employee
+                            //Code gets every user in the employee table of the database for the select employee drop down
+                            each user, i in users
+                                if employee != undefined && employee == user.t_number
+                                    option(value='#{user.t_number}' selected) #{user.first_name} #{user.last_name}
+                                else if selectedEmployee != undefined && selectedEmployee == user.t_number
+                                    option(value='#{user.t_number}' selected) #{user.first_name} #{user.last_name}
+                                else
+                                    option(value='#{user.t_number}') #{user.first_name} #{user.last_name}
+                        #accordion.panel-group(role='tablist', aria-multiselectable='true')
+                            //Show the list of skills from the skills table
+                            each skill, i in skills
+                                .row
+                                    .panel.panel-default
+                                        .panel-heading(role='tab', id='heading#{i}', data-toggle='collapse', data-target='#collapse#{i}')
+                                            .col-xs-10
+                                                h3.panel-title.text-left
+                                                    a(role='button', data-toggle="collapse", data-parent='#accordion', href='#collapse#{i}', aria-expanded='false', aria-controls='collapse#{i}')
+                                                        | #{skill.skill_title}
+                                    .panel-collapse.collapse(role='tabpanel', aria-labelledby='heading#{i}', id='collapse#{i}')
+                                        .panel-body
+                                            //Show the list of behaviours for each skills
+                                            each behaviour, j in behaviours
+                                                if behaviour.behaviour_desc != undefined && skill.skill_id == behaviour.skill_id
+                                                    //Display the behaviours on the left
+                                                    .col-sm-10(id="behaviour#{behaviour.behaviour_id}") - #{behaviour.behaviour_desc}
+                                                        //Separate between each behaviour
+                                                        hr
+                                                        //Display the thumbs up, thumbs down radio buttons on the right
+                                                    .col-sm-2
+                                                        .btn-group(data-toggle='buttons')
+                                                            label.btn.btn-primary
+                                                                input(type='radio', name='goodorbad', id='good#{behaviour.behaviour_id}', value='good#{behaviour.behaviour_id}', checked=goodorbad == "Good")
+                                                                i.fa.fa-thumbs-up.unchecked
+                                                                i.fa.fa-thumbs-up.checked
+                                                            label.btn.btn-default
+                                                                input(type='radio', name='goodorbad', id='good#{behaviour.behaviour_id}', value='bad#{behaviour.behaviour_id}',checked=goodorbad == "Bad")
+                                                                i.fa.fa-thumbs-down.unchecked
+                                                                i.fa.fa-thumbs-down.checked
+                .form-group
+                    textarea(placeholder="Comments...", maxlength="300", id="commentBox" name="commentBox")
+                .form-group
+                    button#submitObservation.form-btn.btn.btn-lg.btn-block.disabled(name='submit', type='button') Submit

@@ -8,7 +8,7 @@ block content
         .col-sm-8.col-sm-offset-3
             if(message)
                 .row
-                    .col-md-6.col-md-offset-0
+                    .col-md-12
                         div.alert.alert-danger(role='alert')
                             .alert-title
                                 i.fa.fa-exclamation-circle.fa-2x
@@ -16,7 +16,7 @@ block content
                             p !{message}
             if(success_messages != null)
                 .row
-                    .col-md-6.col-md-offset-0
+                    .col-md-12
                         div.success.alert.alert-success(role='success')
                             .alert-title
                                 i.fa.fa-check.fa-2x
@@ -24,7 +24,7 @@ block content
                             p !{success_messages}
             if(error_messages != null)
                 .row
-                    .col-md-6.col-md-offset-0
+                    .col-md-12
                         div.alert.alert-danger(role='alert')
                             .alert-title
                                 i.fa.fa-exclamation-circle.fa-2x
