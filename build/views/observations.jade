@@ -7,6 +7,14 @@ block content
     .row
         .col-md-12
             h1.page-header Observations
+            if(success_messages != null)
+                .row
+                    .col-md-6.col-md-offset-3
+                        div.success.alert-success(role='success')
+                            .alert-title
+                                i.fa.fa-check.fa-2x
+                                strong Great!
+                            p !{success_messages}
     #accordion.panel-group(role='tablist', aria-multiselectable='true')
         //Show list of stores
         each store, s in stores
