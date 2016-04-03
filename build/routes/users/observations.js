@@ -15,6 +15,7 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
     var returnObj = {
         title: 'Observations'
     };
+
     //Display success message on adding observation
     if(req.session.success)
     {
@@ -22,6 +23,7 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
         res.locals.success_messages = req.flash('success_messages');
         req.session.success = false;
     }
+
     //Check if the current logged in user is a manager
     connection.get().query('SELECT stores.store_id, store_name,t_number FROM  stores ' +
         'INNER JOIN users ON stores.store_id = users.store_id ' +
@@ -253,7 +255,6 @@ router.get('/add-observation/:employee', ensureAuthenticated, function (req, res
     }
 });
 
-
 /**
  * When the observation is submitted, this router.post gets triggered.
  * It takes the form values from the front-end page and inserts them into the observations table
@@ -266,6 +267,7 @@ router.post('/add-observation', ensureAuthenticated, function (req, res, next) {
     var returnObj = {
         title: 'Observations'
     };
+
     //Check that the user has selected an employee
     if (req.body.employeeDropdown != undefined && req.body.goodorbad != undefined) {
         //Store form variables
@@ -294,7 +296,6 @@ router.post('/add-observation', ensureAuthenticated, function (req, res, next) {
             observation_comment: observationComment
         }; //End observation
 
-
         //Inserting the data into the observations table using a JSON array
         connection.get().query('INSERT INTO observations SET ?', [observation], function (err, result) {
             //If an error is thrown
@@ -313,7 +314,6 @@ router.post('/add-observation', ensureAuthenticated, function (req, res, next) {
             } //End if
             req.flash('success_messages', 'Observation successfully added!');
             res.locals.success_messages = req.flash('success_messages');
-
 
             //Connection to get all of the employees in the users table
             connection.get().query('SELECT first_name, last_name,t_number FROM users ', function (err, userResults) {
@@ -344,8 +344,6 @@ router.post('/add-observation', ensureAuthenticated, function (req, res, next) {
             }); //End connection for users
         });
     }
-
-    //Display error message if a user has not selected an employee for the dropdown
     else {
         returnObj['title'] = 'Add Observation';
         //Connection to get all of the employees in the users table
@@ -408,7 +406,6 @@ router.post('/add-observation', ensureAuthenticated, function (req, res, next) {
     }
 });
 
-
 /**
  * When the observation is submitted, this router.post gets triggered.  It takes the form values from the front-end page and inserts them into the observations table
  * This method is called when there is an t_number in the url
@@ -446,7 +443,7 @@ router.post('/add-observation/:employee', ensureAuthenticated, function (req, re
             observation_date: observationDate,
             observation_type: observationType,
             observation_comment: observationComment
-        }; //End observation
+        };
 
         console.log(observation);
 
@@ -467,8 +464,7 @@ router.post('/add-observation/:employee', ensureAuthenticated, function (req, re
                 return res.render('add-observation',returnObj); //End render
                 //Render the page wth error messages
 
-            } //End if
-
+            }
 
             req.flash('success_messages', 'The observation was successfully added to the database.');
             res.locals.success_messages = req.flash('success_messages');
@@ -480,7 +476,7 @@ router.post('/add-observation/:employee', ensureAuthenticated, function (req, re
                     returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');
                     //Render the page wth error messages
                     return res.render('observations',returnObj); //End render
-                } //End if
+                }
 
                 //Get all of the observations for each employee
                 connection.get().query('SELECT users.t_number, behaviour_desc, observations.observation_id, skills.skill_title, ' +
@@ -496,11 +492,11 @@ router.post('/add-observation/:employee', ensureAuthenticated, function (req, re
                     } //End if
                     req.session.success = true;
                     return res.redirect('/users/observations');
-                }); //End connection for observations for each employee
-            }); //End connection for users
-        }); //End connection for insert
+                });
+            });
+        });
 
-    } //End if - (req.body.employeeDropdown != undefined && req.body.goodorbad != undefined)
+    }
 
     //Display error message if a user has not selected an employee for the dropdown
     else {
@@ -581,7 +577,7 @@ function selectAllUsers(callback) {
         } else
             callback(null, rows);
     });
-};
+}
 
 //Select all observations and order them in a descending order
 function getAllObservations(callback) {
@@ -598,7 +594,8 @@ function getAllObservations(callback) {
         } else
             callback(null, rows);
     });
-};
+}
+
 //Select all skills in the db
 function getAllSkills(callback) {
     connection.get().query('SELECT skills.skill_title, skills.skill_id FROM skills', function(err, rows) {
@@ -607,7 +604,8 @@ function getAllSkills(callback) {
         } else
             callback(null, rows);
     });
-};
+}
+
 //Select all behaviours in the db
 function getAllBehaviours(callback) {
     connection.get().query('SELECT behaviours.behaviour_desc, behaviour_id, skills.skill_id FROM behaviours ' +
@@ -617,7 +615,7 @@ function getAllBehaviours(callback) {
         } else
             callback(null, rows);
     });
-};
+}
 
 /**
  * Custom function that return the current date and time

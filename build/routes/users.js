@@ -237,8 +237,6 @@ router.post('/remove', ensureAuthenticated, function (req, res, next) {
     });
 });
 
-
-
 // Get method for the logout page
 router.get('/logout', ensureAuthenticated, function (req, res) {
     req.logout(); //Log the user out
@@ -262,6 +260,7 @@ router.get('/settings', ensureAuthenticated, function (req, res, next) {
         title: 'Settings'
     });
 });
+
 //Select all users in the db
 function selectAllUsers(callback) {
     connection.get().query('SELECT * FROM users', function(err, rows) {
@@ -270,6 +269,6 @@ function selectAllUsers(callback) {
         } else
             callback(null, rows);
     });
-};
+}
 
 module.exports = router;
