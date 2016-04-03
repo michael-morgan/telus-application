@@ -9,7 +9,7 @@ block content
             h1.page-header Observations
             if(success_messages != null)
                 .row
-                    .col-md-6.col-md-offset-3
+                    .col-md-12
                         div.success.alert-success(role='success')
                             .alert-title
                                 i.fa.fa-check.fa-2x
@@ -40,7 +40,7 @@ block content
                                                         | #{user.first_name} #{user.last_name}
                                             //Add observation button
                                             .col-xs-2
-                                                a(href='/users/add-observation/' + user.t_number)
+                                                a(href='/users/observations/add-observation/' + user.t_number)
                                                     i.fa.fa-plus-circle.fa-2x.pull-right
                                         .panel-collapse.collapse(role='tabpanel', aria-labelledby='userHeading#{i}', id='userCollapse#{i}')
                                             .panel-body
