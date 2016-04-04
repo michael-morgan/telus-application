@@ -15,7 +15,7 @@ block content
     if(success_messages != null)
         .row
             .col-md-6.col-md-offset-3
-                div.success.alert-success(role='success')
+                div.alert.success.alert-success(role='success')
                     .alert-title
                         i.fa.fa-check.fa-2x
                         strong Great!
@@ -35,7 +35,7 @@ block content
             .panel.panel-default.formPanel
                 .panel-heading.text-center.formTitle
                     i.fa.fa-user.fa-2x.col-sm-12
-                    | Register
+                    | Enter User Info
                 .panel-body
                     form.form-horizontal(method='post', action='/users/register', role='form')
                         .form-group
@@ -53,6 +53,6 @@ block content
                         .form-group.last
                             .col-sm-10.col-sm-offset-2
                                 .col-sm-5
-                                    button.form-btn.btn.btn-primary.btn-lg.btn-block(name='submit', type='submit', value='cancel') Cancel
-                                .col-sm-5
                                     button.form-btn.btn.btn-success.btn-lg.btn-block(name='submit', type='submit', value='register') Register
+                                .col-sm-5
+                                    button.form-btn.btn.btn-primary.btn-lg.btn-block(name='submit', type='submit', value='cancel') Cancel

@@ -3,9 +3,8 @@ extends layout
 block content
     .row
         .col-md-12
-            h1.page-header Remove
+            h1.page-header Modify Users
     .row
-        .col-sm-8.col-sm-offset-3
             if(message)
                 .row
                     .col-md-12
@@ -35,8 +34,6 @@ block content
                     for error in errors
                         li!= error.msg
             .panel.panel-default.formPanel
-                .panel-heading.formTitle
-                    h2 Remove User
                 .panel-body
                     .table-responsive
                         form.form-horizontal(method='post', action='/users/remove', role='form')
@@ -61,6 +58,6 @@ block content
                                                 input(name='remove#{user.t_number}' type='checkbox')
                             .col-sm-10.col-sm-offset-2
                                 .col-sm-5
-                                    button.form-btn.btn.btn-primary.btn-lg.btn-block(name='submit', type='submit', value='cancel') Cancel
-                                .col-sm-5
                                     button.form-btn.btn.btn-danger.btn-lg.btn-block(name='submit', type='submit', value='remove') Remove
+                                .col-sm-5
+                                    button.form-btn.btn.btn-primary.btn-lg.btn-block(name='submit', type='submit', value='cancel') Cancel

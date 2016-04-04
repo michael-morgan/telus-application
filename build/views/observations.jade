@@ -10,7 +10,7 @@ block content
             if(success_messages != null)
                 .row
                     .col-md-12
-                        div.success.alert-success(role='success')
+                        div.alert.success.alert-success(role='success')
                             .alert-title
                                 i.fa.fa-check.fa-2x
                                 strong Great!
@@ -61,7 +61,7 @@ block content
                                                                         .col-sm-10.ellipsis
                                                                             | #{observation.behaviour_desc}
                                                             //More details tab
-                                                            .panel-collapse.collapse(role='tabpanel', aria-labelledby='observationHeading#{j}', id='observationCollapse#{j}')
+                                                            .panel-collapse.collapse.custom-panel(role='tabpanel', aria-labelledby='observationHeading#{j}', id='observationCollapse#{j}')
                                                                 .panel-body
                                                                     .row
                                                                         //description of the behaviour

@@ -10,8 +10,16 @@ $(function() {
         $( ".btn").removeClass('active');
 
         //When the user selects a behaviour, the submit button is enabled and the observation can be submitted.
-        $("#submitObservation").removeClass('disabled')
-        $("#submitObservation").addClass('btn-success')
-        var submitButton = document.getElementById("submitObservation").type = "submit";
+        if($("#employeeDropdown option:selected").text() != "Select Employee") {
+            $("#submitObservation").removeClass('disabled')
+            $("#submitObservation").addClass('btn-success')
+            var submitButton = document.getElementById("submitObservation").type = "submit";
+        }
+
+        $('#employeeDropdown').change(function() {
+            $("#submitObservation").removeClass('disabled')
+            $("#submitObservation").addClass('btn-success')
+            var submitButton = document.getElementById("submitObservation").type = "submit";
+        });
     });
 });

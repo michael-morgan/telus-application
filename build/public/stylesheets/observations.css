@@ -26,7 +26,6 @@
 }
 
 #accordion h3 {
-    font-weight: bold;
     font-size: 24px;
 }
 
@@ -50,4 +49,8 @@
 
 #accordion .good-observation {
     background-color: #dff0d8;
+}
+
+.panel-title a:hover{
+    color:#000 !important;
 }

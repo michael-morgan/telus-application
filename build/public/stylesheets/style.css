@@ -1,9 +1,32 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic);
+
 #wrapper #page-wrapper * {
   border-radius: 0;
 }
 
 body {
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 14px 'Open Sans', sans-serif;
+}
+
+a{
+  color: #61437F;
+  -webkit-transition: all .4s ease-in-out;
+  -moz-transition: all .4s ease-in-out;
+  -o-transition: all .4s ease-in-out;
+  transition: all .4s ease-in-out;
+}
+
+a:hover{
+  color: #8c68a6;
+  text-decoration: none;
+}
+
+.btn {
+  padding: 6px 10px;
+  -webkit-transition: all .2s ease-in-out;
+  -moz-transition: all .2s ease-in-out;
+  -o-transition: all .2s ease-in-out;
+  transition: all .2s ease-in-out;
 }
 
 .spacer {
@@ -39,7 +62,6 @@ body {
 
 .formTitle {
   font-size: 30px;
-  padding-top: 35px;
   padding-bottom: 10px;
 }
 
@@ -53,9 +75,7 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: #8c68a6;
-  /*background-color: #4b286d;*/
-  /*background-color: #49166d;*/
+  background-color: #49166D;
 }
 
 #login-wrapper>.container {
@@ -87,9 +107,33 @@ body {
   margin: 0;
   min-height: 75px;
   padding: 10px;
-  width: 25%;
+  width: 50%;
   resize: none;
   color: #4d4d4d;
   font-size: 14px;
   line-height: 18px;
+  margin: 0 auto;
+  float: none !Important;
+}
+
+.obs-btn{
+  width:25%;
+}
+
+.good-observation {
+  border: 1px solid green !Important;
+}
+
+.bad-observation {
+  border: 1px solid red !Important;
+}
+
+h4.panel-title {
+  padding: 10px 0 0 0;
+}
+
+.custom-panel {
+  border-style: solid;
+  border-width: 0 1px 1px 1px;
+  border-color: #333;
 }
