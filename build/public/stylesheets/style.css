@@ -1,6 +1,6 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic);
 
-#wrapper #page-wrapper * {
+#wrapper #main-content * {
   border-radius: 0;
 }
 
@@ -136,4 +136,9 @@ h4.panel-title {
   border-style: solid;
   border-width: 0 1px 1px 1px;
   border-color: #333;
+}
+
+.row {
+  margin-right: 0;
+  margin-left: 0;
 }
