@@ -33,6 +33,7 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    padding-bottom:1px;
 }
 
 #accordion .panel-body .row span {

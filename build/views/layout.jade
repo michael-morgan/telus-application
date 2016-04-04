@@ -17,9 +17,10 @@ html
             #hoeapp-wrapper.hoe-hide-lpanel(hoe-device-type='desktop')
                 header#hoe-header.hoe-minimized-lpanel(hoe-lpanel-effect='shrink')
                     .hoe-left-header
+                        span.hoe-sidebar-toggle
                         a(href='#')
-                            i &nbsp
-                            span Telus Coaching App
+                            i.fa.fa-home
+                            span &nbsp Telus Coaching App
                         span.hoe-sidebar-toggle
                             a(href='#')
                     .hoe-right-header(hoe-position-type='relative')
@@ -27,6 +28,22 @@ html
                             a(href='#')
                         ul.left-navbar
                         ul.right-navbar
+                            li.dropdown.hoe-rheader-submenu.hoe-header-profile
+                                a.dropdown-toggle(href='#', data-toggle='dropdown')
+                                    span
+                                        i.fa.fa-user &nbsp
+                                    span
+                                        | #{user.first_name} #{user.last_name} &nbsp
+                                        i.fa.fa-angle-down
+                                ul.dropdown-menu
+                                    li
+                                        a(href='#')
+                                            i.fa.fa-user
+                                            | My Profile
+                                    li
+                                        a(href='#')
+                                            i.fa.fa-power-off
+                                            | Logout
                 #hoeapp-container.hoe-minimized-lpanel(hoe-color-type='lpanel-bg2', hoe-lpanel-effect='shrink')
                     aside#hoe-left-panel(hoe-position-type='absolute')
                         ul.nav.panel-list

@@ -111,14 +111,13 @@
 #hoeapp-container[hoe-color-type="lpanel-bg2"] #hoe-left-panel .panel-list > li > a {
     background: #49166D;
     border-top: 1px solid #8c68a6;
-    color: #d7e9fc;
-	border-right: 1px solid #8c68a6;
+    color: #fff;
 }
 #hoeapp-container[hoe-color-type="lpanel-bg2"] #hoe-left-panel .panel-list > li:last-child > a {
     border-bottom: 1px solid #8c68a6;
 }
 #hoeapp-container[hoe-color-type="lpanel-bg2"] #hoe-left-panel .panel-list > li:first-child > a {
-    border-top: 0px solid #8c68a6;
+    border-top: 1px solid #8c68a6;
 }
 #hoeapp-container[hoe-color-type="lpanel-bg2"] #hoe-left-panel .panel-list > li > a:hover,
 #hoeapp-container[hoe-color-type="lpanel-bg2"] #hoe-left-panel .panel-list > li > a:focus {
@@ -132,7 +131,7 @@
 }
 #hoeapp-container[hoe-color-type="lpanel-bg2"] #hoe-left-panel .panel-list > li.hoe-has-menu.opened > a {
     background: #49166D;
-    color: #d7e9fc;
+    color: #fff;
 }
 #hoeapp-container[hoe-color-type="lpanel-bg2"] #hoe-left-panel .panel-list ul {
     background: #fafafa;
@@ -141,12 +140,12 @@
 #hoeapp-container[hoe-color-type="lpanel-bg2"] #hoe-left-panel .panel-list ul.hoe-sub-menu li > a {
     background: #8c68a6;
     border-top: 1px solid #8c68a6;
-    color: #d7e9fc;
+    color: #fff;
 }
 #hoeapp-container[hoe-color-type="lpanel-bg2"] #hoe-left-panel .panel-list li.hoe-has-menu > ul.hoe-sub-menu li > a:hover,
 #hoeapp-container[hoe-color-type="lpanel-bg2"] #hoe-left-panel .panel-list li.hoe-has-menu > ul.hoe-sub-menu li > a:focus {
     color: #FFF;
-    background: #1074b7;
+    background: #49166D;
 }
 #hoeapp-container[hoe-color-type="lpanel-bg2"] #hoe-left-panel .panel-list li.active > a .selected {
     border-right: 7px solid #FFF;
@@ -159,7 +158,7 @@
 }
 #hoeapp-container[hoe-color-type="lpanel-bg2"].hoe-minimized-lpanel #hoe-left-panel {
     background: #49166D;
-    color: #d7e9fc;
+    color: #fff;
 }
 #hoeapp-container[hoe-color-type="lpanel-bg2"].hoe-minimized-lpanel #hoe-left-panel .panel-list > li.hoe-has-menu:hover > a,
 #hoeapp-container[hoe-color-type="lpanel-bg2"].hoe-minimized-lpanel #hoe-left-panel .panel-list > li.hoe-has-menu:focus > a {
@@ -168,7 +167,7 @@
 }
 #hoeapp-container[hoe-color-type="lpanel-bg2"].hoe-minimized-lpanel #hoe-left-panel .panel-list > li.hoe-has-menu.opened > a {
     background: #3498DB;
-    color: #d7e9fc;
+    color: #fff;
 }
 #hoeapp-container[hoe-color-type="lpanel-bg2"].hoe-minimized-lpanel #hoe-left-panel .panel-list > li.hoe-has-menu.opened > a:hover {
     background: #4b286d ;

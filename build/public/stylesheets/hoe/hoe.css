@@ -40,13 +40,11 @@ body{position:relative;}
 }
 #hoeapp-wrapper {
     background: #eef1f6;
-    color: #7e7e7e;
     margin: 0;
     padding: 0;
     width: 100%;
     height: 100%;
     position: relative;
-	font-family: "lato", sans-serif;
 	direction: ltr;
     line-height: 20px;
     font-size: 13px;
@@ -69,6 +67,12 @@ body{position:relative;}
 	position:relative;
 	box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
 }
+
+.hoe-minimized-lpanel .hoe-left-header{
+    text-align: center;
+    padding-left: 0;
+}
+
 .hoe-left-header {
     background: #49166D;
     font-size: 16px;
@@ -76,9 +80,10 @@ body{position:relative;}
     line-height: 50px;
     position: absolute;
     float: left;
-    text-align: center;
+    text-align: left;
     width: 230px;
     z-index: 999;
+    padding-left: 7px;
 }
 .hoe-left-header a {
     color: #FFF;
@@ -89,7 +94,7 @@ body{position:relative;}
     text-decoration: none;
 }
 .hoe-left-header a i {
-    color: #003c70;
+    color: #fff;
     font-size: 22px;
     position: relative;
     top: 3px;
@@ -134,6 +139,18 @@ body{position:relative;}
 .left-navbar > li:first-child {
     padding-left: 50px;
 }
+
+@media (max-width: 768px) {
+    .hoe-left-header a i{
+        display:none;
+    }
+
+    .hoe-left-header{
+        text-align:Center
+    }
+}
+
+
 .hoe-sidebar-toggle a:after {
     background: transparent;
     border: 0px solid #efefef;
@@ -143,7 +160,7 @@ body{position:relative;}
     line-height: 50px;
     padding: 0px 17px;
     position: absolute;
-    color: #7e7e7e;
+    color: #49166D;
     z-index: 1000;
 }
 .hoe-sidebar-toggle a:hover:after {
@@ -621,7 +638,7 @@ body{position:relative;}
     display: none;
 }
 #hoeapp-wrapper[hoe-device-type="phone"] #hoe-header{
-    position: none;
+
 	height:100px;
 }
 #hoeapp-wrapper[hoe-device-type="phone"] .hoe-left-header {
@@ -671,19 +688,19 @@ body{position:relative;}
 #hoeapp-wrapper[hoe-device-type="phone"] .hoe-left-header .hoe-sidebar-toggle a:after {
     background: transparent;
     border-radius: 4px;
-    content: "";
     font-family: FontAwesome;
     font-size: 16px;
     left: 5px;
     line-height: 39px;
     padding: 1px 13px;
     position: absolute;
-    top: 3px;
+    top: 5px;
     z-index: 1000;
     display: block !important;
-    color: #003c70;
-    border: 0px solid #003c70;
+    color: #fff;
+    border: 0px solid #fff;
     font-size: 14px;
+
 }
 #hoeapp-wrapper[hoe-device-type="phone"].hoe-hide-lpanel  #hoeapp-container[hoe-lpanel-effect="shrink"] #main-content {
   margin-left: 0px;
@@ -765,40 +782,7 @@ body[theme-layout="box-layout"] #hoeapp-wrapper[hoe-device-type="desktop"] {
 	width:96%;
 	margin:0 auto;
 }
-/*Boxed Theme Layout Style Close*/
- 
-/*Theme Background Color in Start */
-body[theme-layout="box-layout" hoe-nav-placement="right"] #hoeapp-wrapper[hoe-device-type="desktop"]{
-	margin:0 auto;
-}
-body[theme-bg="bg1"]{
-	 background-image: url("../images/bg1.png");
-}
-body[theme-bg="bg2"]{
-	 background-image: url("../images/bg2.png");
-}
-body[theme-bg="bg3"]{
-	 background-image: url("../images/bg3.png");
-}
-body[theme-bg="bg4"]{
-	 background-image: url("../images/bg4.png");
-}
-body[theme-bg="bg5"]{
-	 background-image: url("../images/bg5.png");
-}
-body[theme-bg="bg6"]{
-	 background-image: url("../images/bg6.png");
-}
-body[theme-bg="bg7"]{
-	 background-image: url("../images/bg7.png");
-}
-body[theme-bg="bg8"]{
-	 background-image: url("../images/bg8.png");
-}
-body[theme-bg="bg9"]{
-	 background-image: url("../images/bg9.png");
-}
-/*Theme Background Color in Close */
+
 
 
 
