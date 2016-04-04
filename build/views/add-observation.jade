@@ -67,6 +67,8 @@ block content
                                                                 i.fa.fa-thumbs-down.unchecked
                                                                 i.fa.fa-thumbs-down.checked
                 .form-group
-                    textarea(placeholder="Comments...", maxlength="300", id="commentBox" name="commentBox")
+                    .col-sm-10.col-sm-offset-1
+                        .row
+                            textarea(placeholder="Write a comment...", maxlength="300", id="commentBox" name="commentBox" class="pull-left observation-comment")
                 .form-group
                     button#submitObservation.form-btn.btn.btn-lg.btn-block.disabled(name='submit', type='button') Submit

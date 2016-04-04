@@ -80,3 +80,16 @@ body {
 #newCommentBox{
   width:697px;
 }
+
+.observation-comment {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .33);
+  height: 75px;
+  margin: 0;
+  min-height: 75px;
+  padding: 10px;
+  width: 25%;
+  resize: none;
+  color: #4d4d4d;
+  font-size: 14px;
+  line-height: 18px;
+}

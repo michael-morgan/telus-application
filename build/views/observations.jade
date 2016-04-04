@@ -75,12 +75,14 @@ block content
                                                                             span.pull-left
                                                                                 strong Skill:
                                                                                 | #{observation.skill_title}
-                                                                    .row
-                                                                        //Comments if there were any
-                                                                        .col-sm-12
-                                                                            span.pull-left
-                                                                                strong Comment:
-                                                                                | #{observation.observation_comment}
+                                                                    //Don't show the comment if it's empty
+                                                                    if observation.observation_comment != ""
+                                                                        .row
+                                                                            //Comments if there were any
+                                                                            .col-sm-12
+                                                                                span.pull-left
+                                                                                    strong Comment:
+                                                                                    | #{observation.observation_comment}
                                                                     .row
                                                                         //Time of the observations
                                                                         .col-sm-12
