@@ -41,34 +41,40 @@ html
                                             i.fa.fa-user
                                             | My Profile
                                     li
-                                        a(href='#')
+                                        a(href='/users/logout')
                                             i.fa.fa-power-off
                                             | Logout
                 #hoeapp-container.hoe-minimized-lpanel(hoe-color-type='lpanel-bg2', hoe-lpanel-effect='shrink')
                     aside#hoe-left-panel(hoe-position-type='absolute')
                         ul.nav.panel-list
                             //TODO: Dashboard nav item does not receive the active class when active
-                            li
-                                a(href='/users/')
+                            li.hoe-has-menu
+                                a(href='/users')
                                     i.fa.fa-tachometer
                                     span.menu-text Dashboard
                                     span.selected
-                            li.hoe-has-menu
-                                a(href='#')
-                                    i.fa.fa-users
-                                    span.menu-text Users
-                                    span.selected
-                                ul.hoe-sub-menu
+                                ul.hoe-sub-menu.display-none
                                     li
-                                        a(href='/users/register')
-                                            span.menu-text Register User
+                                        a(href='/users')
+                                            span.menu-text Dashboard
                                             span.selected
-                                    li
-                                        a(href='/users/remove')
-                                            span.menu-text Modify Users
-                                            span.selected
+                            if user.privileged >= 3
+                                li.hoe-has-menu
+                                    a(href='/users/remove')
+                                        i.fa.fa-users
+                                        span.menu-text Users
+                                        span.selected
+                                    ul.hoe-sub-menu
+                                        li
+                                            a(href='/users/register')
+                                                span.menu-text Register User
+                                                span.selected
+                                        li
+                                            a(href='/users/remove')
+                                                span.menu-text Modify Users
+                                                span.selected
                             li.hoe-has-menu
-                                a(href='#')
+                                a(href='/users/observations')
                                     i.fa.fa-eye
                                     span.menu-text Observations
                                     span.selected
@@ -81,11 +87,12 @@ html
                                         a(href='/users/observations/add-observation')
                                             span.menu-text Add Observation
                                             span.selected
-                            li
-                                a(href='javascript:void(0)')
-                                    i.fa.fa-gear
-                                    span.menu-text Settings
-                                    span.selected
+                            if user.privileged >= 2
+                                li
+                                    a(href='javascript:void(0)')
+                                        i.fa.fa-gear
+                                        span.menu-text Settings
+                                        span.selected
                     section#main-content
                         block content
         if !user

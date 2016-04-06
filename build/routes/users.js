@@ -27,7 +27,8 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
 
 // If accessing the register page, reset the form variables
 router.get('/register', ensureAuthenticated, function (req, res, next) {
-    if (!req.user.privileged) { return res.redirect('/users/'); }
+
+    if (req.user.privileged <= 2) { return res.redirect('/users/'); }
 
     res.render('register', {
         title: 'Register',
@@ -41,7 +42,7 @@ router.get('/register', ensureAuthenticated, function (req, res, next) {
 // Form validation for the register page
 router.post('/register', ensureAuthenticated, function (req, res, next) {
     if (!req.body) { return res.sendStatus(400); }
-    if (!req.user.privileged) { return res.redirect('/users/'); }
+    if (req.user.privileged <= 2) { return res.redirect('/users/'); }
 
     //Store the variables form the register page
     var first = req.body.firstName;
@@ -175,7 +176,7 @@ router.post('/register', ensureAuthenticated, function (req, res, next) {
 // Get method for remove users when the page is loaded
 router.get('/remove', ensureAuthenticated, function (req, res, next) {
     //Ensure user is logged in
-    if (!req.user.privileged) { return res.redirect('/users/'); }
+    if (req.user.privileged <= 2) { return res.redirect('/users/'); }
 
     //Connect to the database and get all the user to show the user the list of deletable users
     connection.get().query('SELECT * FROM users', function (err, results) {
@@ -191,7 +192,7 @@ router.get('/remove', ensureAuthenticated, function (req, res, next) {
 // Post for remove when the submit button is pressed
 router.post('/remove', ensureAuthenticated, function (req, res, next) {
     if (!req.body) { return res.sendStatus(400); }
-    if (!req.user.privileged || req.body.submit == "cancel") { return res.redirect('/users/'); }
+    if (req.user.privileged <= 2 || req.body.submit == "cancel") { return res.redirect('/users/'); }
 
     //Connection for getting all the users
     selectAllUsers( function (err, results) {
@@ -266,7 +267,7 @@ function ensureAuthenticated(req, res, next) {
 }
 
 router.get('/settings', ensureAuthenticated, function (req, res, next) {
-    if (!req.user.privileged) {
+    if (req.user.privileged <= 1){
         return res.redirect('/users/');
     }
 

@@ -35,7 +35,7 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
         }
 
         //Connection to get all the employees
-        if(req.user.privileged == 1) {
+        if(req.user.privileged >= 2) {
             connection.get().query('SELECT first_name, last_name,t_number,store_id FROM users ', function (err, userResults) {
                 //If an error is thrown
                 if (err) {
@@ -98,7 +98,7 @@ router.get('/add-observation', ensureAuthenticated, function (req, res, next) {
         title: 'Add Observation'
     };
 
-    if(req.user.privileged == 1) {
+    if(req.user.privileged >= 2) {
         //Connection to get all of the employees in the users table
         connection.get().query('SELECT first_name, last_name,t_number FROM users WHERE store_id = ? ', req.user.store_id, function (err, userResults) {
             if (err) {
@@ -178,7 +178,7 @@ router.get('/add-observation/:employee', ensureAuthenticated, function (req, res
     var returnObj = {
         title: 'Add Observation'
     };
-    if(req.user.privileged == 1) {
+    if(req.user.privileged >= 2) {
         //Connection to get all of the employees in the users table
         connection.get().query('SELECT first_name, last_name,t_number FROM users WHERE store_id = ? ', req.user.store_id, function (err, userResults) {
             //If an error is thrown

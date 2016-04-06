@@ -177,3 +177,7 @@ h4.panel-title {
 .panel{
   border-radius: 0;
 }
+
+.display-none *{
+  display:none !Important;
+}

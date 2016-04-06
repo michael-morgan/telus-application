@@ -21,7 +21,7 @@ block content
                 .col-lg-6
                     .panel.panel-primary
                         .panel-heading
-                            h3.panel-title Observations
+                            h3.panel-title Recent Observations
                         .panel-body
                             each recObservation, i in recentObservations
                                 .row(class="#{recObservation.observation_type === 0 ? 'bad-observation' : 'good-observation'}")
@@ -37,7 +37,7 @@ block content
                                             br
                                             | By: #{recObservation.assigned_by_name}
 
-            if user.privileged
+            if user.privileged >= 2
                 a(href='/users/settings')
                     .col-lg-6
                         .panel.panel-primary.text-center
