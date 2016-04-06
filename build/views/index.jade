@@ -23,6 +23,7 @@ block content
                         .panel-heading
                             .row
                                 | Observations
+                                //TODO: Style and grab more info from DB if needed!
                                 each recObservation, i in recentObservations
                                     p
                                         | #{recObservation.assigned_by_name}
