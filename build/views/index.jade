@@ -19,17 +19,24 @@ block content
         .row
             a(href='/users/observations')
                 .col-lg-6
-                    .panel.panel-primary.text-center
+                    .panel.panel-primary
                         .panel-heading
-                            .row
-                                | Observations
-                                //TODO: Style and grab more info from DB if needed!
-                                each recObservation, i in recentObservations
-                                    p
-                                        | #{recObservation.assigned_by_name}
-                                        | #{recObservation.observation_comment}
-                                        | #{recObservation.observation_date}
-                                        | #{recObservation.skill_title}
+                            h3.panel-title Observations
+                        .panel-body
+                            each recObservation, i in recentObservations
+                                .row(class="#{recObservation.observation_type === 0 ? 'bad-observation' : 'good-observation'}")
+                                    .col-lg-1
+                                        h4
+                                            | #{recObservation.first_name}:
+                                    .col-lg-8
+                                        div.classWithPad
+                                            | #{recObservation.behaviour_desc}
+                                    .col-lg-3.classWithPad
+                                        div
+                                            | Observed on: #{recObservation.observation_date.toLocaleDateString()}
+                                            br
+                                            | By: #{recObservation.assigned_by_name}
+
             if user.privileged
                 a(href='/users/settings')
                     .col-lg-6

@@ -121,14 +121,6 @@ a:hover{
   width:25%;
 }
 
-.good-observation {
-  border: 1px solid green !Important;
-}
-
-.bad-observation {
-  border: 1px solid red !Important;
-}
-
 h4.panel-title {
   padding: 10px 0 0 0;
 }
@@ -142,4 +134,46 @@ h4.panel-title {
 .row {
   margin-right: 0;
   margin-left: 0;
+}
+
+.ellipsis {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.classWithPad{
+  padding:10px;
+}
+
+
+.good-observation {
+  color:#000;
+  background-color: #dff0d8;
+  margin:10px 0;
+}
+
+.bad-observation {
+  background-color: #f2dede;
+  color:#000;
+  margin:10px 0;
+}
+
+.observation-header {
+  color: black;
+}
+
+
+.panel-primary>.panel-heading{
+  background-color: #49166D;
+  border-color: #49166D;
+  border-radius: 0;
+}
+
+.panel-primary{
+  border-color: #49166D;
+}
+
+.panel{
+  border-radius: 0;
 }

@@ -97,19 +97,18 @@ $(document).ready(function() {
 
         HandleProfileToggle: function() {
             $('.hoe-header-profile a').on("click", function() {
+
                 if ($('#hoeapp-wrapper').attr("hoe-device-type") !== "phone") {
-                    $('#hoeapp-container').toggleClass('hoe-minimized-lpanel');
-                    $('#hoe-header').toggleClass('hoe-minimized-lpanel');
-                    if ($('body').attr("hoe-navigation-type") !== "vertical-compact") {
-                        $('body').attr("hoe-navigation-type", "vertical-compact");
-                    }else{
-                        $('body').attr("hoe-navigation-type", "vertical");
-                    }
-                } else {
+                    $('#hoeapp-container').addClass('hoe-minimized-lpanel');
+                    $('#hoe-header').addClass('hoe-minimized-lpanel');
+                    $('body').attr("hoe-navigation-type", "vertical-compact");
+                }
+                else {
                     if (!$('#hoeapp-wrapper').hasClass('hoe-hide-lpanel')) {
                         $('#hoeapp-wrapper').addClass('hoe-hide-lpanel');
                     }
                 }
+
             });
 
         },

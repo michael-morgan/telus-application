@@ -44,6 +44,12 @@
     margin-right: 5px;
 }
 
+
+
+.panel-title a:hover{
+    color:#000 !important;
+}
+
 #accordion .bad-observation {
     background-color: #f2dede;
 }
@@ -52,6 +58,12 @@
     background-color: #dff0d8;
 }
 
-.panel-title a:hover{
-    color:#000 !important;
+.good-observation {
+    border: 1px solid green !Important;
+    background-color: #dff0d8;
+}
+
+.bad-observation {
+    border: 1px solid red !Important;
+    background-color: #f2dede;
 }
