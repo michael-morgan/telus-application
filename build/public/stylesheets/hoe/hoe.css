@@ -95,7 +95,7 @@ body{position:relative;}
 }
 .hoe-left-header a i {
     color: #fff;
-    font-size: 22px;
+    font-size: 26px;
     position: relative;
     top: 3px;
 }
@@ -156,7 +156,7 @@ body{position:relative;}
     border: 0px solid #efefef;
     content: "\f0c9";
     font-family: FontAwesome;
-    font-size: 14px;
+    font-size: 20px;
     line-height: 50px;
     padding: 0px 17px;
     position: absolute;
@@ -255,7 +255,7 @@ body{position:relative;}
     display: block;
     font-size: 13px;
     font-weight: 500;
-    padding: 10px 10px;
+    padding: 15px;
     position: relative;
 }
 #hoe-left-panel .panel-list > li:last-child > a {
@@ -276,7 +276,7 @@ body{position:relative;}
 }
 #hoe-left-panel .panel-list > li > a > i {
     display: inline;
-    font-size: 14px;
+    font-size: 24px;
     padding-right: 6px;
 }
 #hoe-left-panel .panel-list > li > a span.menu-text {
@@ -477,7 +477,7 @@ body{position:relative;}
   padding-right: 50px;
 }
 #hoe-header.hoe-minimized-lpanel > .hoe-left-header {
-    width: 50px;
+    width: 65px;
 }
 #hoe-header.hoe-minimized-lpanel > .hoe-left-header > a > span {
     display: none;
@@ -487,7 +487,7 @@ body{position:relative;}
   padding-right:0px;
 }
 .hoe-minimized-lpanel #hoe-left-panel {
-    width: 50px;
+    width: 65px;
 }
 .hoe-minimized-lpanel #hoe-left-panel .profile-box {
     border-bottom: 0px solid #efefef;
@@ -509,7 +509,7 @@ body{position:relative;}
 }
 .hoe-minimized-lpanel #hoe-left-panel .panel-list > li > a > i {
     display: inline;
-    font-size: 15px;
+    font-size: 24px;
     padding-left: 6px;
     padding-right: 6px;
 }
@@ -543,7 +543,7 @@ body{position:relative;}
 .hoe-minimized-lpanel #hoe-left-panel .panel-list > li.hoe-has-menu > ul.hoe-sub-menu {
     display: none !important;
     position: absolute;
-    left: 50px;
+    left: 65px;
     width: 180px;
 }
 .hoe-minimized-lpanel #hoe-left-panel .panel-list > li.hoe-has-menu:hover > ul.hoe-sub-menu,
@@ -551,7 +551,7 @@ body{position:relative;}
     display: block !important;
     border-right: 1px solid #efefef;
 	width: 180px;
-	left: 50px;
+	left: 65px;
 }
 .hoe-minimized-lpanel #hoe-left-panel .panel-list > li.hoe-has-menu > ul.hoe-sub-menu ul.hoe-sub-menu {
     display: none !important;
@@ -637,10 +637,6 @@ body{position:relative;}
 #hoeapp-wrapper[hoe-device-type="phone"].hoe-hide-lpanel #hoe-left-panel {
     display: none;
 }
-#hoeapp-wrapper[hoe-device-type="phone"] #hoe-header{
-
-	height:100px;
-}
 #hoeapp-wrapper[hoe-device-type="phone"] .hoe-left-header {
     width: 100%;
     float: none;
@@ -670,6 +666,18 @@ body{position:relative;}
 #hoeapp-wrapper[hoe-device-type="phone"] #main-content {
     margin-left: 0px;
 }
+
+#hoeapp-wrapper[hoe-device-type="phone"] .dropdown-toggle span:nth-child(2) {
+    display: none;
+}
+
+#hoeapp-wrapper[hoe-device-type="phone"] .page-header {
+    margin: 90px 0 20px;
+}
+
+
+
+
 
 
 
@@ -706,7 +714,7 @@ body{position:relative;}
   margin-left: 0px;
 }
 #hoeapp-wrapper[hoe-device-type="phone"]  #hoeapp-container[hoe-lpanel-effect="shrink"] #main-content {
-  margin-left: 230px;
+  margin-left: 0;
 }
 #hoeapp-wrapper[hoe-device-type="phone"].hoe-hide-lpanel  #hoeapp-container[hoe-lpanel-effect="overlay"] #main-content {
    margin-left: 0px;

@@ -166,7 +166,7 @@
     background: #4b286d ;
 }
 #hoeapp-container[hoe-color-type="lpanel-bg2"].hoe-minimized-lpanel #hoe-left-panel .panel-list > li.hoe-has-menu.opened > a {
-    background: #3498DB;
+    background: #8c68a6;
     color: #fff;
 }
 #hoeapp-container[hoe-color-type="lpanel-bg2"].hoe-minimized-lpanel #hoe-left-panel .panel-list > li.hoe-has-menu.opened > a:hover {

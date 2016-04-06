@@ -2,6 +2,7 @@ $(document).ready(function() {
     HoeDatapp = {
         appinit: function() {
             HoeDatapp.HandleSidebartoggle();
+            HoeDatapp.HandleProfileToggle();
             HoeDatapp.Handlelpanel();
             HoeDatapp.Handlelpanelmenu();
             HoeDatapp.Handlethemeoption();
@@ -92,6 +93,25 @@ $(document).ready(function() {
 					$('body').attr("hoe-nav-placement", "left"); 
 				}
             });
+        },
+
+        HandleProfileToggle: function() {
+            $('.hoe-header-profile a').on("click", function() {
+                if ($('#hoeapp-wrapper').attr("hoe-device-type") !== "phone") {
+                    $('#hoeapp-container').toggleClass('hoe-minimized-lpanel');
+                    $('#hoe-header').toggleClass('hoe-minimized-lpanel');
+                    if ($('body').attr("hoe-navigation-type") !== "vertical-compact") {
+                        $('body').attr("hoe-navigation-type", "vertical-compact");
+                    }else{
+                        $('body').attr("hoe-navigation-type", "vertical");
+                    }
+                } else {
+                    if (!$('#hoeapp-wrapper').hasClass('hoe-hide-lpanel')) {
+                        $('#hoeapp-wrapper').addClass('hoe-hide-lpanel');
+                    }
+                }
+            });
+
         },
 		
         Handlethemecolor: function() {
@@ -202,6 +222,7 @@ $(document).ready(function() {
             });
 
         },
+
         Handlelpanel: function() {
 
             function Responsivelpanel() {
