@@ -571,13 +571,14 @@ function ensureAuthenticated(req, res, next) {
 
 //Select all users in the db
 function selectAllUsers(callback) {
-    connection.get().query('SELECT * FROM users', function(err, rows) {
+    connection.get().query('SELECT * FROM users WHERE privileged != 4', function(err, rows) {
         if (err) {
             callback(err, null);
         } else
             callback(null, rows);
     });
 }
+
 
 //Select all observations and order them in a descending order
 function getAllObservations(callback) {

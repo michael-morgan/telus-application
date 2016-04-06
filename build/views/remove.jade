@@ -48,14 +48,15 @@ block content
                                         th Remove
                                 tbody
                                     each user, i in users
-                                        tr
-                                            td #{user.t_number}
-                                            td #{user.first_name}
-                                            td #{user.last_name}
-                                            td #{user.email}
-                                            td #{user.privileged}
-                                            td
-                                                input(name='remove#{user.t_number}' type='checkbox')
+                                        if user.privileged != 4
+                                            tr
+                                                td #{user.t_number}
+                                                td #{user.first_name}
+                                                td #{user.last_name}
+                                                td #{user.email}
+                                                td #{user.privileged}
+                                                td
+                                                    input(name='remove#{user.t_number}' type='checkbox')
                             .col-sm-10.col-sm-offset-2
                                 .col-sm-5
                                     button.form-btn.btn.btn-danger.btn-lg.btn-block(name='submit', type='submit', value='remove') Remove

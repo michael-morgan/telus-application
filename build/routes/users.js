@@ -287,6 +287,7 @@ function selectAllUsers(callback) {
     });
 }
 
+
 function getRecentObservations(callback){
     connection.get().query('SELECT users.t_number,users.first_name, behaviour_desc, observations.observation_id, skills.skill_title, observations.observation_comment, observations.observation_date , '+
     'observations.assigned_by, ASSIGNED_BY_STATEMENT.full_name AS assigned_by_name, observations.observation_type FROM users '+
