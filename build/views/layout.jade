@@ -47,6 +47,7 @@ html
                 #hoeapp-container.hoe-minimized-lpanel(hoe-color-type='lpanel-bg2', hoe-lpanel-effect='shrink')
                     aside#hoe-left-panel(hoe-position-type='absolute')
                         ul.nav.panel-list
+                            //TODO: Dashboard nav item does not receive the active class when active
                             li
                                 a(href='/users/')
                                     i.fa.fa-tachometer
@@ -63,7 +64,7 @@ html
                                             span.menu-text Register User
                                             span.selected
                                     li
-                                        a(href='/users/register')
+                                        a(href='/users/remove')
                                             span.menu-text Modify Users
                                             span.selected
                             li.hoe-has-menu
@@ -77,7 +78,7 @@ html
                                             span.menu-text Observations
                                             span.selected
                                     li
-                                        a(href='/users/add-observations')
+                                        a(href='/users/observations/add-observation')
                                             span.menu-text Add Observation
                                             span.selected
                             li
