@@ -7,7 +7,22 @@ var router = express.Router();
 
 // get the users listing
 router.get('/', ensureAuthenticated, function (req, res, next) {
-    res.render('index', { title: 'Dashboard' });
+    var returnObj = {
+        title: 'Dashboard'
+    };
+
+    //Connection to get all of the observations for each employee ordered by date
+    getRecentObservations(function (err, obsResults) {
+        //If an error is thrown
+        if (err) {
+            returnObj['message'] = 'Our database servers maybe down. Please try again.';
+            //Render the page wth error messages
+            return res.render('index', returnObj);
+        }
+        returnObj['recentObservations'] = obsResults;
+        //Render the observations page with the list of users and observations
+        res.render('index', returnObj);
+    });
 });
 
 // If accessing the register page, reset the form variables
@@ -264,6 +279,23 @@ router.get('/settings', ensureAuthenticated, function (req, res, next) {
 //Select all users in the db
 function selectAllUsers(callback) {
     connection.get().query('SELECT * FROM users', function(err, rows) {
+        if (err) {
+            callback(err, null);
+        } else
+            callback(null, rows);
+    });
+}
+
+function getRecentObservations(callback){
+    connection.get().query('SELECT users.t_number,users.first_name, behaviour_desc, observations.observation_id, skills.skill_title, observations.observation_comment, observations.observation_date , '+
+    'observations.assigned_by, ASSIGNED_BY_STATEMENT.full_name AS assigned_by_name, observations.observation_type FROM users '+
+    'INNER JOIN observations on users.t_number = observations.assigned_to ' +
+    'INNER JOIN behaviours on observations.behaviour_id = behaviours.behaviour_id '+
+    'INNER JOIN skills on behaviours.skill_id = skills.skill_id '+
+    'INNER JOIN (SELECT users.t_number AS assigned_by, observations.assigned_to AS assigned_to, CONCAT(users.first_name, " ", users.last_name) AS full_name FROM users '+
+    'INNER JOIN observations on users.t_number = observations.assigned_by) as ASSIGNED_BY_STATEMENT on observations.assigned_by = ASSIGNED_BY_STATEMENT.assigned_by '+
+    'GROUP BY observations.observation_id ORDER BY observations.observation_date DESC '+
+    'LIMIT 3;', function(err, rows) {
         if (err) {
             callback(err, null);
         } else

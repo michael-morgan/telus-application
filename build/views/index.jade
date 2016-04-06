@@ -23,6 +23,12 @@ block content
                         .panel-heading
                             .row
                                 | Observations
+                                each recObservation, i in recentObservations
+                                    p
+                                        | #{recObservation.assigned_by_name}
+                                        | #{recObservation.observation_comment}
+                                        | #{recObservation.observation_date}
+                                        | #{recObservation.skill_title}
             if user.privileged
                 a(href='/users/settings')
                     .col-lg-6
