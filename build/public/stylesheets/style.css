@@ -59,6 +59,11 @@ a:hover{
   font-size: 20px;
   border-radius: 0px;
   background-color: #ffffff;
+  color:#555;
+}
+
+.privilegedDropdown{
+  width:100%;
 }
 
 .formTitle {

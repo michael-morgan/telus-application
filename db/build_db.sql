@@ -260,15 +260,15 @@ CREATE TABLE `users` (
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` VALUES 
-('t111111','T111111','$2a$10$J7gMv/aF5C.qTfL6EOQFluUiOuAFB7/HyotXpXAiifKhIK9GdK03q','michael.morgan@telus.com','Michael','Morgan',4,'6529'),
+('t111111','T111111','$2a$10$J7gMv/aF5C.qTfL6EOQFluUiOuAFB7/HyotXpXAiifKhIK9GdK03q','michael.morgan@telus.com','Michael','Morgan',5,'6529'),
 ('t222222','T222222','$2a$10$J7gMv/aF5C.qTfL6EOQFluUiOuAFB7/HyotXpXAiifKhIK9GdK03q','nick.lovsin@telus.com','Nick','Lovsin',3,'6530'),
 ('t333333','T333333','$2a$10$J7gMv/aF5C.qTfL6EOQFluUiOuAFB7/HyotXpXAiifKhIK9GdK03q','lorna.chapman@telus.com','Lorna','Chapman',3,'6529'),
 ('t444444','T444444','$2a$10$J7gMv/aF5C.qTfL6EOQFluUiOuAFB7/HyotXpXAiifKhIK9GdK03q','steve.urkel@telus.com','Steve','Urkel',1,'6529'),
 ('t555555','T555555','$2a$10$J7gMv/aF5C.qTfL6EOQFluUiOuAFB7/HyotXpXAiifKhIK9GdK03q','bob.dylan@telus.com','Bob','Dylan',1,'6530'),
-('t666666','T666666','$2a$10$J7gMv/aF5C.qTfL6EOQFluUiOuAFB7/HyotXpXAiifKhIK9GdK03q','john.doe@telus.com','John','Doe',1,'6530'),
+('t666666','T666666','$2a$10$J7gMv/aF5C.qTfL6EOQFluUiOuAFB7/HyotXpXAiifKhIK9GdK03q','john.doe@telus.com','John','Doe',4,'6530'),
 ('t777777','T777777','$2a$10$J7gMv/aF5C.qTfL6EOQFluUiOuAFB7/HyotXpXAiifKhIK9GdK03q','will.bill@telus.com','Will','Bill',1,'6529'),
-('t888888','T888888','$2a$10$J7gMv/aF5C.qTfL6EOQFluUiOuAFB7/HyotXpXAiifKhIK9GdK03q','brad.haveman@telus.com','Bradley','Haveman',4,'6529'),
-('t999999','T999999','$2a$10$J7gMv/aF5C.qTfL6EOQFluUiOuAFB7/HyotXpXAiifKhIK9GdK03q','jacob.amaral@telus.com','Jacob','Amaral',4,'6529'),
+('t888888','T888888','$2a$10$J7gMv/aF5C.qTfL6EOQFluUiOuAFB7/HyotXpXAiifKhIK9GdK03q','brad.haveman@telus.com','Bradley','Haveman',5,'6529'),
+('t999999','T999999','$2a$10$J7gMv/aF5C.qTfL6EOQFluUiOuAFB7/HyotXpXAiifKhIK9GdK03q','jacob.amaral@telus.com','Jacob','Amaral',5,'6529'),
 ('t901159','T901159','$2a$10$J7gMv/aF5C.qTfL6EOQFluUiOuAFB7/HyotXpXAiifKhIK9GdK03q','patrick.richey@telus.com','Patrick','Richey',2,'6529');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;

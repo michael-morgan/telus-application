@@ -44,17 +44,26 @@ block content
                                         th First Name
                                         th Last Name
                                         th Email
-                                        th Privileged
+                                        th Title
                                         th Remove
                                 tbody
                                     each user, i in users
-                                        if user.privileged != 4
+                                        if user.privileged != 5
                                             tr
                                                 td #{user.t_number}
                                                 td #{user.first_name}
                                                 td #{user.last_name}
                                                 td #{user.email}
-                                                td #{user.privileged}
+                                                case user.privileged
+                                                    when 2
+                                                        td Assistant Manager
+                                                    when 3
+                                                        td Manager
+                                                    when 4
+                                                        td Area Manager
+                                                    default
+                                                        td Employee
+
                                                 td
                                                     input(name='remove#{user.t_number}' type='checkbox')
                             .col-sm-10.col-sm-offset-2

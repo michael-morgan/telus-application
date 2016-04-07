@@ -35,6 +35,7 @@ router.get('/register', ensureAuthenticated, function (req, res, next) {
         first: '',
         last: '',
         username: '',
+        privileged: '',
         email: ''
     });
 });
@@ -44,10 +45,13 @@ router.post('/register', ensureAuthenticated, function (req, res, next) {
     if (!req.body) { return res.sendStatus(400); }
     if (req.user.privileged <= 2) { return res.redirect('/users/'); }
 
+    console.log(req.body.privilege);
+
     //Store the variables form the register page
     var first = req.body.firstName;
     var last = req.body.lastName;
     var username = req.body.username;
+    var privileged = req.body.privileged;
     var email = req.body.email;
 
     // return object
@@ -56,6 +60,7 @@ router.post('/register', ensureAuthenticated, function (req, res, next) {
         first: first,
         last: last,
         email: email,
+        privileged: privileged,
         username: username
     };
 
@@ -124,6 +129,7 @@ router.post('/register', ensureAuthenticated, function (req, res, next) {
                     first_name: first,
                     last_name: last,
                     email: email,
+                    privileged: privileged,
                     username: username,
                     t_number: username,
                     store_id: undefined
@@ -165,6 +171,7 @@ router.post('/register', ensureAuthenticated, function (req, res, next) {
                         first: '',
                         last: '',
                         username: '',
+                        privileged: '',
                         email: ''
                     });
                 });
@@ -271,7 +278,7 @@ router.get('/settings', ensureAuthenticated, function (req, res, next) {
         return res.redirect('/users/');
     }
 
-    //Show the register page
+    //Show the Settings page
     res.render('settings', {
         title: 'Settings'
     });

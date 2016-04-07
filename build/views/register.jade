@@ -49,6 +49,13 @@ block content
                                 input.form-control.formInput(name='username', maxlength='7' placeholder='t#####', type='text', value='#{username}', pattern='^[t]{1}[0-9]{6}', required)
                         .form-group
                             .col-sm-10.col-sm-offset-1
+                                select.formInput.privilegedDropdown(required id='privilegedDropdown' name='privileged')
+                                    option(value='1') Employee
+                                    option(value='2') Assistant Manager
+                                    option(value='3') Manager
+                                    option(value='4') Area Manager
+                        .form-group
+                            .col-sm-10.col-sm-offset-1
                                 input.form-control.formInput(name='email', placeholder='example@email.com', type='email', value='#{email}', required)
                         .form-group.last
                             .col-sm-10.col-sm-offset-2
