@@ -178,7 +178,7 @@ router.get('/add-observation/:employee', ensureAuthenticated, function (req, res
     var returnObj = {
         title: 'Add Observation'
     };
-    if(req.user.privilegedprivileged >= 2) {
+    if(req.user.privileged >= 2) {
         //Connection to get all of the employees in the users table
         connection.get().query('SELECT first_name, last_name,t_number FROM users WHERE store_id = ? ', req.user.store_id, function (err, userResults) {
             //If an error is thrown
@@ -423,7 +423,7 @@ router.post('/add-observation/:employee', ensureAuthenticated, function (req, re
     if (req.body.employeeDropdown != undefined && req.body.goodorbad != undefined) {
         //Store form variables
         var behaviour = req.body.goodorbad.replace("bad", "").replace("good", "");
-        var assignedTo = req.body.privilegedDropdown;
+        var assignedTo = req.body.employeeDropdown;
         var assignedBy = req.user.t_number;
         var currentDate = getCurrentDate();
         var observationDate = currentDate;
