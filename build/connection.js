@@ -2,6 +2,13 @@
  * Created by Michael on 2/8/2016.
  */
 
+/*
+    Query result helpers:
+    result.insertId -> auto incremented primary key from insert
+    result.affectedRows -> number of affected rows from update/delete statement
+    result.changedRows -> number of changed rows from update statement
+ */
+
 var mysql = require('mysql'), async = require('async');
 
 var state = {
@@ -22,15 +29,6 @@ exports.connect = function(done) {
 
 exports.get = function() {
     return state.pool;
-};
-
-exports.userExists = function(username) {
-    var pool = state.pool;
-    if (!pool) {
-        return done(new Error('Missing database connection'));
-    }
-
-    //TODO: async check if user exists
 };
 
 exports.fixtures = function(data) {

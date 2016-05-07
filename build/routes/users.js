@@ -5,6 +5,8 @@ var nodemailer = require('nodemailer');
 var randtoken = require('rand-token');
 var router = express.Router();
 
+var userModel = require('../models/user');
+
 // get the users listing
 router.get('/', ensureAuthenticated, function (req, res, next) {
     var returnObj = {
@@ -19,6 +21,7 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
             //Render the page wth error messages
             return res.render('index', returnObj);
         }
+
         returnObj['recentObservations'] = obsResults;
         //Render the observations page with the list of users and observations
         res.render('index', returnObj);
@@ -27,8 +30,9 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
 
 // If accessing the register page, reset the form variables
 router.get('/register', ensureAuthenticated, function (req, res, next) {
-
-    if (req.user.privileged <= 2) { return res.redirect('/users/'); }
+    if (req.user.privileged <= 2) {
+        return res.redirect('/users/');
+    }
 
     res.render('register', {
         title: 'Register',
@@ -42,8 +46,12 @@ router.get('/register', ensureAuthenticated, function (req, res, next) {
 
 // Form validation for the register page
 router.post('/register', ensureAuthenticated, function (req, res, next) {
-    if (!req.body) { return res.sendStatus(400); }
-    if (req.user.privileged <= 2) { return res.redirect('/users/'); }
+    if (!req.body) {
+        return res.sendStatus(400);
+    }
+    if (req.user.privileged <= 2) {
+        return res.redirect('/users/');
+    }
 
     console.log(req.body.privilege);
 
@@ -80,7 +88,7 @@ router.post('/register', ensureAuthenticated, function (req, res, next) {
     }
     else {
         //Check for duplicate users
-        connection.get().query('SELECT username FROM users WHERE username = ?', username, function (err, rows) {
+        userModel.exists(username, function(err, rows) {
             if (rows.length > 0) {
                 returnObj['message'] = 'Duplicate T#, please enter a unique T#';
                 return res.render('register', returnObj);
@@ -136,7 +144,7 @@ router.post('/register', ensureAuthenticated, function (req, res, next) {
                 };
 
                 // Create connection to add the user to the database
-                connection.get().query('INSERT INTO users SET ?', [user], function (err, result) {
+                userModel.create(user, function(err, result) {
                     //If an error is thrown
                     if (err) {
                         req.flash('Our database servers maybe down, please try again', 'Our database servers maybe down, please try again');
@@ -144,7 +152,8 @@ router.post('/register', ensureAuthenticated, function (req, res, next) {
                         //Render the page wth error messages
                         return res.render('register', returnObj);
                     }
-                    console.log("User added");
+
+                    console.log("User added successfully.");
                 });
 
                 // create a token object
@@ -186,8 +195,10 @@ router.get('/remove', ensureAuthenticated, function (req, res, next) {
     if (req.user.privileged <= 2) { return res.redirect('/users/'); }
 
     //Connect to the database and get all the user to show the user the list of deletable users
-    connection.get().query('SELECT * FROM users', function (err, results) {
-        if (err) {  throw next(err); }
+    userModel.getAll(function(err, results) {
+        if (err) {
+            throw next(err);
+        }
 
         res.render('remove', {
             title: 'Remove',
@@ -234,7 +245,7 @@ router.post('/remove', ensureAuthenticated, function (req, res, next) {
         });
 
         //Connection for deleted the users. Deletes the users who are in 'removeIds'
-        connection.get().query('DELETE FROM users WHERE t_number IN (?)', [removeIds.toString()], function (err, results) {
+        userModel.deleteByIds(removeIds.toString(), function(err, results) {
             //If an error is thrown
             if (err) {
                 returnObj['message'] = 'Failed to delete user,our database servers maybe down.Please try again';
@@ -242,9 +253,8 @@ router.post('/remove', ensureAuthenticated, function (req, res, next) {
                 return res.render('remove', returnObj);
             }
 
-
             //Connection to get the the users after the selected users where deleted
-            selectAllUsers(function (err, results) {
+            userModel.getAll(function(err, results) {
                 //If an error is thrown
                 if (err) {
                     returnObj['message'] = 'Failed to delete user,our database servers maybe down.Please try again';
@@ -283,17 +293,6 @@ router.get('/settings', ensureAuthenticated, function (req, res, next) {
         title: 'Settings'
     });
 });
-
-//Select all users in the db
-function selectAllUsers(callback) {
-    connection.get().query('SELECT * FROM users', function(err, rows) {
-        if (err) {
-            callback(err, null);
-        } else
-            callback(null, rows);
-    });
-}
-
 
 function getRecentObservations(callback){
     connection.get().query('SELECT users.t_number,users.first_name, behaviour_desc, observations.observation_id, skills.skill_title, observations.observation_comment, observations.observation_date , '+
