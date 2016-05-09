@@ -4,6 +4,8 @@ var connection = require('../connection');
 var passport = require('passport');
 var bcrypt = require('bcryptjs');
 
+var tokenModel = require('../models/token');
+
 var router = express.Router();
 
 // render the login page when the user goes to index/root
@@ -32,7 +34,7 @@ router.get('/activate/:token', function(req, res, next) {
         return res.redirect('/');
     }
 
-    connection.get().query('SELECT * FROM tokens WHERE token = ?', [req.params.token], function (err, rows) {
+    tokenModel.getById([req.params.token], function(err, rows) {
         if (err) {
             throw next(err);
         }
@@ -100,7 +102,7 @@ router.post('/activate/:token', function(req, res, next) {
                 console.log('Updated user password');
             });
 
-            connection.get().query('DELETE FROM tokens WHERE token = ?', [req.params.token], function (err, rows) {
+            tokenModel.deleteById([req.params.token], function (err, rows) {
                 if (err) {
                     req.flash('Our database servers maybe down, please try again','Our database servers maybe down, please try again');
                     res.render('activate', {

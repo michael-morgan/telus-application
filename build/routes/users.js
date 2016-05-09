@@ -6,6 +6,7 @@ var randtoken = require('rand-token');
 var router = express.Router();
 
 var userModel = require('../models/user');
+var tokenModel = require('../models/token');
 
 // get the users listing
 router.get('/', ensureAuthenticated, function (req, res, next) {
@@ -163,7 +164,7 @@ router.post('/register', ensureAuthenticated, function (req, res, next) {
                 };
 
                 // create a connection to add the email token to the database
-                connection.get().query('INSERT INTO tokens SET ?', [tokenObj], function (err, result) {
+                tokenModel.create(tokenObj, function (err, result) {
                     //If an error is thrown
                     if (err) {
                         req.flash('Our database servers maybe down, please try again', 'Our database servers maybe down, please try again');
