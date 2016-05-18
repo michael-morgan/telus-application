@@ -129,6 +129,7 @@ router.get('/add-observation', ensureAuthenticated, function (req, res, next) {
                     returnObj['users'] = userResults;
                     returnObj['skills'] = categoryResults;
                     returnObj['behaviours'] = behaviourResults;
+
                     //Render the page with the DB results
                     res.render('add-observation', returnObj);
                 });
@@ -164,6 +165,7 @@ router.get('/add-observation', ensureAuthenticated, function (req, res, next) {
                     returnObj['users'] = userResults;
                     returnObj['skills'] = categoryResults;
                     returnObj['behaviours'] = behaviourResults;
+
                     //Render the page with the DB results
                     res.render('add-observation', returnObj);
                 });
@@ -611,8 +613,8 @@ function getAllSkills(callback) {
 
 //Select all behaviours in the db
 function getAllBehaviours(callback) {
-    connection.get().query('SELECT behaviours.behaviour_desc, behaviour_id, skills.skill_id FROM behaviours' +
-        'JOIN skills on behaviours.skill_id = skills.skill_id', function(err, rows) {
+    connection.get().query('SELECT behaviours.behaviour_desc, behaviour_id, skills.skill_id FROM behaviours ' +
+        'JOIN skills ON behaviours.skill_id = skills.skill_id', function(err, rows) {
         if (err) {
             callback(err, null);
         } else

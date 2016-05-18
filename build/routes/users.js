@@ -214,7 +214,7 @@ router.post('/remove', ensureAuthenticated, function (req, res, next) {
     if (req.user.privileged <= 2 || req.body.submit == "cancel") { return res.redirect('/users/'); }
 
     //Connection for getting all the users
-    selectAllUsers( function (err, results) {
+    userModel.getAll(function(err, results) {
         var returnObj = {
             title: 'Remove',
             users: results
