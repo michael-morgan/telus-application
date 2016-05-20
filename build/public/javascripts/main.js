@@ -5,7 +5,7 @@ $(function() {
 
 
     //When an unchecked thumb is clicked in the add-observation page
-    $( ".unchecked" ).click(function() {
+    $( ".btn" ).click(function() {
         //Remove the "active" class from all other thumbs
         $( ".btn").removeClass('active');
 
@@ -22,4 +22,10 @@ $(function() {
             var submitButton = document.getElementById("submitObservation").type = "submit";
         });
     });
+
+    $(".panel-title").click(function(){
+        $(this).parent().toggleClass("active");
+    });
+
+
 });
