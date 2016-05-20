@@ -61,7 +61,7 @@ html
                                             span.selected
                             if user.privileged >= 3
                                 li.hoe-has-menu
-                                    a(href='/users/remove')
+                                    a(href='#')
                                         i.fa.fa-users
                                         span.menu-text Users
                                         span.selected
@@ -75,7 +75,7 @@ html
                                                 span.menu-text Modify Users
                                                 span.selected
                             li.hoe-has-menu
-                                a(href='/users/observations')
+                                a(href='#')
                                     i.fa.fa-eye
                                     span.menu-text Observations
                                     span.selected
@@ -90,7 +90,7 @@ html
                                             span.selected
                             if user.privileged >= 2
                                 li
-                                    a(href='javascript:void(0)')
+                                    a(href='/users/settings')
                                         i.fa.fa-gear
                                         span.menu-text Settings
                                         span.selected
