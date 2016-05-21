@@ -74,6 +74,16 @@ exports.exists = function(username, done) {
     });
 };
 
+exports.emailExists = function(email, done) {
+    connection.get().query('SELECT `email` FROM `users` WHERE `email` = ?', email, function(error, result) {
+        if(error) {
+            return done(error);
+        }
+
+        done(null, result);
+    });
+};
+
 exports.getById = function(id, done) {
     connection.get().query('SELECT * FROM `users` WHERE `t_number` = ?', id, function(error, result) {
         if(error) {
