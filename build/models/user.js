@@ -15,7 +15,7 @@ exports.create = function(user, done) {
 };
 
 exports.deleteById = function(id, done) {
-    connection.get().query('DELETE * FROM `users` WHERE `t_number` = ?', id, function(error, result) {
+    connection.get().query('DELETE FROM `users` WHERE `t_number` = ?', id, function(error, result) {
         if(error) {
             return done(error);
         }
@@ -25,7 +25,7 @@ exports.deleteById = function(id, done) {
 };
 
 exports.deleteByIds = function(ids, done) {
-    connection.get().query('DELETE * FROM `users` WHERE `t_number` IN (?)', [ids], function(error, result) {
+    connection.get().query('DELETE FROM `users` WHERE `t_number` IN (?)', [ids], function(error, result) {
         if(error) {
             return done(error);
         }

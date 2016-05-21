@@ -231,7 +231,7 @@ router.post('/remove', ensureAuthenticated, function (req, res, next) {
 
         //If an error is thrown
         if (err) {
-            returnObj['message'] = 'Failed to delete user, our database servers maybe down. Please try again.';
+            returnObj['message'] = err.toString();
             //Render the page wth error messages
             return res.render('remove', returnObj);
         }
@@ -248,26 +248,29 @@ router.post('/remove', ensureAuthenticated, function (req, res, next) {
                 }
                 else {
                     removeIds.push(value.t_number);
-                    req.flash('success_messages', 'User successfully deleted');
-                    res.locals.success_messages = req.flash('success_messages');
                 }
             }
         });
 
         //Connection for deleted the users. Deletes the users who are in 'removeIds'
-        userModel.deleteByIds(removeIds.toString(), function(err, results) {
+        userModel.deleteByIds(removeIds, function(err, results) {
             //If an error is thrown
             if (err) {
-                returnObj['message'] = 'Failed to delete user,our database servers maybe down.Please try again';
+                returnObj['message'] = err.toString();
                 //Render the page wth error messages
                 return res.render('remove', returnObj);
+            }
+            else
+            {
+                req.flash('success_messages', 'User successfully deleted');
+                res.locals.success_messages = req.flash('success_messages');
             }
 
             //Connection to get the the users after the selected users where deleted
             userModel.getAll(function(err, results) {
                 //If an error is thrown
                 if (err) {
-                    returnObj['message'] = 'Failed to delete user,our database servers maybe down.Please try again';
+                    returnObj['message'] = err.toString();
                     //Render the page wth error messages
                     return res.render('remove', returnObj);
                 }
