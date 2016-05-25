@@ -88,10 +88,10 @@ a:active {
 /* #bs-collapse icon scale option */
 
 .panel-heading a:before {
-    content: '\e146';
+    content: '\f055';
     position: absolute;
-    font-family: 'Material Icons';
-    right: 5px;
+    font-family: 'FontAwesome';
+    right: 15px;
     top: 10px;
     font-size: 24px;
     transition: all 0.5s;
@@ -108,15 +108,15 @@ a:active {
     content: ' ';
     font-size: 24px;
     position: absolute;
-    font-family: 'Material Icons';
-    right: 5px;
+    font-family: 'FontAwesome';
+    right: 15px;
     top: 10px;
     transform: scale(0);
     transition: all 0.5s;
 }
 
 #bs-collapse .panel-heading.active a:after {
-    content: '\e909';
+    content: '\f056';
     transform: scale(1);
     transition: all 0.5s;
 }
