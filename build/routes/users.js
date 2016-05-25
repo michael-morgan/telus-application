@@ -307,6 +307,32 @@ router.get('/settings', ensureAuthenticated, function (req, res, next) {
     });
 });
 
+router.get('/profile/:id', ensureAuthenticated, function(req, res, next) {
+    var id = req.params.id.toLowerCase();
+
+    userModel.getById(id, function(err, rows) {
+        if(err) {
+            throw next(err);
+        }
+        else if(rows.length <= 0) {
+            console.error('Invalid profile id.');
+            return res.redirect('/users/');
+        }
+        else {
+            var returnObj = {
+                first_name: rows[0].first_name,
+                last_name: rows[0].last_name,
+                t_number: rows[0].t_number,
+                email: rows[0].email,
+                privileged: rows[0].privileged
+            };
+
+            //Render profile page with supplied user
+            res.render('profile', { user: returnObj });
+        }
+    });
+});
+
 function getRecentObservations(callback){
     connection.get().query('SELECT users.t_number,users.first_name, behaviour_desc, observations.observation_id, skills.skill_title, observations.observation_comment, observations.observation_date , '+
     'observations.assigned_by, ASSIGNED_BY_STATEMENT.full_name AS assigned_by_name, observations.observation_type FROM users '+

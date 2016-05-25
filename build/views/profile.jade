@@ -1,0 +1,15 @@
+extends layout
+
+block content
+    .row
+        .col-xs-12
+            h1 Profile
+    .row
+        .col-xs-12
+            h3 #{user.first_name} #{user.last_name}
+        .col-xs-12
+            p T#: #{user.t_number}
+        .col-xs-12
+            p E: #{user.email}
+        .col-xs-12
+            p Type: #{user.privileged}
