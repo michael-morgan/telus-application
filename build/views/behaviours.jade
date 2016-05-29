@@ -1,0 +1,42 @@
+extends layout
+
+block append stylesheet
+    link(rel='stylesheet', href='/stylesheets/observations.css')
+
+block content
+    .row
+        .col-xs-12
+            h1.page-header #{title}
+        if(success_messages != null)
+            .col-xs-12
+                div.alert.success.alert-success(role='success')
+                    .alert-title
+                        i.fa.fa-check.fa-2x
+                        strong Great!
+                    p !{success_messages}
+    .row
+        .col-xs-12
+            form(method='post', role='form')
+                .form-group
+                     button#addNewSkill.form-btn.btn.btn-lg.btn-success(name='submit', type='button') Add New Skill
+    .row#accordion.panel-group(role='tablist', aria-multiselectable='true')
+        //Show list of stores
+        each skill, s in skills
+            .col-xs-12
+                .panel.panel-default
+                    .panel-heading(role='tab', id='storeHeading#{s}', data-toggle='collapse', data-target='#storeCollapse#{s}')
+                        .col-xs-10
+                            h3.panel-title
+                                | #{skill.skill_title}
+                    .panel-collapse.collapse(role='tabpanel', aria-labelledby='storeHeading#{s}', id='storeCollapse#{s}')
+                        .panel-body
+                            each behaviour, i in behaviours
+                                if behaviour.skill_id == skill.skill_id
+                                    .panel.panel-default
+                                        .panel-heading(role='tab', id='userHeading#{i}', data-toggle='collapse', data-target='#userCollapse#{i}')
+                                                .panel-body
+                                                        //description of the behaviour
+                                                        | #{behaviour.behaviour_desc}
+                                                        form(method='post', role='form')
+                                                            .form-group
+                                                                button#addNewSkill.form-btn.btn.btn-lg.btn-success(name='submit', type='button') Edit Skill/Behaviour

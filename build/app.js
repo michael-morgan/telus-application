@@ -19,6 +19,8 @@ var bcrypt = require('bcryptjs');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var observations = require('./routes/users/observations');
+var behaviours = require('./routes/users/behaviours');
+
 var app = express();
 
 // view engine setup
@@ -115,6 +117,8 @@ app.post('*', function(req, res, next) {
 app.use('/', index);
 app.use('/users', users);
 app.use('/users/observations', observations);
+app.use('/users/behaviours', behaviours);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
