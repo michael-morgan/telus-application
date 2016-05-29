@@ -39,4 +39,5 @@ block content
                                                 | #{behaviour.behaviour_desc}
                                                 form(method='post', role='form')
                                                     .form-group
-                                                        button#addNewSkill.form-btn.btn.btn-lg.btn-success(name='submit', type='button') Edit Skill/Behaviour
+                                                        a(href='/users/behaviours/add-behaviour/' + behaviour.behaviour_id)
+                                                            button#editSkill.form-btn.btn.btn-lg.btn-success(name='submit', type='button', ) Edit Skill/Behaviour
