@@ -5,50 +5,51 @@ block append stylesheet
 
 block content
     .row
-        .col-md-12
+        .col-xs-12
             h1.page-header Observations
-            if(success_messages != null)
-                .row
-                    .col-md-12
-                        div.alert.success.alert-success(role='success')
-                            .alert-title
-                                i.fa.fa-check.fa-2x
-                                strong Great!
-                            p !{success_messages}
-    #accordion.panel-group(role='tablist', aria-multiselectable='true')
+        if(success_messages != null)
+            .col-xs-12
+                div.alert.success.alert-success(role='success')
+                    .alert-title
+                        i.fa.fa-check.fa-2x
+                        strong Great!
+                    p !{success_messages}
+    .row#accordion.panel-group(role='tablist', aria-multiselectable='true')
         //Show list of stores
         each store, s in stores
-            .row
+            .col-xs-12
                 .panel.panel-default
                     .panel-heading(role='tab', id='storeHeading#{s}', data-toggle='collapse', data-target='#storeCollapse#{s}')
-                            //User
                             .col-xs-10
                                 h3.panel-title
-                                    a(role='button', data-parent='#accordion', href='#storeCollapse#{s}', aria-expanded='false', aria-controls='storeCollapse#{s}')
-                                        | Store #: #{store.store_id} #{store.store_name}
+                                    | Store #: #{store.store_id} #{store.store_name}
                     .panel-collapse.collapse(role='tabpanel', aria-labelledby='storeHeading#{s}', id='storeCollapse#{s}')
                         .panel-body
-                            //Show list of users
                             each user, i in users
                                 if user.store_id == store.store_id
                                     .panel.panel-default
                                         .panel-heading(role='tab', id='userHeading#{i}', data-toggle='collapse', data-target='#userCollapse#{i}')
-                                            //User
                                             .col-xs-10
                                                 h3.panel-title
-                                                    a(role='button', data-parent='#accordion', href='#userCollapse#{i}', aria-expanded='false', aria-controls='userCollapse#{i}')
-                                                        | #{user.first_name} #{user.last_name}
-                                            //Add observation button
+                                                    | #{user.first_name} #{user.last_name}
                                             .col-xs-2
-                                                a(href='/users/observations/add-observation/' + user.t_number)
-                                                    i.fa.fa-plus-circle.fa-2x.pull-right
+                                                .dropdown.pull-right
+                                                    a.dropdown-toggle#ddMoreOptions(type='button', data-toggle='dropdown', aria-haspopup='true' aria-expanded='true')
+                                                        i.fa.fa-ellipsis-v.fa-2x(aria-hidden='true')
+                                                    ul.dropdown-menu(aria-labelledby='ddMoreOptions')
+                                                        li
+                                                            a(href='/users/profile/' + user.t_number)
+                                                                | View Profile
+                                                        li
+                                                            a(href='/users/observations/add-observation/' + user.t_number)
+                                                                | Add Observation
                                         .panel-collapse.collapse(role='tabpanel', aria-labelledby='userHeading#{i}', id='userCollapse#{i}')
                                             .panel-body
                                                 //Show list of observations recorded for each user
                                                 each observation, j in observations
                                                     if (user.t_number == observation.t_number) && (observation.behaviour_desc != undefined)
-                                                        .panel.panel-default
-                                                            .panel-heading(role='tab', class=((observation.observation_type == 1) ? 'good-observation' : 'bad-observation'), id='observationHeading#{j}', data-toggle='collapse', data-target='#observationCollapse#{j}')
+                                                        .panel.panel-default(class=((observation.observation_type == 1) ? 'good-observation' : 'bad-observation'))
+                                                            .panel-heading(role='tab', id='observationHeading#{j}', data-toggle='collapse', data-target='#observationCollapse#{j}')
                                                                 h4.panel-title
                                                                     a(role='button', data-parent='#accordion', href='#observationCollapse#{j}', aria-expanded='false', aria-controls='observationCollapse#{j}')
                                                                         //Area for the date
@@ -61,7 +62,7 @@ block content
                                                                         .col-sm-10.ellipsis
                                                                             | #{observation.behaviour_desc}
                                                             //More details tab
-                                                            .panel-collapse.collapse.custom-panel(role='tabpanel', aria-labelledby='observationHeading#{j}', id='observationCollapse#{j}')
+                                                            .panel-collapse.collapse(role='tabpanel', aria-labelledby='observationHeading#{j}', id='observationCollapse#{j}')
                                                                 .panel-body
                                                                     .row
                                                                         //description of the behaviour

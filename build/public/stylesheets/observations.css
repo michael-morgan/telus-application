@@ -59,11 +59,15 @@
 }
 
 .good-observation {
-    border: 1px solid green !Important;
-    background-color: #dff0d8;
+    border: 1px solid #a5d591 !important;
+    background-color: #dff0d8 !important;
 }
 
 .bad-observation {
-    border: 1px solid red !Important;
+    border: 1px solid red !important;
     background-color: #f2dede;
+}
+
+#ddMoreOptions {
+    padding: 15px 15px 6px 15px;
 }
