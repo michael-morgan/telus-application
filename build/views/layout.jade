@@ -88,6 +88,20 @@ html
                                         a(href='/users/observations/add-observation')
                                             span.menu-text Add Observation
                                             span.selected
+                            li.hoe-has-menu
+                                a(href='#')
+                                    i.fa.fa-plus
+                                    span.menu-text Behaviours
+                                    span.selected
+                                ul.hoe-sub-menu
+                                    li
+                                        a(href='/users/behaviours')
+                                            span.menu-text Behaviours
+                                            span.selected
+                                    li
+                                        a(href='/users/behaviours/add-behaviour')
+                                            span.menu-text Add Behaviours
+                                            span.selected
                             if user.privileged >= 2
                                 li
                                     a(href='/users/settings')

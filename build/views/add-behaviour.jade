@@ -1,0 +1,53 @@
+extends layout
+
+block append stylesheet
+    link(rel='stylesheets', href='/stylesheets/bootstrap.min.css')
+    link(rel='stylesheet', href='/stylesheets/observations.css')
+    link(rel='stylesheet', href='/stylesheets/add-observations.css')
+    link(rel='stylesheet', href='https://fonts.googleapis.com/icon?family=Material+Icons')
+block content
+    .row
+        .col-md-12
+            h1.page-header #{title}
+            //If there is some kind of error, display something went wrong
+            if(message)
+                .row
+                    .col-md-6.col-md-offset-3
+                        div.alert.alert-danger(role='alert')
+                            .alert-title
+                                i.fa.fa-exclamation-circle.fa-2x
+                                strong Something went wrong!
+                            p !{message}
+    .row
+        .col-xs-12
+            .formTitle
+                    //Form for adding observation
+                form.form-horizontal(method='post', role='form')
+                    .form-group
+                        .col-md-10.col-sm-10.col-sm-offset-1.col-md-offset-1
+                            span Add Behaviour under &nbsp
+                            select.selectpicker(required id='employeeDropdown' name='employeeDropdown' data-live-search="false")
+                                option(disabled selected value='0') Select Skill
+                                //fill the behaviour array into the dropdown ERROR
+
+                            br
+                            #accordion.panel-group(role='tablist', aria-multiselectable='true')
+                                staticasdf
+                                    .row
+                                        .panel.panel-default
+                                            .panel-heading(role='tab', id='skillHeading#{s}', data-toggle='collapse', data-target='#skillCollapse#{s}')
+                                                    col-xs-10
+                                                        h3.panel-title
+                                                            a(role='button', data-parent='#accordion', href='#skillCollapse#{s}', aria-expanded='false', aria-controls='skillCollapsee#{s}')
+                                                                | Store #: asdfd
+                                            .panel-collapse.collapse(role='tabpanel', aria-labelledby='storeHeading#{s}', id='storeCollapse#{s}')
+                                                .panel-body
+                                                    asdf
+
+
+                            .form-group
+                                .col-sm-10.col-sm-offset-1
+                                    .row.text-center
+                                        button#submitObservation.form-btn.btn.btn-lg.obs-btn.disabled(name='submit', type='button') Submit
+
+

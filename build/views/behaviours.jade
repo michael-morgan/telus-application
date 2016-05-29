@@ -1,0 +1,19 @@
+extends layout
+
+block append stylesheet
+    link(rel='stylesheet', href='/stylesheets/observations.css')
+
+block content
+    .row
+        .col-md-12
+            h1.page-header Behaviours
+            if(success_messages != null)
+                .row
+                    .col-md-12
+                        div.alert.success.alert-success(role='success')
+                            .alert-title
+                                i.fa.fa-check.fa-2x
+                                strong Great!
+                            p !{success_messages}
+    .row
+        h1 Micahel is a boss!
