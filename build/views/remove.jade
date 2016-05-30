@@ -2,7 +2,7 @@ extends layout
 
 block content
     .row
-        .col-md-12
+        .col-md-10.col-sm-10.col-sm-offset-1.col-md-offset-1
             h1.page-header Modify Users
     .row
             if(message)
@@ -15,7 +15,7 @@ block content
                             p !{message}
             if(success_messages != null)
                 .row
-                    .col-md-12
+                    .col-md-10.col-sm-10.col-sm-offset-1.col-md-offset-1
                         div.success.alert.alert-success(role='success')
                             .alert-title
                                 i.fa.fa-check.fa-2x
@@ -33,41 +33,43 @@ block content
                 ul
                     for error in errors
                         li!= error.msg
-            .panel.panel-default.formPanel
-                .panel-body
-                    .table-responsive
-                        form.form-horizontal(method='post', action='/users/remove', role='form')
-                            table.table.table-hover
-                                thead
-                                    tr
-                                        th T Number
-                                        th First Name
-                                        th Last Name
-                                        th Email
-                                        th Title
-                                        th Remove
-                                tbody
-                                    each user, i in users
-                                        if user.privileged != 5
+             .row
+                 .col-md-10.col-sm-10.col-sm-offset-1.col-md-offset-1
+                    .panel.panel-default.formPanel
+                        .panel-body
+                            .table-responsive
+                                form.form-horizontal(method='post', action='/users/remove', role='form')
+                                    table.table.table-hover
+                                        thead
                                             tr
-                                                td #{user.t_number}
-                                                td #{user.first_name}
-                                                td #{user.last_name}
-                                                td #{user.email}
-                                                case user.privileged
-                                                    when 2
-                                                        td Assistant Manager
-                                                    when 3
-                                                        td Manager
-                                                    when 4
-                                                        td Area Manager
-                                                    default
-                                                        td Employee
+                                                th T Number
+                                                th First Name
+                                                th Last Name
+                                                th Email
+                                                th Title
+                                                th Remove
+                                        tbody
+                                            each user, i in users
+                                                if user.privileged != 5
+                                                    tr
+                                                        td #{user.t_number}
+                                                        td #{user.first_name}
+                                                        td #{user.last_name}
+                                                        td #{user.email}
+                                                        case user.privileged
+                                                            when 2
+                                                                td Assistant Manager
+                                                            when 3
+                                                                td Manager
+                                                            when 4
+                                                                td Area Manager
+                                                            default
+                                                                td Employee
 
-                                                td
-                                                    input(name='remove#{user.t_number}' type='checkbox')
-                            .col-sm-10.col-sm-offset-2
-                                .col-sm-5
-                                    button.form-btn.btn.btn-danger.btn-lg.btn-block(name='submit', type='submit', value='remove') Remove
-                                .col-sm-5
-                                    button.form-btn.btn.btn-primary.btn-lg.btn-block(name='submit', type='submit', value='cancel') Cancel
+                                                        td
+                                                            input(name='remove#{user.t_number}' type='checkbox')
+                                    .col-sm-10.col-sm-offset-2
+                                        .col-sm-5
+                                            button.form-btn.btn.btn-danger.btn-lg.btn-block(name='submit', type='submit', value='remove') Remove
+                                        .col-sm-5
+                                            button.form-btn.btn.btn-primary.btn-lg.btn-block(name='submit', type='submit', value='cancel') Cancel
