@@ -24,37 +24,27 @@ block content
                     //Form for adding observation
                 form.form-horizontal(method='post', role='form')
                     .form-group
-                        .col-md-10.col-sm-10.col-sm-offset-1.col-md-offset-1
+                        .col-sm-10.col-sm-offset-1
                             .row.text-center
-                                span Add Behaviour under &nbsp
-                                select.selectpicker(required id='employeeDropdown' name='employeeDropdown' data-live-search="false")
-                                    option(disabled selected value='0') Select Skill
-                                    //fill the behaviour array into the dropdown ERROR
-                                    each skill ,s in skills
-                                        if selectedskill != undefined && selectedskill[0].skill_id == skill.skill_id
-                                            option(disabled selected) #{skill.skill_title}
-                                        else if selectedskill == undefined
-                                            option #{skill.skill_title}
-                                 .form-group
-                                    .col-sm-10.col-sm-offset-1
-                                        .row.text-center
-                                            if selectedskill != undefined
-                                                textarea(placeholder="Enter Skill Name", maxlength="300", id="commentBox" name="commentBox" class="behaviour-title") #{selectedskill[0].skill_title}
-                                            else
-                                                textarea(placeholder="Enter Skill Name", maxlength="300", id="commentBox" name="commentBox" class="behaviour-title")
+                                | Skill Name:
+                                if selectedskill != undefined
+                                    textarea(placeholder="Enter Skill Name", maxlength="300", id="commentBox" name="commentBox" class="behaviour-title") #{selectedskill[0].skill_title}
+                                else
+                                    textarea(placeholder="Enter Skill Name", maxlength="300", id="commentBox" name="commentBox" class="behaviour-title")
 
-                                .form-group
-                                    .col-sm-10.col-sm-offset-1
-                                        .row.text-center
-                                            if selectedskill != undefined
-                                                textarea(placeholder="Enter Behavior Description here...", maxlength="300", id="commentBox" name="commentBox" class="behaviour-description") #{selectedskill[0].behaviour_desc}
-                                            else
-                                                textarea(placeholder="Enter Behavior Description here...", maxlength="300", id="commentBox" name="commentBox" class="behaviour-description")
+                            .form-group
+                                .col-sm-10.col-sm-offset-1
+                                    .row.text-center
+                                        | Behaviour Description:
+                                        if selectedskill != undefined
+                                            textarea(placeholder="Enter Behavior Description here...", maxlength="300", id="commentBox" name="commentBox" class="behaviour-description") #{selectedskill[0].behaviour_desc}
+                                        else
+                                            textarea(placeholder="Enter Behavior Description here...", maxlength="300", id="commentBox" name="commentBox" class="behaviour-description")
 
 
-                                .form-group
-                                    .col-sm-10.col-sm-offset-1
-                                        .row.text-center
-                                            button#submitObservation.form-btn.btn.btn-lg.obs-btn.disabled(name='submit', type='button') Submit
+                            .form-group
+                                .col-sm-10.col-sm-offset-1
+                                    .row.text-center
+                                        button#submitObservation.form-btn.btn.btn-lg.obs-btn.disabled(name='submit', type='button') Submit
 
 
