@@ -17,9 +17,10 @@ block content
     .row#accordion.panel-group(role='tablist', aria-multiselectable='true')
         //Show list of stores
         each store, s in stores
-            .col-xs-12
+            .col-md-10.col-sm-10.col-sm-offset-1.col-md-offset-1
                 .panel.panel-default
-                    .panel-heading(role='tab', id='storeHeading#{s}', data-toggle='collapse', data-target='#storeCollapse#{s}')
+                    .panel-heading.purpleHead(role='tab', id='storeHeading#{s}', data-toggle='collapse', data-target='#storeCollapse#{s}')
+                        .row
                             .col-xs-10
                                 h3.panel-title
                                     | Store #: #{store.store_id} #{store.store_name}
@@ -27,22 +28,23 @@ block content
                         .panel-body
                             each user, i in users
                                 if user.store_id == store.store_id
-                                    .panel.panel-default
-                                        .panel-heading(role='tab', id='userHeading#{i}', data-toggle='collapse', data-target='#userCollapse#{i}')
-                                            .col-xs-10
-                                                h3.panel-title
-                                                    | #{user.first_name} #{user.last_name}
-                                            .col-xs-2
-                                                .dropdown.pull-right
-                                                    a.dropdown-toggle#ddMoreOptions(type='button', data-toggle='dropdown', aria-haspopup='true' aria-expanded='true')
-                                                        i.fa.fa-ellipsis-v.fa-2x(aria-hidden='true')
-                                                    ul.dropdown-menu(aria-labelledby='ddMoreOptions')
-                                                        li
-                                                            a(href='/users/profile/' + user.t_number)
-                                                                | View Profile
-                                                        li
-                                                            a(href='/users/observations/add-observation/' + user.t_number)
-                                                                | Add Observation
+                                    .panel
+                                        .panel-heading.purpleHead
+                                            .row
+                                                .col-xs-10
+                                                    h3.panel-title(role='tab', id='userHeading#{i}', data-toggle='collapse', data-target='#userCollapse#{i}')
+                                                        | #{user.first_name} #{user.last_name}
+                                                .col-xs-2
+                                                    .dropdown.pull-right
+                                                        a.dropdown-toggle#ddMoreOptions(type='button', data-toggle='dropdown', aria-haspopup='true' aria-expanded='true')
+                                                            i.fa.fa-ellipsis-v.fa-2x(aria-hidden='true')
+                                                        ul.dropdown-menu(aria-labelledby='ddMoreOptions')
+                                                            li
+                                                                a(href='/users/profile/' + user.t_number)
+                                                                    | View Profile
+                                                            li
+                                                                a(href='/users/observations/add-observation/' + user.t_number)
+                                                                    | Add Observation
                                         .panel-collapse.collapse(role='tabpanel', aria-labelledby='userHeading#{i}', id='userCollapse#{i}')
                                             .panel-body
                                                 //Show list of observations recorded for each user
@@ -52,18 +54,19 @@ block content
                                                             .panel-heading(role='tab', id='observationHeading#{j}', data-toggle='collapse', data-target='#observationCollapse#{j}')
                                                                 h4.panel-title
                                                                     a(role='button', data-parent='#accordion', href='#observationCollapse#{j}', aria-expanded='false', aria-controls='observationCollapse#{j}')
-                                                                        //Area for the date
-                                                                        .col-sm-1
-                                                                            | #{observation.observation_date.toLocaleDateString()}
-                                                                        //Area for the thumbs up or down, based on good/bad
-                                                                        .col-sm-1.text-center
-                                                                            i.fa(class=((observation.observation_type == 1) ? 'fa-thumbs-up' : 'fa-thumbs-down'))
-                                                                        //Area for the observation
-                                                                        .col-sm-10.ellipsis
-                                                                            | #{observation.behaviour_desc}
+                                                                        .row
+                                                                            //Area for the date
+                                                                            .col-sm-1.padding10tb
+                                                                                | #{observation.observation_date.toLocaleDateString()}
+                                                                            //Area for the thumbs up or down, based on good/bad
+                                                                            .col-sm-1.padding10tb
+                                                                                i.fa(class=((observation.observation_type == 1) ? 'fa-thumbs-up' : 'fa-thumbs-down'))
+                                                                            //Area for the observation
+                                                                            .col-sm-10.ellipsis.padding10tb
+                                                                                | #{observation.behaviour_desc}
                                                             //More details tab
                                                             .panel-collapse.collapse(role='tabpanel', aria-labelledby='observationHeading#{j}', id='observationCollapse#{j}')
-                                                                .panel-body
+                                                                .panel-body.padding15tb
                                                                     .row
                                                                         //description of the behaviour
                                                                         .col-sm-12

@@ -1,3 +1,6 @@
+.padding10tb{padding:10px 0 !Important}
+.padding15tb{padding:15px 0 !Important}
+
 #accordion1 .panel-heading {
     padding-bottom: 35px;
 }
@@ -21,9 +24,6 @@
     margin-right: 5px;
 }
 
-#accordion .panel-heading {
-    padding-bottom: 35px;
-}
 
 #accordion h3 {
     font-size: 24px;
@@ -61,13 +61,42 @@
 .good-observation {
     border: 1px solid #a5d591 !important;
     background-color: #dff0d8 !important;
+    margin-top:0;
 }
 
 .bad-observation {
     border: 1px solid red !important;
     background-color: #f2dede;
+    margin-top:0;
+}
+
+.good-observation a, .bad-observation a{
+    color:#000;
 }
 
 #ddMoreOptions {
     padding: 15px 15px 6px 15px;
 }
+
+.panel-body {
+    padding: 0;
+}
+
+
+.panel-title, #ddMoreOptions{
+    color:#FFF;
+}
+
+
+
+.panel-group .panel+.panel {
+    margin-top: 0;
+}
+
+
+.purpleHead{
+    background-color: #49166D !Important;
+    padding: 15px 0;
+}
+
+
