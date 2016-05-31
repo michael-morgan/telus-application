@@ -1,5 +1,4 @@
 extends layout
-
 block append stylesheet
     link(rel='stylesheet', href='/stylesheets/observations.css')
 block content
@@ -17,7 +16,8 @@ block content
         .col-xs-12
             form(method='post', role='form')
                 .form-group
-                    button#addNewSkill.form-btn.btn.btn-lg.btn-success(name='submit', type='button') Add New Skill
+                    a(href='/users/behaviours/add-behaviour/')
+                        button#addNewSkill.form-btn.btn.btn-lg.btn-success(name='submit', type='button') Add New Skill
     .row#accordion.panel-group(role='tablist', aria-multiselectable='true')
         //Show list of stores
         each skill, s in skills
