@@ -17,7 +17,7 @@ block content
     .row#accordion.panel-group(role='tablist', aria-multiselectable='true')
         //Show list of stores
         each store, s in stores
-            .col-md-10.col-sm-10.col-sm-offset-1.col-md-offset-1
+            .col-sm-10.col-sm-offset-1
                 .panel.panel-default
                     .panel-heading.purpleHead(role='tab', id='storeHeading#{s}', data-toggle='collapse', data-target='#storeCollapse#{s}')
                         .row

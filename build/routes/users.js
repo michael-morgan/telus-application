@@ -328,7 +328,7 @@ router.get('/profile/:id', ensureAuthenticated, function(req, res, next) {
             };
 
             //Render profile page with supplied user
-            res.render('profile', { user: returnObj });
+            res.render('profile', { userObj: returnObj });
         }
     });
 });
