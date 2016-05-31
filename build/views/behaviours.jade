@@ -1,7 +1,7 @@
 extends layout
 
 block append stylesheet
-
+    link(rel='stylesheet', href='/stylesheets/observations.css')
 block content
     .row
         .col-xs-12
@@ -21,9 +21,9 @@ block content
     .row#accordion.panel-group(role='tablist', aria-multiselectable='true')
         //Show list of stores
         each skill, s in skills
-            .col-xs-12
+            .col-md-10.col-sm-10.col-sm-offset-1.col-md-offset-1
                 .panel.panel-default
-                    .panel-heading(role='tab', id='storeHeading#{s}', data-toggle='collapse', data-target='#storeCollapse#{s}')
+                    .panel-heading.purpleHead(role='tab', id='storeHeading#{s}', data-toggle='collapse', data-target='#storeCollapse#{s}')
                         .row
                             .col-xs-10
                                     h3.panel-title
@@ -32,7 +32,7 @@ block content
                             .panel-body
                                 each behaviour, i in behaviours
                                     if behaviour.skill_id == skill.skill_id
-                                        .panel.panel-default
+                                        .panel
                                             .panel-heading(role='tab', id='userHeading#{i}', data-toggle='collapse', data-target='#userCollapse#{i}')
                                                 .panel-body
                                                     //description of the behaviour
