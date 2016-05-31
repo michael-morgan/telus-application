@@ -1,55 +1,3 @@
-.padding10tb{padding:10px 0 !Important}
-.padding15tb{padding:15px 0 !Important}
-
-#accordion1 .panel-heading {
-    padding-bottom: 35px;
-}
-
-#accordion1 h3 {
-    font-weight: bold;
-    font-size: 24px;
-}
-
-#accordion1 h4 .ellipsis {
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-}
-
-#accordion1 .panel-body .row span {
-    line-height: 2.0;
-}
-
-#accordion1 .panel-body .row span > strong {
-    margin-right: 5px;
-}
-
-
-#accordion h3 {
-    font-size: 24px;
-}
-
-#accordion h4 .ellipsis {
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-    padding-bottom:1px;
-}
-
-#accordion .panel-body .row span {
-    line-height: 2.0;
-}
-
-#accordion .panel-body .row span > strong {
-    margin-right: 5px;
-}
-
-
-
-.panel-title a:hover{
-    color:#000 !important;
-}
-
 #accordion .bad-observation {
     background-color: #f2dede;
 }
@@ -70,33 +18,6 @@
     margin-top:0;
 }
 
-.good-observation a, .bad-observation a{
+.good-observation a, .bad-observation a {
     color:#000;
 }
-
-#ddMoreOptions {
-    padding: 15px 15px 6px 15px;
-}
-
-.panel-body {
-    padding: 0;
-}
-
-
-.panel-title, #ddMoreOptions{
-    color:#FFF;
-}
-
-
-
-.panel-group .panel+.panel {
-    margin-top: 0;
-}
-
-
-.purpleHead{
-    background-color: #49166D !Important;
-    padding: 15px 0;
-}
-
-

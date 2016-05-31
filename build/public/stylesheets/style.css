@@ -1,6 +1,6 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic);
 
-#wrapper #main-content * {
+#main-content * {
   border-radius: 0;
 }
 
@@ -50,14 +50,14 @@ a:hover{
 }
 
 .form-btn {
-   border: 0px;
-   border-radius: 0px;
+   border: 0;
+   border-radius: 0;
 }
 
 .formInput {
   height: 54px;
   font-size: 20px;
-  border-radius: 0px;
+  border-radius: 0;
   background-color: #ffffff;
   color:#555;
 }
@@ -72,7 +72,7 @@ a:hover{
 }
 
 .formPanel {
-   border-radius: 0px;
+   border-radius: 0;
 }
 
 #login-wrapper {
@@ -110,7 +110,6 @@ a:hover{
 .observation-comment {
   box-shadow: 0 1px 3px rgba(0, 0, 0, .33);
   height: 75px;
-  margin: 0;
   min-height: 75px;
   padding: 10px;
   width: 50%;
@@ -147,10 +146,9 @@ h4.panel-title {
   overflow: hidden;
 }
 
-.classWithPad{
+.classWithPad {
   padding:10px;
 }
-
 
 .good-observation {
   color:#000;
@@ -169,20 +167,86 @@ h4.panel-title {
 }
 
 
-.panel-primary>.panel-heading{
+.panel-primary>.panel-heading {
   background-color: #49166D;
   border-color: #49166D;
   border-radius: 0;
 }
 
-.panel-primary{
+.panel-primary {
   border-color: #49166D;
 }
 
-.panel{
+.panel {
   border-radius: 0;
 }
 
 .display-none *{
   display:none !Important;
 }
+
+.padding10tb { padding:10px 0 !important }
+.padding15tb{ padding:15px 0 !important }
+
+/* Accordion/Panel Styling */
+
+#accordion1 .panel-heading {
+  padding-bottom: 35px;
+}
+
+#accordion1 h3 {
+  font-weight: bold;
+  font-size: 24px;
+}
+
+#accordion1 h4 .ellipsis {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+#accordion1 .panel-body .row span {
+  line-height: 2.0;
+}
+
+#accordion1 .panel-body .row span > strong {
+  margin-right: 5px;
+}
+
+#accordion h3 {
+  font-size: 24px;
+}
+
+#accordion h4 .ellipsis {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  padding-bottom:1px;
+}
+
+#accordion .panel-body .row span {
+  line-height: 2.0;
+}
+
+#accordion .panel-body .row span > strong {
+  margin-right: 5px;
+}
+
+#ddMoreOptions {
+  padding: 15px 15px 6px 15px;
+}
+
+.panel-title, #ddMoreOptions{
+  color:#FFF;
+}
+
+.panel-group .panel+.panel {
+  margin-top: 0;
+}
+
+.purpleHead {
+  background-color: #49166D !Important;
+  padding: 15px 0;
+}
+
+/* END Accordion/Panel Styling */
