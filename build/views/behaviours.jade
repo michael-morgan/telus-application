@@ -1,7 +1,6 @@
 extends layout
 
 block append stylesheet
-    link(rel='stylesheet', href='/stylesheets/observations.css')
 
 block content
     .row
@@ -25,19 +24,22 @@ block content
             .col-xs-12
                 .panel.panel-default
                     .panel-heading(role='tab', id='storeHeading#{s}', data-toggle='collapse', data-target='#storeCollapse#{s}')
-                        .col-xs-10
-                            h3.panel-title
-                                | #{skill.skill_title}
-                    .panel-collapse.collapse(role='tabpanel', aria-labelledby='storeHeading#{s}', id='storeCollapse#{s}')
-                        .panel-body
-                            each behaviour, i in behaviours
-                                if behaviour.skill_id == skill.skill_id
-                                    .panel.panel-default
-                                        .panel-heading(role='tab', id='userHeading#{i}', data-toggle='collapse', data-target='#userCollapse#{i}')
-                                            .panel-body
-                                                //description of the behaviour
-                                                | #{behaviour.behaviour_desc}
-                                                form(method='post', role='form')
-                                                    .form-group
-                                                        a(href='/users/behaviours/add-behaviour/' + behaviour.behaviour_id)
-                                                            button#editSkill.form-btn.btn.btn-lg.btn-success(name='submit', type='button', ) Edit Skill/Behaviour
+                        .row
+                            .col-xs-10
+                                    h3.panel-title
+                                        | #{skill.skill_title}
+                        .panel-collapse.collapse(role='tabpanel', aria-labelledby='storeHeading#{s}', id='storeCollapse#{s}')
+                            .panel-body
+                                each behaviour, i in behaviours
+                                    if behaviour.skill_id == skill.skill_id
+                                        .panel.panel-default
+                                            .panel-heading(role='tab', id='userHeading#{i}', data-toggle='collapse', data-target='#userCollapse#{i}')
+                                                .panel-body
+                                                    //description of the behaviour
+                                                    | #{behaviour.behaviour_desc}
+                            form(method='post', role='form')
+                                .form-group
+                                    a(href='/users/behaviours/add-behaviour/' + skill.skill_id)
+                                        button#editSkill.form-btn.btn.btn-lg.btn-success(name='submit', type='button', ) Edit Skill/Behaviour
+
+

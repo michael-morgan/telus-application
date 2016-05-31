@@ -2,8 +2,6 @@ extends layout
 
 block append stylesheet
     link(rel='stylesheets', href='/stylesheets/bootstrap.min.css')
-    link(rel='stylesheet', href='/stylesheets/observations.css')
-    link(rel='stylesheet', href='/stylesheets/add-observations.css')
     link(rel='stylesheet', href='https://fonts.googleapis.com/icon?family=Material+Icons')
 block content
     .row
@@ -26,25 +24,24 @@ block content
                     .form-group
                         .col-sm-10.col-sm-offset-1
                             .row.text-center
-                                | Skill Name:
                                 if selectedskill != undefined
-                                    textarea(placeholder="Enter Skill Name", maxlength="300", id="commentBox" name="commentBox" class="behaviour-title") #{selectedskill[0].skill_title}
-                                else
-                                    textarea(placeholder="Enter Skill Name", maxlength="300", id="commentBox" name="commentBox" class="behaviour-title")
-
-                            .form-group
-                                .col-sm-10.col-sm-offset-1
-                                    .row.text-center
+                                    br
+                                    | Skill Name:
+                                    textarea(placeholder="Enter Skill Name", maxlength="300", id="skillTitleBox" name="skillTitleBox" class="behaviour-title") #{selectedskill[0].skill_title}
+                                    each skill, i in selectedskill
+                                        br
                                         | Behaviour Description:
-                                        if selectedskill != undefined
-                                            textarea(placeholder="Enter Behavior Description here...", maxlength="300", id="commentBox" name="commentBox" class="behaviour-description") #{selectedskill[0].behaviour_desc}
-                                        else
-                                            textarea(placeholder="Enter Behavior Description here...", maxlength="300", id="commentBox" name="commentBox" class="behaviour-description")
-
-
+                                        textarea(placeholder="Enter Behavior Description here...", maxlength="300", id='behaviourid#{skill.behaviour_id}' name='behaviourid#{skill.behaviour_id}' class="behaviour-description") #{skill.behaviour_desc}
+                                else
+                                    br
+                                    | Skill Name:
+                                    textarea(placeholder="Enter Skill Name", maxlength="300", id="skillTitleBox" name="skillTitleBox" class="behaviour-title")
+                                    br
+                                    | Behaviour Description:
+                                    textarea(placeholder="Enter Behavior Description here...", maxlength="300", id="behaviourid1" name="behaviourid1" class="behaviour-description")
                             .form-group
                                 .col-sm-10.col-sm-offset-1
                                     .row.text-center
-                                        button#submitObservation.form-btn.btn.btn-lg.obs-btn.disabled(name='submit', type='button') Submit
+                                        button#submitObservation.form-btn.btn.btn-lg.btn-success(name='submit', type='button') Submit
 
 
