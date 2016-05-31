@@ -14,17 +14,9 @@ block content
                         strong Great!
                     p !{success_messages}
     .row
-<<<<<<< HEAD
-        .col-xs-12
-            form(method='post', role='form')
-                .form-group
-                    a(href='/users/behaviours/add-behaviour/')
-                        button#addNewSkill.form-btn.btn.btn-lg.btn-success(name='submit', type='button') Add New Skill
-=======
         .col-sm-10.col-sm-offset-1.col-xs-12
             a.btn.btn-lg.btn-success.pull-right#addSkillButton(href='/users/behaviours/add-behaviour/')
                 | Add New Skill
->>>>>>> origin/build
     .row#accordion.panel-group(role='tablist', aria-multiselectable='true')
         //Show list of skills
         each skill, s in skills
