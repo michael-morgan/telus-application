@@ -54,7 +54,7 @@ router.get('/add-behaviour', ensureAuthenticated, function(req, res, next) {
     }
 
     var returnObj = {
-        title: 'Add Skills/Behaviours'
+        title: 'Add Behaviour'
     };
 
     //Connection to get all behaviours
@@ -67,6 +67,7 @@ router.get('/add-behaviour', ensureAuthenticated, function(req, res, next) {
         }
 
         returnObj['skills'] = skillResults;
+
         //Render the observations page with the list of skills and behaviours
         return res.render('add-behaviour', returnObj);
     });
@@ -79,7 +80,7 @@ router.get('/add-behaviour/:skill', ensureAuthenticated, function(req, res, next
     }
 
     var returnObj = {
-        title: 'Edit Skills/Behaviours'
+        title: 'Edit Skill/Behaviours'
     };
 
     //Connection to get all behaviours
@@ -137,7 +138,7 @@ router.post('/add-behaviour', ensureAuthenticated, function(req, res, next) {
             return res.render('add-behaviour', returnObj);
         }
         else {
-            connection.get().query('SELECT * FROM skills WHERE skill_title = ?',skillTitle, function (err, skillID) {
+            connection.get().query('SELECT * FROM skills WHERE skill_title = ?', skillTitle, function(err, skillID) {
                 //If an error is thrown
                 if (err) {
                     returnObj['message'] = 'Our database servers maybe down. Please try again.';
