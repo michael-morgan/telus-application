@@ -1,5 +1,4 @@
 extends layout
-
 block append stylesheet
     link(rel='stylesheets', href='/stylesheets/bootstrap.min.css')
     link(rel='stylesheet', href='https://fonts.googleapis.com/icon?family=Material+Icons')
@@ -19,28 +18,155 @@ block content
     .row
         .col-xs-12
             .formTitle
-                form.form-horizontal(method='post', role='form', action='')
+                //Form for adding observation
+                form.form-horizontal(method='post', role='form', id='addBehaviourForm', name='addBehaviourForm')
                     .form-group
                         .col-sm-10.col-sm-offset-1
-                            .row.text-center
+                            .row.text-center(id="Skillarea")
                                 if selectedskill != undefined
+                                    button#Delete.form-btn.btn.btn-lg.btn-danger(name='delete', type='button', onclick='initiateDelete();') Delete
                                     br
                                     | Skill Name:
-                                    textarea(placeholder="Enter Skill Name", maxlength="300", id="skillTitleBox" name="skillTitleBox" class="behaviour-title") #{selectedskill[0].skill_title}
-                                    each skill, i in selectedskill
+                                    br
+                                    div#checkBoxes(name="checkBoxes" , style='display:none;')
+                                        label
+                                            input(type="checkbox", name="deleteskillid#{selectedskill[0].skill_id}",id="deleteskillid#{selectedskill[0].skill_id}", onchange="handler.call(this)")
+                                            | Delete skill #{selectedskill[0].skill_title}
+                                    br
+                                    textarea(placeholder="Enter Skill Name here...", maxlength="300", id="skillTitleBox" name="skillTitleBox" class="behaviour-title") #{selectedskill[0].skill_title}
+                                    script.
+                                        //IncrementID
+                                        var i = 100000;
+                                        var deleteBehaviours = [];
+                                    each skill, s in selectedskill
                                         br
                                         | Behaviour Description:
+                                        br
+                                        div#checkBoxes(name="checkBoxes" , style='display:none;')
+                                            label
+                                                input(type="checkbox", name="deletebehaviourid#{skill.behaviour_id}", id="deletebehaviourid#{skill.behaviour_id}")
+                                                | Delete behaviour
                                         textarea(placeholder="Enter Behavior Description here...", maxlength="300", id='behaviourid#{skill.behaviour_id}' name='behaviourid#{skill.behaviour_id}' class="behaviour-description") #{skill.behaviour_desc}
+                                        script.
+                                            //IncrementID
+                                            i++;
+                                            deleteBehaviours.push('deletebehaviourid#{skill.behaviour_id}');
+                                    script.
+                                        //check all behaviours if checking a skill
+                                        deleteskillid#{selectedskill[0].skill_id}.onchange = function() {
+                                             if(this.checked) {
+                                                 for (var i = 0; i < deleteBehaviours.length; i++) {
+                                                     document.getElementById(deleteBehaviours[i]).checked = true; // check all behaviours
+                                                 }
+                                             }
+                                             //uncheck all behaviours if unchecking a skill
+                                             else
+                                             {
+                                                 for (var i = 0; i < deleteBehaviours.length; i++) {
+                                                     document.getElementById(deleteBehaviours[i]).checked = false; // uncheckbehaviours
+                                                 }
+                                             }
+                                        };
+                                        //Dynamically create behaviour textareas
+                                        function addBehaviour() {
+                                            var comment = "Behaviour Description:";
+                                            var newParagraph = document.createElement("P");
+                                            newParagraph.textContent = comment;
+                                            document.getElementById("Skillarea").appendChild(newParagraph);
+                                            var textarea = document.createElement("TEXTAREA");
+                                            textarea.class = "newTextArea";
+                                            textarea.id = "behaviourid" + i;
+                                            textarea.name = "behaviourid" + i;
+                                            textarea.placeholder = "Enter Behavior Description here...";
+                                            document.getElementById("Skillarea").appendChild(textarea);
+                                            i++;
+                                        };
+                                    script.
+                                        //Delete function
+                                        function initiateDelete()
+                                        {
+                                            document.getElementById("Delete").style.display = "none";
+                                            document.getElementById("addBehaviours").style.display = "none";
+                                            document.getElementById("saveBehaviour").textContent = "Delete";
+                                            document.getElementById("saveBehaviour").className = "";
+                                            document.getElementById("saveBehaviour").className = "form-btn btn btn-lg btn-danger";
+                                            //Show checkboxes
+                                            var divsToShow = document.getElementsByName("checkBoxes");
+                                            for (var i = 0; i < divsToShow.length; i++) {
+                                                divsToShow[i].style.display = "inline-block"; // depending on what you're doing
+                                            }
+                                        };
+                                        function saveOrDelete()
+                                        {
+                                            if(document.getElementById("saveBehaviour").textContent == "Save") {
+                                                document.addBehaviourForm.submit();
+                                            }
+                                            else
+                                            {
+                                                if (deleteskillid#{selectedskill[0].skill_id}.checked)
+                                                    alert('Are you sure you want to delete this skill and all of its behaviours?')
+                                                else
+                                                    alert('Are you sure you want delete the behaviour(s)?')
+                                                document.addBehaviourForm.submit();
+                                            }
+                                        };
+                                        //If they are editing a skill the cancel button will remove the delete function
+                                        //Cancel function
+                                        function cancel()
+                                        {
+                                                //Go back to the behaviours page is clicking cancel and not deleting something
+                                                if(document.getElementById("saveBehaviour").textContent == "Save")
+                                                {
+                                                    window.location.href = '/users/behaviours';
+                                                }
+                                                document.getElementById("saveBehaviour").textContent = "Save";
+                                                document.getElementById("saveBehaviour").className = "";
+                                                document.getElementById("saveBehaviour").className = "form-btn btn btn-lg btn-success";
+                                                document.getElementById("addBehaviours").style.display = "inline-block";
+                                                document.getElementById("Delete").style.display = "inline-block";
+                                                //Hide checkboxes
+                                                var divsToHide = document.getElementsByName("checkBoxes");
+                                                for (var i = 0; i < divsToHide.length; i++) {
+                                                    divsToHide[i].style.display = "none"; // depending on what you're doing
+                                                }
+                                        };
                                 else
-                                    br
+                                    script.
+                                       //If they are adding a skill the cancel button will just go back a page
+                                       //Cancel function
+                                       function cancel()
+                                       {
+                                           window.location.href = '/users/behaviours';
+                                       };
+                                       //Dynamically create behaviour textareas
+                                        var i = 2;
+                                        function addBehaviour() {
+                                            var comment = "Behaviour Description:";
+                                            var newParagraph = document.createElement("P");
+                                            newParagraph.textContent = comment;
+                                            document.getElementById("Skillarea").appendChild(newParagraph);
+                                            var textarea = document.createElement("TEXTAREA");
+                                            textarea.class = "newTextArea";
+                                            textarea.id = "behaviourid" + i;
+                                            textarea.name = "behaviourid" + i;
+                                            textarea.placeholder = "Enter Behavior Description here...";
+                                            document.getElementById("Skillarea").appendChild(textarea);
+                                            i++;
+                                        };
+                                        function saveOrDelete()
+                                        {
+                                            document.addBehaviourForm.submit();
+                                        };
                                     | Skill Name:
-                                    textarea(placeholder="Enter Skill Name", maxlength="300", id="skillTitleBox" name="skillTitleBox" class="behaviour-title")
+                                    br
+                                    textarea(placeholder="Enter Skill Name", maxlength="300", id="skillid1" name="skillid1" class="behaviour-title")
                                     br
                                     | Behaviour Description:
+                                    br
                                     textarea(placeholder="Enter Behavior Description here...", maxlength="300", id="behaviourid1" name="behaviourid1" class="behaviour-description")
                             .form-group
-                                .col-sm-10.col-sm-offset-1
-                                    .row.text-center
-                                        button#submitObservation.form-btn.btn.btn-lg.btn-success(name='submit', type='button') Submit
-
-
+                                //if we are adding a new skill show the add skill button
+                                .row.text-center
+                                    button#addBehaviours.form-btn.btn.btn-lg.btn-success(name='addBehaviours', type='button', onclick='addBehaviour();') Add Behaviour
+                                    button#cancelBtn.form-btn.btn.btn-lg.btn-default(name='cancelBtn', type='button', onclick='cancel();') Cancel
+                                    button#saveBehaviour.form-btn.btn.btn-lg.btn-success(name='btnSubmit', type='button', onclick='saveOrDelete();') Save

@@ -15,6 +15,7 @@ var flash = require('connect-flash');
 var nodemailer = require('nodemailer');
 var randtoken = require('rand-token');
 var bcrypt = require('bcryptjs');
+var async = require('async');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
