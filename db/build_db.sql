@@ -58,6 +58,7 @@ CREATE TABLE `behaviours` (
   `behaviour_desc` varchar(255) NOT NULL,
   PRIMARY KEY (`behaviour_id`),
   CONSTRAINT `behaviours_ibfk_1` FOREIGN KEY (`skill_id`) REFERENCES `skills` (`skill_id`)
+  ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -130,6 +131,8 @@ CREATE TABLE `observations` (
   CONSTRAINT `observations_ibfk_1` FOREIGN KEY (`assigned_to`) REFERENCES `users` (`t_number`),
   CONSTRAINT `observations_ibfk_2` FOREIGN KEY (`assigned_by`) REFERENCES `users` (`t_number`),
   CONSTRAINT `observations_ibfk_3` FOREIGN KEY (`behaviour_id`) REFERENCES `behaviours` (`behaviour_id`)
+  ON DELETE CASCADE
+
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -282,4 +285,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-02-15 19:38:29
+-- Dump completed on 2016-02-15 19:38:29users
