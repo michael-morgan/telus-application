@@ -114,6 +114,7 @@ router.post('/add-behaviour', ensureAuthenticated, function (req, res, next) {
     var returnObj = {
         title: 'Add Skills/Behaviours'
     };
+    console.log(behaviours);
     //Filter our the info we dont need, all we want is the skill and behaviour textareas
     async.forEach(Object.keys(behaviours), function (aBehaviour, callback){
         if (aBehaviour.indexOf('skillid') == -1 && aBehaviour.indexOf('behaviourid') == -1)
