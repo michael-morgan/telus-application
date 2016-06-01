@@ -114,7 +114,6 @@ router.post('/add-behaviour', ensureAuthenticated, function (req, res, next) {
     var returnObj = {
         title: 'Add Skills/Behaviours'
     };
-    console.log(behaviours);
     //Filter our the info we dont need, all we want is the skill and behaviour textareas
     async.forEach(Object.keys(behaviours), function (aBehaviour, callback){
         if (aBehaviour.indexOf('skillid') == -1 && aBehaviour.indexOf('behaviourid') == -1)
@@ -185,9 +184,9 @@ router.post('/add-behaviour', ensureAuthenticated, function (req, res, next) {
     });
      //Update the behaviour description
      //If all is good, return them to the behaviours page
-                req.flash('success_messages', 'The behaviour was successfully added to the database.');
-                req.session.success = true;
-                return res.redirect('/users/behaviours');
+        req.flash('success_messages', 'The behaviour was successfully added to the database.');
+        req.session.success = true;
+        return res.redirect('/users/behaviours');
 });
 // When the user has edited a behaviour, update the database and return them to the behaviours page
 router.post('/add-behaviour/:skill', ensureAuthenticated, function (req, res, next) {
@@ -199,6 +198,57 @@ router.post('/add-behaviour/:skill', ensureAuthenticated, function (req, res, ne
     var returnObj = {
         title: 'Edit Skills/Behaviours'
     };
+    var behaviourAdded = false;
+    var behaviourDeleted = false;
+    var skillDeleted = false;
+    //Filter post data
+    for(var aBehaviour in behaviours) {
+        if (aBehaviour.indexOf('skillid') == -1 && aBehaviour.indexOf('behaviourid') == -1 && aBehaviour.indexOf('deletebehaviourid') == -1 && aBehaviour.indexOf('deleteskillid') == -1) {
+            delete behaviours[aBehaviour];
+        }
+    }
+    //See if we are deleting
+    for(var aBehaviour in behaviours) {
+        //Delete Skill
+        if (aBehaviour.indexOf('deleteskillid') > -1) {
+            var skillToDelete = aBehaviour;
+            var skillID = String(skillToDelete.match(/[0-9]+/g));
+            connection.get().query('DELETE FROM skills WHERE skill_id = ?', [skillID], function (err, skillResults) {
+                //If an error is thrown
+                if (err) {
+                    returnObj['message'] = 'Our database servers maybe down. Please try again.';
+                    //Render the page wth error messages
+                    return res.render('add-behaviour', returnObj);
+                }
+            });
+            behaviourDeleted = true;
+            skillDeleted = true;
+        }
+        if(!skillDeleted) {
+            //Delete Behaviour
+            if (aBehaviour.indexOf('deletebehaviourid') > -1) {
+                var behaviourToDelete = aBehaviour;
+                console.log(behaviourToDelete);
+                var behaviourID = String(behaviourToDelete.match(/[0-9]+/g));
+                console.log(behaviourID);
+                connection.get().query('DELETE behaviours FROM behaviours INNER JOIN skills ON skills.skill_id = behaviours.skill_id WHERE behaviours.behaviour_id = ?', [behaviourID], function (err, skillResults) {
+                    //If an error is thrown
+                    if (err) {
+                        returnObj['message'] = 'Our database servers maybe down. Please try again.';
+                        //Render the page wth error messages
+                        return res.render('add-behaviour', returnObj);
+                    }
+                });
+                behaviourDeleted = true;
+            }
+        }
+    }
+    if(behaviourDeleted)
+    {
+        req.flash('success_messages', 'The behaviour was successfully deleted from the database.');
+        req.session.success = true;
+        return res.redirect('/users/behaviours');
+    }
     //Update the skill name
     connection.get().query('UPDATE skills SET skill_title = ? WHERE skill_id = ?',[skillTitle,req.params.skill], function (err, skillResults) {
         //If an error is thrown
@@ -208,11 +258,11 @@ router.post('/add-behaviour/:skill', ensureAuthenticated, function (req, res, ne
             return res.render('add-behaviour', returnObj);
         }
     });
-    for(var aBehaviour in behaviours)
-    {
+    for(var aBehaviour in behaviours) {
         //Update the behaviour description
          if(aBehaviour.indexOf('behaviourid') > -1)
             {
+                behaviourAdded = true;
                 console.log(aBehaviour);
                 if(behaviours[aBehaviour] == null || behaviours[aBehaviour] == "")
                 {
