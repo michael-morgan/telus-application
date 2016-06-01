@@ -216,6 +216,11 @@ router.post('/add-behaviour/:skill', ensureAuthenticated, function (req, res, ne
     for(var aBehaviour in behaviours) {
         //Delete Skill
         if (aBehaviour.indexOf('deleteskillid') > -1) {
+            if (behaviours[aBehaviour] == null || behaviours[aBehaviour] == "") {
+                returnObj['message'] = 'One of the skills was empty, please enter a skill name';
+                //Render the page wth error messages
+                return res.render('add-behaviour', returnObj);
+            }
             var skillToDelete = aBehaviour;
             var skillID = String(skillToDelete.match(/[0-9]+/g));
             connection.get().query('DELETE FROM skills WHERE skill_id = ?', [skillID], function (err, skillResults) {
@@ -230,6 +235,11 @@ router.post('/add-behaviour/:skill', ensureAuthenticated, function (req, res, ne
             skillDeleted = true;
         }
         if(!skillDeleted) {
+            if (behaviours[aBehaviour] == null || behaviours[aBehaviour] == "") {
+                returnObj['message'] = 'One of the skills was empty, please enter a skill name';
+                //Render the page wth error messages
+                return res.render('add-behaviour', returnObj);
+            }
             //Delete Behaviour
             if (aBehaviour.indexOf('deletebehaviourid') > -1) {
                 var behaviourToDelete = aBehaviour;
@@ -269,7 +279,6 @@ router.post('/add-behaviour/:skill', ensureAuthenticated, function (req, res, ne
          if(aBehaviour.indexOf('behaviourid') > -1)
             {
                 behaviourAdded = true;
-                console.log(aBehaviour);
                 if(behaviours[aBehaviour] == null || behaviours[aBehaviour] == "")
                 {
                     returnObj['message'] = 'One of the behaviours was empty, please enter a behaviour description';
