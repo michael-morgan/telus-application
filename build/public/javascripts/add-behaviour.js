@@ -24,7 +24,11 @@ function initiateDelete() {
     document.getElementById("saveBehaviour").className = "form-btn btn btn-lg btn-danger";
     //Show checkboxes
     var divsToShow = document.getElementsByName("checkBoxes");
+    for (var i = 0; i < deleteBehaviours.length; i++) {
+        document.getElementById(deleteBehaviours[i]).checked = false; // uncheckbehaviours
+    }
     for (var i = 0; i < divsToShow.length; i++) {
         divsToShow[i].style.display = "inline-block"; // depending on what you're doing
     }
 }
+

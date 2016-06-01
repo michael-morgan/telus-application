@@ -36,11 +36,8 @@ block content
                                             a(href='/users/behaviours/add-behaviour/' + skill.skill_id)
                                                 | Edit Skill
                                         li
-                                            a(href='#')
+                                            a(href='/users/behaviours/add-behaviour/' + skill.skill_id + '/remove')
                                                 | Remove Skill
-                                        li
-                                            a(href='/users/behaviours/add-behaviour/')
-                                                | Add Behaviour
                     .panel-collapse.collapse(role='tabpanel', aria-labelledby='skillHeading#{s}', id='skillCollapse#{s}')
                         .panel-body
                             each behaviour, b in behaviours

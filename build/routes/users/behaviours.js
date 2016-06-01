@@ -7,17 +7,15 @@ var passport = require('passport');
 var async = require('async');
 
 var behaviourModel = require('../../models/observation');
-
+var returnObj = {};
 var router = express.Router();
 // Get for behaviours and show them for each skill
 router.get('/', ensureAuthenticated, function (req, res, next) {
     if (!req.body) { return res.sendStatus(400); }
 
-    var returnObj = {
-        title: 'Behaviours'
-    };
+    returnObj['title'] = 'Behaviours';
 
-    //Display success message on adding observation
+    //Display success message on adding,editing or remove a behaviour/skill
     if(req.session.success)
     {
         res.locals.success_messages = req.flash('success_messages');
@@ -44,19 +42,21 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
 
             returnObj['skills'] = skillResults;
             returnObj['behaviours'] = behaviourResults;
-            //Render the observations page with the list of users and observations
+            //Render the behaviours page with a list of behaviours and skills
             res.render('behaviours', returnObj);
         });
     });
 });
-
+//Display the add behaviour page, you can edit and remove behaviours here as well
 router.get('/add-behaviour', ensureAuthenticated, function (req, res, next) {
-    if (!req.body) { return res.sendStatus(400); }
+    if (!req.body) {
+        return res.sendStatus(400);
+    }
 
     var returnObj = {
-        title: 'Add Behaviour'
+        title :'Add Behaviour'
     };
-    //Connection to get all behaviours
+    //Connection to get all skills
     connection.get().query('SELECT skill_id,skill_title FROM skills', function (err, skillResults) {
         //If an error is thrown
         if (err) {
@@ -65,19 +65,17 @@ router.get('/add-behaviour', ensureAuthenticated, function (req, res, next) {
             return res.render('add-behaviour', returnObj);
         }
 
-        //Render the observations page with the list of users and observations
+        //Render the add-behaviour page with an interface to perform CRUD
         return res.render('add-behaviour', returnObj);
     });
 });
 
-// When the add-observation page is loaded, and there is a t_number is the url. Render the add observations page
+// When the add-behaviour page is loaded, and there is a skill id in the url.
 router.get('/add-behaviour/:skill', ensureAuthenticated, function (req, res, next) {
     if (!req.body) { return res.sendStatus(400); }
 
-    var returnObj = {
-        title: 'Edit Skill/Behaviours'
-    };
-    //Connection to get all behaviours
+    returnObj['title'] ='Edit Skills/Behaviours';
+    //Connection to get all skills
     connection.get().query('SELECT skill_id,skill_title FROM skills', function (err, skillResults) {
         //If an error is thrown
         if (err) {
@@ -86,6 +84,7 @@ router.get('/add-behaviour/:skill', ensureAuthenticated, function (req, res, nex
             return res.render('add-behaviour', returnObj);
         }
         else {
+            //Get the skill id we are working with by using the skill parameter in the URL
             connection.get().query('SELECT skills.skill_id,skills.skill_title,behaviour_id,behaviours.behaviour_desc FROM skills INNER JOIN behaviours ON skills.skill_id = behaviours.skill_id ' +
                 'WHERE skills.skill_id = ?', req.params.skill, function (err, behaviourResults) {
                 //If an error is thrown
@@ -94,9 +93,9 @@ router.get('/add-behaviour/:skill', ensureAuthenticated, function (req, res, nex
                     //Render the page wth error messages
                     return res.render('add-behaviour', returnObj);
                 }
+                //No errors render the add-behaviour page
                 else {
                     returnObj['selectedskill'] = behaviourResults;
-                    //Render the observations page with the list of users and observations
                     return res.render('add-behaviour', returnObj);
                 }
             });
@@ -104,104 +103,48 @@ router.get('/add-behaviour/:skill', ensureAuthenticated, function (req, res, nex
     });
 });
 
-// When the user has added a behaviour, update the database and return them to the behaviours page
-router.post('/add-behaviour', ensureAuthenticated, function (req, res, next) {
+// When the add-behaviour page is loaded, and there is a skill id in the url and the user clicked Remove skill
+router.get('/add-behaviour/:skill/:canRemove', ensureAuthenticated, function (req, res, next) {
     if (!req.body) { return res.sendStatus(400); }
-    var behaviours = req.body;
-    var skillTitle = req.body.skillid1;
-    var skillID = '';
-    var behaviourDesc = '';
-    var num = "";
-    var returnObj = {
-        title: 'Add Skills/Behaviours'
-    };
 
-    //Filter our the info we dont need, all we want is the skill and behaviour textareas
-    async.forEach(Object.keys(behaviours), function (aBehaviour, callback){
-        if (aBehaviour.indexOf('skillid') == -1 && aBehaviour.indexOf('behaviourid') == -1) {
-            delete behaviours[aBehaviour];
+    returnObj['title'] ='Edit Skills/Behaviours';
+    //Connection to get all skills
+    connection.get().query('SELECT skill_id,skill_title FROM skills', function (err, skillResults) {
+        //If an error is thrown
+        if (err) {
+            returnObj['message'] = 'Our database servers maybe down. Please try again.';
+            //Render the page wth error messages
+            return res.render('add-behaviour', returnObj);
         }
-
-        if(behaviours[aBehaviour] != undefined) {
-            if (aBehaviour.indexOf('skillid') > -1) {
-                if (behaviours[aBehaviour] == null || behaviours[aBehaviour] == "") {
-                    returnObj['message'] = 'One of the skills was empty, please enter a skill name';
-
+        else {
+            //Get the skill we are working with
+            connection.get().query('SELECT skills.skill_id,skills.skill_title,behaviour_id,behaviours.behaviour_desc FROM skills INNER JOIN behaviours ON skills.skill_id = behaviours.skill_id ' +
+                'WHERE skills.skill_id = ?', req.params.skill, function (err, behaviourResults) {
+                //If an error is thrown
+                if (err) {
+                    returnObj['message'] = 'Our database servers maybe down. Please try again.';
                     //Render the page wth error messages
                     return res.render('add-behaviour', returnObj);
                 }
-
-                //Regex to extract numbers from textarea id
-                skillTitle = behaviours[aBehaviour];
-                num = String(skillTitle.match(/[0-9]+/g));
-                connection.get().query('SELECT skill_id FROM skills WHERE skill_id = ?', num, function (err, skillResults) {
-                    //If an error is thrown
-                    if (err) {
-                        returnObj['message'] = 'Our database servers maybe down. Please try again.';
-                        //Render the page wth error messages
-                        return res.render('add-behaviour', returnObj);
-                    }
-                    //Add Behaviour
-                    //Creating the JSON array to store the behaviour data
-                    var skill = {
-                        skill_title: skillTitle
-                    }; //End behaviour
-
-                    connection.get().query('INSERT INTO skills SET ?', [skill], function (err, skillResults) {
-                        //If an error is thrown
-                        if (err) {
-                            returnObj['message'] = 'Our database servers maybe down. Please try again.';
-                            //Render the page wth error messages
-                            return res.render('add-behaviour', returnObj);
-                        }
-                        else {
-                            skillID = skillResults.insertId;
-                            async.forEach(Object.keys(behaviours), function (aBehaviour, secondCallback){
-                                if (aBehaviour.indexOf('behaviourid') > -1) {
-                                    behaviourDesc = behaviours[aBehaviour];
-                                    if (skillID != '') {
-                                        var behaviour = {
-                                            skill_id: skillID,
-                                            behaviour_desc: behaviourDesc
-                                        }; //End behaviour
-                                        connection.get().query('INSERT INTO behaviours SET ?', [behaviour], function (err, skillResults) {
-                                            //If an error is thrown
-                                            if (err) {
-                                                returnObj['message'] = 'Our database servers maybe down. Please try again.';
-                                                //Render the page wth error messages
-                                                return res.render('add-behaviour', returnObj);
-                                            }
-                                        });
-                                    }
-                                }
-                                secondCallback();// tell async that the iterator has completed
-                            }, function(err) {
-                            });
-                            callback();// tell async that the iterator has completed
-                        }
-                    });
-                });
-            }
+                //If all is well, render the add behaviour page and pass a remove parameter to automatically open the delete interface
+                else {
+                    returnObj['selectedskill'] = behaviourResults;
+                    returnObj['canRemove'] = req.params.canRemove;
+                    return res.render('add-behaviour', returnObj);
+                }
+            });
         }
-    }, function(err) { });
-
-     //Update the behaviour description
-     //If all is good, return them to the behaviours page
-        req.flash('success_messages', 'The behaviour was successfully added to the database.');
-        req.session.success = true;
-        return res.redirect('/users/behaviours');
+    });
 });
-
-// When the user has edited a behaviour, update the database and return them to the behaviours page
-router.post('/add-behaviour/:skill', ensureAuthenticated, function (req, res, next) {
+// When we submit the add behaviour page with a skill and remove parameter
+router.post('/add-behaviour/:skill/:canRemove', ensureAuthenticated, function (req, res, next) {
     if (!req.body) { return res.sendStatus(400); }
+    //Setup some variables, remember req.body is all the submitted data from the form
     var behaviours = req.body;
     var skillTitle = req.body.skillTitleBox;
     var behaviourDesc = '';
     var num = '';
-    var returnObj = {
-        title: 'Edit Skills/Behaviours'
-    };
+    returnObj['title'] ='Edit Skills/Behaviours';
     var behaviourAdded = false;
     var behaviourDeleted = false;
     var skillDeleted = false;
@@ -216,11 +159,254 @@ router.post('/add-behaviour/:skill', ensureAuthenticated, function (req, res, ne
     for(var aBehaviour in behaviours) {
         //Delete Skill
         if (aBehaviour.indexOf('deleteskillid') > -1) {
-            if (behaviours[aBehaviour] == null || behaviours[aBehaviour] == "") {
-                returnObj['message'] = 'One of the skills was empty, please enter a skill name';
+            var skillToDelete = aBehaviour;
+            //Grab the number from the checkbox id
+            var skillID = String(skillToDelete.match(/[0-9]+/g));
+            connection.get().query('DELETE FROM skills WHERE skill_id = ?', [skillID], function (err, skillResults) {
+                //If an error is thrown
+                if (err) {
+                    returnObj['message'] = 'Our database servers maybe down. Please try again.';
+                    //Render the page wth error messages
+                    return res.render('add-behaviour', returnObj);
+                }
+            });
+            behaviourDeleted = true;
+            skillDeleted = true;
+        }
+        //If we arent deleting a skill
+        if(!skillDeleted) {
+            //Delete Behaviour
+            if (aBehaviour.indexOf('deletebehaviourid') > -1) {
+                var behaviourToDelete = aBehaviour;
+                //Grab the id from the checkbox
+                var behaviourID = String(behaviourToDelete.match(/[0-9]+/g));
+                connection.get().query('DELETE behaviours FROM behaviours INNER JOIN skills ON skills.skill_id = behaviours.skill_id WHERE behaviours.behaviour_id = ?', [behaviourID], function (err, skillResults) {
+                    //If an error is thrown
+                    if (err) {
+                        returnObj['message'] = 'Our database servers maybe down. Please try again.';
+                        //Render the page wth error messages
+                        return res.render('add-behaviour', returnObj);
+                    }
+                });
+                behaviourDeleted = true;
+            }
+        }
+    }
+    //If a behaviour was deleted go to the behaviours page and flash a message
+    if(behaviourDeleted) {
+        req.flash('success_messages', 'The behaviour was successfully deleted from the database.');
+        req.session.success = true;
+        returnObj['message'] = undefined;
+        return res.redirect('/users/behaviours');
+    }
+    //Update the skillname
+    if(skillTitle != null || skillTitle != "") {
+        //Update the skill name
+        connection.get().query('UPDATE skills SET skill_title = ? WHERE skill_id = ?', [skillTitle, req.params.skill], function (err, skillResults) {
+            //If an error is thrown
+            if (err) {
+                returnObj['message'] = 'Our database servers maybe down. Please try again.';
                 //Render the page wth error messages
                 return res.render('add-behaviour', returnObj);
             }
+        });
+    }
+    else
+    {
+        returnObj['message'] = 'One of the skills was empty, please enter a skill name';
+        return res.render('add-behaviour', returnObj);
+    }
+    //Loop through each behaviour, add if there is none or edit
+    for(var aBehaviour in behaviours) {
+        //Update the behaviour description
+        if(aBehaviour.indexOf('behaviourid') > -1)
+        {
+            if (behaviours[aBehaviour] == null || behaviours[aBehaviour] == "") {
+                returnObj['message'] = 'One of the behaviours was empty, please enter a behaviour name';
+                //Render the page wth error messages
+                return res.render('add-behaviour', returnObj);
+            }
+            behaviourAdded = true;
+            behaviourDesc = behaviours[aBehaviour];
+            //Regex to extract numbers from textarea id
+            num = String(aBehaviour.match(/[0-9]+/g));
+
+            connection.get().query('SELECT behaviour_id FROM behaviours WHERE behaviour_id = ?',num, function (err, behaviourResults) {
+                //If an error is thrown
+                if (err) {
+                    returnObj['message'] = 'Our database servers maybe down. Please try again.';
+                    //Render the page wth error messages
+                    return res.render('add-behaviour', returnObj);
+                }
+                //Add Behaviour
+                else if(behaviourResults.length <= 0)
+                {
+                    //Creating the JSON array to store the behaviour data
+                    var behaviour = {
+                        skill_id: req.params.skill,
+                        behaviour_desc: behaviourDesc
+                    }; //End behaviour
+                    connection.get().query('INSERT INTO behaviours SET ?',[behaviour], function (err, skillResults) {
+                        //If an error is thrown
+                        if (err) {
+                            returnObj['message'] = 'Our database servers maybe down. Please try again.';
+                            //Render the page wth error messages
+                            return res.render('add-behaviour', returnObj);
+                        }
+                    });
+                }
+            });
+            //Update Behaviour
+            connection.get().query('UPDATE behaviours SET behaviour_desc = ? WHERE behaviour_id = ?',[behaviourDesc,num], function (err, skillResults) {
+                //If an error is thrown
+                if (err) {
+                    returnObj['message'] = 'Our database servers maybe down. Please try again.';
+                    //Render the page wth error messages
+                    return res.render('add-behaviour', returnObj);
+                }
+
+            });
+        }
+    }
+
+    //If all is good, return them to the behaviours page with a nice message
+    req.flash('success_messages', 'The skill ' + skillTitle+ ' and behaviour(s) have been edited successfully.');
+    req.session.success = true;
+    returnObj['message'] = undefined;
+    return res.redirect('/users/behaviours');
+});
+// When the user has added a behaviour, update the database and return them to the behaviours page
+router.post('/add-behaviour', ensureAuthenticated, function (req, res, next) {
+    if (!req.body) { return res.sendStatus(400); }
+    var behaviours = req.body;
+    var skillTitle = req.body.skillid1;
+    var skillID = '';
+    var behaviourDesc = '';
+    var num = "";
+    returnObj['title'] ='Add Skills/Behaviours';
+    //Filter post data
+    async.forEach(Object.keys(behaviours), function (aSkill, callback) {
+        if (aSkill.indexOf('skillid') == -1 && aSkill.indexOf('behaviourid') == -1) {
+            delete behaviours[aSkill];
+        }
+    }
+    );
+    //If a behaviour is blank stop, and show them an error message
+    for(var aBehaviour in behaviours)
+    {
+        if (aBehaviour.indexOf('behaviourid') > -1) {
+            if (behaviours[aBehaviour] == null || behaviours[aBehaviour] == "") {
+                returnObj['message'] = 'One of the behaviours was empty, please enter a behaviour name';
+                //Render the page wth error messages
+                return res.render('add-behaviour', returnObj);
+            }
+        }
+    }
+    //Get the skill title and behaviours, then perform CRUD if necessary
+    async.forEach(Object.keys(behaviours), function (aSkill, callback){
+        if (aSkill.indexOf('skillid') > -1) {
+                if (behaviours[aSkill] == null || behaviours[aSkill] == "") {
+                    returnObj['message'] = 'One of the skills was empty, please enter a skill name';
+
+                    //Render the page wth error messages
+                    return res.render('add-behaviour', returnObj);
+                }
+
+                //Regex to extract numbers from textarea id
+                skillTitle = behaviours[aSkill];
+                num = String(skillTitle.match(/[0-9]+/g));
+                connection.get().query('SELECT skill_id FROM skills WHERE skill_id = ?', num, function (err, skillResults) {
+                    //If an error is thrown
+                    if (err) {
+                        returnObj['message'] = 'Our database servers maybe down. Please try again.';
+                        //Render the page wth error messages
+                        return res.render('add-behaviour', returnObj);
+                    }
+                    //Add Behaviour
+                    if(skillTitle != null || skillTitle != "") {
+                        //Creating the JSON array to store the behaviour data
+                        var skill = {
+                            skill_title: skillTitle
+                        }; //End behaviour
+
+                        connection.get().query('INSERT INTO skills SET ?', [skill], function (err, skillResults) {
+                            //If an error is thrown
+                            if (err) {
+                                returnObj['message'] = 'Our database servers maybe down. Please try again.';
+                                //Render the page wth error messages
+                                return res.render('add-behaviour', returnObj);
+                            }
+                            else {
+                                skillID = skillResults.insertId;
+                                async.forEach(Object.keys(behaviours), function (aBehaviour, secondCallback) {
+                                    if (aBehaviour.indexOf('behaviourid') > -1) {
+                                        if (behaviours[aBehaviour] == null || behaviours[aBehaviour] == "") {
+                                            returnObj['message'] = 'One of the behaviours was empty, please enter a behaviour name';
+                                            //Render the page wth error messages
+                                            return res.render('add-behaviour', returnObj);
+                                        }
+                                        behaviourDesc = behaviours[aBehaviour];
+                                        if (skillID != '') {
+                                            var behaviour = {
+                                                skill_id: skillID,
+                                                behaviour_desc: behaviourDesc
+                                            }; //End behaviour
+                                            connection.get().query('INSERT INTO behaviours SET ?', [behaviour], function (err, skillResults) {
+                                                //If an error is thrown
+                                                if (err) {
+                                                    returnObj['message'] = 'Our database servers maybe down. Please try again.';
+                                                    //Render the page wth error messages
+                                                    return res.render('add-behaviour', returnObj);
+                                                }
+                                            });
+                                        }
+                                    }
+                                    secondCallback();// tell async that the iterator has completed
+                                }, function (err) {
+                                });
+                                callback();// tell async that the iterator has completed
+                            }
+                        });
+                    }
+                    else
+                    {
+                        returnObj['message'] = 'One of the skills was empty, please enter a skill name';
+                        //Render the page wth error messages
+                        return res.render('add-behaviour', returnObj);
+                    }
+                });
+            }
+    }, function(err) { });
+     //Update the behaviour description
+     //If all is good, return them to the behaviours page
+    req.flash('success_messages', 'The behaviour was successfully added to the database.');
+    req.session.success = true;
+    returnObj['message'] = undefined;
+    return res.redirect('/users/behaviours');
+});
+
+// When the user has edited a behaviour, update the database and return them to the behaviours page
+router.post('/add-behaviour/:skill', ensureAuthenticated, function (req, res, next) {
+    if (!req.body) { return res.sendStatus(400); }
+    var behaviours = req.body;
+    var skillTitle = req.body.skillTitleBox;
+    var behaviourDesc = '';
+    var num = '';
+    returnObj['title'] ='Edit Skills/Behaviours';
+    var behaviourAdded = false;
+    var behaviourDeleted = false;
+    var skillDeleted = false;
+    //Filter post data
+    for(var aBehaviour in behaviours) {
+        if (aBehaviour.indexOf('skillid') == -1 && aBehaviour.indexOf('behaviourid') == -1 && aBehaviour.indexOf('deletebehaviourid') == -1 && aBehaviour.indexOf('deleteskillid') == -1) {
+            delete behaviours[aBehaviour];
+        }
+    }
+
+    //See if we are deleting
+    for(var aBehaviour in behaviours) {
+        //Delete Skill
+        if (aBehaviour.indexOf('deleteskillid') > -1) {
             var skillToDelete = aBehaviour;
             var skillID = String(skillToDelete.match(/[0-9]+/g));
             connection.get().query('DELETE FROM skills WHERE skill_id = ?', [skillID], function (err, skillResults) {
@@ -235,11 +421,6 @@ router.post('/add-behaviour/:skill', ensureAuthenticated, function (req, res, ne
             skillDeleted = true;
         }
         if(!skillDeleted) {
-            if (behaviours[aBehaviour] == null || behaviours[aBehaviour] == "") {
-                returnObj['message'] = 'One of the skills was empty, please enter a skill name';
-                //Render the page wth error messages
-                return res.render('add-behaviour', returnObj);
-            }
             //Delete Behaviour
             if (aBehaviour.indexOf('deletebehaviourid') > -1) {
                 var behaviourToDelete = aBehaviour;
@@ -261,34 +442,41 @@ router.post('/add-behaviour/:skill', ensureAuthenticated, function (req, res, ne
     if(behaviourDeleted) {
         req.flash('success_messages', 'The behaviour was successfully deleted from the database.');
         req.session.success = true;
+        returnObj['message'] = undefined;
         return res.redirect('/users/behaviours');
     }
-
-    //Update the skill name
-    connection.get().query('UPDATE skills SET skill_title = ? WHERE skill_id = ?',[skillTitle,req.params.skill], function (err, skillResults) {
-        //If an error is thrown
-        if (err) {
-            returnObj['message'] = 'Our database servers maybe down. Please try again.';
-            //Render the page wth error messages
-            return res.render('add-behaviour', returnObj);
-        }
-    });
+    if(skillTitle != null || skillTitle != "") {
+        //Update the skill name
+        connection.get().query('UPDATE skills SET skill_title = ? WHERE skill_id = ?', [skillTitle, req.params.skill], function (err, skillResults) {
+            //If an error is thrown
+            if (err) {
+                returnObj['message'] = 'Our database servers maybe down. Please try again.';
+                //Render the page wth error messages
+                return res.render('add-behaviour', returnObj);
+            }
+        });
+    }
+    else
+    {
+        returnObj['message'] = 'One of the skills was empty, please enter a skill name';
+        //Render the page wth error messages
+        return res.render('add-behaviour', returnObj);
+    }
 
     for(var aBehaviour in behaviours) {
         //Update the behaviour description
          if(aBehaviour.indexOf('behaviourid') > -1)
             {
-                behaviourAdded = true;
                 if(behaviours[aBehaviour] == null || behaviours[aBehaviour] == "")
                 {
                     returnObj['message'] = 'One of the behaviours was empty, please enter a behaviour description';
                     //Render the page wth error messages
                     return res.render('add-behaviour', returnObj);
                 }
+                behaviourAdded = true;
                 behaviourDesc = behaviours[aBehaviour];
                 //Regex to extract numbers from textarea id
                 num = String(aBehaviour.match(/[0-9]+/g));
-
                 connection.get().query('SELECT behaviour_id FROM behaviours WHERE behaviour_id = ?',num, function (err, behaviourResults) {
                     //If an error is thrown
                     if (err) {
@@ -297,7 +485,6 @@ router.post('/add-behaviour/:skill', ensureAuthenticated, function (req, res, ne
                         return res.render('add-behaviour', returnObj);
                     }
                     //Add Behaviour
-
                     else if(behaviourResults.length <= 0)
                     {
                         //Creating the JSON array to store the behaviour data
@@ -331,6 +518,7 @@ router.post('/add-behaviour/:skill', ensureAuthenticated, function (req, res, ne
     //If all is good, return them to the behaviours page
     req.flash('success_messages', 'The skill ' + skillTitle+ ' and behaviour(s) have been edited successfully.');
     req.session.success = true;
+    returnObj['message'] = undefined;
     return res.redirect('/users/behaviours');
 });
 
