@@ -29,76 +29,82 @@ block content
                         //If we are editing, show the delete button
                         if selectedskill != undefined
                             button#Delete.form-btn.btn.btn-lg.btn-danger(name='delete', type='button', onclick='initiateDelete()') Delete
-                            br
-                            | Skill Name:
-                            br
-                            div#checkBoxes(name="checkBoxes" , style='display:none;')
-                                label
-                                    input(type="checkbox", name="deleteskillid#{selectedskill[0].skill_id}",id="deleteskillid#{selectedskill[0].skill_id}", onchange="handler.call(this)")
-                                    | Delete skill #{selectedskill[0].skill_title}
-                            br
-                            input(placeholder="Enter Skill Name here...", maxlength="300", id="skillTitleBox", name="skillTitleBox", class="behaviour-title", type="text", value="#{selectedskill[0].skill_title}")
-                            //Show each behaviour for a skill
-                            each skill, s in selectedskill
-                                br
-                                | Behaviour Description:
-                                br
-                                div#checkBoxes(name="checkBoxes" , style='display:none;')
-                                    label
-                                        input(type="checkbox", name="deletebehaviourid#{skill.behaviour_id}", id="deletebehaviourid#{skill.behaviour_id}",onclick="updateCheckbox();")
-                                        | Delete behaviour
-                                textarea(placeholder="Enter Behavior Description here...", maxlength="300", id='behaviourid#{skill.behaviour_id}' name='behaviourid#{skill.behaviour_id}' class="behaviour-description") #{skill.behaviour_desc}
+                            #behaviourSection
+                                #skillSection
+                                    .col-xs-12.col-sm-4
+                                        #descName.pull-left
+                                            | Skill Name
+                                            br
+                                            div#checkBoxes(name="checkBoxes" , style='display:none;', class="checkbox-danger")
+                                                label
+                                                    input(type="checkbox", name="deleteskillid#{selectedskill[0].skill_id}",id="deleteskillid#{selectedskill[0].skill_id}", onchange="handler.call(this)")
+                                                    | Delete Skill
+                                    .col-xs-12.col-sm-8.skillClass
+                                        input(placeholder="Enter Skill Name here...", maxlength="300", id="skillTitleBox", name="skillTitleBox", class="behaviour-title", type="text", value="#{selectedskill[0].skill_title}")
+                                .col-sm-12
+                                    hr
+                                each skill, s in selectedskill
+                                    .col-xs-12.col-sm-4
+                                        #descName.pull-left
+                                            | Behaviour Description
+                                            br
+                                            div#checkBoxes(name="checkBoxes" , style='display:none;', class="checkbox-danger")
+                                                label
+                                                    input(type="checkbox", name="deletebehaviourid#{skill.behaviour_id}", id="deletebehaviourid#{skill.behaviour_id}",onclick="updateCheckbox();")
+                                                    | Delete behaviour
+                                    .col-xs-12.col-sm-8.behaviourClass
+                                        textarea(placeholder="Enter Behavior Description here...", maxlength="300", id='behaviourid#{skill.behaviour_id}' name='behaviourid#{skill.behaviour_id}' class="behaviourDescription") #{skill.behaviour_desc}
+                                        script.
+                                            //IncrementID
+                                            count++;
+                                            deleteBehaviours.push('deletebehaviourid#{skill.behaviour_id}');
                                 script.
-                                    //IncrementID
-                                    count++;
-                                    deleteBehaviours.push('deletebehaviourid#{skill.behaviour_id}');
-                            script.
-                                //check all behaviours if checking a skill
-                                deleteskillid#{selectedskill[0].skill_id}.onchange = function () {
-                                    if (this.checked) {
-                                        for (var i = 0; i < deleteBehaviours.length; i++) {
-                                            document.getElementById(deleteBehaviours[i]).checked = true; // check all behaviours
+                                    //check all behaviours if checking a skill
+                                    deleteskillid#{selectedskill[0].skill_id}.onchange = function () {
+                                        if (this.checked) {
+                                            for (var i = 0; i < deleteBehaviours.length; i++) {
+                                                document.getElementById(deleteBehaviours[i]).checked = true; // check all behaviours
+                                            }
                                         }
-                                    }
-                                    //uncheck all behaviours if unchecking a skill
-                                    else {
-                                        for (var i = 0; i < deleteBehaviours.length; i++) {
-                                            document.getElementById(deleteBehaviours[i]).checked = false; // uncheckbehaviours
+                                        //uncheck all behaviours if unchecking a skill
+                                        else {
+                                            for (var i = 0; i < deleteBehaviours.length; i++) {
+                                                document.getElementById(deleteBehaviours[i]).checked = false; // uncheckbehaviours
+                                            }
                                         }
-                                    }
-                                };
-                                //If all behaviours are checked, check the skill too
-                                function updateCheckbox() {
-                                    var areAllChecked = true;
-                                    for (var i = 0; i < deleteBehaviours.length; i++) {
-                                        if(!document.getElementById(deleteBehaviours[i]).checked)
+                                    };
+                                    //If all behaviours are checked, check the skill too
+                                    function updateCheckbox() {
+                                        var areAllChecked = true;
+                                        for (var i = 0; i < deleteBehaviours.length; i++) {
+                                            if(!document.getElementById(deleteBehaviours[i]).checked)
+                                            {
+                                                areAllChecked = false;
+                                            }
+                                        }
+                                        if(areAllChecked)
                                         {
-                                            areAllChecked = false;
+                                            deleteskillid#{selectedskill[0].skill_id}.checked = true;
                                         }
-                                    }
-                                    if(areAllChecked)
-                                    {
-                                        deleteskillid#{selectedskill[0].skill_id}.checked = true;
-                                    }
-                                };
-                                //The save and delete are the same button, determine which and perform an action
-                                var saveOrDeleteFunc = function saveOrDelete() {
-                                    if(document.getElementById("saveBehaviour").textContent == "Save") {
-                                        document.addBehaviourForm.submit();
-                                    }
-                                    else
-                                    {
-                                        if (deleteskillid#{selectedskill[0].skill_id}.checked)
-                                            alert('Are you sure you want to delete this skill and all of its behaviours?')
+                                    };
+                                    //The save and delete are the same button, determine which and perform an action
+                                    var saveOrDeleteFunc = function saveOrDelete() {
+                                        if(document.getElementById("saveBehaviour").textContent == "Save") {
+                                            document.addBehaviourForm.submit();
+                                        }
                                         else
-                                            alert('Are you sure you want delete the behaviour(s)?')
-                                        document.addBehaviourForm.submit();
-                                    }
-                                };
+                                        {
+                                            if (deleteskillid#{selectedskill[0].skill_id}.checked)
+                                                alert('Are you sure you want to delete this skill and all of its behaviours?')
+                                            else
+                                                alert('Are you sure you want delete the behaviour(s)?')
+                                            document.addBehaviourForm.submit();
+                                        }
+                                    };
 
-                                //If they are editing a skill the cancel button will remove the delete function
-                                //Cancel function
-                                var cancelFunc = function cancel() {
+                                    //If they are editing a skill the cancel button will remove the delete function
+                                    //Cancel function
+                                    var cancelFunc = function cancel() {
                                         //Go back to the behaviours page is clicking cancel and not deleting something
                                         if(document.getElementById("saveBehaviour").textContent == "Save") {
                                             window.location.href = '/users/behaviours';
@@ -108,8 +114,7 @@ block content
                                             document.getElementById(deleteBehaviours[i]).checked = false; // uncheckbehaviours
                                         }
                                         document.getElementById("saveBehaviour").textContent = "Save";
-                                        document.getElementById("saveBehaviour").className = "";
-                                        document.getElementById("saveBehaviour").className = "form-btn btn btn-lg btn-success";
+                                        document.getElementById("saveBehaviour").className = "form-btn btn btn-lg btn-success customButton";
                                         document.getElementById("addBehaviours").style.display = "inline-block";
                                         document.getElementById("Delete").style.display = "inline-block";
                                         //Hide checkboxes
@@ -117,19 +122,19 @@ block content
                                         for (var i = 0; i < divsToHide.length; i++) {
                                             divsToHide[i].style.display = "none"; // depending on what you're doing
                                         }
-                                };
+                                    };
                         else
                             script.
-                               //If they are adding a skill the cancel button will just go back a page
-                               //Cancel function
-                               var cancelFunc = function cancel() {
-                                   window.location.href = '/users/behaviours';
-                               };
+                                //If they are adding a skill the cancel button will just go back a page
+                                //Cancel function
+                                var cancelFunc = function cancel() {
+                                    window.location.href = '/users/behaviours';
+                                };
 
                                 //Dynamically create behaviour textareas
                                 count = 2;
 
-                               var saveOrDeleteFunc = function saveOrDelete() {
+                                var saveOrDeleteFunc = function saveOrDelete() {
                                     document.addBehaviourForm.submit();
                                 };
                             #behaviourSection
@@ -164,7 +169,7 @@ block append script
             deleteskillid#{selectedskill[0].skill_id}.checked = true; //check the skill
             for (var i = 0; i < deleteBehaviours.length; i++) {
                 document.getElementById(deleteBehaviours[i]).checked = true; // check all behaviours
-                }
+            }
     else
         script.
             if(document.getElementById("saveBehaviour").textContent != "Save")

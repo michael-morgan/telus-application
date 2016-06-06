@@ -3,14 +3,12 @@ $(function() {});
 //Dynamically create behaviour textareas
 function addBehaviour() {
 
-    var behaviourContent = '<div class="col-sm-12">\
-                                <div class="col-sm-12 col-md-4 col-lg-2">\
+    var behaviourContent = '<div class="col-xs-12 col-sm-4">\
                                     <div id="descName">Behaviour Description</div>\
                                 </div>\
-                                <div class="col-sm-12 col-md-8 col-lg-10 behaviourClass">\
+                                <div class="col-xs-12 col-sm-8 behaviourClass">\
                                     <textarea placeholder="Enter Behavior Description here..." maxlength="300" id="behaviourid' + count + '" name="behaviourid' + count + '" class="behaviourDescription"></textarea>\
-                                </div>\
-                            </div>';
+                                </div>';
 
     $('#behaviourSection').append(behaviourContent);
 
@@ -22,8 +20,7 @@ function initiateDelete() {
     document.getElementById("Delete").style.display = "none";
     document.getElementById("addBehaviours").style.display = "none";
     document.getElementById("saveBehaviour").textContent = "Delete";
-    document.getElementById("saveBehaviour").className = "";
-    document.getElementById("saveBehaviour").className = "form-btn btn btn-lg btn-danger";
+    document.getElementById("saveBehaviour").className = "form-btn btn btn-lg btn-danger customButton";
     //Show checkboxes
     var divsToShow = document.getElementsByName("checkBoxes");
     for (var i = 0; i < deleteBehaviours.length; i++) {
