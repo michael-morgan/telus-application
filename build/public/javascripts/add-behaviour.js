@@ -2,16 +2,18 @@ $(function() {});
 
 //Dynamically create behaviour textareas
 function addBehaviour() {
-    var comment = "Behaviour Description:";
-    var newParagraph = document.createElement("P");
-    newParagraph.textContent = comment;
-    document.getElementById("Skillarea").appendChild(newParagraph);
-    var textarea = document.createElement("TEXTAREA");
-    textarea.class = "newTextArea";
-    textarea.id = "behaviourid" + count;
-    textarea.name = "behaviourid" + count;
-    textarea.placeholder = "Enter Behavior Description here...";
-    document.getElementById("Skillarea").appendChild(textarea);
+
+    var behaviourContent = '<div class="col-sm-12">\
+                                <div class="col-sm-12 col-md-4 col-lg-2">\
+                                    <div id="descName">Behaviour Description</div>\
+                                </div>\
+                                <div class="col-sm-12 col-md-8 col-lg-10 behaviourClass">\
+                                    <textarea placeholder="Enter Behavior Description here..." maxlength="300" id="behaviourid' + count + '" name="behaviourid' + count + '" class="behaviourDescription"></textarea>\
+                                </div>\
+                            </div>';
+
+    $('#behaviourSection').append(behaviourContent);
+
     count++;
 }
 
