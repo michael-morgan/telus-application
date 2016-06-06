@@ -5,15 +5,16 @@
 #addSkillButton {
     margin-bottom: 5px;
 }
-#skillid1{
+#skillid1, .behaviour-title{
     width:100%;
     font-size:23px;
 }
 .behaviourDescription{
     width:100%;
     height:150px;
-    font-size:23px;
+    font-size:22px;
     margin-bottom:20px;
+    line-height: 1.2em;
 }
 #skillSection{
     margin-bottom:25px;
@@ -32,4 +33,17 @@
 .customButton{
     width:100%;
 
+}
+
+#checkBoxes label{
+    font-size:14px;
+}
+
+.behaviour {
+    border-top: 1px solid #ccc;
+    padding: 25px 0;
+}
+
+.skill{
+    padding:40px 0;
 }

@@ -3,12 +3,16 @@ $(function() {});
 //Dynamically create behaviour textareas
 function addBehaviour() {
 
-    var behaviourContent = '<div class="col-xs-12 col-sm-4">\
-                                    <div id="descName">Behaviour Description</div>\
+    var behaviourContent = '<div class="behaviour">\
+                                <div class="row">\
+                                    <div class="col-xs-12 col-sm-4">\
+                                        <div id="descName">Behaviour Description</div>\
+                                    </div>\
+                                    <div class="col-xs-12 col-sm-8 behaviourClass">\
+                                        <textarea placeholder="Enter Behavior Description here..." maxlength="300" id="behaviourid' + count + '" name="behaviourid' + count + '" class="behaviourDescription"></textarea>\
+                                    </div>\
                                 </div>\
-                                <div class="col-xs-12 col-sm-8 behaviourClass">\
-                                    <textarea placeholder="Enter Behavior Description here..." maxlength="300" id="behaviourid' + count + '" name="behaviourid' + count + '" class="behaviourDescription"></textarea>\
-                                </div>';
+                            </div>';
 
     $('#behaviourSection').append(behaviourContent);
 
