@@ -17,10 +17,10 @@ var state = {
 
 exports.connect = function(done) {
     state.pool = mysql.createPool({
-        host: 'localhost',
-        port: '3306',
-        user: 'root',
-        password: 'password',
+		host: process.env.OPENSHIFT_MYSQL_DB_HOST || 'localhost',
+		port: process.env.OPENSHIFT_MYSQL_DB_PORT || '3306',
+		user: process.env.OPENSHIFT_MYSQL_DB_USERNAME || 'root',
+		password: process.env.OPENSHIFT_MYSQL_DB_PASSWORD || 'password',
         database: 'build_db',
         multipleStatements: true
     });

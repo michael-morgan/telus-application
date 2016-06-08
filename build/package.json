@@ -3,7 +3,7 @@
   "version": "0.2.1",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www --websocket-port=$OPENSHIFT_NODEJS_PORT --log-level=1"
   },
   "dependencies": {
     "bcryptjs": "^2.3.0",
