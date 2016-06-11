@@ -29,6 +29,7 @@
     "morris.js": "morrisjs#^0.5.1",
     "datatables-responsive": "^2.0.2",
     "bootstrap-social": "^4.12.0",
-    "flot.tooltip": "^0.8.5"
+    "flot.tooltip": "^0.8.5",
+    "jquery": "^2.2.0"
   }
 }

@@ -6,6 +6,7 @@
     "start": "node ./bin/www --websocket-port=$OPENSHIFT_NODEJS_PORT --log-level=1"
   },
   "dependencies": {
+    "async": "^2.0.0-rc.6",
     "bcryptjs": "^2.3.0",
     "body-parser": "~1.13.2",
     "bower": "^1.7.7",
