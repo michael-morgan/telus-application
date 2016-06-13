@@ -567,6 +567,19 @@ router.post('/add-observation/:employee', ensureAuthenticated, function (req, re
     }
 });
 
+router.post('/remove', ensureAuthenticated, function (req, res, next) {
+    var observationId = req.body.id;
+    observationModel.deleteById(observationId, function(err, result) {
+        if (err) {
+            console.log('Error deleting observation_id ' + observationId);
+            return res.end('Error: ' + err.message);
+        }
+
+        console.log('Removing observation ' + observationId);
+        res.send(observationId);
+    });
+});
+
 // Ensure sure the user is authenticated
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) { return next(); }

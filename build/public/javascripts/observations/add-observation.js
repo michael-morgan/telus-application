@@ -1,7 +1,3 @@
-/**
- * Created by Bradley on 3/18/2016.
- */
-
 $(function() {
 
     //When an unchecked thumb is clicked in the add-observation page

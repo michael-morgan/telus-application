@@ -12,3 +12,13 @@ exports.create = function(observation, done) {
         done(null, result.insertId);
     });
 };
+
+exports.deleteById = function(id, done) {
+    connection.get().query('DELETE FROM `observations` WHERE `observation_id` = ?', id, function(error, result) {
+        if(error) {
+            return done(error);
+        }
+
+        done(null, result.affectedRows);
+    });
+};

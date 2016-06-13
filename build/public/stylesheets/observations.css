@@ -18,6 +18,14 @@
     margin-top:0;
 }
 
-.good-observation a, .bad-observation a {
+.observation-title, .observation-title:hover {
     color:#000;
+}
+
+.good-observation h4, .bad-observation h4 {
+    padding: 0;
+}
+
+#successMessage {
+    margin-bottom: 15px;
 }

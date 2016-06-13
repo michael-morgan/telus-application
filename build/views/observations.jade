@@ -8,22 +8,16 @@ block content
         .col-xs-12
             h1.page-header Observations
         if(success_messages != null)
-            .col-xs-12
+            .col-md-10.col-md-offset-1.col-xs-12
                 div#successMessage.alert.success.alert-success(role='success')
                     .alert-title
                         i.fa.fa-check.fa-2x
                         strong Great!
                     p !{success_messages}
-            script(src='/javascripts/jquery.min.js')
-                //Fade out success message after 5 seconds
-                script.
-                    $(document).ready(function () {
-                        $("#successMessage").fadeOut(5000);
-                    });
     .row#accordion.panel-group(role='tablist', aria-multiselectable='true')
         //Show list of stores
         each store, s in stores
-            .col-sm-10.col-sm-offset-1
+            .col-md-10.col-md-offset-1.col-xs-12
                 .panel.panel-default
                     .panel-heading.purpleHead(role='tab', id='storeHeading#{s}', data-toggle='collapse', data-target='#storeCollapse#{s}')
                         .row
@@ -56,20 +50,23 @@ block content
                                                 //Show list of observations recorded for each user
                                                 each observation, j in observations
                                                     if (user.t_number == observation.t_number) && (observation.behaviour_desc != undefined)
-                                                        .panel.panel-default(class=((observation.observation_type == 1) ? 'good-observation' : 'bad-observation'))
-                                                            .panel-heading(role='tab', id='observationHeading#{j}', data-toggle='collapse', data-target='#observationCollapse#{j}')
-                                                                h4.panel-title
-                                                                    a(role='button', data-parent='#accordion', href='#observationCollapse#{j}', aria-expanded='false', aria-controls='observationCollapse#{j}')
-                                                                        .row
-                                                                            //Area for the date
-                                                                            .col-sm-1.padding10tb
-                                                                                | #{observation.observation_date.toLocaleDateString()}
-                                                                            //Area for the thumbs up or down, based on good/bad
-                                                                            .col-sm-1.padding10tb
-                                                                                i.fa(class=((observation.observation_type == 1) ? 'fa-thumbs-up' : 'fa-thumbs-down'))
-                                                                            //Area for the observation
-                                                                            .col-sm-10.ellipsis.padding10tb
-                                                                                | #{observation.behaviour_desc}
+                                                        .panel.panel-default(class=((observation.observation_type == 1) ? 'good-observation' : 'bad-observation'), id='observationPanel#{observation.observation_id}')
+                                                            .panel-heading(id='observationHeading#{j}')
+                                                                .row
+                                                                    .col-xs-10.h4(role='tab', data-parent='#accordion', data-toggle='collapse', data-target='#observationCollapse#{j}', aria-expanded='false', aria-controls='observationCollapse#{j}', style='padding: 0; margin: 0;')
+                                                                        //Area for the date
+                                                                        .col-xs-2.padding10tb.text-center
+                                                                            | #{observation.observation_date.toLocaleDateString()}
+                                                                        //Area for the thumbs up or down, based on good/bad
+                                                                        .col-xs-1.padding10tb.text-center
+                                                                            i.fa(class=((observation.observation_type == 1) ? 'fa-thumbs-up' : 'fa-thumbs-down'))
+                                                                        //Area for the observation
+                                                                        .col-xs-9.ellipsis.padding10tb
+                                                                            | #{observation.behaviour_desc}
+                                                                    .col-xs-2
+                                                                        a.btn.btn-danger.btn-block(href='#', onclick='deleteObservation(#{observation.observation_id})')
+                                                                            i.fa.fa-trash-o.fa-lg
+                                                                            span.visible-md-inline.visible-lg-inline  Delete
                                                             //More details tab
                                                             .panel-collapse.collapse(role='tabpanel', aria-labelledby='observationHeading#{j}', id='observationCollapse#{j}')
                                                                 .panel-body.padding15tb
@@ -107,4 +104,4 @@ block content
                                                                                 | #{observation.assigned_by_name}
 
 block append script
-    script(src='/javascripts/observations.js')
+    script(src='/javascripts/observations/observations.js')
