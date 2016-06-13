@@ -1,8 +1,7 @@
 extends layout
 
 block append stylesheet
-    link(rel='stylesheet', href='/stylesheets/timeline.css')
-    link(rel='stylesheet', href='/bower_components/morris.js/morris.css')
+
 
 block content
     .row
@@ -36,7 +35,6 @@ block content
                                             | Observed on: #{recObservation.observation_date.toLocaleDateString()}
                                             br
                                             | By: #{recObservation.assigned_by_name}
-
             if user.privileged >= 2
                 a(href='/users/settings')
                     .col-lg-6
@@ -45,8 +43,4 @@ block content
                                 .row
                                     | Settings
 
-
 block append script
-    script(src='/bower_components/raphael/raphael-min.js')
-    script(src='/bower_components/morris.js/morris.min.js')
-    script(src='/javascripts/morris-data.js')

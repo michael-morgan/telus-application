@@ -124,20 +124,16 @@ a:hover{
 
 .observation-comment {
   box-shadow: 0 1px 3px rgba(0, 0, 0, .33);
-  height: 75px;
-  min-height: 75px;
+  min-height: 100px;
   padding: 10px;
-  width: 50%;
-  resize: none;
+  width: 100%;
+  resize: vertical;
   color: #4d4d4d;
-  font-size: 14px;
-  line-height: 18px;
-  margin: 0 auto;
-  float: none !Important;
+  font-size: 18px;
 }
 
 .obs-btn{
-  width:25%;
+  margin-top: 15px;
 }
 
 h4.panel-title {

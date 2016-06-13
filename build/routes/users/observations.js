@@ -33,7 +33,7 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
         if (err) {
             returnObj['message'] = 'Our database servers maybe down. Please try again.';
             //Render the page wth error messages
-            return res.render('observations', returnObj);
+            return res.render('observations/observations', returnObj);
         }
 
         //Connection to get all the employees
@@ -43,7 +43,7 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
                 if (err) {
                     returnObj['message'] = 'Our database servers maybe down. Please try again.';
                     //Render the page wth error messages
-                    return res.render('observations', returnObj);
+                    return res.render('observations/observations', returnObj);
                 }
 
                 //Connection to get all of the observations for each employee ordered by date
@@ -52,14 +52,14 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
                     if (err) {
                         returnObj['message'] = 'Our database servers maybe down. Please try again.';
                         //Render the page wth error messages
-                        return res.render('observations', returnObj);
+                        return res.render('observations/observations', returnObj);
                     }
 
                     returnObj['users'] = userResults;
                     returnObj['observations'] = obsResults;
                     returnObj['stores'] = storesResults;
                     //Render the observations page with the list of users and observations
-                    res.render('observations', returnObj);
+                    res.render('observations/observations', returnObj);
                 });
             });
         }
@@ -69,7 +69,7 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
                 if (err) {
                     returnObj['message'] = 'Our database servers maybe down. Please try again.';
                     //Render the page wth error messages
-                    return res.render('observations', returnObj);
+                    return res.render('observations/observations', returnObj);
                 }
 
                 //Connection to get all of the observations for each employee ordered by date
@@ -85,7 +85,7 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
                     returnObj['observations'] = obsResults;
                     returnObj['stores'] = storesResults;
                     //Render the observations page with the list of users and observations
-                    res.render('observations', returnObj);
+                    res.render('observations/observations', returnObj);
                 });
             });
         }
@@ -105,7 +105,7 @@ router.get('/add-observation', ensureAuthenticated, function (req, res, next) {
         connection.get().query('SELECT first_name, last_name, t_number FROM users WHERE store_id = ? ', req.user.store_id, function (err, userResults) {
             if (err) {
                 returnObj['message'] = 'Our database servers maybe down. Please try again.';
-                return res.render('add-observation', returnObj);
+                return res.render('observations/add-observation', returnObj);
             }
 
             //Get all the skills from the skills table
@@ -114,7 +114,7 @@ router.get('/add-observation', ensureAuthenticated, function (req, res, next) {
                 if (err) {
                     returnObj['message'] = 'Our database servers maybe down. Please try again';
                     //Render the page wth error messages
-                    return res.render('add-observation', returnObj);
+                    return res.render('observations/add-observation', returnObj);
                 }
 
                 //Connection to get the behaviours from the  behaviours table
@@ -123,7 +123,7 @@ router.get('/add-observation', ensureAuthenticated, function (req, res, next) {
                     if (err) {
                         returnObj['message'] = 'Our database servers maybe down. Please try again.';
                         //Render the page with error messages
-                        return res.render('add-observation', returnObj);
+                        return res.render('observations/add-observation', returnObj);
                     }
 
                     returnObj['users'] = userResults;
@@ -141,7 +141,7 @@ router.get('/add-observation', ensureAuthenticated, function (req, res, next) {
         connection.get().query('SELECT first_name, last_name, t_number FROM users WHERE t_number = ? ', req.user.t_number, function (err, userResults) {
             if (err) {
                 returnObj['message'] = 'Our database servers maybe down. Please try again.';
-                return res.render('add-observation', returnObj);
+                return res.render('observations/add-observation', returnObj);
             }
 
             //Get all the skills from the skills table
@@ -150,7 +150,7 @@ router.get('/add-observation', ensureAuthenticated, function (req, res, next) {
                 if (err) {
                     returnObj['message'] = 'Our database servers maybe down. Please try again.';
                     //Render the page wth error messages
-                    return res.render('add-observation', returnObj);
+                    return res.render('observations/add-observation', returnObj);
                 }
 
                 //Connection to get the behaviours from the  behaviours table
@@ -159,7 +159,7 @@ router.get('/add-observation', ensureAuthenticated, function (req, res, next) {
                     if (err) {
                         returnObj['message'] = 'Our database servers maybe down. Please try again.';
                         //Render the page with error messages
-                        return res.render('add-observation', returnObj);
+                        return res.render('observations/add-observation', returnObj);
                     }
 
                     returnObj['users'] = userResults;
@@ -167,7 +167,7 @@ router.get('/add-observation', ensureAuthenticated, function (req, res, next) {
                     returnObj['behaviours'] = behaviourResults;
 
                     //Render the page with the DB results
-                    res.render('add-observation', returnObj);
+                    res.render('observations/add-observation', returnObj);
                 });
             });
         });
@@ -189,7 +189,7 @@ router.get('/add-observation/:employee', ensureAuthenticated, function (req, res
             if (err) {
                 //Render the page wth error messages
                 returnObj['message'] = 'Our database servers maybe down. Please try again.';
-                return res.render('add-observation', returnObj);
+                return res.render('observations/add-observation', returnObj);
             }
 
             //Get all the skills from the skills table
@@ -198,7 +198,7 @@ router.get('/add-observation/:employee', ensureAuthenticated, function (req, res
                 if (err) {
                     //Render the page wth error messages
                     returnObj['message'] = 'Our database servers maybe down. Please try again.';
-                    return res.render('add-observation', returnObj);
+                    return res.render('observations/add-observation', returnObj);
                 }
 
                 //Connection to get the behaviours from the behaviours table
@@ -207,7 +207,7 @@ router.get('/add-observation/:employee', ensureAuthenticated, function (req, res
                     if (err) {
                         //Render the page wth error messages
                         returnObj['message'] = 'Our database servers maybe down. Please try again.';
-                        return res.render('add-observation', returnObj);
+                        return res.render('observations/add-observation', returnObj);
                     }
 
                     returnObj['users'] = userResults;
@@ -216,7 +216,7 @@ router.get('/add-observation/:employee', ensureAuthenticated, function (req, res
                     returnObj['employee'] = req.params.employee;
 
                     //Render the page with the query results
-                    return res.render('add-observation', returnObj);
+                    return res.render('observations/add-observation', returnObj);
                 });
             });
         });
@@ -226,7 +226,7 @@ router.get('/add-observation/:employee', ensureAuthenticated, function (req, res
             //If an error is thrown
             if (err) {
                 returnObj['message'] = 'Our database servers maybe down. Please try again.';
-                return res.render('add-observation', returnObj);
+                return res.render('observations/add-observation', returnObj);
             }
 
             //Get all the skills from the skills table
@@ -234,7 +234,7 @@ router.get('/add-observation/:employee', ensureAuthenticated, function (req, res
                 //If an error is thrown
                 if (err) {
                     returnObj['message'] = 'Our database servers maybe down. Please try again.';
-                    return res.render('add-observation', returnObj);
+                    return res.render('observations/add-observation', returnObj);
                 }
 
                 //Connection to get the behaviours from the behaviours table
@@ -242,7 +242,7 @@ router.get('/add-observation/:employee', ensureAuthenticated, function (req, res
                     //If an error is thrown
                     if (err) {
                         returnObj['message'] = 'Our database servers maybe down. Please try again.';
-                        return res.render('add-observation', returnObj);
+                        return res.render('observations/add-observation', returnObj);
                     }
 
 
@@ -252,7 +252,7 @@ router.get('/add-observation/:employee', ensureAuthenticated, function (req, res
                     returnObj['employee'] = req.params.employee;
 
                     //Render the page with the query results
-                    return res.render('add-observation', returnObj);
+                    return res.render('observations/add-observation', returnObj);
                 });
             });
         });
@@ -315,7 +315,7 @@ router.post('/add-observation', ensureAuthenticated, function (req, res, next) {
                 returnObj['observationComment'] = observationComment;
 
                 //Render the page wth error messages
-                return res.render('add-observation', returnObj); //End render
+                return res.render('observations/add-observation', returnObj); //End render
             } //End if
             req.flash('success_messages', 'Observation successfully added!');
             res.locals.success_messages = req.flash('success_messages');
@@ -326,7 +326,7 @@ router.post('/add-observation', ensureAuthenticated, function (req, res, next) {
                 if (err) {
                     returnObj['message'] = 'Our database servers maybe down. Please try again.';
                     //Render the page wth error messages
-                    return res.render('observations',returnObj); //End render
+                    return res.render('observations/observations',returnObj); //End render
                 } //End if
 
                 //Get all of the observations for each employee
@@ -340,7 +340,7 @@ router.post('/add-observation', ensureAuthenticated, function (req, res, next) {
                     if(err)
                     {
                         //Render the page wth error messages
-                        return res.render('observations',returnObj); //End render
+                        return res.render('observations/observations',returnObj); //End render
 
                     } //End if
                     req.session.success = true;
@@ -357,7 +357,7 @@ router.post('/add-observation', ensureAuthenticated, function (req, res, next) {
             if (err) {
                 returnObj['message'] = 'Our database servers maybe down. Please try again.';
                 //Render the page wth error messages
-                return res.render('add-observation',returnObj);
+                return res.render('observations/add-observation',returnObj);
             }
 
             //Get all the skills from the skills table
@@ -366,7 +366,7 @@ router.post('/add-observation', ensureAuthenticated, function (req, res, next) {
                 if (err) {
                     returnObj['message'] = 'Our database servers maybe down. Please try again.';
                     //Render the page wth error messages
-                    return res.render('add-observation',returnObj);
+                    return res.render('observations/add-observation',returnObj);
                 }
 
                 //Connection to get the behaviours from the behaviours table
@@ -375,7 +375,7 @@ router.post('/add-observation', ensureAuthenticated, function (req, res, next) {
                     if (err) {
                         returnObj['message'] = 'Our database servers maybe down. Please try again.';
                         //Render the page wth error messages
-                        return res.render('add-observation',returnObj);
+                        return res.render('observations/add-observation',returnObj);
                     }
 
                     //JSON array to hold behaviour info
@@ -394,7 +394,7 @@ router.post('/add-observation', ensureAuthenticated, function (req, res, next) {
                         returnObj['selectedEmployee'] = req.body.employeeDropdown;
 
                         //Render the page wth error messages
-                        return res.render('add-observation', returnObj);
+                        return res.render('observations/add-observation', returnObj);
                     }
 
                     //Check if the user has selected a behaviour type
@@ -403,7 +403,7 @@ router.post('/add-observation', ensureAuthenticated, function (req, res, next) {
                         returnObj['users'] = userResults;
                         returnObj['skills'] = categoryResults;
                         returnObj['behaviours'] = behaviourResults;
-                        return res.render('add-observation', returnObj);
+                        return res.render('observations/add-observation', returnObj);
                     }
                 });
             });
@@ -465,7 +465,7 @@ router.post('/add-observation/:employee', ensureAuthenticated, function (req, re
                 returnObj['observationComment'] = observationComment;
 
                 //Render the page wth error messages
-                return res.render('add-observation', returnObj); //End render
+                return res.render('observations/add-observation', returnObj); //End render
                 //Render the page wth error messages
 
             }
@@ -479,7 +479,7 @@ router.post('/add-observation/:employee', ensureAuthenticated, function (req, re
                 if (err) {
                     returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');
                     //Render the page wth error messages
-                    return res.render('observations',returnObj); //End render
+                    return res.render('observations/observations',returnObj); //End render
                 }
 
                 //Get all of the observations for each employee
@@ -492,7 +492,7 @@ router.post('/add-observation/:employee', ensureAuthenticated, function (req, re
                     if (err) {
                         returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');
                         //Render the page wth error messages
-                        return res.render('observations',returnObj); //End render
+                        return res.render('observations/observations',returnObj); //End render
                     } //End if
                     req.session.success = true;
                     return res.redirect('/users/observations');
@@ -511,7 +511,7 @@ router.post('/add-observation/:employee', ensureAuthenticated, function (req, re
             if (err) {
                 returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');
                 //Render the page wth error messages
-                return res.render('add-observation',returnObj);
+                return res.render('observations/add-observation',returnObj);
             } //End if
 
             //Get all the skills from the skills table
@@ -520,7 +520,7 @@ router.post('/add-observation/:employee', ensureAuthenticated, function (req, re
                 if (err) {
                     returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');
                     //Render the page wth error messages
-                    return res.render('add-observation',returnObj);
+                    return res.render('observations/add-observation',returnObj);
                 } //End if
 
                 //Connection to get the behaviours from the behaviours table
@@ -529,7 +529,7 @@ router.post('/add-observation/:employee', ensureAuthenticated, function (req, re
                     if (err) {
                         returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');
                         //Render the page wth error messages
-                        return res.render('add-observation',returnObj);
+                        return res.render('observations/add-observation',returnObj);
                     } //End if
 
 
@@ -550,7 +550,7 @@ router.post('/add-observation/:employee', ensureAuthenticated, function (req, re
                         returnObj['selectedEmployee'] = req.body.employeeDropdown;
 
                         //Render the page wth error messages
-                        return res.render('add-observation', returnObj);
+                        return res.render('observations/add-observation', returnObj);
                     } //End if
 
                     //Check if the user has selected a behaviour type
@@ -559,7 +559,7 @@ router.post('/add-observation/:employee', ensureAuthenticated, function (req, re
                         returnObj['users'] = userResults;
                         returnObj['skills'] = categoryResults;
                         returnObj['behaviours'] = behaviourResults;
-                        return res.render('add-observation', returnObj);
+                        return res.render('observations/add-observation', returnObj);
                     }
                 });
             });

@@ -1,4 +1,4 @@
-extends layout
+extends ../layout
 block append stylesheet
     link(rel='stylesheets', href='/stylesheets/bootstrap.min.css')
     link(rel='stylesheet', href='/stylesheets/behaviours.css')
@@ -164,7 +164,7 @@ block content
                                 button#saveBehaviour.form-btn.btn.btn-lg.btn-success.customButton(name='btnSubmit', type='button', onclick='saveOrDeleteFunc()') Save
 
 block append script
-    script(src='/javascripts/add-behaviour.js')
+    script(src='/javascripts/behaviours/add-behaviour.js')
     //If there is a remove paramter, show the delete interface on page load
     if canRemove != undefined
         script.

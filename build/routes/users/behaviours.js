@@ -9,6 +9,7 @@ var async = require('async');
 var behaviourModel = require('../../models/observation');
 var returnObj = {};
 var router = express.Router();
+
 // Get for behaviours and show them for each skill
 router.get('/', ensureAuthenticated, function (req, res, next) {
     //Ensure user is logged in
@@ -31,7 +32,7 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
         if (err) {
             returnObj['message'] = 'Our database servers maybe down. Please try again.';
             //Render the page wth error messages
-            return res.render('behaviours', returnObj);
+            return res.render('behaviours/behaviours', returnObj);
         }
 
         //Connection to get all behaviours
@@ -40,13 +41,13 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
             if (err) {
                 returnObj['message'] = 'Our database servers maybe down. Please try again.';
                 //Render the page wth error messages
-                return res.render('behaviours', returnObj);
+                return res.render('behaviours/behaviours', returnObj);
             }
 
             returnObj['skills'] = skillResults;
             returnObj['behaviours'] = behaviourResults;
             //Render the behaviours page with a list of behaviours and skills
-            res.render('behaviours', returnObj);
+            res.render('behaviours/behaviours', returnObj);
         });
     });
 });
@@ -69,11 +70,11 @@ router.get('/add-behaviour', ensureAuthenticated, function (req, res, next) {
         if (err) {
             returnObj['message'] = 'Our database servers maybe down. Please try again.';
             //Render the page wth error messages
-            return res.render('add-behaviour', returnObj);
+            return res.render('behaviours/add-behaviour', returnObj);
         }
 
         //Render the add-behaviour page with an interface to perform CRUD
-        return res.render('add-behaviour', returnObj);
+        return res.render('behaviours/add-behaviour', returnObj);
     });
 });
 
@@ -92,7 +93,7 @@ router.get('/add-behaviour/:skill', ensureAuthenticated, function (req, res, nex
         if (err) {
             returnObj['message'] = 'Our database servers maybe down. Please try again.';
             //Render the page wth error messages
-            return res.render('add-behaviour', returnObj);
+            return res.render('behaviours/add-behaviour', returnObj);
         }
         else {
             //Get the skill id we are working with by using the skill parameter in the URL
@@ -102,12 +103,12 @@ router.get('/add-behaviour/:skill', ensureAuthenticated, function (req, res, nex
                 if (err) {
                     returnObj['message'] = 'Our database servers maybe down. Please try again.';
                     //Render the page wth error messages
-                    return res.render('add-behaviour', returnObj);
+                    return res.render('behaviours/add-behaviour', returnObj);
                 }
                 //No errors render the add-behaviour page
                 else {
                     returnObj['selectedskill'] = behaviourResults;
-                    return res.render('add-behaviour', returnObj);
+                    return res.render('behaviours/add-behaviour', returnObj);
                 }
             });
         }
@@ -129,7 +130,7 @@ router.get('/add-behaviour/:skill/:canRemove', ensureAuthenticated, function (re
         if (err) {
             returnObj['message'] = 'Our database servers maybe down. Please try again.';
             //Render the page wth error messages
-            return res.render('add-behaviour', returnObj);
+            return res.render('behaviours/add-behaviour', returnObj);
         }
         else {
             //Get the skill we are working with
@@ -139,13 +140,13 @@ router.get('/add-behaviour/:skill/:canRemove', ensureAuthenticated, function (re
                 if (err) {
                     returnObj['message'] = 'Our database servers maybe down. Please try again.';
                     //Render the page wth error messages
-                    return res.render('add-behaviour', returnObj);
+                    return res.render('behaviours/add-behaviour', returnObj);
                 }
                 //If all is well, render the add behaviour page and pass a remove parameter to automatically open the delete interface
                 else {
                     returnObj['selectedskill'] = behaviourResults;
                     returnObj['canRemove'] = req.params.canRemove;
-                    return res.render('add-behaviour', returnObj);
+                    return res.render('behaviours/add-behaviour', returnObj);
                 }
             });
         }
@@ -195,7 +196,7 @@ router.post('/add-behaviour/:skill/:canRemove', ensureAuthenticated, function (r
                     if (err) {
                         returnObj['message'] = 'Our database servers maybe down. Please try again.';
                         //Render the page wth error messages
-                        return res.render('add-behaviour', returnObj);
+                        return res.render('behaviours/add-behaviour', returnObj);
                     }
                     else {
                         behaviourDeleted = true;
@@ -223,7 +224,7 @@ router.post('/add-behaviour/:skill/:canRemove', ensureAuthenticated, function (r
                         if (err) {
                             returnObj['message'] = 'Our database servers maybe down. Please try again.';
                             //Render the page wth error messages
-                            return res.render('add-behaviour', returnObj);
+                            return res.render('behaviours/add-behaviour', returnObj);
                         }
                         else {
                             behaviourDeleted = true;
@@ -253,7 +254,7 @@ router.post('/add-behaviour/:skill/:canRemove', ensureAuthenticated, function (r
                         if (err) {
                             returnObj['message'] = 'Our database servers maybe down. Please try again.';
                             //Render the page wth error messages
-                            return res.render('add-behaviour', returnObj);
+                            return res.render('behaviours/add-behaviour', returnObj);
                         }
                         else {
                             callback(null);
@@ -263,7 +264,7 @@ router.post('/add-behaviour/:skill/:canRemove', ensureAuthenticated, function (r
                 else {
                     returnObj['message'] = 'One of the skills was empty, please enter a skill name';
                     //Render the page wth error messages
-                    return res.render('add-behaviour', returnObj);
+                    return res.render('behaviours/add-behaviour', returnObj);
                 }
             }, fnCallback);
         }
@@ -282,7 +283,7 @@ router.post('/add-behaviour/:skill/:canRemove', ensureAuthenticated, function (r
                     if (behaviours[aBehaviour] == null || behaviours[aBehaviour] == "") {
                         returnObj['message'] = 'One of the behaviours was empty, please enter a behaviour description';
                         //Render the page wth error messages
-                        return res.render('add-behaviour', returnObj);
+                        return res.render('behaviours/add-behaviour', returnObj);
                     }
                     behaviourAdded = true;
                     behaviourDesc = behaviours[aBehaviour];
@@ -293,7 +294,7 @@ router.post('/add-behaviour/:skill/:canRemove', ensureAuthenticated, function (r
                         if (err) {
                             returnObj['message'] = 'Our database servers maybe down. Please try again.';
                             //Render the page wth error messages
-                            return res.render('add-behaviour', returnObj);
+                            return res.render('behaviours/add-behaviour', returnObj);
                         }
                         //Add Behaviour
                         else if (behaviourResults.length <= 0) {
@@ -307,7 +308,7 @@ router.post('/add-behaviour/:skill/:canRemove', ensureAuthenticated, function (r
                                 if (err) {
                                     returnObj['message'] = 'Our database servers maybe down. Please try again.';
                                     //Render the page wth error messages
-                                    return res.render('add-behaviour', returnObj);
+                                    return res.render('behaviours/add-behaviour', returnObj);
                                 }
                                 else {
                                 }
@@ -321,7 +322,7 @@ router.post('/add-behaviour/:skill/:canRemove', ensureAuthenticated, function (r
                                 if (err) {
                                     returnObj['message'] = 'Our database servers maybe down. Please try again.';
                                     //Render the page wth error messages
-                                    return res.render('add-behaviour', returnObj);
+                                    return res.render('behaviours/add-behaviour', returnObj);
                                 }
                                 else {
                                 }
@@ -377,7 +378,7 @@ router.post('/add-behaviour', ensureAuthenticated, function (req, res, next) {
             if (behaviours[aBehaviour] == null || behaviours[aBehaviour] == "") {
                 returnObj['message'] = 'One of the behaviours was empty, please enter a behaviour name';
                 //Render the page wth error messages
-                return res.render('add-behaviour', returnObj);
+                return res.render('behaviours/add-behaviour', returnObj);
             }
         }
     }
@@ -399,7 +400,7 @@ router.post('/add-behaviour', ensureAuthenticated, function (req, res, next) {
                     returnObj['message'] = 'One of the skills was empty, please enter a skill name';
 
                     //Render the page wth error messages
-                    return res.render('add-behaviour', returnObj);
+                    return res.render('behaviours/add-behaviour', returnObj);
                 }
 
                 //Regex to extract numbers from textarea id
@@ -410,7 +411,7 @@ router.post('/add-behaviour', ensureAuthenticated, function (req, res, next) {
                     if (err) {
                         returnObj['message'] = 'Our database servers maybe down. Please try again.';
                         //Render the page wth error messages
-                        return res.render('add-behaviour', returnObj);
+                        return res.render('behaviours/add-behaviour', returnObj);
                     }
                     //Add Behaviour
                     if (skillTitle != null || skillTitle != "") {
@@ -423,7 +424,7 @@ router.post('/add-behaviour', ensureAuthenticated, function (req, res, next) {
                             if (err) {
                                 returnObj['message'] = 'Our database servers maybe down. Please try again.';
                                 //Render the page wth error messages
-                                return res.render('add-behaviour', returnObj);
+                                return res.render('behaviours/add-behaviour', returnObj);
                             }
                             else {
                                 callback(null);
@@ -436,7 +437,7 @@ router.post('/add-behaviour', ensureAuthenticated, function (req, res, next) {
                     {
                         returnObj['message'] = 'One of the skills was empty, please enter a skill name';
                         //Render the page wth error messages
-                        return res.render('add-behaviour', returnObj);
+                        return res.render('behaviours/add-behaviour', returnObj);
                     }
                 });
             }
@@ -448,7 +449,7 @@ router.post('/add-behaviour', ensureAuthenticated, function (req, res, next) {
                 if (behaviours[aBehaviour] == null || behaviours[aBehaviour] == "") {
                     returnObj['message'] = 'One of the behaviours was empty, please enter a behaviour name';
                     //Render the page wth error messages
-                    return res.render('add-behaviour', returnObj);
+                    return res.render('behaviours/add-behaviour', returnObj);
                 }
                 behaviourDesc = behaviours[aBehaviour];
                 if (skillID != '') {
@@ -461,7 +462,7 @@ router.post('/add-behaviour', ensureAuthenticated, function (req, res, next) {
                         if (err) {
                             returnObj['message'] = 'Our database servers maybe down. Please try again.';
                             //Render the page wth error messages
-                            return res.render('add-behaviour', returnObj);
+                            return res.render('behaviours/add-behaviour', returnObj);
                         }
                     });
                 }
@@ -523,7 +524,7 @@ router.post('/add-behaviour/:skill', ensureAuthenticated, function (req, res, ne
                     if (err) {
                         returnObj['message'] = 'Our database servers maybe down. Please try again.';
                         //Render the page wth error messages
-                        return res.render('add-behaviour', returnObj);
+                        return res.render('behaviours/add-behaviour', returnObj);
                     }
                     else {
                         behaviourDeleted = true;
@@ -552,7 +553,7 @@ router.post('/add-behaviour/:skill', ensureAuthenticated, function (req, res, ne
                         if (err) {
                             returnObj['message'] = 'Our database servers maybe down. Please try again.';
                             //Render the page wth error messages
-                            return res.render('add-behaviour', returnObj);
+                            return res.render('behaviours/add-behaviour', returnObj);
                         }
                         else {
                             behaviourDeleted = true;
@@ -582,7 +583,7 @@ router.post('/add-behaviour/:skill', ensureAuthenticated, function (req, res, ne
                         if (err) {
                             returnObj['message'] = 'Our database servers maybe down. Please try again.';
                             //Render the page wth error messages
-                            return res.render('add-behaviour', returnObj);
+                            return res.render('behaviours/add-behaviour', returnObj);
                         }
                         else {
                             callback(null);
@@ -592,7 +593,7 @@ router.post('/add-behaviour/:skill', ensureAuthenticated, function (req, res, ne
                 else {
                     returnObj['message'] = 'One of the skills was empty, please enter a skill name';
                     //Render the page wth error messages
-                    return res.render('add-behaviour', returnObj);
+                    return res.render('behaviours/add-behaviour', returnObj);
                 }
             }, fnCallback);
         }
@@ -611,7 +612,7 @@ router.post('/add-behaviour/:skill', ensureAuthenticated, function (req, res, ne
                     if (behaviours[aBehaviour] == null || behaviours[aBehaviour] == "") {
                         returnObj['message'] = 'One of the behaviours was empty, please enter a behaviour description';
                         //Render the page wth error messages
-                        return res.render('add-behaviour', returnObj);
+                        return res.render('behaviours/add-behaviour', returnObj);
                     }
                     behaviourAdded = true;
                     behaviourDesc = behaviours[aBehaviour];
@@ -622,7 +623,7 @@ router.post('/add-behaviour/:skill', ensureAuthenticated, function (req, res, ne
                         if (err) {
                             returnObj['message'] = 'Our database servers maybe down. Please try again.';
                             //Render the page wth error messages
-                            return res.render('add-behaviour', returnObj);
+                            return res.render('behaviours/add-behaviour', returnObj);
                         }
                         //Add Behaviour
                         else if (behaviourResults.length <= 0) {
@@ -636,7 +637,7 @@ router.post('/add-behaviour/:skill', ensureAuthenticated, function (req, res, ne
                                 if (err) {
                                     returnObj['message'] = 'Our database servers maybe down. Please try again.';
                                     //Render the page wth error messages
-                                    return res.render('add-behaviour', returnObj);
+                                    return res.render('behaviours/add-behaviour', returnObj);
                                 }
                                 else {
                                 }
@@ -650,7 +651,7 @@ router.post('/add-behaviour/:skill', ensureAuthenticated, function (req, res, ne
                                 if (err) {
                                     returnObj['message'] = 'Our database servers maybe down. Please try again.';
                                     //Render the page wth error messages
-                                    return res.render('add-behaviour', returnObj);
+                                    return res.render('behaviours/add-behaviour', returnObj);
                                 }
                                 else {
                                 }

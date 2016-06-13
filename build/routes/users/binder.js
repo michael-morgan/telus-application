@@ -16,8 +16,8 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
         return res.redirect('/users/');
     }
 
-    res.render('binder', {
-        title: 'Coaching Binder',
+    res.render('coaching/binder', {
+        title: 'Coaching Binder'
     });
 });
 

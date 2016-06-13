@@ -1,4 +1,4 @@
-extends layout
+extends ../layout
 
 block append stylesheet
     link(rel='stylesheets', href='/stylesheets/bootstrap.min.css')
@@ -22,7 +22,7 @@ block content
             //Form for adding observation
             form.form-horizontal(method='post', role='form')
                 .form-group
-                        .col-md-10.col-sm-10.col-sm-offset-1.col-md-offset-1
+                        .col-xs-12.col-md-10.col-md-offset-1
                             span Add Observation for &nbsp
                             select.selectpicker(required id='employeeDropdown' name='employeeDropdown' data-live-search="true")
                                 option(disabled selected value='0') Select Employee
@@ -48,10 +48,10 @@ block content
                                                         if behaviour.behaviour_desc != undefined && skill.skill_id == behaviour.skill_id
                                                             .row.list-group-item.behaviour
                                                                 //Display the behaviours on the left
-                                                                .col-sm-10(id="behaviour#{behaviour.behaviour_id}")
+                                                                .col-xs-9.col-lg-10(id="behaviour#{behaviour.behaviour_id}")
                                                                     p #{behaviour.behaviour_desc}
                                                                     //Display the thumbs up, thumbs down radio buttons on the right
-                                                                .col-sm-2.text-right
+                                                                .col-xs-3.col-lg-2.text-right
                                                                     .btn-group(data-toggle='buttons')
                                                                         label.btn.btn-success
                                                                             input(type='radio', name='goodorbad', id='good#{behaviour.behaviour_id}', value='good#{behaviour.behaviour_id}', checked=goodorbad == "Good")
@@ -59,19 +59,11 @@ block content
                                                                         label.btn.btn-danger
                                                                             input(type='radio', name='goodorbad', id='bad#{behaviour.behaviour_id}', value='bad#{behaviour.behaviour_id}',checked=goodorbad == "Bad")
                                                                             i.fa.fa-thumbs-down
-
-
-
-
-
                 .form-group
-                    .col-sm-10.col-sm-offset-1
-                        .row.text-center
-                            textarea(placeholder="Write a comment...", maxlength="300", id="commentBox" name="commentBox" class="observation-comment")
-                .form-group
-                    .col-sm-10.col-sm-offset-1
-                        .row.text-center
-                            button#submitObservation.form-btn.btn.btn-lg.obs-btn.disabled(name='submit', type='button') Submit
+                    .col-xs-12.col-md-10.col-md-offset-1
+                        textarea(placeholder="Write a comment...", maxlength="300", id="commentBox" name="commentBox" class="observation-comment")
+                    .col-xs-12.col-sm-6.col-sm-offset-3.col-lg-4.col-lg-offset-4
+                        button#submitObservation.form-btn.btn.btn-lg.btn-block.obs-btn.disabled(name='submit', type='button') Submit
 
 block append script
     script(src='/javascripts/observations/add-observation.js')
