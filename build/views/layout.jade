@@ -87,19 +87,30 @@ html
                                         a(href='/users/observations/add-observation')
                                             span.menu-text Add Observation
                                             span.selected
-                            li.hoe-has-menu
-                                a(href='#')
-                                    i.fa.fa-plus
-                                    span.menu-text Behaviours
+                            if user.privileged >= 3
+                                li.hoe-has-menu
+                                    a(href='#')
+                                        i.fa.fa-plus
+                                        span.menu-text Behaviours
+                                        span.selected
+                                    ul.hoe-sub-menu
+                                        li
+                                            a(href='/users/behaviours')
+                                                span.menu-text Behaviours
+                                                span.selected
+                                        li
+                                            a(href='/users/behaviours/add-behaviour')
+                                                span.menu-text Add Behaviours
+                                                span.selected
+                            li
+                                a(href='/users/binder')
+                                    i.fa.fa-folder-open
+                                    span.menu-text Coaching Binder
                                     span.selected
-                                ul.hoe-sub-menu
+                                ul.hoe-sub-menu.display-none
                                     li
-                                        a(href='/users/behaviours')
-                                            span.menu-text Behaviours
-                                            span.selected
-                                    li
-                                        a(href='/users/behaviours/add-behaviour')
-                                            span.menu-text Add Behaviours
+                                        a(href='/users/binder')
+                                            span.menu-text
                                             span.selected
                             if user.privileged >= 2
                                 li
@@ -107,6 +118,7 @@ html
                                         i.fa.fa-gear
                                         span.menu-text Settings
                                         span.selected
+
                     section#main-content
                         block content
         if !user

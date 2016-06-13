@@ -4,6 +4,21 @@
   border-radius: 0;
 }
 
+.padding20tb{padding:20px 0}
+.padding40tb{padding:40px 0}
+.padding60tb{padding:60px 0}
+.padding80tb{padding:80px 0}
+
+.padding20lr{padding:0 20px}
+.padding40lr{padding:0 40px}
+.padding60lr{padding:0 60px}
+.padding80lr{padding:0 80px}
+
+.padding20a{padding:20px}
+.padding40a{padding:20px}
+.padding80a{padding:20px}
+
+
 body {
   font: 14px 'Open Sans', sans-serif;
   color:#000 !Important;

@@ -11,6 +11,9 @@ var returnObj = {};
 var router = express.Router();
 // Get for behaviours and show them for each skill
 router.get('/', ensureAuthenticated, function (req, res, next) {
+    //Ensure user is logged in
+    if (req.user.privileged <= 2) { return res.redirect('/users/'); }
+
     if (!req.body) { return res.sendStatus(400); }
 
     returnObj['title'] = 'Behaviours';
@@ -49,6 +52,10 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
 });
 //Display the add behaviour page, you can edit and remove behaviours here as well
 router.get('/add-behaviour', ensureAuthenticated, function (req, res, next) {
+    if (req.user.privileged <= 2) {
+        return res.redirect('/users/');
+    }
+
     if (!req.body) {
         return res.sendStatus(400);
     }
@@ -72,6 +79,10 @@ router.get('/add-behaviour', ensureAuthenticated, function (req, res, next) {
 
 // When the add-behaviour page is loaded, and there is a skill id in the url.
 router.get('/add-behaviour/:skill', ensureAuthenticated, function (req, res, next) {
+    if (req.user.privileged <= 2) {
+        return res.redirect('/users/');
+    }
+
     if (!req.body) { return res.sendStatus(400); }
 
     returnObj['title'] ='Edit Skills/Behaviours';
@@ -105,6 +116,10 @@ router.get('/add-behaviour/:skill', ensureAuthenticated, function (req, res, nex
 
 // When the add-behaviour page is loaded, and there is a skill id in the url and the user clicked Remove skill
 router.get('/add-behaviour/:skill/:canRemove', ensureAuthenticated, function (req, res, next) {
+    if (req.user.privileged <= 2) {
+        return res.redirect('/users/');
+    }
+
     if (!req.body) { return res.sendStatus(400); }
 
     returnObj['title'] ='Edit Skills/Behaviours';
@@ -138,6 +153,7 @@ router.get('/add-behaviour/:skill/:canRemove', ensureAuthenticated, function (re
 });
 // When we submit the add behaviour page with a skill and a remove parameter
 router.post('/add-behaviour/:skill/:canRemove', ensureAuthenticated, function (req, res, next) {
+
     if (!req.body) { return res.sendStatus(400); }
     //Store variables from the submitted form
     var behaviours = req.body;
@@ -195,8 +211,7 @@ router.post('/add-behaviour/:skill/:canRemove', ensureAuthenticated, function (r
         }, fnCallback);
     }
     //Check to see if we are deleting any behaviours
-    function deleteBehaviours(fnCallback)
-    {
+    function deleteBehaviours(fnCallback) {
         if (!skillDeleted) {
             async.eachSeries(Object.keys(behaviours), function (aBehaviour, callback) {
                 //Delete Behaviour
