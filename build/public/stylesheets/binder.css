@@ -23,6 +23,7 @@
 #binderTitle > ul > li.active > a{
     background-color:#4b286d;
     color:white;
+    border:none;
 
 }
 #binderTitle > ul > li > a{
