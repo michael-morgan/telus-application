@@ -1,0 +1,7 @@
+#main-content > div.col-xs-11.col-sm-offset-1.binderTitle > ul
+{
+    font-size:50px;
+}
+#binderTitle{
+    background-color: black !important;
+}

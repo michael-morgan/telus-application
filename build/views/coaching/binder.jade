@@ -9,40 +9,41 @@ block content
             h1 #{title}
 
     //Links for the separate tab pages
-    ul.nav.nav-tabs
-        li.active
-            a(data-toggle='tab', href='#loe') Letter of Expectation
-        li
-            a(data-toggle='tab', href='#logs') Weekly Coaching Logs
-        li
-            a(data-toggle='tab', href='#reviews') Monthly Reviews
-        li
-            a(data-toggle='tab', href='#surveys') Surveys
-        li
-            a(data-toggle='tab', href='#misc') Misc
+    #binderTitle.col-xs-11.col-sm-offset-1
+        ul.nav.nav-tabs.binderTitle
+            li.active
+                a(data-toggle='tab', href='#loe' class="binderTitle") Letter of Expectation
+            li.binderTitle
+                a(data-toggle='tab', href='#logs') Weekly Coaching Logs
+            li.binderTitle
+                a(data-toggle='tab', href='#reviews') Monthly Reviews
+            li.binderTitle
+                a(data-toggle='tab', href='#surveys') Surveys
+            li.binderTitle
+                a(data-toggle='tab', href='#misc') Misc
 
-    //Content for the tab pages
-    .tab-content
-        #loe.tab-pane.fade.in.active
-            h3 Letter of Expectation
-            //Content block for the loe.jade file
-            include loe
-        #logs.tab-pane.fade
-            h3 Weekly Coaching Logs
-            //Content block for the logs.jade file
-            include logs
-        #reviews.tab-pane.fade
-            //Content block for the reviews.jade file
-            h3 Monthly Reviews
-            include reviews
-        #surveys.tab-pane.fade
-            //Content block for the surveys.jade file
-            h3 Surveys
-            include surveys
-        #misc.tab-pane.fade
-            //Content block for the misc.jade file
-            h3 Misc
-            include misc
+        //Content for the tab pages
+        .tab-content
+            #loe.tab-pane.fade.in.active
+                h3 Letter of Expectation
+                //Content block for the loe.jade file
+                include loe
+            #logs.tab-pane.fade
+                h3 Weekly Coaching Logs
+                //Content block for the logs.jade file
+                include logs
+            #reviews.tab-pane.fade
+                //Content block for the reviews.jade file
+                h3 Monthly Reviews
+                include reviews
+            #surveys.tab-pane.fade
+                //Content block for the surveys.jade file
+                h3 Surveys
+                include surveys
+            #misc.tab-pane.fade
+                //Content block for the misc.jade file
+                h3 Misc
+                include misc
 
 
 block append script
