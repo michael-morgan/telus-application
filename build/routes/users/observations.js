@@ -131,7 +131,7 @@ router.get('/add-observation', ensureAuthenticated, function (req, res, next) {
                     returnObj['behaviours'] = behaviourResults;
 
                     //Render the page with the DB results
-                    res.render('add-observation', returnObj);
+                    res.render('observations/add-observation', returnObj);
                 });
             });
         });

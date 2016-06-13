@@ -1,7 +1,31 @@
-#main-content > div.col-xs-11.col-sm-offset-1.binderTitle > ul
-{
-    font-size:50px;
-}
 #binderTitle{
-    background-color: black !important;
+    font-size:20px;
+    margin-top:15px;
+ }
+@media screen and (max-width: 600px) {
+    #binderTitle > ul > li{
+        width:100%;
+
+    }
+}
+@media screen and (min-width: 601px) and (max-width:1100px) {
+    #binderTitle > ul > li{
+        width:20%;
+        font-size:15px;
+
+
+    }
+    #binderTitle > ul > li > a{
+        height:75px;
+    }
+}
+
+#binderTitle > ul > li.active > a{
+    background-color:#4b286d;
+    color:white;
+
+}
+#binderTitle > ul > li > a{
+    background-color:#8c68a6;
+    color:white;
 }
