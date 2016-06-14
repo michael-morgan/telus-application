@@ -1,2 +1,12 @@
 div
-    p test
+    .row
+        .col-lg-6
+            .panel.panel-primary
+                .panel-heading
+                    h3.panel-title Letter #1
+                .panel-body
+                    .row
+                        #viewButtonContainer.col-xs-12.col-sm-6.col-lg-3
+                            button#view.form-btn.btn.btn-lg.btn-block.obs-btn.btn-success(name='view', type='button') View
+                        #uploadButtonContainer.col-xs-12.col-sm-6.col-lg-8
+                            button#addNewLetter.form-btn.btn.btn-lg.btn-block.obs-btn.btn-block(name='addNewLetter', type='button') Upload Additional Letter
