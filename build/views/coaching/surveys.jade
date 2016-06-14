@@ -1,2 +1,33 @@
-div
-    p test
+.row
+    .col-xs-12.col-lg-8
+        #accordion.panel-group
+            .panel
+                .panel-heading
+                    h4.panel-title
+                        a(data-toggle='collapse', data-parent='#accordion', href='#surveyCollapse1') January 2016
+                #surveyCollapse1.panel-collapse.collapse
+                    .panel-body
+                        .row.list-group-item.behaviour
+                            .col-sm-10
+                                p Link to Survey1
+                        .row.list-group-item.behaviour
+                            .col-sm-10
+                                p Link to Survey2
+                        .row.list-group-item.behaviour
+                            .col-sm-10
+                                p Link to Survey3
+            .panel
+                .panel-heading
+                    h4.panel-title
+                        a(data-toggle='collapse', data-parent='#accordion', href='#surveyCollapse2') February 2016
+                #surveyCollapse2.panel-collapse.collapse
+                    .panel-body
+                        .row.list-group-item.behaviour
+                            .col-sm-10
+                                p Link to Survey1
+                        .row.list-group-item.behaviour
+                            .col-sm-10
+                                p Link to Survey2
+                        .row.list-group-item.behaviour
+                            .col-sm-10
+                                p Link to Survey3
