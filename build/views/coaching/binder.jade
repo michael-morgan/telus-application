@@ -9,17 +9,17 @@ block content
             h1.page-header Coaching Binder
 
     //Links for the separate tab pages
-    #binderTitle.col-xs-12.col-sm-10.col-sm-offset-1
-        ul.nav.nav-tabs
-            li.active
-                a(data-toggle='tab', href='#loe' class="binderTitle") Letter of Expectation
-            li
+    #binderTitle.col-xs-12
+        ul.nav.nav-tabs.nav-justified
+            li.active(role='presentation')
+                a(data-toggle='tab', href='#loe') Letter of Expectation
+            li(role='presentation')
                 a(data-toggle='tab', href='#logs') Weekly Coaching Logs
-            li
+            li(role='presentation')
                 a(data-toggle='tab', href='#reviews') Monthly Reviews
-            li
+            li(role='presentation')
                 a(data-toggle='tab', href='#surveys') Surveys
-            li
+            li(role='presentation')
                 a(data-toggle='tab', href='#misc') Misc
 
         //Content for the tab pages
