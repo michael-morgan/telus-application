@@ -1,33 +1,202 @@
 .row
-    .col-xs-12.col-lg-8
+    .col-xs-12
+        br
+        form.form-horizontal(method='post', role='form')
+            .form-group
+                .col-xs-12
+                    span Add Observation for &nbsp
+                    select.selectpicker(required id='employeeDropdown' name='employeeDropdown' data-live-search="true")
+                        option(disabled selected value='0') Select Employee
+                        //Code gets every user in the employee table of the database for the select employee drop down
+
         #accordion.panel-group
             .panel
                 .panel-heading
                     h4.panel-title
                         a(data-toggle='collapse', data-parent='#accordion', href='#surveyCollapse1') January 2016
                 #surveyCollapse1.panel-collapse.collapse
-                    .panel-body
+                    .panel-body.surveyLink
                         .row.list-group-item.behaviour
-                            .col-sm-10
+                            .col-xs-12
                                 p Link to Survey1
                         .row.list-group-item.behaviour
-                            .col-sm-10
+                            .col-xs-12
                                 p Link to Survey2
                         .row.list-group-item.behaviour
-                            .col-sm-10
+                            .col-xs-12
                                 p Link to Survey3
             .panel
                 .panel-heading
                     h4.panel-title
                         a(data-toggle='collapse', data-parent='#accordion', href='#surveyCollapse2') February 2016
                 #surveyCollapse2.panel-collapse.collapse
-                    .panel-body
+                    .panel-body.surveyLink
                         .row.list-group-item.behaviour
-                            .col-sm-10
+                            .col-xs-12
                                 p Link to Survey1
                         .row.list-group-item.behaviour
-                            .col-sm-10
+                            .col-xs-12
                                 p Link to Survey2
                         .row.list-group-item.behaviour
-                            .col-sm-10
+                            .col-xs-12
+                                p Link to Survey3
+
+            .panel
+                .panel-heading
+                    h4.panel-title
+                        a(data-toggle='collapse', data-parent='#accordion', href='#surveyCollapse3') March 2016
+                #surveyCollapse3.panel-collapse.collapse
+                    .panel-body.surveyLink
+                        .row.list-group-item.behaviour
+                            .col-xs-12
+                                p Link to Survey1
+                        .row.list-group-item.behaviour
+                            .col-xs-12
+                                p Link to Survey2
+                        .row.list-group-item.behaviour
+                            .col-xs-12
+                                p Link to Survey3
+
+            .panel
+                .panel-heading
+                    h4.panel-title
+                        a(data-toggle='collapse', data-parent='#accordion', href='#surveyCollapse4') April 2016
+                #surveyCollapse4.panel-collapse.collapse
+                    .panel-body.surveyLink
+                        .row.list-group-item.behaviour
+                            .col-xs-12
+                                p Link to Survey1
+                        .row.list-group-item.behaviour
+                            .col-xs-12
+                                p Link to Survey2
+                        .row.list-group-item.behaviour
+                            .col-xs-12
+                                p Link to Survey3
+
+            .panel
+                .panel-heading
+                    h4.panel-title
+                        a(data-toggle='collapse', data-parent='#accordion', href='#surveyCollapse5') May 2016
+                #surveyCollapse5.panel-collapse.collapse
+                    .panel-body.surveyLink
+                        .row.list-group-item.behaviour
+                            .col-xs-12
+                                p Link to Survey1
+                        .row.list-group-item.behaviour
+                            .col-xs-12
+                                p Link to Survey2
+                        .row.list-group-item.behaviour
+                            .col-xs-12
+                                p Link to Survey3
+
+            .panel
+                .panel-heading
+                    h4.panel-title
+                        a(data-toggle='collapse', data-parent='#accordion', href='#surveyCollapse6') June 2016
+                #surveyCollapse6.panel-collapse.collapse
+                    .panel-body.surveyLink
+                        .row.list-group-item.behaviour
+                            .col-xs-12
+                                p Link to Survey1
+                        .row.list-group-item.behaviour
+                            .col-xs-12
+                                p Link to Survey2
+                        .row.list-group-item.behaviour
+                            .col-xs-12
+                                p Link to Survey3
+
+            .panel
+                .panel-heading
+                    h4.panel-title
+                        a(data-toggle='collapse', data-parent='#accordion', href='#surveyCollapse7') July 2016
+                #surveyCollapse7.panel-collapse.collapse
+                    .panel-body.surveyLink
+                        .row.list-group-item.behaviour
+                            .col-xs-12
+                                p Link to Survey1
+                        .row.list-group-item.behaviour
+                            .col-xs-12
+                                p Link to Survey2
+                        .row.list-group-item.behaviour
+                            .col-xs-12
+                                p Link to Survey3
+
+            .panel
+                .panel-heading
+                    h4.panel-title
+                        a(data-toggle='collapse', data-parent='#accordion', href='#surveyCollapse8') August 2016
+                #surveyCollapse8.panel-collapse.collapse
+                    .panel-body.surveyLink
+                        .row.list-group-item.behaviour
+                            .col-xs-12
+                                p Link to Survey1
+                        .row.list-group-item.behaviour
+                            .col-xs-12
+                                p Link to Survey2
+                        .row.list-group-item.behaviour
+                            .col-xs-12
+                                p Link to Survey3
+
+            .panel
+                .panel-heading
+                    h4.panel-title
+                        a(data-toggle='collapse', data-parent='#accordion', href='#surveyCollapse9') September 2016
+                #surveyCollapse9.panel-collapse.collapse
+                    .panel-body.surveyLink
+                        .row.list-group-item.behaviour
+                            .col-xs-12
+                                p Link to Survey1
+                        .row.list-group-item.behaviour
+                            .col-xs-12
+                                p Link to Survey2
+                        .row.list-group-item.behaviour
+                            .col-xs-12
+                                p Link to Survey3
+
+            .panel
+                .panel-heading
+                    h4.panel-title
+                        a(data-toggle='collapse', data-parent='#accordion', href='#surveyCollapse10') October 2016
+                #surveyCollapse10.panel-collapse.collapse
+                    .panel-body.surveyLink
+                        .row.list-group-item.behaviour
+                            .col-xs-12
+                                p Link to Survey1
+                        .row.list-group-item.behaviour
+                            .col-xs-12
+                                p Link to Survey2
+                        .row.list-group-item.behaviour
+                            .col-xs-12
+                                p Link to Survey3
+
+            .panel
+                .panel-heading
+                    h4.panel-title
+                        a(data-toggle='collapse', data-parent='#accordion', href='#surveyCollapse11') November 2016
+                #surveyCollapse11.panel-collapse.collapse
+                    .panel-body.surveyLink
+                        .row.list-group-item.behaviour
+                            .col-xs-12
+                                p Link to Survey1
+                        .row.list-group-item.behaviour
+                            .col-xs-12
+                                p Link to Survey2
+                        .row.list-group-item.behaviour
+                            .col-xs-12
+                                p Link to Survey3
+
+            .panel
+                .panel-heading
+                    h4.panel-title
+                        a(data-toggle='collapse', data-parent='#accordion', href='#surveyCollapse12') December 2016
+                #surveyCollapse12.panel-collapse.collapse
+                    .panel-body.surveyLink
+                        .row.list-group-item.behaviour
+                            .col-xs-12
+                                p Link to Survey1
+                        .row.list-group-item.behaviour
+                            .col-xs-12
+                                p Link to Survey2
+                        .row.list-group-item.behaviour
+                            .col-xs-12
                                 p Link to Survey3

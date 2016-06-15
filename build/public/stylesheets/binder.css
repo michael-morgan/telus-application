@@ -1,11 +1,18 @@
+/*Main Binder page Style begins*/
 #binderTitle{
     font-size:20px;
     margin-top:15px;
-    text-align: center;
+
  }
 #binderTitle > ul > li{
     width:20%;
 
+}
+#binderTitle > ul > li > a{
+    height:75px;
+    text-align:center;
+    background-color:#8c68a6;
+    color:white;
 }
 @media screen and (max-width: 600px) {
     #binderTitle > ul > li{
@@ -39,10 +46,8 @@
     border:none;
 
 }
-#binderTitle > ul > li > a{
-    background-color:#8c68a6;
-    color:white;
-}
+
+/*Main Binder Page Style Ends*/
 /*LOE CSS*/
 @media screen and (max-width: 400px) {
     #addNewLetter{
@@ -60,3 +65,4 @@ button.misc-tab{
 span#uploadButton {
     float: right;
 }
+
