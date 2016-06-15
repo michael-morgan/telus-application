@@ -4,20 +4,7 @@ block content
         form.form-horizontal(method='post', role='form')
             .form-group
                 .col-md-8.col-sm-8.col-sm-offset-1.col-md-offset-1
-                    span Monthly Reviews for &nbsp
-                        select.selectpicker
-                            option Jan
-                            option Feb
-                            option Mar
-                            option Apr
-                            option May
-                            option Jun
-                            option Jul
-                            option Aug
-                            option Sep
-                            option Oct
-                            option Nov
-                            option Dec
+                    span Coaching Logs for week of &nbsp
                         select.selectpicker
                             option 2005
                             option 2006
@@ -31,3 +18,74 @@ block content
                             option 2014
                             option 2015
                             option 2016
+                        select.selectpicker
+                            option Sunday, April 3
+                            option Sunday, April 10
+                            option Sunday, April 17
+                            option Sunday, April 24
+                            option Sunday, May 1
+                            option Sunday, May 8
+                            option Sunday, May 15
+                            option Sunday, May 22
+                            option Sunday, May 29
+                            option Sunday, June 5
+                            option Sunday, June 12
+                            option Sunday, June 19
+                            option Sunday, June 26
+    //Table for employees monthly reviews view or publish by managers table, data is dummy, needs to be connected to database in future
+    .row
+        .col-md-12.col-md-offset-1
+            .table-responsive
+                table.table-condensed.table-nonfluid
+                    thead
+                        tr
+                            th T#
+                            th Firstname
+                            th Lastname
+                            th.btngroup
+                            th.btngroup
+                    tbody
+                        tr
+                            td T1111111
+                            td Michael
+                            td Morgan
+                            td.btngroup
+                                button.btn.btn-primary.btn-xs(data-title='Edit') View
+                            td.btngroup
+                                button.btn.btn-success.btn-xs(data-title='Delete') Publish
+                        tr
+                            td T1111111
+                            td Michael
+                            td Morgan
+                            td
+                                button.btn.btn-primary.btn-xs(data-title='Edit') View
+                            td
+                                button.btn.btn-success.btn-xs(data-title='Delete') Publish
+                        tr
+                            td T1111111
+                            td Michael
+                            td Morgan
+                            td
+                                button.btn.btn-primary.btn-xs(data-title='Edit') View
+                            td
+                                button.btn.btn-success.btn-xs(data-title='Delete') Publish
+    br
+    //Section for employees recent observations in their monthly review, data is dummy, needs to be connected to the database in the future.
+    .row
+        .col-md-10.col-sm-10.col-sm-offset-1.col-md-offset-1
+            #accordion.panel-group
+                .panel
+                    .panel-heading
+                        h4.panel-title
+                            a(data-toggle='collapse', data-parent='#accordion', href='#collapseOne') Observations Recorded This Week
+                    #collapseOne.panel-collapse.collapse.in
+                        .panel-body
+                            .row.list-group-item.behaviour.good-observation
+                                .col-sm-10
+                                    p Observation 1
+                            .row.list-group-item.behaviour.bad-observation
+                                .col-sm-10
+                                    p Observation 2
+                            .row.list-group-item.behaviour.good-observation
+                                .col-sm-10
+                                    p Observation 3
