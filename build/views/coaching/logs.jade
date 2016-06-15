@@ -70,6 +70,33 @@ block content
                             td
                                 button.btn.btn-success.btn-xs(data-title='Delete') Publish
     br
+    .row
+        .col-md-12.col-md-offset-1
+            .table-responsive
+                table.table-condensed.table-bordered.table-nonfluid-report
+                    thead
+                        tr
+                            th MTD
+                            th QTD
+                            th YTD
+                    tbody
+                        tr
+                            td 1
+                            td 2
+                            td.alert-danger 3
+                        tr
+                            td.alert-info 1
+                            td.alert-danger 2
+                            td 3
+                        tr
+                            td.alert-warning 1
+                            td.alert-danger 2
+                            td.alert-success 3
+                        tr
+                            td 1
+                            td 2
+                            td 3
+    br
     //Section for employees recent observations in their monthly review, data is dummy, needs to be connected to the database in the future.
     .row
         .col-md-10.col-sm-10.col-sm-offset-1.col-md-offset-1
@@ -89,3 +116,18 @@ block content
                             .row.list-group-item.behaviour.good-observation
                                 .col-sm-10
                                     p Observation 3
+    .row
+        .col-md-5.col-sm-5.col-sm-offset-1.col-md-offset-1
+            h3 Store Focus
+            p Focus
+        .col-md-5.col-sm-5
+            h3 Team Member Focus
+            input(type="text", placeholder="Last Months focus here")
+    .row
+        .col-md-5.col-sm-5.col-sm-offset-1.col-md-offset-1
+             h3 Manager Digital Signature
+             input(type="text", placeholder="Manager Name")
+        .col-md-5.col-sm-5
+              h3 Employee Digital Signature
+              input(type="text", placeholder="Employee Name")
+    br
