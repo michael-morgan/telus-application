@@ -37,3 +37,13 @@
         white-space: normal;
     }
 }
+
+/* MISC TAB */
+
+button.misc-tab{
+    min-width: 80px;
+}
+
+span#uploadButton {
+    float: right;
+}
