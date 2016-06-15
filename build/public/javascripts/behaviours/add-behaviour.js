@@ -1,4 +1,7 @@
-$(function() {});
+$(function() {
+    validate();
+    $('#skillid1, #behaviourid1').change(validate);
+});
 
 //Dynamically create behaviour textareas
 function addBehaviour() {
@@ -13,10 +16,11 @@ function addBehaviour() {
                                     </div>\
                                 </div>\
                             </div>';
-
     $('#behaviourSection').append(behaviourContent);
+    $('#behaviourid' + count).change(validate);
 
     count++;
+    validate();
 }
 
 //Delete function
@@ -24,7 +28,7 @@ function initiateDelete() {
     document.getElementById("Delete").style.display = "none";
     document.getElementById("addBehaviours").style.display = "none";
     document.getElementById("saveBehaviour").textContent = "Delete";
-    document.getElementById("saveBehaviour").className = "form-btn btn btn-lg btn-danger customButton";
+    document.getElementById("saveBehaviour").className = "form-btn btn btn-lg btn-danger btn-block";
     //Show checkboxes
     var divsToShow = document.getElementsByName("checkBoxes");
     for (var i = 0; i < deleteBehaviours.length; i++) {
@@ -34,4 +38,27 @@ function initiateDelete() {
         divsToShow[i].style.display = "inline-block"; // depending on what you're doing
     }
 }
+
+function validate() {
+    var isValid = function() {
+        for(var i = 1; i < count; i += 1) {
+            if(i == 1) {
+                if(!($('#skillid' + i).val().length > 0) ||
+                !($('#behaviourid' + i).val().length > 0)) {
+                    return false;
+                }
+            }
+            else {
+                if(!($('#behaviourid' + i).val().length > 0)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    };
+
+    $('#saveBehaviour').prop('disabled', !isValid());
+}
+
+
 

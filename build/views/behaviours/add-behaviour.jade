@@ -116,7 +116,7 @@ block content
                                             document.getElementById(deleteBehaviours[i]).checked = false; // uncheckbehaviours
                                         }
                                         document.getElementById("saveBehaviour").textContent = "Save";
-                                        document.getElementById("saveBehaviour").className = "form-btn btn btn-lg btn-success customButton";
+                                        document.getElementById("saveBehaviour").className = "form-btn btn btn-lg btn-success btn-block";
                                         document.getElementById("addBehaviours").style.display = "inline-block";
                                         document.getElementById("Delete").style.display = "inline-block";
                                         //Hide checkboxes
@@ -156,12 +156,12 @@ block content
                                     textarea(placeholder="Enter Behavior Description here...", maxlength="300", id="behaviourid1" name="behaviourid1" class="behaviourDescription")
                         .form-group.text-center
                             .col-lg-4.col-lg-offset-4
-                                button#addBehaviours.form-btn.btn.btn-lg.btn-success.customButton(name='addBehaviours', type='button', onclick='addBehaviour()') Add Behaviour
+                                button#addBehaviours.form-btn.btn.btn-lg.btn-success.btn-block(name='addBehaviours', type='button', onclick='addBehaviour()') Add Behaviour
                         .form-group.text-center
                             .col-lg-2.col-lg-offset-4
-                                button#cancelBtn.form-btn.btn.btn-lg.btn-danger.customButton(name='cancelBtn', type='button', onclick='cancelFunc()') Cancel
+                                button#cancelBtn.form-btn.btn.btn-lg.btn-danger.btn-block(name='cancelBtn', type='button', onclick='cancelFunc()') Cancel
                             .col-lg-2
-                                button#saveBehaviour.form-btn.btn.btn-lg.btn-success.customButton(name='btnSubmit', type='button', onclick='saveOrDeleteFunc()') Save
+                                button#saveBehaviour.form-btn.btn.btn-lg.btn-success.btn-block(name='btnSubmit', type='button', onclick='saveOrDeleteFunc()') Save
 
 block append script
     script(src='/javascripts/behaviours/add-behaviour.js')
