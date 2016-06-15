@@ -1,2 +1,85 @@
-div
-    p test
+block append stylesheet
+    link(rel='stylesheets', href='/stylesheets/bootstrap.min.css')
+    link(rel='stylesheet', href='/stylesheets/add-observations.css')
+    link(rel='stylesheet', href='/stylesheets/reviews.css')
+block content
+    //Form picker for selecting the sorting criteria. Still needs to be linked to database in future, data is dummy
+    .row
+        form.form-horizontal(method='post', role='form')
+            .form-group
+                .col-md-8.col-sm-8.col-sm-offset-1.col-md-offset-1
+                    span Sort by &nbsp
+                        select.selectpicker
+                            option Newest to oldest
+                            option Oldest to newest
+                            option File type
+                            option File name
+
+                    span#uploadButton.btn.btn-success.btn-xs.misc-tab(data-title='Upload') Upload new document
+
+
+    //This table contains all the misc files that have been uploaded by the user, data is dummy, needs to be connected to database in future
+    .row
+        .col-md-12.col-md-offset-1
+            .table-responsive
+                table.table.table-nonfluid
+                    thead
+                        tr
+                            th Item name
+                            th File type
+                            th Date submitted
+                            th.btngroup.misc-tab
+                            th.btngroup.misc-tab
+                            th.btngroup.misc-tab
+                            th.btngroup.misc-tab
+                    tbody
+                        tr
+                            td June Monthly Review EDITED
+                            td Excel spreadsheet
+                            td June 4, 2016
+                            td.btngroup
+                                button.btn.btn-success.btn-xs.misc-tab(data-title='View') View
+                            td.btngroup
+                                button.btn.btn-info.btn-xs.misc-tab(data-title='Share') Share
+                            td.btngroup
+                                button.btn.btn-primary.btn-xs.misc-tab(data-title='Download') Download
+                            td.btngroup
+                                button.btn.btn-danger.btn-xs.misc-tab(data-title='Delete') Delete
+                        tr
+                            td Extra observations May
+                            td Text file
+                            td May 31, 2016
+                            td.btngroup
+                                button.btn.btn-success.btn-xs.misc-tab(data-title='View') View
+                            td.btngroup
+                                button.btn.btn-info.btn-xs.misc-tab(data-title='Share') Share
+                            td.btngroup
+                                button.btn.btn-primary.btn-xs.misc-tab(data-title='Download') Download
+                            td.btngroup
+                                button.btn.btn-danger.btn-xs.misc-tab(data-title='Delete') Delete
+                        tr
+                            td File from Patrick
+                            td Pdf
+                            td June 7, 2016
+                            td.btngroup
+                                button.btn.btn-success.btn-xs.misc-tab(data-title='View') View
+                            td.btngroup
+                                button.btn.btn-info.btn-xs.misc-tab(data-title='Share') Share
+                            td.btngroup
+                                button.btn.btn-primary.btn-xs.misc-tab(data-title='Download') Download
+                            td.btngroup
+                                button.btn.btn-danger.btn-xs.misc-tab(data-title='Delete') Delete
+
+                        tr
+                            td Second file from Patrick
+                            td Other
+                            td June 7, 2016
+                            td.btngroup
+                                button.btn.btn-success.btn-xs.misc-tab(data-title='View') View
+                            td.btngroup
+                                button.btn.btn-info.btn-xs.misc-tab(data-title='Share') Share
+                            td.btngroup
+                                button.btn.btn-primary.btn-xs.misc-tab(data-title='Download') Download
+                            td.btngroup
+                                button.btn.btn-danger.btn-xs.misc-tab(data-title='Delete') Delete
+
