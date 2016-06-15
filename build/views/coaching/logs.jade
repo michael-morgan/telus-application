@@ -1,2 +1,33 @@
-div
-    p test
+block content
+    //Form picker for selecting the month and year you want to sort by. Still needs to be linked to database in future, data is dummy
+    .row
+        form.form-horizontal(method='post', role='form')
+            .form-group
+                .col-md-8.col-sm-8.col-sm-offset-1.col-md-offset-1
+                    span Monthly Reviews for &nbsp
+                        select.selectpicker
+                            option Jan
+                            option Feb
+                            option Mar
+                            option Apr
+                            option May
+                            option Jun
+                            option Jul
+                            option Aug
+                            option Sep
+                            option Oct
+                            option Nov
+                            option Dec
+                        select.selectpicker
+                            option 2005
+                            option 2006
+                            option 2007
+                            option 2008
+                            option 2009
+                            option 2010
+                            option 2011
+                            option 2012
+                            option 2013
+                            option 2014
+                            option 2015
+                            option 2016
