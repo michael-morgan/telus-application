@@ -55,7 +55,9 @@
         white-space: normal;
     }
 }
-
+#loe > div > div > div.panel.panel-primary > div > div > table{
+    width:100%
+}
 /* MISC TAB */
 
 button.misc-tab{

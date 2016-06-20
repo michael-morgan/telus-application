@@ -1,12 +1,29 @@
 div
     .row
-        .col-lg-6
-            .panel.panel-primary
-                .panel-heading
-                    h3.panel-title Letter #1
-                .panel-body
-                    .row
-                        #viewButtonContainer.col-xs-12.col-sm-6.col-lg-3
-                            button#view.form-btn.btn.btn-lg.btn-block.obs-btn.btn-success(name='view', type='button') View
-                        #uploadButtonContainer.col-xs-12.col-sm-6.col-lg-8
-                            button#addNewLetter.form-btn.btn.btn-lg.btn-block.obs-btn.btn-block(name='addNewLetter', type='button') Upload Additional Letter
+        .panel.panel-primary
+                .col-md-12
+                    .table-responsive
+                        table.table-condensed.table-bordered.table-nonfluid-report
+                            thead
+                                tr
+                                    th Letter
+                                    th Date Signed
+                                    th View
+                            tbody
+                                tr
+                                    td Letter 1
+                                    td March 1st
+                                    td
+                                        button.form-btn.btn.btn-lg.btn-block.btn-success(name='view', type='button') View
+                                tr
+                                    td Letter 2
+                                    td April 1st
+                                    td
+                                        button.form-btn.btn.btn-lg.btn-block.btn-success(name='view', type='button') View
+                br
+
+            .panel-body
+                .row
+
+                    #uploadButtonContainer.col-xs-12.col-md-6.col-md-offset-3
+                        button#addNewLetter.form-btn.btn.btn-lg.btn-block.obs-btn.btn-block(name='addNewLetter', type='button') Upload Additional Letter
