@@ -72,7 +72,8 @@ router.get('/add-behaviour', ensureAuthenticated, function (req, res, next) {
             //Render the page wth error messages
             return res.render('behaviours/add-behaviour', returnObj);
         }
-
+        //We are not removing a skill in this case
+        returnObj['canRemove'] = undefined;
         //Render the add-behaviour page with an interface to perform CRUD
         return res.render('behaviours/add-behaviour', returnObj);
     });
@@ -107,6 +108,8 @@ router.get('/add-behaviour/:skill', ensureAuthenticated, function (req, res, nex
                 }
                 //No errors render the add-behaviour page
                 else {
+                    //We are not removing a skill in this case
+                    returnObj['canRemove'] = undefined;
                     returnObj['selectedskill'] = behaviourResults;
                     return res.render('behaviours/add-behaviour', returnObj);
                 }
