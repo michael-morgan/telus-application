@@ -12,6 +12,7 @@ var router = express.Router();
 
 // Get for behaviours and show them for each skill
 router.get('/', ensureAuthenticated, function (req, res, next) {
+    returnObj['message'] = undefined;
     //Ensure user is logged in
     if (req.user.privileged <= 2) { return res.redirect('/users/'); }
 
@@ -60,7 +61,7 @@ router.get('/add-behaviour', ensureAuthenticated, function (req, res, next) {
     if (!req.body) {
         return res.sendStatus(400);
     }
-
+    returnObj['message'] = undefined;
     var returnObj = {
         title :'Add Behaviour'
     };
@@ -86,7 +87,7 @@ router.get('/add-behaviour/:skill', ensureAuthenticated, function (req, res, nex
     }
 
     if (!req.body) { return res.sendStatus(400); }
-
+    returnObj['message'] = undefined;
     returnObj['title'] ='Edit Skills/Behaviours';
     //Connection to get all skills
     connection.get().query('SELECT skill_id,skill_title FROM skills', function (err, skillResults) {
@@ -125,7 +126,7 @@ router.get('/add-behaviour/:skill/:canRemove', ensureAuthenticated, function (re
     }
 
     if (!req.body) { return res.sendStatus(400); }
-
+    returnObj['message'] = undefined;
     returnObj['title'] ='Edit Skills/Behaviours';
     //Connection to get all skills
     connection.get().query('SELECT skill_id,skill_title FROM skills', function (err, skillResults) {
