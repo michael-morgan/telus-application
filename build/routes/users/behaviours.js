@@ -61,10 +61,13 @@ router.get('/add-behaviour', ensureAuthenticated, function (req, res, next) {
     if (!req.body) {
         return res.sendStatus(400);
     }
-    returnObj['message'] = undefined;
+
     var returnObj = {
         title :'Add Behaviour'
     };
+
+    returnObj['message'] = undefined;
+
     //Connection to get all skills
     connection.get().query('SELECT skill_id,skill_title FROM skills', function (err, skillResults) {
         //If an error is thrown
