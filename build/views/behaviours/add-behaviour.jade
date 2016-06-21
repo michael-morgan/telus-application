@@ -125,6 +125,44 @@ block content
                                             divsToHide[i].style.display = "none"; // depending on what you're doing
                                         }
                                     };
+                        else if savedBehaviours != undefined && skillTitle != undefined
+                            script.
+                                //If they are adding a skill the cancel button will just go back a page
+                                //Cancel function
+                                var cancelFunc = function cancel() {
+                                    window.location.href = '/users/behaviours';
+                                };
+
+                                //Dynamically create behaviour textareas
+                                count = 2;
+
+                                var saveOrDeleteFunc = function saveOrDelete() {
+                                    document.addBehaviourForm.submit();
+                                };
+                            #behaviourSection
+                                #skillSection
+                                    .col-xs-12.col-sm-3
+                                        #descName.pull-left
+                                            | Skill Name
+                                    .col-xs-12.col-sm-9.skillClass
+                                        input(type = "text", placeholder = "Enter Skill Name", maxlength = "300", id = "skillid1" name = "skillid1" class= "behaviour-title " )=skillTitle
+                                .col-sm-12
+                                    hr
+                                .col-xs-12.col-sm-3
+                                    #descName.pull-left
+                                        br
+                                        | Behaviour Description
+                                .col-xs-12.col-sm-9.behaviourClass
+                                    each behaviour in savedBehaviours
+                                        textarea(placeholder = "Enter Behavior Description here...", maxlength = "300", id = "behaviourid1" name = "behaviourid1" class= "behaviourDescription")=behaviour
+                            .form-group.text-center
+                                .col-lg-4.col-lg-offset-4
+                                    button#addBehaviours.form-btn.btn.btn-lg.btn-success.btn-block(name = 'addBehaviours', type = 'button', onclick = 'addBehaviour()') Add Behaviour
+                                            .form-group.text-center
+                                            .col-lg-2.col-lg-offset-4
+                                    button#cancelBtn.form-btn.btn.btn-lg.btn-danger.btn-block(name = 'cancelBtn', type = 'button', onclick = 'cancelFunc()') Cancel
+                                            .col - lg - 2
+                                    button#saveBehaviour.form-btn.btn.btn-lg.btn-success.btn-block(name = 'btnSubmit', type = 'button', onclick = 'saveOrDeleteFunc()') Save
                         else
                             script.
                                 //If they are adding a skill the cancel button will just go back a page
