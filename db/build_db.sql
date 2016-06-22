@@ -497,7 +497,7 @@ DROP TABLE IF EXISTS `transaction_types`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `transaction_types` (
 	`transaction_type_id` int(255) NOT NULL AUTO_INCREMENT,
-	`transaction_types` varchar(255) NOT NULL,
+	`transaction_types` enum('Device', 'Accessory', 'Outright Sim', 'VPIN', 'Repair/Return', 'Other Elligable Transaction') NOT NULL,
     PRIMARY KEY (`transaction_type_id`)
 )	ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -520,7 +520,7 @@ DROP TABLE IF EXISTS `activation_types`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `activation_types` (
 	`activation_type_id` int(255) NOT NULL AUTO_INCREMENT,
-	`activation_types` varchar(255) NOT NULL,
+	`activation_types` enum('New Activation', 'Renewal', 'Prepaid', 'Outright') NOT NULL,
     PRIMARY KEY (`activation_type_id`)
 )	ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -543,7 +543,7 @@ DROP TABLE IF EXISTS `device_types`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `device_types` (
 	`device_type_id` int(255) NOT NULL AUTO_INCREMENT,
-	`device_types` varchar(255) NOT NULL,
+	`device_types` enum('iPhone', 'Android', 'Blackberry', 'Other Device', 'SIM', 'Tablet', 'iPad', 'Mobile Internet') NOT NULL,
     PRIMARY KEY (`device_type_id`)
 )	ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -567,7 +567,7 @@ DROP TABLE IF EXISTS `warranty_types`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `warranty_types` (
 	`warranty_type_id` int(255) NOT NULL AUTO_INCREMENT,
-	`warranty_types` varchar(255) NOT NULL,
+	`warranty_types` enum('Device Care', 'Device Care & T-UP', 'AppleCare+' , 'AppleCare+ & T-UP') NOT NULL,
     PRIMARY KEY (`warranty_type_id`)
 )	ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -578,7 +578,7 @@ CREATE TABLE `warranty_types` (
 
 LOCK TABLES `warranty_types` WRITE;
 /*!40000 ALTER TABLE `warranty_types` DISABLE KEYS */;
-INSERT INTO `warranty_types` VALUES (1,'Device Care'),(2,'Apple Care +'),(3,'Device Care & T-UP'),(4,'Apple Care & T-UP');
+INSERT INTO `warranty_types` VALUES (1,'Device Care'),(2,'Device Care & T-UP'),(3,'AppleCare+'),(4,'AppleCare+ & T-UP');
 /*!40000 ALTER TABLE `warranty_types` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -586,13 +586,13 @@ UNLOCK TABLES;
 --
 -- table for `SBS_returns_exchanges`
 --
-DROP TABLE IF EXISTS `sbs_returns_exchanges`;
+DROP TABLE IF EXISTS `sbs_returns_exchanges_discounts`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `sbs_returns_exchanges` (
-	`sbs_returns_exchanges_type_id` int(255) NOT NULL AUTO_INCREMENT,
-	`sbs_returns_exchanges_types` varchar(255) NOT NULL,
-    PRIMARY KEY (`sbs_returns_exchanges_type_id`)
+CREATE TABLE `sbs_returns_exchanges_discounts` (
+	`sbs_returns_exchanges_discounts_type_id` int(255) NOT NULL AUTO_INCREMENT,
+	`sbs_returns_exchanges_discounts_types` enum('SBS Activations', 'Returns', 'Exchange', 'Discounts') NOT NULL,
+    PRIMARY KEY (`sbs_returns_exchanges_discounts_type_id`)
 )	ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -600,23 +600,23 @@ CREATE TABLE `sbs_returns_exchanges` (
 -- Dumping data for table `SBS_returns_exchanges`
 --
 
-LOCK TABLES `sbs_returns_exchanges` WRITE;
-/*!40000 ALTER TABLE `sbs_returns_exchanges` DISABLE KEYS */;
-INSERT INTO `sbs_returns_exchanges` VALUES (1,'SBS Activations'),(2,'Returns'),(3,'Exchange'),(4,'Discounts');
-/*!40000 ALTER TABLE `sbs_returns_exchanges` ENABLE KEYS */;
+LOCK TABLES `sbs_returns_exchanges_discounts` WRITE;
+/*!40000 ALTER TABLE `sbs_returns_exchanges_discounts` DISABLE KEYS */;
+INSERT INTO `sbs_returns_exchanges_discounts` VALUES (1,'SBS Activations'),(2,'Returns'),(3,'Exchange'),(4,'Discounts');
+/*!40000 ALTER TABLE `sbs_returns_exchanges_discounts` ENABLE KEYS */;
 UNLOCK TABLES;
 
 
 --
 -- table for `learning_sessions_aotm_apts`
 --
-DROP TABLE IF EXISTS `learning_sessions_aotm_apts`;
+DROP TABLE IF EXISTS `additional_metrics`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `learning_sessions_aotm_apts` (
-	`learning_sessions_aotm_apts_type_id` int(255) NOT NULL AUTO_INCREMENT,
-	`learning_sessions_aotm_apts_types` varchar(255) NOT NULL,
-    PRIMARY KEY (`learning_sessions_aotm_apts_type_id`)
+CREATE TABLE `additional_metrics` (
+	`additional_metrics_type_id` int(255) NOT NULL AUTO_INCREMENT,
+	`additional_metrics_types` enum('Learning Sessions', 'AOTM', 'Appointments' ,'Critters' ,'Donations' ,'Credit Card') NOT NULL,
+    PRIMARY KEY (`additional_metrics_type_id`)
 )	ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -624,33 +624,13 @@ CREATE TABLE `learning_sessions_aotm_apts` (
 -- Dumping data for table `learning_sessions_aotm_apts`
 --
 
-LOCK TABLES `learning_sessions_aotm_apts` WRITE;
-/*!40000 ALTER TABLE `learning_sessions_aotm_apts` DISABLE KEYS */;
-INSERT INTO `learning_sessions_aotm_apts` VALUES (1,'Learning'),(2,'Sessions'),(3,'AOTM'),(4,'Appointments');
-/*!40000 ALTER TABLE `learning_sessions_aotm_apts` ENABLE KEYS */;
+LOCK TABLES `additional_metrics` WRITE;
+/*!40000 ALTER TABLE `additional_metrics` DISABLE KEYS */;
+INSERT INTO `additional_metrics` VALUES (1,'Learning Sessions'),(2,'AOTM'),(3,'Appointments'),(4,'Critters'),(5,'Donations'),(6,'Credit Card');
+/*!40000 ALTER TABLE `additional_metrics` ENABLE KEYS */;
 UNLOCK TABLES;
 
 
--- table for `critters_donations_creditcard`
---
-DROP TABLE IF EXISTS `critters_donations_creditcard`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `critters_donations_creditcard` (
-	`critters_donations_creditcard_type_id` int(255) NOT NULL AUTO_INCREMENT,
-	`critters_donations_creditcard_types` varchar(255) NOT NULL,
-    PRIMARY KEY (`critters_donations_creditcard_type_id`)
-)	ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `critters_donations_creditcard`
---
-
-LOCK TABLES `critters_donations_creditcard` WRITE;
-/*!40000 ALTER TABLE `critters_donations_creditcard` DISABLE KEYS */;
-INSERT INTO `critters_donations_creditcard` VALUES (1,'Critters'),(2,'Donations'),(3,'Credit Card');
-/*!40000 ALTER TABLE `critters_donations_creditcard` ENABLE KEYS */;
-UNLOCK TABLES;
 
 
