@@ -6,7 +6,7 @@ block content
             h1 EPS
 
     .col-md-10.col-md-offset-1.col-xs-12
-        form.form-horizontal(method='post', action='/eps/submit', role='form')
+        form.form-horizontal(method='post', role='form')
             .form-group
                 .col-sm-10.col-sm-offset-1
                     span Transaction for &nbsp
@@ -20,6 +20,8 @@ block content
                                     option(value='#{user.t_number}' selected) #{user.first_name} #{user.last_name}
                                 else
                                     option(value='#{user.t_number}') #{user.first_name} #{user.last_name}
+
+            //Show only this field on start
             .form-group
                 .col-sm-10.col-sm-offset-1
                     span Transaction Type &nbsp
@@ -27,6 +29,8 @@ block content
                             option(disabled selected value='0') Select Transaction Type
                             each transaction, t in transactions
                                 option(value='#{transaction.transaction_type_id}') #{transaction.transaction_types}
+
+            //Show only if transaction type is device
             .form-group
                 .col-sm-10.col-sm-offset-1
                     span Activation Type &nbsp
@@ -34,6 +38,8 @@ block content
                             option(disabled selected value='0') Select Activation Type
                             each activation, a in activations
                                 option(value='#{activation.activation_type_id}') #{activation.activation_types}
+
+            //Show only if transaction type is device
             .form-group
                 .col-sm-10.col-sm-offset-1
                     span Device Type &nbsp
@@ -41,6 +47,8 @@ block content
                             option(disabled selected value='0') Select Device Type
                             each device, d in devices
                                 option(value='#{device.device_type_id}') #{device.device_types}
+
+            //Show only if transaction type is device
             .form-group
                 .col-sm-10.col-sm-offset-1
                     span Warranty Type &nbsp
@@ -49,9 +57,23 @@ block content
                             each warranty, w in warrantys
                                 option(value='#{warranty.warranty_type_id}') #{warranty.warranty_types}
 
+            //Show only on all transaction types, but Accessory
             .form-group
-                .col-sm-5.col-sm-offset-1
-                    input.form-control.formInput()
-                .col-sm-5
-                    input.form-control.formInput()
+                .col-sm-10.col-sm-offset-1
+                    input(type='checkbox', checked=false)
+                    | Attachments?
+
+            //Show on all transaction types
+            .form-group
+                .col-sm-10.col-sm-offset-1
+                    input.form-control.formInput(name='numOfAccessories', placeholder='Number of Accessories', type='text', required)
+
+            //Show on all transaction types
+            .form-group
+                .col-sm-10.col-sm-offset-1
+                    input.form-control.formInput(name='revenue', placeholder='Revenue', type='text', required)
+
+            .form-group
+                .col-xs-12.col-sm-6.col-sm-offset-3.col-lg-4.col-lg-offset-4
+                    button#submitTransaction.form-btn.btn.btn-lg.btn-primary.btn-block(name='submit', type='submit') Submit
 

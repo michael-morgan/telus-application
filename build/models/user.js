@@ -104,6 +104,16 @@ exports.getByName = function(username, done) {
     });
 };
 
+exports.getStoreByTNum = function(t_number, done) {
+    connection.get().query('SELECT `store_id` FROM `users` WHERE `t_number` = ?', t_number, function(error, result) {
+        if(error) {
+            return done(error);
+        }
+
+        done(null, result);
+    });
+};
+
 exports.getAll = function(done) {
     connection.get().query('SELECT * FROM `users`', function(error, result) {
         if(error) {
@@ -113,4 +123,6 @@ exports.getAll = function(done) {
         done(null, result);
     });
 };
+
+
 

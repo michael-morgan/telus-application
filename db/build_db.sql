@@ -441,13 +441,9 @@ UNLOCK TABLES;
 
 -- select * FROM wps_day;
 
-
-
-
-
-
 --
 -- table schema for transactions
+--
 
 DROP TABLE IF EXISTS `transactions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -458,15 +454,14 @@ CREATE TABLE `transactions` (
   `store_id` varchar(4) NOT NULL,
   `transaction_date` datetime NOT NULL,
   `transaction_type` varchar(50) NOT NULL,
-  `activation_type` varchar(50) NOT NULL,
-  `device_type` varchar (50) NOT NULL,
-  `warranty_type` varchar(50) NOT NULL,
-  `attachments` bit NOT NULL,
-  `revenue` float NOT NULL,
-  `number_of_accessories` int(255) NOT NULL,
-  `sbs_return_exchange_discount` varchar(50) NOT NULL,
-  `learning_sessions_aotm_appointments` varchar(50) NOT NULL,
-  `critters_donations_creditcard` varchar(50) NOT NULL,
+  `activation_type` varchar(50),
+  `device_type` varchar (50),
+  `warranty_type` varchar(50),
+  `attachments` bit,
+  `revenue` float,
+  `number_of_accessories` int(255),
+  `sbs_return_exchange_discount` varchar(50),
+  `additional_metrics` varchar(50),
   PRIMARY KEY (`transaction_id`),
   KEY `t_number` (`t_number`),
   KEY `store_id` (`store_id`),
@@ -629,8 +624,3 @@ LOCK TABLES `additional_metrics` WRITE;
 INSERT INTO `additional_metrics` VALUES (1,'Learning Sessions'),(2,'AOTM'),(3,'Appointments'),(4,'Critters'),(5,'Donations'),(6,'Credit Card');
 /*!40000 ALTER TABLE `additional_metrics` ENABLE KEYS */;
 UNLOCK TABLES;
-
-
-
-
-

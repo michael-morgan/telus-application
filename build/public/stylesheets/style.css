@@ -264,6 +264,10 @@ textarea{
   resize: none;
 }
 
+li.disabled.active a {
+  color: #fff;
+}
+
 
 /* END Accordion/Panel Styling */
 
