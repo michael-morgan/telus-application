@@ -141,4 +141,86 @@ router.get('/:employee', ensureAuthenticated, function (req, res, next) {
 });
 
 
+
+router.post('/', ensureAuthenticated, function (req, res, next) {
+
+   var t_number = req.body.employeeDropdown;
+   var store_id = userModel.getById(t_number, function(err, rows) {
+        if(err) {
+            throw next(err);
+        }
+        else if(rows.length <= 0) {
+            console.error('Invalid profile id.');
+            return res.redirect('/users/');
+        }
+        else {
+            store_id = rows[0].store_id;
+            return store_id;
+        }
+    });
+
+
+   var currentDate = getCurrentDate();
+   var transaction_type = req.body.transactionDropdown;
+   var activation_type = req.body.activationDropdown;
+   var device_type = req.body.deviceDropdown;
+   var warranty_type = req.body.warrantyDropdown;
+  // var attachments = undefined;
+   //var num_of_accessories = undefined;
+  // var sbs_return_exchange_discount = undefined;
+   //var additional_metrics = undefined;
+
+
+   var transaction = {
+        t_number: t_number,
+        store_id: store_id,
+        transaction_date: currentDate,
+        transaction_type: transaction_type,
+        activation_type: activation_type,
+        device_type: device_type,
+        warranty_type: warranty_type,
+        //attachments: attachments,
+        //num_of_accessories: num_of_accessories,
+        //sbs_return_exchange_discount: sbs_return_exchange_discount,
+        //additional_metrics:  additional_metrics
+    }
+
+    console.log(transaction);
+
+
+
+});
+
+
+/**
+ * Custom function that return the current date and time
+ * @returns {string} in yyyy:mm:dd hh:mm:ss format
+ */
+function getCurrentDate() {
+    var date = new Date();
+
+    var hour = date.getHours();
+    hour = (hour < 10 ? "0" : "") + hour;
+
+    var min = date.getMinutes();
+    min = (min < 10 ? "0" : "") + min;
+
+    var sec = date.getSeconds();
+    sec = (sec < 10 ? "0" : "") + sec;
+
+    var year = date.getFullYear();
+
+    var month = date.getMonth() + 1;
+    month = (month < 10 ? "0" : "") + month;
+
+    var day = date.getDate();
+    day = (day < 10 ? "0" : "") + day;
+
+    var today = year + ":" + month + ":" + day + " " + hour + ":" + min + ":" + sec;
+
+    return today;
+}
+
+
+
 module.exports = router;
