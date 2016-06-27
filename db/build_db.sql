@@ -15,6 +15,7 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
+UNLOCK TABLES;
 DROP DATABASE IF EXISTS `build_db`;
 CREATE DATABASE `build_db`;
 USE `build_db`;
@@ -476,7 +477,7 @@ CREATE TABLE `transactions` (
 USE build_db;
 LOCK TABLES `transactions` WRITE;
 /*!40000 ALTER TABLE `transactions` DISABLE KEYS */;
-INSERT INTO `transactions` VALUES (1,'t111111','6529','0016-02-01', 'Device', 'Renewal', 'Android','Device Care +', 1, 750.00, 4, 'Not Applicable', 'Not Applicable','Not Applicable'); 
+INSERT INTO `transactions` VALUES ('t111111','6529','0016-02-01', 'Device', 'Renewal', 'Android','Device Care +', 1, 750.00, 4, 'Not Applicable', 'Not Applicable','Not Applicable'); 
 /*!40000 ALTER TABLE `transactions` ENABLE KEYS */;
 UNLOCK TABLES;
 
