@@ -13,8 +13,9 @@ html
             link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css')
             link(rel='stylesheet', href='/stylesheets/style.css')
 
-    body(hoe-navigation-type='vertical-compact', hoe-nav-placement='left', theme-layout='wide-layout', theme-bg='bg1')
-        if user
+
+    if user
+        body(hoe-navigation-type='vertical-compact', hoe-nav-placement='left', theme-layout='wide-layout', theme-bg='bg1')
             #hoeapp-wrapper.hoe-hide-lpanel(hoe-device-type='desktop')
                 header#hoe-header.hoe-minimized-lpanel(hoe-lpanel-effect='shrink')
                     .hoe-left-header
@@ -118,11 +119,11 @@ html
                                         i.fa.fa-gear
                                         span.menu-text Settings
                                         span.selected
-
                     section#main-content
                         block content
-        if !user
-            section#page-content
+    else
+        body
+            #page-content
                 block content
 
         block script

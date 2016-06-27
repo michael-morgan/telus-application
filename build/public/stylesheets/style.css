@@ -1,6 +1,6 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic);
 
-#main-content * {
+#main-content *, #page-content * {
   border-radius: 0;
 }
 
@@ -21,10 +21,10 @@
 
 body {
   font: 14px 'Open Sans', sans-serif;
-  color:#000 !Important;
+  /*color:#000 !important;*/
 }
 
-a{
+a {
   color: #61437F;
   -webkit-transition: all .4s ease-in-out;
   -moz-transition: all .4s ease-in-out;
@@ -32,7 +32,7 @@ a{
   transition: all .4s ease-in-out;
 }
 
-a:hover{
+a:hover {
   color: #8c68a6;
   text-decoration: none;
 }
@@ -66,41 +66,22 @@ a:hover{
 
 .form-btn {
    border: 0;
-   border-radius: 0;
 }
 
 .formInput {
   height: 54px;
   font-size: 20px;
-  border-radius: 0;
   background-color: #ffffff;
   color:#555;
 }
 
-.privilegedDropdown{
-  width:100%;
+.privilegedDropdown {
+  width: 100%;
 }
 
 .formTitle {
   font-size: 30px;
   padding-bottom: 10px;
-}
-
-.formPanel {
-   border-radius: 0;
-}
-
-#login-wrapper {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: #49166D;
-}
-
-#login-wrapper>.container {
-  min-height: 100%;
 }
 
 .row .alert .alert-title {
@@ -109,7 +90,6 @@ a:hover{
 
 .row .alert {
   margin-bottom: 0;
-  border-radius: 0;
   border: none;
 }
 
@@ -132,7 +112,7 @@ a:hover{
   font-size: 18px;
 }
 
-.obs-btn{
+.obs-btn {
   margin-top: 15px;
 }
 
@@ -141,14 +121,8 @@ h4.panel-title {
 }
 
 .custom-panel {
-  border-style: solid;
-  border-width: 0 1px 1px 1px;
-  border-color: #333;
-}
-
-.row {
-  margin-right: 0;
-  margin-left: 0;
+  border: 1px solid #333;
+  border-top-width: 0;
 }
 
 .ellipsis {
@@ -177,23 +151,17 @@ h4.panel-title {
   color: black;
 }
 
-
 .panel-primary>.panel-heading {
   background-color: #49166D;
   border-color: #49166D;
-  border-radius: 0;
 }
 
 .panel-primary {
   border-color: #49166D;
 }
 
-.panel {
-  border-radius: 0;
-}
-
 .display-none *{
-  display:none !Important;
+  display:none !important;
 }
 
 .padding10tb { padding:10px 0 !important }
@@ -260,14 +228,12 @@ h4.panel-title {
   padding: 15px 0;
 }
 
-textarea{
-  resize: none;
+textarea {
+  resize: vertical;
 }
 
 li.disabled.active a {
   color: #fff;
 }
 
-
 /* END Accordion/Panel Styling */
-
