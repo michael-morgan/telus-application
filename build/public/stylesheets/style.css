@@ -18,6 +18,10 @@
 .padding40a{padding:20px}
 .padding80a{padding:20px}
 
+.row {
+  margin-right: 0 !important;
+  margin-left: 0 !important;
+}
 
 body {
   font: 14px 'Open Sans', sans-serif;
