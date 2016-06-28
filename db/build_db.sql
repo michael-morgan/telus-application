@@ -393,7 +393,7 @@ UNLOCK TABLES;
 
 -- SELECT * FROM results_to_send
 
---
+-- *** *** *** FOR LATER USE, NOT FOR SPRINT - JUNE 28th 2016 *** *** ***
 -- Table structure for table `wps_day`
 --
 
@@ -455,14 +455,7 @@ CREATE TABLE `transactions` (
   `store_id` varchar(4) NOT NULL,
   `transaction_date` datetime NOT NULL,
   `transaction_type` varchar(50) NOT NULL,
-  `activation_type` varchar(50),
-  `device_type` varchar (50),
-  `warranty_type` varchar(50),
-  `attachments` bit,
-  `revenue` float,
-  `number_of_accessories` int(255),
-  `sbs_return_exchange_discount` varchar(50),
-  `additional_metrics` varchar(50),
+  
   PRIMARY KEY (`transaction_id`),
   KEY `t_number` (`t_number`),
   KEY `store_id` (`store_id`),
@@ -477,12 +470,50 @@ CREATE TABLE `transactions` (
 USE build_db;
 LOCK TABLES `transactions` WRITE;
 /*!40000 ALTER TABLE `transactions` DISABLE KEYS */;
-INSERT INTO `transactions` VALUES ('t111111','6529','0016-02-01', 'Device', 'Renewal', 'Android','Device Care +', 1, 750.00, 4, 'Not Applicable', 'Not Applicable','Not Applicable'); 
+INSERT INTO `transactions` VALUES (1,'t111111','6529','0016-02-01', 'Device'),(2,'t901159','6529','0016-02-03', 'Device'),(3,'t901159','6529','0016-02-05', 'Accessory'); 
 /*!40000 ALTER TABLE `transactions` ENABLE KEYS */;
 UNLOCK TABLES;
 
 
 -- select * from transactions;
+
+
+--
+-- table schema for transactions
+--
+
+DROP TABLE IF EXISTS `transaction_items`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `transaction_items` (
+  `transaction_items_id` int(255) NOT NULL AUTO_INCREMENT,
+  `transaction_id` int(255),
+  `activation_type` varchar(50),
+  `device_type` varchar (50),
+  `warranty_type` varchar(50),
+  `attachments` bit,
+  `revenue` float,
+  `number_of_accessories` int(255),
+  `sbs_activation` bool,
+  
+  PRIMARY KEY (`transaction_items_id`),
+  KEY `transaction_id` (`transaction_id`),
+  CONSTRAINT `transactions_items_tfk_1` FOREIGN KEY (`transaction_id`) REFERENCES `transactions` (`transaction_id`)
+
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `stats`
+--
+USE build_db;
+LOCK TABLES `transaction_items` WRITE;
+/*!40000 ALTER TABLE `transaction_items` DISABLE KEYS */;
+INSERT INTO `transaction_items` VALUES ('t111111','6529','0016-02-01', 'Device', 'Renewal', 'Android','Device Care +', 1, 750.00, 4, 'Not Applicable', 'Not Applicable','Not Applicable'); 
+/*!40000 ALTER TABLE `transaction_items` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
 
 
 --
@@ -579,29 +610,6 @@ INSERT INTO `warranty_types` VALUES (1,'Device Care'),(2,'Device Care & T-UP'),(
 UNLOCK TABLES;
 
 
---
--- table for `SBS_returns_exchanges`
---
-DROP TABLE IF EXISTS `sbs_returns_exchanges_discounts`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `sbs_returns_exchanges_discounts` (
-	`sbs_returns_exchanges_discounts_type_id` int(255) NOT NULL AUTO_INCREMENT,
-	`sbs_returns_exchanges_discounts_types` enum('SBS Activations', 'Returns', 'Exchange', 'Discounts') NOT NULL,
-    PRIMARY KEY (`sbs_returns_exchanges_discounts_type_id`)
-)	ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `SBS_returns_exchanges`
---
-
-LOCK TABLES `sbs_returns_exchanges_discounts` WRITE;
-/*!40000 ALTER TABLE `sbs_returns_exchanges_discounts` DISABLE KEYS */;
-INSERT INTO `sbs_returns_exchanges_discounts` VALUES (1,'SBS Activations'),(2,'Returns'),(3,'Exchange'),(4,'Discounts');
-/*!40000 ALTER TABLE `sbs_returns_exchanges_discounts` ENABLE KEYS */;
-UNLOCK TABLES;
-
 
 --
 -- table for `learning_sessions_aotm_apts`
@@ -624,4 +632,32 @@ LOCK TABLES `additional_metrics` WRITE;
 /*!40000 ALTER TABLE `additional_metrics` DISABLE KEYS */;
 INSERT INTO `additional_metrics` VALUES (1,'Learning Sessions'),(2,'AOTM'),(3,'Appointments'),(4,'Critters'),(5,'Donations'),(6,'Credit Card');
 /*!40000 ALTER TABLE `additional_metrics` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- table for `learning_sessions_aotm_apts`
+--
+DROP TABLE IF EXISTS `addition_metrics_items`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `addition_metrics_items` (
+	`additional_metrics_items_id` int(255) NOT NULL AUTO_INCREMENT,
+	`additional_metrics_items_type` int(255),
+    `additional_metrics_items_count` int(255) NOT NULL,
+    `transaction_id` int(255),
+    PRIMARY KEY (`additional_metrics_type_id`),
+    KEY `transaction_id` (`transaction_id`),
+	CONSTRAINT `addition_metrics_items_tfk_1` FOREIGN KEY (`transaction_id`) REFERENCES `transactions` (`transaction_id`)
+
+)	ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `learning_sessions_aotm_apts`
+--
+
+LOCK TABLES `addition_metrics_items` WRITE;
+/*!40000 ALTER TABLE `addition_metrics_items` DISABLE KEYS */;
+INSERT INTO `addition_metrics_items` VALUES (1,'Learning Sessions', 1, 2),(2,'AOTM', 2, 1),(3,'Appointments', 5, 3);
+/*!40000 ALTER TABLE `addition_metrics_items` ENABLE KEYS */;
 UNLOCK TABLES;
