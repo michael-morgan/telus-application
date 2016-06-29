@@ -13,7 +13,7 @@ block content
             .form-group
                 .col-sm-10.col-sm-offset-1
                     span Transaction for &nbsp
-                        select.selectpicker(required id='employeeDropdown' name='employeeDropdown' data-live-search="true")
+                        select(required id='employeeDropdown' name='employeeDropdown')
                             option(disabled selected value='0') Select Employee
                             //Code gets every user in the employee table of the database for the select employee drop down
                             each user, i in users
@@ -28,7 +28,7 @@ block content
             .form-group
                 .col-sm-10.col-sm-offset-1
                     span Transaction Type &nbsp
-                        select.selectpicker(required id='transactionDropdown' name='transactionDropdown' data-live-search="true")
+                        select(required id='transactionDropdown' name='transactionDropdown')
                             option(disabled selected value='0') Select Transaction Type
                             each transaction, t in transactions
                                 option(value='#{transaction.transaction_type_id}') #{transaction.transaction_types}
@@ -36,59 +36,62 @@ block content
             hr
 
             //Show only if transaction type is device
-            .form-group
-                .col-sm-10.col-sm-offset-1
-                    span Activation Type &nbsp
-                        select.selectpicker(required id='activationDropdown' name='activationDropdown' data-live-search="true")
-                            option(disabled selected value='0') Select Activation Type
-                            each activation, a in activations
-                                option(value='#{activation.activation_type_id}') #{activation.activation_types}
-                    input(type='checkbox', name="sbsActivation" checked=false)
-                    | SBS Activation?
+            .device-group
+                .single-device
+                    .form-group
+                        .col-sm-10.col-sm-offset-1
+                            span Activation Type &nbsp
+                                select(required id='activationDropdown' name='activationDropdown')
+                                    option(disabled selected value='0') Select Activation Type
+                                    each activation, a in activations
+                                        option(value='#{activation.activation_type_id}') #{activation.activation_types}
+                            input(type='checkbox', name="sbsActivation" checked=false)
+                            | SBS Activation?
 
 
-            //Show only if transaction type is device
-            .form-group
-                .col-sm-10.col-sm-offset-1
-                    span Device Type &nbsp
-                        select.selectpicker(required id='deviceDropdown' name='deviceDropdown' data-live-search="true")
-                            option(disabled selected value='0') Select Device Type
-                            each device, d in devices
-                                option(value='#{device.device_type_id}') #{device.device_types}
+                    //Show only if transaction type is device
+                    .form-group
+                        .col-sm-10.col-sm-offset-1
+                            span Device Type &nbsp
+                                select(required id='deviceDropdown' name='deviceDropdown')
+                                    option(disabled selected value='0') Select Device Type
+                                    each device, d in devices
+                                        option(value='#{device.device_type_id}') #{device.device_types}
 
-            //Show only if transaction type is device
-            .form-group
-                .col-sm-10.col-sm-offset-1
-                    span Warranty Type &nbsp
-                        select.selectpicker(required id='warrantyDropdown' name='warrantyDropdown' data-live-search="true")
-                            option(disabled selected value='0') Select Warranty Type
-                            each warranty, w in warrantys
-                                option(value='#{warranty.warranty_type_id}') #{warranty.warranty_types}
+                    //Show only if transaction type is device
+                    .form-group
+                        .col-sm-10.col-sm-offset-1
+                            span Warranty Type &nbsp
+                                select(required id='warrantyDropdown' name='warrantyDropdown')
+                                    option(disabled selected value='0') Select Warranty Type
+                                    each warranty, w in warrantys
+                                        option(value='#{warranty.warranty_type_id}') #{warranty.warranty_types}
 
-            //Show only on all transaction types, but Accessory
-            .form-group
-                .col-sm-10.col-sm-offset-1
-                    span Attached? &nbsp
-                        select(required id='attached' name='attachedDropdown')
-                            option(selected value='no') No
-                            option(value='yes') Yes
+                    //Show only on all transaction types, but Accessory
+                    .form-group
+                        .col-sm-10.col-sm-offset-1
+                            span Attached? &nbsp
+                                select(required id='attached' name='attachedDropdown')
+                                    option(selected value='no') No
+                                    option(value='yes') Yes
 
-            //Show on all transaction types
-            .form-group
-                .col-sm-5.col-sm-offset-1.plus-minus-group
-                    .input-group
-                        | Number of Accessories
-                        span.input-group-btn
-                            button.btn.btn-danger.btn-number(type='button', data-type='minus', data-field='accessoryCount')
-                                span.glyphicon.glyphicon-minus
-                        input.form-control.input-number(type='number', name='accessoryCount', value='0', min='1', max='100')
-                        span.input-group-btn
-                            button.btn.btn-success.btn-number(type='button', data-type='plus', data-field='accessoryCount')
-                                span.glyphicon.glyphicon-plus
+                    //Show on all transaction types
+                    .form-group
+                        .col-sm-5.col-sm-offset-1.plus-minus-group
+                            .input-group
+                                | Number of Accessories
+                                span.input-group-btn
+                                    button.btn.btn-danger.btn-number(type='button', data-type='minus', data-field='accessoryCount')
+                                        span.glyphicon.glyphicon-minus
+                                input.form-control.input-number(type='number', name='accessoryCount', value='0', min='1', max='100')
+                                span.input-group-btn
+                                    button.btn.btn-success.btn-number(type='button', data-type='plus', data-field='accessoryCount')
+                                        span.glyphicon.glyphicon-plus
+
 
             .form-group.text-center
                 .col-lg-2
-                    button#addDevice.form-btn.btn.btn-lg.btn-danger.btn-block(name='addDevice', type='button') Add Device
+                    button#addDevice.form-btn.btn.btn-lg.btn-primary.btn-block(name='addDevice', type='button', onclick='addDevices()') Add Device
 
             hr
 

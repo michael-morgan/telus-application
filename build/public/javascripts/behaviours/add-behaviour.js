@@ -6,6 +6,7 @@ $(function() {
 //Dynamically create behaviour textareas
 function addBehaviour() {
 
+
     var behaviourContent = '<div class="behaviour">\
                                 <div class="row">\
                                     <div class="col-xs-12 col-sm-3">\
