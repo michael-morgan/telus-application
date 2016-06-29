@@ -121,15 +121,17 @@ html
                                         span.selected
                     section#main-content
                         block content
+            block script
+                script(src='/bower_components/jquery/dist/jquery.min.js')
+                script(src='/bower_components/bootstrap/dist/js/bootstrap.min.js')
+                script(src='/bower_components/metisMenu/dist/metisMenu.min.js')
+                script(src='/javascripts/sb-admin-2.js')
+                script(src='/javascripts/hoe/hoe.js')
+                script(src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js')
     else
         body
             #page-content
                 block content
-
-        block script
-            script(src='/bower_components/jquery/dist/jquery.min.js')
-            script(src='/bower_components/bootstrap/dist/js/bootstrap.min.js')
-            script(src='/bower_components/metisMenu/dist/metisMenu.min.js')
-            script(src='/javascripts/sb-admin-2.js')
-            script(src='/javascripts/hoe/hoe.js')
-            script(src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js')
+            block script
+                script(src='/bower_components/jquery/dist/jquery.min.js')
+                script(src='/bower_components/bootstrap/dist/js/bootstrap.min.js')
