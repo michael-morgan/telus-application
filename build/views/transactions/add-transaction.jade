@@ -33,18 +33,6 @@ block content
                             each transaction, t in transactions
                                 option(value='#{transaction.transaction_type_id}') #{transaction.transaction_types}
 
-            .form-group
-                .col-sm-5.col-sm-offset-1.plus-minus-group
-                    .input-group
-                        | How many?
-                        span.input-group-btn
-                            button.btn.btn-danger.btn-number(type='button', data-type='minus', data-field='deviceCount')
-                                span.glyphicon.glyphicon-minus
-                        input.form-control.input-number(type='number', name='deviceCount', value='0', min='1', max='100')
-                        span.input-group-btn
-                            button.btn.btn-success.btn-number(type='button', data-type='plus', data-field='deviceCount')
-                                span.glyphicon.glyphicon-plus
-
             hr
 
             //Show only if transaction type is device
@@ -87,11 +75,6 @@ block content
 
             //Show on all transaction types
             .form-group
-                .col-sm-10.col-sm-offset-1
-                    input.form-control.formInput(name='revenue', placeholder='Revenue', type='text', required)
-
-            //Show on all transaction types
-            .form-group
                 .col-sm-5.col-sm-offset-1.plus-minus-group
                     .input-group
                         | Number of Accessories
@@ -102,6 +85,17 @@ block content
                         span.input-group-btn
                             button.btn.btn-success.btn-number(type='button', data-type='plus', data-field='accessoryCount')
                                 span.glyphicon.glyphicon-plus
+
+            .form-group.text-center
+                .col-lg-2
+                    button#addDevice.form-btn.btn.btn-lg.btn-danger.btn-block(name='addDevice', type='button') Add Device
+
+            hr
+
+            //Show on all transaction types
+            .form-group
+                .col-sm-10.col-sm-offset-1
+                    input.form-control.formInput(name='revenue', placeholder='Revenue', type='text', required)
 
             hr
 
