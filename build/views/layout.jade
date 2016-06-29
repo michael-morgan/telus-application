@@ -113,17 +113,17 @@ html
                                         a(href='/users/binder')
                                             span.menu-text
                                             span.selected
-                            if user.privileged >= 3
-                                li.hoe-has-menu
-                                    a(href='#')
-                                        i.fa.fa-plus
-                                        span.menu-text Transactions
-                                        span.selected
-                                    ul.hoe-sub-menu
-                                        li
-                                            a(href='/users/transactions')
-                                                span.menu-text History
-                                                span.selected
+                            li.hoe-has-menu
+                                a(href='#')
+                                    i.fa.fa-shopping-cart
+                                    span.menu-text Transactions
+                                    span.selected
+                                ul.hoe-sub-menu
+                                    li
+                                        a(href='/users/transactions')
+                                            span.menu-text History
+                                            span.selected
+                                    if user.privileged >= 3
                                         li
                                             a(href='/users/transactions/add-transaction')
                                                 span.menu-text Add Transactions
