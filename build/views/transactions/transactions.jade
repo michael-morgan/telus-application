@@ -1,0 +1,19 @@
+extends ../layout
+
+block append stylesheet
+  link(rel='stylesheet', href='/stylesheets/transactions.css')
+
+block content
+  .row
+    .col-xs-12
+      h1.page-header #{title}
+    if(success_messages != null)
+      .col-md-10.col-md-offset-1.col-xs-12
+        div#successMessage.alert.success.alert-success(role='success')
+          .alert-title
+            i.fa.fa-check.fa-2x
+            strong Great!
+          p !{success_messages}
+
+block append script
+  script(src='/javascripts/observations/transactions.js')

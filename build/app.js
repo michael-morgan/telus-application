@@ -22,7 +22,7 @@ var users = require('./routes/users');
 var observations = require('./routes/users/observations');
 var behaviours = require('./routes/users/behaviours');
 var binder = require('./routes/users/binder');
-var eps = require('./routes/eps');
+var transactions = require('./routes/users/transactions');
 var app = express();
 
 // view engine setup
@@ -121,7 +121,7 @@ app.use('/users', users);
 app.use('/users/observations', observations);
 app.use('/users/behaviours', behaviours);
 app.use('/users/binder', binder);
-app.use('/eps', eps);
+app.use('/users/transactions', transactions);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

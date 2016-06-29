@@ -19,8 +19,7 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
     };
 
     //Display success message on adding observation
-    if(req.session.success)
-    {
+    if(req.session.success) {
         req.flash('success_messages', 'Observation successfully added!');
         res.locals.success_messages = req.flash('success_messages');
         req.session.success = false;
