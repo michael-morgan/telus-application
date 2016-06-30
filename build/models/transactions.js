@@ -51,3 +51,33 @@ exports.getSbs = function(done) {
     });
 };
 
+
+exports.addTransaction = function(transactions, done) {
+    connection.get().query('INSERT INTO `transactions` SET ?', [transactions], function(error, result) {
+        if(error) {
+            return done(error);
+        }
+
+        done(null, result);
+    });
+};
+
+exports.addTransactionItems = function(transactions_items, done) {
+    connection.get().query('INSERT INTO `transaction_items` SET ?', [transactions_items], function(error, result) {
+        if(error) {
+            return done(error);
+        }
+
+        done(null, result);
+    });
+};
+
+exports.addAdditionalMetrics = function(metrics, done) {
+    connection.get().query('INSERT INTO `additional_metric_items` SET ?', [metrics], function(error, result) {
+        if(error) {
+            return done(error);
+        }
+
+        done(null, result);
+    });
+};

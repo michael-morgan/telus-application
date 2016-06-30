@@ -4,7 +4,7 @@
 var express = require('express');
 var connection = require('../../connection');
 var passport = require('passport');
-var async = require('async');
+var async = require('async');var async = require('async');
 
 var behaviourModel = require('../../models/observation');
 var returnObj = {};

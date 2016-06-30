@@ -1,6 +1,7 @@
 var express = require('express');
 var connection = require('../../connection');
 var passport = require('passport');
+var async = require('async');
 
 var userModel = require('../../models/user');
 var transactionModel = require('../../models/transactions');
@@ -30,9 +31,13 @@ router.get('/add-transaction', ensureAuthenticated, function (req, res, next) {
         return res.redirect('/users/');
     }
 
+
     var returnObj = {
-        title: 'EPS'
+        title: 'Add Transaction'
     };
+
+
+
 
     userModel.getAll(function(err, userResult) {
         //If an error is thrown
@@ -47,7 +52,7 @@ router.get('/add-transaction', ensureAuthenticated, function (req, res, next) {
             if (err) {
                 returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');
                 //Render the page wth error messages
-                return res.render('eps',returnObj);
+                return res.render('transactions/add-transaction',returnObj);
             } //End if
 
             transactionModel.getActivation(function(err, activationResults) {
@@ -55,7 +60,7 @@ router.get('/add-transaction', ensureAuthenticated, function (req, res, next) {
                 if (err) {
                     returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');
                     //Render the page wth error messages
-                    return res.render('eps',returnObj);
+                    return res.render('transactions/add-transaction',returnObj);
                 } //End if
 
                 transactionModel.getDevice(function(err, deviceResults) {
@@ -63,7 +68,7 @@ router.get('/add-transaction', ensureAuthenticated, function (req, res, next) {
                     if (err) {
                         returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');
                         //Render the page wth error messages
-                        return res.render('eps',returnObj);
+                        return res.render('transactions/add-transaction',returnObj);
                     } //End if
 
                     transactionModel.getWarranty(function(err, warrantyResults) {
@@ -71,7 +76,7 @@ router.get('/add-transaction', ensureAuthenticated, function (req, res, next) {
                         if (err) {
                             returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');
                             //Render the page wth error messages
-                            return res.render('eps',returnObj);
+                            return res.render('transactions/add-transaction',returnObj);
                         } //End if
 
                         returnObj['users'] = userResult;
@@ -94,7 +99,7 @@ router.get('/:employee', ensureAuthenticated, function (req, res, next) {
     }
 
     var returnObj = {
-        title: 'EPS'
+        title: 'Add Transaction'
     };
 
     userModel.getAll(function(err, userResult) {
@@ -110,7 +115,7 @@ router.get('/:employee', ensureAuthenticated, function (req, res, next) {
             if (err) {
                 returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');
                 //Render the page wth error messages
-                return res.render('eps',returnObj);
+                return res.render('transactions/add-transaction',returnObj);
             } //End if
 
             transactionModel.getActivation(function(err, activationResults) {
@@ -118,7 +123,7 @@ router.get('/:employee', ensureAuthenticated, function (req, res, next) {
                 if (err) {
                     returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');
                     //Render the page wth error messages
-                    return res.render('eps',returnObj);
+                    return res.render('transactions/add-transaction',returnObj);
                 } //End if
 
                 transactionModel.getDevice(function(err, deviceResults) {
@@ -126,7 +131,7 @@ router.get('/:employee', ensureAuthenticated, function (req, res, next) {
                     if (err) {
                         returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');
                         //Render the page wth error messages
-                        return res.render('eps',returnObj);
+                        return res.render('transactions/add-transaction',returnObj);
                     } //End if
 
                     transactionModel.getWarranty(function(err, warrantyResults) {
@@ -134,7 +139,7 @@ router.get('/:employee', ensureAuthenticated, function (req, res, next) {
                         if (err) {
                             returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');
                             //Render the page wth error messages
-                            return res.render('eps',returnObj);
+                            return res.render('transactions/add-transaction',returnObj);
                         } //End if
 
                         returnObj['users'] = userResult;
@@ -154,51 +159,238 @@ router.get('/:employee', ensureAuthenticated, function (req, res, next) {
 
 
 router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
-
-    var t_number = req.body.employeeDropdown;
-    var store_id = userModel.getById(t_number, function(err, rows) {
-        if(err) {
-            throw next(err);
-        }
-        else if(rows.length <= 0) {
-            console.error('Invalid profile id.');
-            return res.redirect('/users/');
-        }
-        else {
-            store_id = rows[0].store_id;
-            return store_id;
-        }
-    });
-
-
-    var currentDate = getCurrentDate();
-    var transaction_type = req.body.transactionDropdown;
-    var activation_type = req.body.activationDropdown;
-    var device_type = req.body.deviceDropdown;
-    var warranty_type = req.body.warrantyDropdown;
-    // var attachments = undefined;
-    //var num_of_accessories = undefined;
-    // var sbs_return_exchange_discount = undefined;
-    //var additional_metrics = undefined;
-
-
-    var transaction = {
-        t_number: t_number,
-        store_id: store_id,
-        transaction_date: currentDate,
-        transaction_type: transaction_type,
-        activation_type: activation_type,
-        device_type: device_type,
-        warranty_type: warranty_type,
-        //attachments: attachments,
-        //num_of_accessories: num_of_accessories,
-        //sbs_return_exchange_discount: sbs_return_exchange_discount,
-        //additional_metrics:  additional_metrics
+    if(req.body.employeeDropdown == undefined){
+        return res.redirect('/users/transactions/add-transaction');
     }
 
-    console.log(transaction);
+    if(req.body.transactionDropdown == undefined){
+        return res.redirect('/users/transactions/add-transaction');
+    }
 
 
+
+    //Get all the data from the form
+    var data = req.body;
+    console.log(data);
+
+    //For transactions
+    var t_number = undefined;
+    var store_id = undefined
+    var currentDate = undefined;
+    var transaction_type = undefined;
+
+    //For Transaction Items
+    var activation_type = undefined;
+    var device_type = undefined;
+    var warranty_type = undefined;
+    var attached = undefined;
+    var num_of_accessories = undefined;
+    var sbs_activation = undefined;
+
+    //For additional metrics
+
+    var hasMetrics = false;
+    var hasItems = false;
+
+    var learning_sessions = undefined
+    var learning_sessions_count = data.learningSessionsCount; // Get the value from the input
+    //Assign corresponding id if the value is greater than 0
+    if (learning_sessions_count > 0){
+        learning_sessions = 1;
+        hasMetrics = true;
+    }
+
+    var credit_card = undefined
+    var credit_card_count = data.creditCardCount; // Get the value from the input
+    //Assign corresponding id if the value is greater than 0
+    if (credit_card_count > 0){
+        credit_card = 6;
+        hasMetrics = true;
+    }
+
+    var appointments = undefined
+    var appointments_count = data.appointmentsCount; // Get the value from the input
+    //Assign corresponding id if the value is greater than 0
+    if (appointments_count > 0){
+        appointments = 3;
+        hasMetrics = true;
+    }
+
+    var aotm = undefined
+    var aotm_count = data.aotmCount; // Get the value from the input
+    //Assign corresponding id if the value is greater than 0
+    if (aotm_count > 0){
+        aotm = 2;
+        hasMetrics = true;
+    }
+
+    var critters = undefined
+    var critters_count = data.crittersCount; // Get the value from the input
+    //Assign corresponding id if the value is greater than 0
+    if (critters_count > 0){
+        critters = 4;
+        hasMetrics = true;
+    }
+
+    var donations = undefined
+    var donations_count = data.donationsCount; // Get the value from the input
+    //Assign corresponding id if the value is greater than 0
+    if (donations_count > 0){
+        donations = 5;
+        hasMetrics = true;
+    }
+
+    var transaction = undefined;
+    var transaction_items = undefined;
+    var addition_metrics = undefined;
+
+    async.series([getTNumber, getStoreID, getData, addTransaction, addTransactionItems, addMetrics]);
+
+
+    function getTNumber(fnCallback){
+        t_number = req.body.employeeDropdown;
+
+        fnCallback(null);
+    }
+
+
+    function getStoreID(fnCallback) {
+        store_id = userModel.getById(t_number, function (err, rows) {
+            if (err) {
+                throw next(err);
+            }
+            else if (rows.length <= 0) {
+                console.error('Invalid profile id.');
+                fnCallback(null);
+                return res.redirect('/users/');
+
+            }
+            else {
+                store_id = rows[0].store_id;
+                fnCallback(null);
+                return store_id;
+            }
+        });
+
+    }
+    function getData(fnCallback){
+        currentDate = getCurrentDate();
+        transaction_type = data.transactionDropdown;
+
+        //Transaction Items
+        activation_type = data.activationDropdown;
+        device_type = data.deviceDropdown;
+        warranty_type = data.warrantyDropdown;
+        attached = data.attachedDropdown;
+        num_of_accessories = data.accessoryCount;
+
+        if(data.sbsActivation == "on"){
+            sbs_activation = 1;
+        } else {
+            sbs_activation = 0;
+        }
+
+
+
+
+
+        transaction = {
+            t_number: t_number,
+            store_id: store_id,
+            transaction_date: currentDate,
+            transaction_type: transaction_type,
+        };
+
+        transaction_items = {
+            transaction_id: undefined,
+            activation_type: activation_type,
+            device_type: device_type,
+            warranty_type: warranty_type,
+            attached: attached,
+            num_of_accessories: num_of_accessories,
+            sbs_activation: sbs_activation,
+        };
+
+        addition_metrics = {
+            learning_sessions: learning_sessions,
+            learning_sessions_count: learning_sessions_count,
+
+            credit_card: credit_card,
+            credit_card_count: credit_card_count,
+
+            appointments: appointments,
+            appointments_count: appointments_count,
+
+            aotm: aotm,
+            aotm_count: aotm_count,
+
+            critters: critters,
+            critter_count: critters_count,
+
+            donations: donations,
+            donations_count: donations_count
+        };
+
+
+        fnCallback(null);
+    }
+
+    function addTransaction(fnCallback){
+
+        console.log("Transaction");
+        console.log(transaction);
+
+
+
+        transactionModel.addTransaction(transaction, function(err, result) {
+            transaction_items['transaction_id'] = result.insertId;
+            console.log(transaction_items.transaction_id);
+            console.log(result.insertId);
+            addition_metrics['transaction_id'] = result.insertId;
+            fnCallback(null);
+        });
+    }
+
+    function addTransactionItems(fnCallback){
+
+        if(activation_type != undefined || device_type != undefined || warranty_type != undefined || attached != 'no' || num_of_accessories != '0' || sbs_activation != undefined){
+            hasItems = true
+        }
+
+        if(hasItems){
+            console.log("Transaction Items");
+            console.log(transaction_items);
+
+            transactionModel.addTransactionItems(transaction_items, function(err, result) {
+                if(!err){
+                    console.log('Items added')
+                } else {
+                    console.log('Items not added' + err)
+                }
+
+            });
+        } else{
+            console.log("No Items");
+        }
+
+        fnCallback(null);
+    }
+
+
+    function addMetrics(fnCallback){
+        if(hasMetrics){
+            console.log("Additional Metrics");
+            console.log(addition_metrics);
+
+            //transactionModel.addAdditionalMetrics(addition_metrics, function(err, result) {
+
+            //});
+        } else{
+            console.log("No Metrics");
+        }
+
+        fnCallback(null);
+    }
 
 });
 
