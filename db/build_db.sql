@@ -576,9 +576,9 @@ CREATE TABLE `transaction_items` (
   `activation_type` int(255),
   `device_type` int(255),
   `warranty_type` int(255),
-  `attachments` bit,
+  `attached` varchar(3),
   `revenue` float,
-  `number_of_accessories` int(255),
+  `num_of_accessories` int(255),
   `sbs_activation` bool,
   
   PRIMARY KEY (`transaction_items_id`),
