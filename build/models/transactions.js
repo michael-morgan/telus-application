@@ -73,7 +73,7 @@ exports.addTransactionItems = function(transactions_items, done) {
 };
 
 exports.addAdditionalMetrics = function(metrics, done) {
-    connection.get().query('INSERT INTO `additional_metric_items` SET ?', [metrics], function(error, result) {
+    connection.get().query('INSERT INTO `addition_metrics_items` SET ?', [metrics], function(error, result) {
         if(error) {
             return done(error);
         }

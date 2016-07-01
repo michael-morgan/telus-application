@@ -85,3 +85,6 @@ function addDevices() {
     $('.device-group').append(deviceFields);
     loadButtons();
 }
+
+
+

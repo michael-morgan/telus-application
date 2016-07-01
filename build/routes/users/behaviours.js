@@ -650,15 +650,12 @@ router.post('/add-behaviour/:skill', ensureAuthenticated, function (req, res, ne
                     return res.render('behaviours/add-behaviour', returnObj);
                 }
             }, fnCallback);
-        }
-        else
-        {
+        } else {
             fnCallback(null);
         }
     }
     //If we aren't deleting any skills or behaviours, we must be updating a behaviour
-    function updateBehaviour(fnCallback)
-    {
+    function updateBehaviour(fnCallback) {
         async.eachSeries(Object.keys(behaviours), function (aBehaviour, callback) {
             if(!skillDeleted && !behaviourDeleted) {
                 //Update the behaviour description

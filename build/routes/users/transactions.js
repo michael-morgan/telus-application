@@ -25,7 +25,9 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
     });
 });
 
-//ADD TRANSACTION
+/********************************************************************************************
+ ADD TRANSACTION
+********************************************************************************************/
 router.get('/add-transaction', ensureAuthenticated, function (req, res, next) {
     if (req.user.privileged <= 2) {
         return res.redirect('/users/');
@@ -36,64 +38,13 @@ router.get('/add-transaction', ensureAuthenticated, function (req, res, next) {
         title: 'Add Transaction'
     };
 
+    renderPage(returnObj, req, res, next);
 
 
-
-    userModel.getAll(function(err, userResult) {
-        //If an error is thrown
-        if (err) {
-            returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');
-            //Render the page wth error messages
-            return res.render('transactions/add-transaction',returnObj);
-        } //End if
-
-        transactionModel.getTransactions(function(err, transactionResults) {
-            //If an error is thrown
-            if (err) {
-                returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');
-                //Render the page wth error messages
-                return res.render('transactions/add-transaction',returnObj);
-            } //End if
-
-            transactionModel.getActivation(function(err, activationResults) {
-                //If an error is thrown
-                if (err) {
-                    returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');
-                    //Render the page wth error messages
-                    return res.render('transactions/add-transaction',returnObj);
-                } //End if
-
-                transactionModel.getDevice(function(err, deviceResults) {
-                    //If an error is thrown
-                    if (err) {
-                        returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');
-                        //Render the page wth error messages
-                        return res.render('transactions/add-transaction',returnObj);
-                    } //End if
-
-                    transactionModel.getWarranty(function(err, warrantyResults) {
-                        //If an error is thrown
-                        if (err) {
-                            returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');
-                            //Render the page wth error messages
-                            return res.render('transactions/add-transaction',returnObj);
-                        } //End if
-
-                        returnObj['users'] = userResult;
-                        returnObj['transactions'] = transactionResults;
-                        returnObj['activations'] = activationResults;
-                        returnObj['devices'] = deviceResults;
-                        returnObj['warrantys'] = warrantyResults;
-                        return res.render('transactions/add-transaction', returnObj);
-                    }); //end getWarranty
-                }); //end getDevice
-            }); //end getActivation
-        }); //end getTransactions
-    }); //end getAll
-}); //end get for /
+}); //end get for /add-transaction
 
 
-router.get('/:employee', ensureAuthenticated, function (req, res, next) {
+router.get('/add-transaction/:employee', ensureAuthenticated, function (req, res, next) {
     if (req.user.privileged <= 2) {
         return res.redirect('/users/');
     }
@@ -102,72 +53,29 @@ router.get('/:employee', ensureAuthenticated, function (req, res, next) {
         title: 'Add Transaction'
     };
 
-    userModel.getAll(function(err, userResult) {
-        //If an error is thrown
-        if (err) {
-            returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');
-            //Render the page wth error messages
-            return res.render('transactions/add-transaction',returnObj);
-        } //End if
 
-        transactionModel.getTransactions(function(err, transactionResults) {
-            //If an error is thrown
-            if (err) {
-                returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');
-                //Render the page wth error messages
-                return res.render('transactions/add-transaction',returnObj);
-            } //End if
+    renderPage(returnObj, req, res, next);
 
-            transactionModel.getActivation(function(err, activationResults) {
-                //If an error is thrown
-                if (err) {
-                    returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');
-                    //Render the page wth error messages
-                    return res.render('transactions/add-transaction',returnObj);
-                } //End if
-
-                transactionModel.getDevice(function(err, deviceResults) {
-                    //If an error is thrown
-                    if (err) {
-                        returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');
-                        //Render the page wth error messages
-                        return res.render('transactions/add-transaction',returnObj);
-                    } //End if
-
-                    transactionModel.getWarranty(function(err, warrantyResults) {
-                        //If an error is thrown
-                        if (err) {
-                            returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');
-                            //Render the page wth error messages
-                            return res.render('transactions/add-transaction',returnObj);
-                        } //End if
-
-                        returnObj['users'] = userResult;
-                        returnObj['transactions'] = transactionResults;
-                        returnObj['activations'] = activationResults;
-                        returnObj['devices'] = deviceResults;
-                        returnObj['warrantys'] = warrantyResults;
-                        returnObj['selectedEmployee'] = req.params.employee;
-                        return res.render('transactions/add-transaction', returnObj);
-                    }); //end getWarranty
-                }); //end getDevice
-            }); //end getActivation
-        }); //end getTransactions
-    }); //end getAll
-});
+}); //End get for add-transaction/:employee
 
 
 
 router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
+    var returnObj = {
+        title: 'Add Transaction'
+    };
+
     if(req.body.employeeDropdown == undefined){
-        return res.redirect('/users/transactions/add-transaction');
+        console.log("No user selected");
+        returnObj['message'] = 'Please select a user';
+        return renderPage(returnObj, req, res, next);
     }
 
     if(req.body.transactionDropdown == undefined){
-        return res.redirect('/users/transactions/add-transaction');
+        console.log("No transaction selected");
+        returnObj['message'] = 'Please select a transaction type';
+        return renderPage(returnObj, req, res, next);
     }
-
-
 
     //Get all the data from the form
     var data = req.body;
@@ -184,11 +92,11 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
     var device_type = undefined;
     var warranty_type = undefined;
     var attached = undefined;
+    var revenue = 0;
     var num_of_accessories = undefined;
     var sbs_activation = undefined;
 
-    //For additional metrics
-
+    //For Additional Metrics
     var hasMetrics = false;
     var hasItems = false;
 
@@ -242,9 +150,19 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
 
     var transaction = undefined;
     var transaction_items = undefined;
-    var addition_metrics = undefined;
 
-    async.series([getTNumber, getStoreID, getData, addTransaction, addTransactionItems, addMetrics]);
+    var learning_sessions_obj = undefined;
+    var credit_card_obj = undefined;
+    var appointments_obj = undefined;
+    var aotm_obj = undefined;
+    var critters_obj = undefined;
+    var donations_obj = undefined;
+
+    var metrics = undefined;
+
+
+
+    async.series([getTNumber, getStoreID, getData, addTransaction, addTransactionItems, addMetrics, pageRedirect]);
 
 
     function getTNumber(fnCallback){
@@ -271,8 +189,8 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
                 return store_id;
             }
         });
+    } //End getStoreID
 
-    }
     function getData(fnCallback){
         currentDate = getCurrentDate();
         transaction_type = data.transactionDropdown;
@@ -282,6 +200,11 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
         device_type = data.deviceDropdown;
         warranty_type = data.warrantyDropdown;
         attached = data.attachedDropdown;
+
+        if(data.revenueText != ''){
+            revenue = data.revenueText;
+        }
+
         num_of_accessories = data.accessoryCount;
 
         if(data.sbsActivation == "on"){
@@ -290,10 +213,7 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
             sbs_activation = 0;
         }
 
-
-
-
-
+        //Transaction object
         transaction = {
             t_number: t_number,
             store_id: store_id,
@@ -301,39 +221,57 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
             transaction_type: transaction_type,
         };
 
+        //Transaction Items Object
         transaction_items = {
             transaction_id: undefined,
             activation_type: activation_type,
             device_type: device_type,
             warranty_type: warranty_type,
             attached: attached,
+            revenue: revenue,
             num_of_accessories: num_of_accessories,
             sbs_activation: sbs_activation,
         };
 
-        addition_metrics = {
-            learning_sessions: learning_sessions,
-            learning_sessions_count: learning_sessions_count,
-
-            credit_card: credit_card,
-            credit_card_count: credit_card_count,
-
-            appointments: appointments,
-            appointments_count: appointments_count,
-
-            aotm: aotm,
-            aotm_count: aotm_count,
-
-            critters: critters,
-            critter_count: critters_count,
-
-            donations: donations,
-            donations_count: donations_count
+        learning_sessions_obj = {
+            transaction_id: undefined,
+            additional_metrics_items_type: learning_sessions,
+            additional_metrics_items_count: learning_sessions_count,
         };
 
+        credit_card_obj = {
+            transaction_id: undefined,
+            additional_metrics_items_type: credit_card,
+            additional_metrics_items_count: credit_card_count,
+        };
+
+        appointments_obj = {
+            transaction_id: undefined,
+            additional_metrics_items_type: appointments,
+            additional_metrics_items_count: appointments_count,
+        };
+
+        aotm_obj = {
+            additional_metrics_items_type: aotm,
+            additional_metrics_items_count: aotm_count,
+        };
+
+        critters_obj = {
+            transaction_id: undefined,
+            additional_metrics_items_type: critters,
+            additional_metrics_items_count: critters_count,
+        };
+
+        donations_obj = {
+            transaction_id: undefined,
+            additional_metrics_items_type: donations,
+            additional_metrics_items_count: donations_count
+        };
+
+        metrics = [learning_sessions_obj, credit_card_obj, appointments_obj, aotm_obj, critters_obj, donations_obj]
 
         fnCallback(null);
-    }
+    } //end getData
 
     function addTransaction(fnCallback){
 
@@ -344,19 +282,23 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
 
         transactionModel.addTransaction(transaction, function(err, result) {
             transaction_items['transaction_id'] = result.insertId;
-            console.log(transaction_items.transaction_id);
-            console.log(result.insertId);
-            addition_metrics['transaction_id'] = result.insertId;
+            learning_sessions_obj['transaction_id'] = result.insertId;
+            credit_card_obj['transaction_id'] = result.insertId;
+            appointments_obj['transaction_id'] = result.insertId;
+            aotm_obj['transaction_id'] = result.insertId;
+            critters_obj['transaction_id'] = result.insertId;
+            donations_obj['transaction_id'] = result.insertId;
             fnCallback(null);
         });
-    }
+    } //End addTransaction
 
     function addTransactionItems(fnCallback){
 
-        if(activation_type != undefined || device_type != undefined || warranty_type != undefined || attached != 'no' || num_of_accessories != '0' || sbs_activation != undefined){
+        if(activation_type != undefined || device_type != undefined || warranty_type != undefined || attached != 'no' || revenue != '' || num_of_accessories != '0' || sbs_activation != 0){
             hasItems = true
         }
 
+        //If there are transaction items, insert record to the DB
         if(hasItems){
             console.log("Transaction Items");
             console.log(transaction_items);
@@ -365,7 +307,7 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
                 if(!err){
                     console.log('Items added')
                 } else {
-                    console.log('Items not added' + err)
+                    console.log('Items not added ' + err)
                 }
 
             });
@@ -374,25 +316,41 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
         }
 
         fnCallback(null);
-    }
+    } //End Transaction Items
 
 
     function addMetrics(fnCallback){
         if(hasMetrics){
             console.log("Additional Metrics");
-            console.log(addition_metrics);
 
-            //transactionModel.addAdditionalMetrics(addition_metrics, function(err, result) {
+            metrics.forEach(function (item) {
+                if(item.additional_metrics_items_count > 0){
+                    transactionModel.addAdditionalMetrics(item, function(err, result) {
+                        if(!err){
+                            console.log(item +' added')
+                        } else {
+                            console.log('Error!' + item + ' not added' + err)
+                        }
+                    });
+                } else {
+                    console.log(item + " not added")
+                }
+            });
 
-            //});
         } else{
             console.log("No Metrics");
         }
 
         fnCallback(null);
+    } //End addMetrics
+
+    function pageRedirect(fnCallback) {
+        res.redirect('/users/transactions');
+
+        fnCallback(null);
     }
 
-});
+}); //end post for add-transaction
 
 
 /**
@@ -422,7 +380,62 @@ function getCurrentDate() {
     var today = year + ":" + month + ":" + day + " " + hour + ":" + min + ":" + sec;
 
     return today;
-}
+} //end getCurrentDate
+
+function renderPage(returnObj, req, res, next){
+    userModel.getAll(function(err, userResult) {
+        //If an error is thrown
+        if (err) {
+            returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');
+            //Render the page wth error messages
+            return res.render('transactions/add-transaction',returnObj);
+        } //End if
+
+        transactionModel.getTransactions(function(err, transactionResults) {
+            //If an error is thrown
+            if (err) {
+                returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');
+                //Render the page wth error messages
+                return res.render('transactions/add-transaction',returnObj);
+            } //End if
+
+            transactionModel.getActivation(function(err, activationResults) {
+                //If an error is thrown
+                if (err) {
+                    returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');
+                    //Render the page wth error messages
+                    return res.render('transactions/add-transaction',returnObj);
+                } //End if
+
+                transactionModel.getDevice(function(err, deviceResults) {
+                    //If an error is thrown
+                    if (err) {
+                        returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');
+                        //Render the page wth error messages
+                        return res.render('transactions/add-transaction',returnObj);
+                    } //End if
+
+                    transactionModel.getWarranty(function(err, warrantyResults) {
+                        //If an error is thrown
+                        if (err) {
+                            returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');
+                            //Render the page wth error messages
+                            return res.render('transactions/add-transaction',returnObj);
+                        } //End if
+
+                        returnObj['users'] = userResult;
+                        returnObj['transactions'] = transactionResults;
+                        returnObj['activations'] = activationResults;
+                        returnObj['devices'] = deviceResults;
+                        returnObj['warrantys'] = warrantyResults;
+                        returnObj['selectedEmployee'] = req.params.employee;
+                        return res.render('transactions/add-transaction', returnObj);
+                    }); //end getWarranty
+                }); //end getDevice
+            }); //end getActivation
+        }); //end getTransactions
+    }); //end getAll
+} //End renderPage
 
 
 

@@ -577,7 +577,7 @@ CREATE TABLE `transaction_items` (
   `device_type` int(255),
   `warranty_type` int(255),
   `attached` varchar(3),
-  `revenue` float,
+  `revenue` float(10,2),
   `num_of_accessories` int(255),
   `sbs_activation` bool,
   
