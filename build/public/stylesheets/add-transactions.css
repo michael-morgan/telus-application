@@ -1,0 +1,44 @@
+.transact {
+    float: left;
+    width: 15em;
+}
+.plusminus, .form-control.input-number.plusminus {
+    width: 100px;!important;
+    padding-right: 0;
+    white-space: nowrap;
+    margin-top: 0.25em;
+}
+.btn.btn-success.btn-number.whitespace {
+    white-space: nowrap;
+}
+.input-group-btn.pull-left {
+    padding-top: 4px;
+}
+.col-sm-3.plus-minus-group.move {
+    margin-left: 6.2em;
+}
+h1 {
+    padding-top: .7em;
+}
+
+@media screen and (max-width: 780px) {
+    .text-right {
+        text-align: left; !important
+    }
+    .col-sm-3.plus-minus-group.move {
+        margin-left: 1em;
+    }
+    .input-group.text-right {
+        float: left;!important;
+    }
+}
+@media screen and (max-width: 1500px) {
+    .plusminus, .form-control.input-number.plusminus {
+        width: 4em;!important;
+        padding-right: 0;
+        margin-top: .5em;
+    }
+    .input-group-btn.pull-left {
+        padding-top: 7px;
+    }
+}
