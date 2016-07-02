@@ -61,7 +61,7 @@ function loadButtons() {
     });
     $(".input-number").keydown(function (e) {
         // Allow: backspace, delete, tab, escape, enter and .
-        if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 190]) !== -1 ||
+        if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
                 // Allow: Ctrl+A
             (e.keyCode == 65 && e.ctrlKey === true) ||
                 // Allow: home, end, left, right

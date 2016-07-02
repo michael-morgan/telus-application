@@ -10,7 +10,9 @@ var router = express.Router();
 
 // Ensure sure the user is authenticated
 function ensureAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) { return next(); }
+    if (req.isAuthenticated()) {
+        return next();
+    }
     res.redirect('/');
 }
 
@@ -27,7 +29,7 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
 
 /********************************************************************************************
  ADD TRANSACTION
-********************************************************************************************/
+ ********************************************************************************************/
 router.get('/add-transaction', ensureAuthenticated, function (req, res, next) {
     if (req.user.privileged <= 2) {
         return res.redirect('/users/');
@@ -59,19 +61,18 @@ router.get('/add-transaction/:employee', ensureAuthenticated, function (req, res
 }); //End get for add-transaction/:employee
 
 
-
 router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
     var returnObj = {
         title: 'Add Transaction'
     };
 
-    if(req.body.employeeDropdown == undefined){
+    if (req.body.employeeDropdown == undefined) {
         console.log("No user selected");
         returnObj['message'] = 'Please select a user';
         return renderPage(returnObj, req, res, next);
     }
 
-    if(req.body.transactionDropdown == undefined){
+    if (req.body.transactionDropdown == undefined) {
         console.log("No transaction selected");
         returnObj['message'] = 'Please select a transaction type';
         return renderPage(returnObj, req, res, next);
@@ -103,7 +104,7 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
     var learning_sessions = undefined
     var learning_sessions_count = data.learningSessionsCount; // Get the value from the input
     //Assign corresponding id if the value is greater than 0
-    if (learning_sessions_count > 0){
+    if (learning_sessions_count > 0) {
         learning_sessions = 1;
         hasMetrics = true;
     }
@@ -111,7 +112,7 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
     var credit_card = undefined
     var credit_card_count = data.creditCardCount; // Get the value from the input
     //Assign corresponding id if the value is greater than 0
-    if (credit_card_count > 0){
+    if (credit_card_count > 0) {
         credit_card = 6;
         hasMetrics = true;
     }
@@ -119,7 +120,7 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
     var appointments = undefined
     var appointments_count = data.appointmentsCount; // Get the value from the input
     //Assign corresponding id if the value is greater than 0
-    if (appointments_count > 0){
+    if (appointments_count > 0) {
         appointments = 3;
         hasMetrics = true;
     }
@@ -127,7 +128,7 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
     var aotm = undefined
     var aotm_count = data.aotmCount; // Get the value from the input
     //Assign corresponding id if the value is greater than 0
-    if (aotm_count > 0){
+    if (aotm_count > 0) {
         aotm = 2;
         hasMetrics = true;
     }
@@ -135,7 +136,7 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
     var critters = undefined
     var critters_count = data.crittersCount; // Get the value from the input
     //Assign corresponding id if the value is greater than 0
-    if (critters_count > 0){
+    if (critters_count > 0) {
         critters = 4;
         hasMetrics = true;
     }
@@ -143,7 +144,7 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
     var donations = undefined
     var donations_count = data.donationsCount; // Get the value from the input
     //Assign corresponding id if the value is greater than 0
-    if (donations_count > 0){
+    if (donations_count > 0) {
         donations = 5;
         hasMetrics = true;
     }
@@ -151,6 +152,7 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
     var transaction = undefined;
     var transaction_items = undefined;
 
+    //Objects for metrics
     var learning_sessions_obj = undefined;
     var credit_card_obj = undefined;
     var appointments_obj = undefined;
@@ -161,17 +163,27 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
     var metrics = undefined;
 
 
-
+    //Call the following methods in order
     async.series([getTNumber, getStoreID, getData, addTransaction, addTransactionItems, addMetrics, pageRedirect]);
 
 
-    function getTNumber(fnCallback){
+    /**
+     * First method in the async series
+     * Assigned t_number
+     * @param fnCallback
+     */
+    function getTNumber(fnCallback) {
         t_number = req.body.employeeDropdown;
 
         fnCallback(null);
     }
 
 
+    /**
+     * Second method in the async series
+     * Get the users store number by their t_number
+     * @param fnCallback
+     */
     function getStoreID(fnCallback) {
         store_id = userModel.getById(t_number, function (err, rows) {
             if (err) {
@@ -191,7 +203,12 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
         });
     } //End getStoreID
 
-    function getData(fnCallback){
+    /**
+     * Third method in the async series
+     * Gets all the data from the form and stores it in objects
+     * @param fnCallback
+     */
+    function getData(fnCallback) {
         currentDate = getCurrentDate();
         transaction_type = data.transactionDropdown;
 
@@ -201,13 +218,13 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
         warranty_type = data.warrantyDropdown;
         attached = data.attachedDropdown;
 
-        if(data.revenueText != ''){
+        if (data.revenueText != '') {
             revenue = data.revenueText;
         }
 
         num_of_accessories = data.accessoryCount;
 
-        if(data.sbsActivation == "on"){
+        if (data.sbsActivation == "on") {
             sbs_activation = 1;
         } else {
             sbs_activation = 0;
@@ -233,54 +250,65 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
             sbs_activation: sbs_activation,
         };
 
+        //Learning sessions object
         learning_sessions_obj = {
             transaction_id: undefined,
             additional_metrics_items_type: learning_sessions,
             additional_metrics_items_count: learning_sessions_count,
         };
 
+        //Credit card object
         credit_card_obj = {
             transaction_id: undefined,
             additional_metrics_items_type: credit_card,
             additional_metrics_items_count: credit_card_count,
         };
 
+        //Appointments object
         appointments_obj = {
             transaction_id: undefined,
             additional_metrics_items_type: appointments,
             additional_metrics_items_count: appointments_count,
         };
 
+        //AOTM object
         aotm_obj = {
             additional_metrics_items_type: aotm,
             additional_metrics_items_count: aotm_count,
         };
 
+        //Critters object
         critters_obj = {
             transaction_id: undefined,
             additional_metrics_items_type: critters,
             additional_metrics_items_count: critters_count,
         };
 
+        //Donations object
         donations_obj = {
             transaction_id: undefined,
             additional_metrics_items_type: donations,
             additional_metrics_items_count: donations_count
         };
 
+
+        //Store the objects in an array for looping
         metrics = [learning_sessions_obj, credit_card_obj, appointments_obj, aotm_obj, critters_obj, donations_obj]
 
         fnCallback(null);
     } //end getData
 
-    function addTransaction(fnCallback){
+    /**
+     * Fourth method in the async series
+     * @param fnCallback
+     */
+    function addTransaction(fnCallback) {
 
         console.log("Transaction");
         console.log(transaction);
 
-
-
-        transactionModel.addTransaction(transaction, function(err, result) {
+        //Add the transaction models and assign the insert ID to the other objects
+        transactionModel.addTransaction(transaction, function (err, result) {
             transaction_items['transaction_id'] = result.insertId;
             learning_sessions_obj['transaction_id'] = result.insertId;
             credit_card_obj['transaction_id'] = result.insertId;
@@ -292,26 +320,33 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
         });
     } //End addTransaction
 
-    function addTransactionItems(fnCallback){
+    /**
+     * Fifth method in the async series
+     * Add the transaction items, if there are some
+     * @param fnCallback
+     */
+    function addTransactionItems(fnCallback) {
 
-        if(activation_type != undefined || device_type != undefined || warranty_type != undefined || attached != 'no' || revenue != '' || num_of_accessories != '0' || sbs_activation != 0){
+        //Check if any of the these fields have be filled out, to know if we are inserting or not
+        if (activation_type != undefined || device_type != undefined || warranty_type != undefined || attached != 'no' || revenue != '' || num_of_accessories != '0' || sbs_activation != 0) {
             hasItems = true
         }
 
         //If there are transaction items, insert record to the DB
-        if(hasItems){
+        if (hasItems) {
             console.log("Transaction Items");
             console.log(transaction_items);
 
-            transactionModel.addTransactionItems(transaction_items, function(err, result) {
-                if(!err){
+            //Add the object to the database
+            transactionModel.addTransactionItems(transaction_items, function (err, result) {
+                if (!err) {
                     console.log('Items added')
                 } else {
                     console.log('Items not added ' + err)
                 }
 
             });
-        } else{
+        } else {
             console.log("No Items");
         }
 
@@ -319,15 +354,21 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
     } //End Transaction Items
 
 
-    function addMetrics(fnCallback){
-        if(hasMetrics){
+    /**
+     * Sixth method in the async series
+     * Add any additional metrics te transaction may have
+     * @param fnCallback
+     */
+    function addMetrics(fnCallback) {
+        if (hasMetrics) {
             console.log("Additional Metrics");
 
+            //Foreach object in the array of metrics objects
             metrics.forEach(function (item) {
-                if(item.additional_metrics_items_count > 0){
-                    transactionModel.addAdditionalMetrics(item, function(err, result) {
-                        if(!err){
-                            console.log(item +' added')
+                if (item.additional_metrics_items_count > 0) {
+                    transactionModel.addAdditionalMetrics(item, function (err, result) {
+                        if (!err) {
+                            console.log(item + ' added')
                         } else {
                             console.log('Error!' + item + ' not added' + err)
                         }
@@ -337,13 +378,18 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
                 }
             });
 
-        } else{
+        } else {
             console.log("No Metrics");
         }
 
         fnCallback(null);
     } //End addMetrics
 
+    /**
+     * Seventh and last method in the async series
+     * Simply redirect to the summary page
+     * @param fnCallback
+     */
     function pageRedirect(fnCallback) {
         res.redirect('/users/transactions');
 
@@ -382,45 +428,52 @@ function getCurrentDate() {
     return today;
 } //end getCurrentDate
 
-function renderPage(returnObj, req, res, next){
-    userModel.getAll(function(err, userResult) {
+/**
+ * This method pull all the data required to load the transaction page from the database and loads the page
+ * @param returnObj
+ * @param req
+ * @param res
+ * @param next
+ */
+function renderPage(returnObj, req, res, next) {
+    userModel.getAll(function (err, userResult) {
         //If an error is thrown
         if (err) {
             returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');
             //Render the page wth error messages
-            return res.render('transactions/add-transaction',returnObj);
+            return res.render('transactions/add-transaction', returnObj);
         } //End if
 
-        transactionModel.getTransactions(function(err, transactionResults) {
+        transactionModel.getTransactions(function (err, transactionResults) {
             //If an error is thrown
             if (err) {
                 returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');
                 //Render the page wth error messages
-                return res.render('transactions/add-transaction',returnObj);
+                return res.render('transactions/add-transaction', returnObj);
             } //End if
 
-            transactionModel.getActivation(function(err, activationResults) {
+            transactionModel.getActivation(function (err, activationResults) {
                 //If an error is thrown
                 if (err) {
                     returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');
                     //Render the page wth error messages
-                    return res.render('transactions/add-transaction',returnObj);
+                    return res.render('transactions/add-transaction', returnObj);
                 } //End if
 
-                transactionModel.getDevice(function(err, deviceResults) {
+                transactionModel.getDevice(function (err, deviceResults) {
                     //If an error is thrown
                     if (err) {
                         returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');
                         //Render the page wth error messages
-                        return res.render('transactions/add-transaction',returnObj);
+                        return res.render('transactions/add-transaction', returnObj);
                     } //End if
 
-                    transactionModel.getWarranty(function(err, warrantyResults) {
+                    transactionModel.getWarranty(function (err, warrantyResults) {
                         //If an error is thrown
                         if (err) {
                             returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');
                             //Render the page wth error messages
-                            return res.render('transactions/add-transaction',returnObj);
+                            return res.render('transactions/add-transaction', returnObj);
                         } //End if
 
                         returnObj['users'] = userResult;
@@ -436,7 +489,6 @@ function renderPage(returnObj, req, res, next){
         }); //end getTransactions
     }); //end getAll
 } //End renderPage
-
 
 
 module.exports = router;
