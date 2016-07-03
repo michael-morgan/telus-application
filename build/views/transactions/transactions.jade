@@ -1,6 +1,7 @@
 extends ../layout
 
 block append stylesheet
+  link(rel='stylesheet', href='/bower_components/bootstrap-daterangepicker/daterangepicker.css')
   link(rel='stylesheet', href='/stylesheets/transactions.css')
 
 block content
@@ -14,24 +15,25 @@ block content
             i.fa.fa-check.fa-2x
             strong Great!
           p !{success_messages}
-  .row
-    .col-xs-12.col-lg-10.col-lg-offset-1(style='margin-bottom:25px;')
+  .row.form-group
+    .col-xs-12.col-sm-4.col-lg-2.col-lg-offset-1
+      label(for='store') Store:
+      select.form-control(id='store', name='store')
+        option(value='0') Barrie
+        option(value='1') Toronto
+        option(value='2') Guelph
+    .col-xs-12.col-sm-4.col-lg-2
+      label(for='teamMember') Team Member:
+      select.form-control(id='teamMember', name='teamMember')
+        option(value='0') Michael
+        option(value='1') Patrick
+        option(value='2') Bradley
+    .col-xs-12.col-sm-4.col-lg-3.col-lg-offset-3
       label(for='dateRange') Date Range:
-      input(type='text', id='dateRange', name='dateRange', placeholder='06/26/2016 - 06/27/2016' style='margin-left: 10px;')
-    .col-xs-6.col-lg-5.col-lg-offset-1
-      .pull-left
-        label(for='store') Store:
-        select(id='store', name='store', style='margin-left:10px;')
-          option(value='0') Barrie
-          option(value='1') Toronto
-          option(value='2') Guelph
-    .col-xs-6.col-lg-5
-      .pull-right
-        label(for='teamMember') Team Member:
-        select(id='teamMember', name='teamMember', style='margin-left:10px;')
-          option(value='0') Michael
-          option(value='1') Patrick
-          option(value='2') Bradley
+      .input-group
+        span.input-group-addon#iconAddon
+          i.fa.fa-calendar(aria-hidden='true')
+        input.form-control(type='text', id='dateRange', name='dateRange', aria-describedby='iconAddon')
     .col-xs-12.col-lg-10.col-lg-offset-1
       hr
   .row
@@ -200,4 +202,6 @@ block content
                         span(style='margin-left: 5px;') Patrick Richey
 
 block append script
-  script(src='/javascripts/transactions.js')
+  script(src='/bower_components/bootstrap-daterangepicker/moment.min.js')
+  script(src='/bower_components/bootstrap-daterangepicker/daterangepicker.js')
+  script(src='/javascripts/transactions/transactions.js')

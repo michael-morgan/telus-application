@@ -2,6 +2,7 @@ extends ../layout
 
 block append stylesheet
     link(rel='stylesheet', href='/stylesheets/add-transactions.css')
+
 block content
     .row
         .col-xs-12
@@ -195,5 +196,5 @@ block content
                     button#saveTransaction.form-btn.btn.btn-lg.btn-success.btn-block(name='saveTransaction', type='submit') Save
 
 block append script
-    script(src='/javascripts/transactions.js')
+    script(src='/javascripts/transactions/add-transactions.js')
 
