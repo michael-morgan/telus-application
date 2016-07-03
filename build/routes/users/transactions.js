@@ -80,7 +80,6 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
 
     //Get all the data from the form
     var data = req.body;
-    console.log(data);
 
     //For transactions
     var t_number = undefined;
@@ -162,6 +161,8 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
 
     var metrics = undefined;
 
+    transaction_items = data;
+
 
     //Call the following methods in order
     async.series([getTNumber, getStoreID, getData, addTransaction, addTransactionItems, addMetrics, pageRedirect]);
@@ -238,17 +239,7 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
             transaction_type: transaction_type,
         };
 
-        //Transaction Items Object
-        transaction_items = {
-            transaction_id: undefined,
-            activation_type: activation_type,
-            device_type: device_type,
-            warranty_type: warranty_type,
-            attached: attached,
-            revenue: revenue,
-            num_of_accessories: num_of_accessories,
-            sbs_activation: sbs_activation,
-        };
+
 
         //Learning sessions object
         learning_sessions_obj = {
@@ -294,19 +285,15 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
 
         //Store the objects in an array for looping
         metrics = [learning_sessions_obj, credit_card_obj, appointments_obj, aotm_obj, critters_obj, donations_obj]
-
         fnCallback(null);
-    } //end getData
+    }//end getData
 
     /**
      * Fourth method in the async series
      * @param fnCallback
      */
+
     function addTransaction(fnCallback) {
-
-        console.log("Transaction");
-        console.log(transaction);
-
         //Add the transaction models and assign the insert ID to the other objects
         transactionModel.addTransaction(transaction, function (err, result) {
             transaction_items['transaction_id'] = result.insertId;
@@ -325,6 +312,7 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
      * Add the transaction items, if there are some
      * @param fnCallback
      */
+
     function addTransactionItems(fnCallback) {
 
         //Check if any of the these fields have be filled out, to know if we are inserting or not
@@ -334,22 +322,58 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
 
         //If there are transaction items, insert record to the DB
         if (hasItems) {
-            console.log("Transaction Items");
-            console.log(transaction_items);
-
-            //Add the object to the database
-            transactionModel.addTransactionItems(transaction_items, function (err, result) {
-                if (!err) {
-                    console.log('Items added')
-                } else {
-                    console.log('Items not added ' + err)
+            var transaction_item = {};
+            //Add the object(s) to the database
+            async.eachSeries(Object.keys(transaction_items), function (item, callback) {
+                if(item.indexOf('activationDropdown') >= 0)
+                {
+                    transaction_item['activation_type'] = transaction_items[item];
+                    callback(null);
+                }
+                else if(item.indexOf('sbsActivation') >= 0)
+                {
+                    transaction_item['sbs_activation'] = 1;
+                    callback(null);
+                }
+                else if(item.indexOf('deviceDropdown') >= 0)
+                {
+                    transaction_item['device_type'] = transaction_items[item];
+                    callback(null);
+                }
+                else if(item.indexOf('warrantyDropdown') >= 0)
+                {
+                    transaction_item['warranty_type'] = transaction_items[item];
+                    callback(null);
                 }
 
+                else if(item.indexOf('attachedDropdown') >= 0)
+                {
+                    transaction_item['attached'] = transaction_items[item];
+                    callback(null);
+                }
+                else if(item.indexOf('accessoryCount') >= 0)
+                {
+                    transaction_item['num_of_accessories'] = transaction_items[item];
+                    transaction_item['transaction_id'] = transaction_items['transaction_id'];
+                    transaction_item['revenue'] = revenue;
+                    if(transaction_item['sbs_activation'] == undefined)
+                        transaction_item['sbs_activation'] =0;
+                    transactionModel.addTransactionItems(transaction_item, function (err, result) {
+                        if (!err) {
+                            callback(null);
+                        } else {
+                            callback(null);
+                        }
+                    });
+                }
+                else
+                {
+                   callback(null);
+                }
             });
         } else {
             console.log("No Items");
         }
-
         fnCallback(null);
     } //End Transaction Items
 
@@ -359,6 +383,7 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
      * Add any additional metrics te transaction may have
      * @param fnCallback
      */
+
     function addMetrics(fnCallback) {
         if (hasMetrics) {
             console.log("Additional Metrics");
@@ -390,6 +415,7 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
      * Simply redirect to the summary page
      * @param fnCallback
      */
+
     function pageRedirect(fnCallback) {
         res.redirect('/users/transactions');
 
