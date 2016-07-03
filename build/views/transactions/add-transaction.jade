@@ -19,51 +19,50 @@ block content
     .col-md-10.col-md-offset-1.col-xs-12
         form.form-horizontal(method='post', role='form')
             .form-group
-                .col-sm-1.text-right
+                .col-sm-2.text-right
                     span.transaction Employee:
-                .col-sm-11
+                .col-sm-10
                     select.transact(required id='employeeDropdown' name='employeeDropdown')
                         option(disabled selected value='0') Select Employee
-                                    //Code gets every user in the employee table of the database for the select employee drop down
-                            each user, i in users
-                               if employee != undefined && employee == user.t_number
-                                    option(value='#{user.t_number}' selected) #{user.first_name} #{user.last_name}
-                               else if selectedEmployee != undefined && selectedEmployee == user.t_number
-                                    option(value='#{user.t_number}' selected) #{user.first_name} #{user.last_name}
-                               else
-                                    option(value='#{user.t_number}') #{user.first_name} #{user.last_name}
+                            //Code gets every user in the employee table of the database for the select employee drop down
+                        each user, i in users
+                            if employee != undefined && employee == user.t_number
+                                option(value='#{user.t_number}' selected) #{user.first_name} #{user.last_name}
+                            else if selectedEmployee != undefined && selectedEmployee == user.t_number
+                                option(value='#{user.t_number}' selected) #{user.first_name} #{user.last_name}
+                            else
+                                option(value='#{user.t_number}') #{user.first_name} #{user.last_name}
 
             //Show only this field on start
             .form-group
-                .col-sm-1.text-right
+                .col-sm-2.text-right
                     span.transaction Type:
-                .col-sm-11
+                .col-sm-10
                     select.transact(required id='transactionDropdown' name='transactionDropdown')
                         option(disabled selected value='0') Select Transaction Type
                         each transaction, t in transactions
-                           option(value='#{transaction.transaction_type_id}') #{transaction.transaction_types}
-
-            hr
-
+                            option(value='#{transaction.transaction_type_id}') #{transaction.transaction_types}
             //Show only if transaction type is device
             .device-group
                 .single-device
-                    h3.device Device #
+                    h3.device Device 1
                     .form-group
-                        .col-sm-1.col-sm-offset-1.text-right.transaction
+                        .col-sm-2.text-right.transaction
                             span.transaction Activation Type:
                         .col-sm-10
                             select.transact(required id='activationDropdown' name='activationDropdown')
                                 option(disabled selected value='0') Select Activation Type
                                 each activation, a in activations
                                     option(value='#{activation.activation_type_id}') #{activation.activation_types}
-                            input(type='checkbox', name="sbsActivation" checked=false)
-                            | SBS Activation?
+                            .sbs
+                                input(type='checkbox', name="sbsActivation" checked=false)
+                                span
+                                    | SBS Activation?
 
 
                     //Show only if transaction type is device
                     .form-group
-                        .col-sm-1.col-sm-offset-1.text-right.transaction
+                        .col-sm-2.text-right.transaction
                             span.transaction Device Type:
                         .col-sm-10
                             select.transact(required id='deviceDropdown' name='deviceDropdown')
@@ -73,7 +72,7 @@ block content
 
                     //Show only if transaction type is device
                     .form-group
-                        .col-sm-1.col-sm-offset-1.text-right.transaction
+                        .col-sm-2.text-right.transaction
                             span.transaction Warranty Type:
                         .col-sm-10
                             select(required id='warrantyDropdown' name='warrantyDropdown')
@@ -83,7 +82,7 @@ block content
 
                     //Show only on all transaction types, but Accessory
                     .form-group
-                        .col-sm-1.col-sm-offset-1.text-right.transaction
+                        .col-sm-2.text-right.transaction
                             span.transaction Attached?
                         .col-sm-10
                             select.transact(required id='attached' name='attachedDropdown')
@@ -92,16 +91,17 @@ block content
 
                     //Show on all transaction types
                     .form-group
-                        .col-sm-5.plus-minus-group.move.text-right
+                        .col-sm-3.plus-minus-group.move.text-right
+                                span.metric.pull-left
+                                    | Number of Accessories:
                             .input-group
-                                | Number of Accessories:&nbsp
-                                span.input-group-btn
-                                    button.btn.btn-danger.btn-number(type='button', data-type='minus', data-field='accessoryCount')
-                                        span.glyphicon.glyphicon-minus
-                                input.form-control.input-number.plusminus(type='number', name='accessoryCount', value='0', min='0', max='100')
-                                span.input-group-btn.pull-left
-                                    button.btn.btn-success.btn-number.whitespace(type='button', data-type='plus', data-field='accessoryCount')
-                                        span.glyphicon.glyphicon-plus
+                                    span.input-group-btn
+                                        button.btn.btn-danger.btn-number(type='button', data-type='minus', data-field='accessoryCount')
+                                            span.glyphicon.glyphicon-minus
+                                    input.form-control.input-number.plusminus(type='number', name='accessoryCount', value='0', min='0', max='100')
+                                    span.input-group-btn.pull-left
+                                        button.btn.btn-success.btn-number.whitespace(type='button', data-type='plus', data-field='accessoryCount')
+                                            span.glyphicon.glyphicon-plus
 
 
             .form-group.text-center
@@ -120,8 +120,9 @@ block content
             //Learning Sessions & AOTM
             .form-group
                 .col-sm-5.plus-minus-group.col-sm-offset-1
-                    .input-group.text-right
-                        | Learning Sessions: &nbsp
+                    span.metric.pull-left
+                        | Learning Sessions:
+                    .input-group
                         span.input-group-btn
                             button.btn.btn-danger.btn-number(type='button', data-type='minus', data-field='learningSessionsCount')
                                 span.glyphicon.glyphicon-minus
@@ -130,8 +131,9 @@ block content
                             button.btn.btn-success.btn-number.otherWhitespace(type='button', data-type='plus', data-field='learningSessionsCount')
                                 span.glyphicon.glyphicon-plus
                 .col-sm-4.plus-minus-group.text-left
-                    .input-group.text-right
-                        |&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp AOTM: &nbsp
+                    span.metric.pull-left
+                        | AOTM:
+                    .input-group
                         span.input-group-btn
                             button.btn.btn-danger.btn-number(type='button', data-type='minus', data-field='aotmCount')
                                 span.glyphicon.glyphicon-minus
@@ -143,8 +145,9 @@ block content
             // Credit Card Applications & Critters
             .form-group
                 .col-sm-5.plus-minus-group.col-sm-offset-1
-                    .input-group.text-right
-                        |&nbsp&nbsp C.C Applications: &nbsp
+                    span.metric.pull-left
+                        | C.C Applications:
+                    .input-group
                         span.input-group-btn
                             button.btn.btn-danger.btn-number(type='button', data-type='minus', data-field='creditCardCount')
                                 span.glyphicon.glyphicon-minus
@@ -153,8 +156,9 @@ block content
                             button.btn.btn-success.btn-number.otherWhitespace(type='button', data-type='plus', data-field='creditCardCount')
                                 span.glyphicon.glyphicon-plus
                 .col-sm-4.plus-minus-group.text-left
-                    .input-group.text-right
-                        |&nbsp&nbsp&nbsp&nbsp Critters: &nbsp
+                    span.metric.pull-left
+                        | Critters:
+                    .input-group
                         span.input-group-btn
                             button.btn.btn-danger.btn-number(type='button', data-type='minus', data-field='critterCount')
                                 span.glyphicon.glyphicon-minus
@@ -166,8 +170,9 @@ block content
             // Appointments & Donations
             .form-group
                 .col-sm-5.plus-minus-group.col-sm-offset-1
-                    .input-group.text-right
-                        |&nbsp&nbsp&nbsp&nbsp&nbsp Appointments: &nbsp
+                    span.metric.pull-left
+                        | Appointments:
+                    .input-group
                         span.input-group-btn
                             button.btn.btn-danger.btn-number(type='button', data-type='minus', data-field='appointmentsCount')
                                 span.glyphicon.glyphicon-minus
@@ -176,8 +181,9 @@ block content
                             button.btn.btn-success.btn-number.otherWhitespace(type='button', data-type='plus', data-field='appointmentsCount')
                                 span.glyphicon.glyphicon-plus
                 .col-sm-4.plus-minus-group
-                    .input-group.text-right
-                        | Donations: &nbsp
+                    span.metric.pull-left
+                        | Donations:
+                    .input-group
                         span.input-group-btn
                             button.btn.btn-danger.btn-number(type='button', data-type='minus', data-field='donationsCount')
                                 span.glyphicon.glyphicon-minus

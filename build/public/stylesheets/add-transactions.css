@@ -42,3 +42,45 @@ h1 {
         padding-top: 7px;
     }
 }
+
+.form-group select {
+    padding: 10px 5px;
+    font-size: 14px;
+    width:250px;
+}
+
+.form-group .col-sm-2 {
+    font-size: 16px;
+    padding: 10px 15px;
+}
+
+span.input-group-btn .btn-danger {
+    margin-top: 4px;
+}
+
+span.metric{
+    font-size: 16px;
+    width: 200px;
+    padding: 12px 0px;
+}
+
+.sbs {
+    padding: 10px;
+}
+
+.sbs input[type="checkbox"] {
+    height: 20px;
+    width: 20px;
+    margin-left: 10px;
+    vertical-align: middle;
+}
+
+.sbs span{
+    vertical-align: middle;
+    padding: 10px;
+}
+
+.single-device {
+    padding: 20px 0;
+    border-top: 1px solid #ccc;
+}
