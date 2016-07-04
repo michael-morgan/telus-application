@@ -1,75 +1,74 @@
 extends layout
 
 block content
-    .row
-        .col-md-10.col-sm-10.col-sm-offset-1.col-md-offset-1
-            h1.page-header Modify Users
-    .row
-            if(message)
-                .row
-                    .col-md-12
-                        div.alert.alert-danger(role='alert')
-                            .alert-title
-                                i.fa.fa-exclamation-circle.fa-2x
-                                strong Something went wrong!
-                            p !{message}
-            if(success_messages != null)
-                .row
-                    .col-md-10.col-sm-10.col-sm-offset-1.col-md-offset-1
-                        div.success.alert.alert-success(role='success')
-                            .alert-title
-                                i.fa.fa-check.fa-2x
-                                strong Great!
-                            p !{success_messages}
-            if(error_messages != null)
-                .row
-                    .col-md-12
-                        div.alert.alert-danger(role='alert')
-                            .alert-title
-                                i.fa.fa-exclamation-circle.fa-2x
-                                strong Whoops...
-                            p !{error_messages}
-            if errors
-                ul
-                    for error in errors
-                        li!= error.msg
-             .row
-                 .col-md-10.col-sm-10.col-sm-offset-1.col-md-offset-1
-                    .panel.panel-default.formPanel
-                        .panel-body
-                            .table-responsive
-                                form.form-horizontal(method='post', action='/users/remove', role='form')
-                                    table.table.table-hover
-                                        thead
-                                            tr
-                                                th T Number
-                                                th First Name
-                                                th Last Name
-                                                th Email
-                                                th Title
-                                                th Remove
-                                        tbody
-                                            each user, i in users
-                                                if user.privileged != 5
-                                                    tr
-                                                        td #{user.t_number}
-                                                        td #{user.first_name}
-                                                        td #{user.last_name}
-                                                        td #{user.email}
-                                                        case user.privileged
-                                                            when 2
-                                                                td Assistant Manager
-                                                            when 3
-                                                                td Manager
-                                                            when 4
-                                                                td Area Manager
-                                                            default
-                                                                td Employee
+  .row
+    .col-xs-12.col-md-10.col-md-offset-1
+      h1.page-header Modify Users
+  .row
+    if(message)
+      .row
+        .col-xs-12.col-md-10.col-md-offset-1
+          div.alert.alert-danger(role='alert')
+            .alert-title
+              i.fa.fa-exclamation-circle.fa-2x
+              strong Something went wrong!
+            p !{message}
+    if(success_messages != null)
+      .row
+        .col-xs-12.col-md-10.col-md-offset-1
+          div.success.alert.alert-success(role='success')
+            .alert-title
+              i.fa.fa-check.fa-2x
+              strong Great!
+            p !{success_messages}
+    if(error_messages != null)
+      .row
+        .col-xs-12.col-md-10.col-md-offset-1
+          div.alert.alert-danger(role='alert')
+            .alert-title
+              i.fa.fa-exclamation-circle.fa-2x
+              strong Whoops...
+            p !{error_messages}
+    if errors
+      ul
+        for error in errors
+          li!= error.msg
+  .row
+    .col-xs-12.col-sm-10.col-sm-offset-1
+      .panel.panel-default.formPanel
+        .panel-body
+          .table-responsive
+            form.form-horizontal(method='post', action='/users/remove', role='form')
+              table.table.table-hover
+                thead
+                  tr
+                    th T Number
+                    th First Name
+                    th Last Name
+                    th Email
+                    th Title
+                    th Remove
+                tbody
+                  each user, i in users
+                    if user.privileged != 5
+                      tr
+                        td #{user.t_number}
+                        td #{user.first_name}
+                        td #{user.last_name}
+                        td #{user.email}
+                        case user.privileged
+                          when 2
+                            td Assistant Manager
+                          when 3
+                            td Manager
+                          when 4
+                            td Area Manager
+                          default
+                            td Employee
 
-                                                        td
-                                                            input(name='remove#{user.t_number}' type='checkbox')
-                                    .col-sm-10.col-sm-offset-2
-                                        .col-sm-5
-                                            button.form-btn.btn.btn-danger.btn-lg.btn-block(name='submit', type='submit', value='remove') Remove
-                                        .col-sm-5
-                                            button.form-btn.btn.btn-primary.btn-lg.btn-block(name='submit', type='submit', value='cancel') Cancel
+                        td
+                          input.form-control(name='remove#{user.t_number}' type='checkbox')
+              .col-xs-12.col-sm-5.col-sm-offset-1.m-b-10
+                button.form-btn.btn.btn-danger.btn-lg.btn-block(name='submit', type='submit', value='remove') Remove
+              .col-xs-12.col-sm-5.m-b-10
+                a.form-btn.btn.btn-primary.btn-lg.btn-block(href='/users/', title='Cancel To Dashboard') Cancel
