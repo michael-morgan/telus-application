@@ -1,107 +1,136 @@
 extends ../layout
 
 block append stylesheet
-    link(rel='stylesheet', href='/stylesheets/observations.css')
+  link(rel='stylesheet', href='/stylesheets/observations.css')
 
 block content
-    .row
-        .col-xs-12
-            h1.page-header Observations
-        if(success_messages != null)
-            .col-md-10.col-md-offset-1.col-xs-12
-                div#successMessage.alert.success.alert-success(role='success')
-                    .alert-title
-                        i.fa.fa-check.fa-2x
-                        strong Great!
-                    p !{success_messages}
-    .row#accordion.panel-group(role='tablist', aria-multiselectable='true')
-        //Show list of stores
-        each store, s in stores
-            .col-md-10.col-md-offset-1.col-xs-12
-                .panel.panel-default
-                    .panel-heading.purpleHead(role='tab', id='storeHeading#{s}', data-toggle='collapse', data-target='#storeCollapse#{s}')
-                        .row
-                            .col-xs-10
-                                h3.panel-title
-                                    | Store #: #{store.store_id} #{store.store_name}
-                    .panel-collapse.collapse(role='tabpanel', aria-labelledby='storeHeading#{s}', id='storeCollapse#{s}')
-                        .panel-body
-                            each user, i in users
-                                if user.store_id == store.store_id
-                                    .panel
-                                        .panel-heading.purpleHead
-                                            .row
-                                                .col-xs-10
-                                                    h3.panel-title(role='tab', id='userHeading#{i}', data-toggle='collapse', data-target='#userCollapse#{i}')
-                                                        | #{user.first_name} #{user.last_name}
-                                                .col-xs-2
-                                                    .dropdown.pull-right
-                                                        a.dropdown-toggle#ddMoreOptions(type='button', data-toggle='dropdown', aria-haspopup='true' aria-expanded='true')
-                                                            i.fa.fa-ellipsis-v.fa-2x(aria-hidden='true')
-                                                        ul.dropdown-menu(aria-labelledby='ddMoreOptions')
-                                                            li
-                                                                a(href='/users/profile/' + user.t_number)
-                                                                    | View Profile
-                                                            li
-                                                                a(href='/users/observations/add-observation/' + user.t_number)
-                                                                    | Add Observation
-                                        .panel-collapse.collapse(role='tabpanel', aria-labelledby='userHeading#{i}', id='userCollapse#{i}')
-                                            .panel-body
-                                                //Show list of observations recorded for each user
-                                                each observation, j in observations
-                                                    if (user.t_number == observation.t_number) && (observation.behaviour_desc != undefined)
-                                                        .panel.panel-default(class=((observation.observation_type == 1) ? 'good-observation' : 'bad-observation'), id='observationPanel#{observation.observation_id}')
-                                                            .panel-heading(id='observationHeading#{j}')
-                                                                .row
-                                                                    .col-xs-10.h4(role='tab', data-parent='#accordion', data-toggle='collapse', data-target='#observationCollapse#{j}', aria-expanded='false', aria-controls='observationCollapse#{j}', style='padding: 0; margin: 0;')
-                                                                        //Area for the date
-                                                                        .col-xs-2.padding10tb.text-center
-                                                                            | #{observation.observation_date.toLocaleDateString()}
-                                                                        //Area for the thumbs up or down, based on good/bad
-                                                                        .col-xs-1.padding10tb.text-center
-                                                                            i.fa(class=((observation.observation_type == 1) ? 'fa-thumbs-up' : 'fa-thumbs-down'))
-                                                                        //Area for the observation
-                                                                        .col-xs-9.ellipsis.padding10tb
-                                                                            | #{observation.behaviour_desc}
-                                                                    .col-xs-2
-                                                                        a.btn.btn-danger.btn-block(href='#', onclick='deleteObservation(#{observation.observation_id})')
-                                                                            i.fa.fa-trash-o.fa-lg
-                                                                            span.visible-md-inline.visible-lg-inline  Delete
-                                                            //More details tab
-                                                            .panel-collapse.collapse(role='tabpanel', aria-labelledby='observationHeading#{j}', id='observationCollapse#{j}')
-                                                                .panel-body.padding15tb
-                                                                    .row
-                                                                        //description of the behaviour
-                                                                        .col-sm-12
-                                                                            span.pull-left
-                                                                                strong Description:
-                                                                                | #{observation.behaviour_desc}
-                                                                    .row
-                                                                        //Skill the behaviour belongs to
-                                                                        .col-sm-12
-                                                                            span.pull-left
-                                                                                strong Skill:
-                                                                                | #{observation.skill_title}
-                                                                    //Don't show the comment if it's empty
-                                                                    if observation.observation_comment != ""
-                                                                        .row
-                                                                            //Comments if there were any
-                                                                            .col-sm-12
-                                                                                span.pull-left
-                                                                                    strong Comment:
-                                                                                    | #{observation.observation_comment}
-                                                                    .row
-                                                                        //Time of the observations
-                                                                        .col-sm-12
-                                                                            span.pull-left
-                                                                                strong Time:
-                                                                                | #{observation.observation_date.toLocaleTimeString()}
-                                                                    .row
-                                                                        //Who assigned the observation
-                                                                        .col-sm-12
-                                                                            span.pull-right
-                                                                                strong Observed by:
-                                                                                | #{observation.assigned_by_name}
+  .row
+    .col-xs-12.col-md-10.col-md-offset-1
+      h1.page-header Observations
+    if(success_messages != null)
+      .col-md-10.col-md-offset-1.col-xs-12
+        div#successMessage.alert.success.alert-success(role='success')
+          .alert-title
+            i.fa.fa-check.fa-2x
+            strong Great!
+          p !{success_messages}
+  .row#accordion.panel-group(role='tablist', aria-multiselectable='true')
+    //Show list of stores
+    each store, s in stores
+      .col-md-10.col-md-offset-1.col-xs-12
+        .panel.panel-default
+          .panel-heading.purpleHead(role='tab', id='storeHeading#{s}', data-toggle='collapse', data-target='#storeCollapse#{s}')
+            .row
+              .col-xs-12
+                h3.panel-title
+                  | Store #: #{store.store_id} #{store.store_name}
+          .panel-collapse.collapse(role='tabpanel', aria-labelledby='storeHeading#{s}', id='storeCollapse#{s}')
+            .panel-body
+              each user, i in users
+                if user.store_id == store.store_id
+                  .panel
+                    .panel-heading.purpleHead
+                      .row
+                        .col-xs-10
+                          h3.panel-title(role='tab', id='userHeading#{i}', data-toggle='collapse', data-target='#userCollapse#{i}')
+                            | #{user.first_name} #{user.last_name}
+                        .col-xs-2
+                          .dropdown.pull-right
+                            a.dropdown-toggle#ddMoreOptions(type='button', data-toggle='dropdown', aria-haspopup='true' aria-expanded='true')
+                              i.fa.fa-ellipsis-v.fa-2x(aria-hidden='true')
+                            ul.dropdown-menu(aria-labelledby='ddMoreOptions')
+                              li
+                                a(href='/users/profile/' + user.t_number)
+                                  | View Profile
+                              li
+                                a(href='/users/observations/add-observation/' + user.t_number)
+                                  | Add Observation
+                    .panel-collapse.collapse(role='tabpanel', aria-labelledby='userHeading#{i}', id='userCollapse#{i}')
+                      .panel-body
+                        //Show list of observations recorded for each user
+                        each observation, j in observations
+                          if (user.t_number == observation.t_number) && (observation.behaviour_desc != undefined)
+                            .panel.panel-default(class=((observation.observation_type == 1) ? 'good-observation' : 'bad-observation'), id='observationPanel#{observation.observation_id}')
+                              .panel-heading(id='observationHeading#{j}')
+                                .row.hidden-xs.hidden-sm.visible-md.visible-lg
+                                  .col-xs-10.h4(role='tab', data-parent='#accordion', data-toggle='collapse', data-target='#observationCollapse#{j}', aria-expanded='false', aria-controls='observationCollapse#{j}', style='padding: 0; margin: 0;')
+                                    //Area for the date
+                                    .col-xs-2.padding10tb.text-center
+                                      | #{observation.observation_date.toLocaleDateString()}
+                                    //Area for the thumbs up or down, based on good/bad
+                                    .col-xs-1.padding10tb.text-center
+                                      i.fa(class=((observation.observation_type == 1) ? 'fa-thumbs-up' : 'fa-thumbs-down'))
+                                    //Area for the observation
+                                    .col-xs-9.ellipsis.padding10tb
+                                      | #{observation.behaviour_desc}
+                                  .col-xs-2
+                                    a.btn.btn-danger.btn-block(href='#', onclick='deleteObservation(#{observation.observation_id})')
+                                      i.fa.fa-trash-o.fa-lg
+                                      span.visible-md-inline.visible-lg-inline  Delete
+                                .row.hidden-md.hidden-lg.visible-xs.visible-sm(role='tab', data-parent='#accordion', data-toggle='collapse', data-target='#observationCollapse#{j}', aria-expanded='false', aria-controls='observationCollapse#{j}', style='padding: 0; margin: 0;')
+                                  .col-xs-4.text-center.m-t-5
+                                    | #{observation.observation_date.toLocaleDateString()}
+                                  .col-xs-2.text-center.m-t-5
+                                    i.fa(class=((observation.observation_type == 1) ? 'fa-thumbs-up' : 'fa-thumbs-down'))
+                                  .col-xs-6
+                                    a.btn.btn-danger.btn-block(href='#', onclick='deleteObservation(#{observation.observation_id})')
+                                      i.fa.fa-trash-o.fa-lg
+                                      span.visible-md-inline.visible-lg-inline  Delete
+                                  .col-xs-12.m-t-10
+                                    | #{observation.behaviour_desc}
+                              //More details tab
+                              .panel-collapse.collapse(role='tabpanel', aria-labelledby='observationHeading#{j}', id='observationCollapse#{j}')
+                                .panel-body.padding15tb
+                                  .row
+                                    //description of the behaviour
+                                    .col-xs-12
+                                      span
+                                        strong Description:
+                                        | #{observation.behaviour_desc}
+                                    .col-xs-12
+                                      hr
+                                  .row
+                                    //Skill the behaviour belongs to
+                                    .col-xs-12
+                                      span
+                                        strong Skill:
+                                        | #{observation.skill_title}
+                                    .col-xs-12
+                                      hr
+                                  //Don't show the comment if it's empty
+                                  if observation.observation_comment != ""
+                                    .row
+                                      //Comments if there were any
+                                      .col-xs-12
+                                        span
+                                          strong Comment:
+                                          | #{observation.observation_comment}
+                                      .col-xs-12
+                                        hr
+                                  .row.visible-md.visible-lg.hidden-xs.hidden-sm
+                                    //Time of the observations
+                                    .col-xs-6
+                                      span.pull-left
+                                        strong Time:
+                                        | #{observation.observation_date.toLocaleTimeString()}
+                                    //Who assigned the observation
+                                    .col-xs-6
+                                      span.pull-right
+                                        strong Observed by:
+                                        | #{observation.assigned_by_name}
+                                  .row.visible-xs.visible-sm.hidden-md.hidden-lg
+                                    //Time of the observations
+                                    .col-xs-12
+                                      span
+                                        strong Time:
+                                        | #{observation.observation_date.toLocaleTimeString()}
+                                    .col-xs-12
+                                      hr
+                                    //Who assigned the observation
+                                    .col-xs-12
+                                      span
+                                        strong Observed by:
+                                        | #{observation.assigned_by_name}
 
 block append script
-    script(src='/javascripts/observations/observations.js')
+  script(src='/javascripts/observations/observations.js')

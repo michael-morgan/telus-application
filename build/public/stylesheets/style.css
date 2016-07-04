@@ -18,6 +18,19 @@
 .padding40a{padding:20px}
 .padding80a{padding:20px}
 
+.m-t-5 { margin-top: 5px; }
+.m-b-5 { margin-bottom: 5px; }
+.m-l-5 { margin-left: 5px; }
+.m-r-5 { margin-right: 5px; }
+.m-t-10 { margin-top: 10px; }
+.m-b-10 { margin-bottom: 10px; }
+.m-l-10 { margin-left: 10px; }
+.m-r-10 { margin-right: 10px; }
+.m-t-20 { margin-top: 20px; }
+.m-b-20 { margin-bottom: 20px; }
+.m-l-20 { margin-left: 20px; }
+.m-r-20 { margin-right: 20px; }
+
 .row {
   margin-right: 0 !important;
   margin-left: 0 !important;
