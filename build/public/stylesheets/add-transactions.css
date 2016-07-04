@@ -12,9 +12,9 @@
     white-space: nowrap;
 }
 .input-group-btn.pull-left {
-    padding-top: 4px;
+    padding-top: 3px;
 }
-.col-sm-3.plus-minus-group.move {
+.col-sm-2.plus-minus-group.move, .move {
     margin-left: 6.2em;
 }
 h1 {
@@ -83,4 +83,14 @@ span.metric{
 .single-device {
     padding: 20px 0;
     border-top: 1px solid #ccc;
+}
+
+.show-on-all {
+    display: none;
+}
+.show-if-not-accessory {
+    display: none;
+}
+.show-if-device {
+    display: none;
 }

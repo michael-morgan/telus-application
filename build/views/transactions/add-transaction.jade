@@ -38,19 +38,19 @@ block content
                 .col-sm-2.text-right
                     span.transaction Type:
                 .col-sm-10
-                    select.transact(required id='transactionDropdown' name='transactionDropdown')
+                    select.transact(onchange='ShowHideOptions()' required id='transactionDropdown' name='transactionDropdown')
                         option(disabled selected value='0') Select Transaction Type
                         each transaction, t in transactions
                             option(value='#{transaction.transaction_type_id}') #{transaction.transaction_types}
             //Show only if transaction type is device
             .device-group
                 .single-device
-                    h3.device Device 1
-                    .form-group
+                    h3.device.show-if-device Device 1
+                    .form-group.show-if-device
                         .col-sm-2.text-right.transaction
                             span.transaction Activation Type:
                         .col-sm-10
-                            select.transact(required id='activationDropdown' name='activationDropdown')
+                            select.transact(required id='activationDropdown' name='activationDropdown' )
                                 option(disabled selected value='0') Select Activation Type
                                 each activation, a in activations
                                     option(value='#{activation.activation_type_id}') #{activation.activation_types}
@@ -61,7 +61,7 @@ block content
 
 
                     //Show only if transaction type is device
-                    .form-group
+                    .form-group.show-if-device
                         .col-sm-2.text-right.transaction
                             span.transaction Device Type:
                         .col-sm-10
@@ -71,7 +71,7 @@ block content
                                     option(value='#{device.device_type_id}') #{device.device_types}
 
                     //Show only if transaction type is device
-                    .form-group
+                    .form-group.show-if-device
                         .col-sm-2.text-right.transaction
                             span.transaction Warranty Type:
                         .col-sm-10
@@ -81,7 +81,7 @@ block content
                                     option(value='#{warranty.warranty_type_id}') #{warranty.warranty_types}
 
                     //Show only on all transaction types, but Accessory
-                    .form-group
+                    .form-group.show-if-not-accessory
                         .col-sm-2.text-right.transaction
                             span.transaction Attached?
                         .col-sm-10
@@ -90,8 +90,8 @@ block content
                                 option(value='yes') Yes
 
                     //Show on all transaction types
-                    .form-group
-                        .col-sm-3.plus-minus-group.move.text-right
+                    .form-group.show-on-all
+                        .col-sm-2.plus-minus-group.move.text-right
                                 span.metric.pull-left
                                     | Number of Accessories:
                             .input-group
@@ -104,14 +104,14 @@ block content
                                             span.glyphicon.glyphicon-plus
 
 
-            .form-group.text-center
+            .form-group.text-center.show-if-device
                 .col-lg-2.col-lg-offset-1
                     button#addDevice.form-btn.btn.btn-lg.btn-primary.btn-block(name='addDevice', type='button', onclick='addDevices()') Add Device
 
             hr
 
             //Show on all transaction types
-            .form-group
+            .form-group.show-on-all
                 .col-sm-10.col-sm-offset-1
                     input.form-control.formInput.input-number(name='revenueText', placeholder='Revenue', type='text', min='0', max='1000000')
 

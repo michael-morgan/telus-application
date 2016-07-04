@@ -87,6 +87,23 @@ function addDevices() {
     loadButtons();
 }
 
-
+$("#transactionDropdown").change(function () {
+    var selector = document.getElementById('transactionDropdown');
+    if (selector.value == "1") {
+        $('.show-if-device').attr('style','display: initial');
+    }
+    else if (selector.value == "2") {
+        $('.show-if-not-accessory').attr('style', 'display: none');
+        $('.show-if-device').attr('style','display: none');
+    }
+    if (selector.value != "1") {
+        $('.show-if-device').attr('style', 'display: none');
+        //call method for removing extra devices setup, here Brad.
+    }
+    if (selector.value != "2") {
+        $('.show-if-not-accessory').attr('style', 'display: initial');
+    }
+        $('.show-on-all').attr('style','display: initial');
+});
 
 
