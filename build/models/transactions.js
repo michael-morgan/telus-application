@@ -10,6 +10,26 @@ exports.getTransactions = function(done) {
     });
 };
 
+exports.getTransactionss = function(done) {
+    connection.get().query('SELECT * FROM transactions', function(error, result) {
+        if(error) {
+            return done(error);
+        }
+
+        done(null, result);
+    });
+};
+
+exports.getTransactionItems = function(done) {
+    connection.get().query('SELECT * FROM transaction_items', function(error, result) {
+        if(error) {
+            return done(error);
+        }
+
+        done(null, result);
+    });
+};
+
 exports.getActivation = function(done) {
     connection.get().query('SELECT * FROM activation_types', function(error, result) {
         if(error) {

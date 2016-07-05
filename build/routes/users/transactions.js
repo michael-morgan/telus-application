@@ -4,6 +4,7 @@ var passport = require('passport');
 var async = require('async');
 
 var userModel = require('../../models/user');
+var storeModel = require('../../models/store');
 var transactionModel = require('../../models/transactions');
 
 var router = express.Router();
@@ -22,8 +23,51 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
         return res.redirect('/users/');
     }
 
-    res.render('transactions/transactions', {
-        title: 'Transaction History'
+    var returnObj = { title: 'Transaction History' };
+
+    storeModel.getStores(function(err, result) {
+        if(err) {
+            throw next(err);
+        }
+
+        returnObj['stores'] = result;
+
+        transactionModel.getTransactionss(function(err, result) {
+            if(err) {
+                throw next(err);
+            }
+
+            returnObj['transactions'] = result;
+
+            transactionModel.getTransactionItems(function(err, result) {
+                if(err) {
+                    throw next(err);
+                }
+
+                returnObj['transactionItems'] = result;
+
+                returnObj['stores'].forEach(function(storeVal, storeIndex) {
+                    returnObj['stores'][storeIndex]['transactions'] = returnObj['transactions'].filter(function(transVal) {
+                        return transVal.store_id === storeVal.store_id;
+                    });
+
+                    returnObj['stores'][storeIndex]['transactions'].forEach(function(transVal, transIndex) {
+                        returnObj['stores'][storeIndex]['transactions'][transIndex]['transactionItems'] = returnObj['transactionItems']
+                            .filter(function(transItemVal) {
+                            return transItemVal.transaction_id === transVal.transaction_id;
+                        });
+
+                        returnObj['stores'][storeIndex]['transactions'][transIndex]['totalRevenue'] = 0;
+                        returnObj['stores'][storeIndex]['transactions'][transIndex]['transactionItems'].forEach(function(transItemVal) {
+                            returnObj['stores'][storeIndex]['transactions'][transIndex]['totalRevenue'] += transItemVal.revenue;
+                        });
+                    });
+                });
+
+                returnObj['storesObj'] = JSON.stringify(returnObj['stores']);
+                return res.render('transactions/transactions', returnObj);
+            });
+        });
     });
 });
 
@@ -83,7 +127,7 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
 
     //For transactions
     var t_number = undefined;
-    var store_id = undefined
+    var store_id = undefined;
     var currentDate = undefined;
     var transaction_type = undefined;
 
@@ -100,7 +144,7 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
     var hasMetrics = false;
     var hasItems = false;
 
-    var learning_sessions = undefined
+    var learning_sessions = undefined;
     var learning_sessions_count = data.learningSessionsCount; // Get the value from the input
     //Assign corresponding id if the value is greater than 0
     if (learning_sessions_count > 0) {
@@ -108,7 +152,7 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
         hasMetrics = true;
     }
 
-    var credit_card = undefined
+    var credit_card = undefined;
     var credit_card_count = data.creditCardCount; // Get the value from the input
     //Assign corresponding id if the value is greater than 0
     if (credit_card_count > 0) {
@@ -116,7 +160,7 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
         hasMetrics = true;
     }
 
-    var appointments = undefined
+    var appointments = undefined;
     var appointments_count = data.appointmentsCount; // Get the value from the input
     //Assign corresponding id if the value is greater than 0
     if (appointments_count > 0) {
@@ -124,7 +168,7 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
         hasMetrics = true;
     }
 
-    var aotm = undefined
+    var aotm = undefined;
     var aotm_count = data.aotmCount; // Get the value from the input
     //Assign corresponding id if the value is greater than 0
     if (aotm_count > 0) {
@@ -132,7 +176,7 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
         hasMetrics = true;
     }
 
-    var critters = undefined
+    var critters = undefined;
     var critters_count = data.crittersCount; // Get the value from the input
     //Assign corresponding id if the value is greater than 0
     if (critters_count > 0) {
@@ -140,7 +184,7 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
         hasMetrics = true;
     }
 
-    var donations = undefined
+    var donations = undefined;
     var donations_count = data.donationsCount; // Get the value from the input
     //Assign corresponding id if the value is greater than 0
     if (donations_count > 0) {

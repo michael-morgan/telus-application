@@ -559,7 +559,7 @@ CREATE TABLE `transactions` (
 USE build_db;
 LOCK TABLES `transactions` WRITE;
 /*!40000 ALTER TABLE `transactions` DISABLE KEYS */;
-INSERT INTO `transactions` VALUES (1,'t111111','6529','0016-02-01', 1),(2,'t901159','6529','0016-02-03', 1),(3,'t901159','6529','0016-02-05', 2); 
+INSERT INTO `transactions` VALUES (1,'t111111','6529','2016-02-01', 1),(2,'t901159','6529','2016-02-03', 1),(3,'t901159','6529','2016-02-05', 2); 
 /*!40000 ALTER TABLE `transactions` ENABLE KEYS */;
 UNLOCK TABLES;
 

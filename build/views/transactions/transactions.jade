@@ -117,91 +117,100 @@ block content
                       span(style='margin-left: 5px;') Patrick Richey
     .col-xs-12.col-lg-10.col-lg-offset-1
       hr
+
+
   .row
     .panel-group(role='tablist', aria-multiselectable='true')
-      .col-xs-12.col-lg-10.col-lg-offset-1
-        .panel.panel-default
-          .panel-heading.purpleHead(role='tab', id='storeHeading', data-toggle='collapse', data-target='#storeCollapse')
-            .row
-              .col-xs-12
-                h3.panel-title(style='font-size: 24px;')
-                  | Store #: 6529 Alliston Mills Shopping Centre
-          .panel-collapse.collapse(role='tabpanel', aria-labelledby='storeHeading', id='storeCollapse')
-            .panel-body
-              .panel
-                .panel-heading.purpleHead
-                  .row(role='tab', id='transactionHeading0', data-toggle='collapse', data-target='#transactionCollapse0')
-                    .col-xs-4
-                      h4.panel-title
-                        | 06/27/2016
-                    .col-xs-4.text-center
-                      h4.panel-title
-                        | 1 Device
-                    .col-xs-4
-                      .pull-right
-                        .col-xs-8(style='padding:0;')
+      each store, storeIndex in stores
+        .col-xs-12.col-lg-10.col-lg-offset-1
+          .panel.panel-default
+            .panel-heading.purpleHead(role='tab', id='storeHeading#{storeIndex}', data-toggle='collapse', data-target='#storeCollapse#{storeIndex}')
+              .row
+                .col-xs-12
+                  h3.panel-title(style='font-size: 24px;')
+                    | #{store.store_name}
+            .panel-collapse.collapse(role='tabpanel', aria-labelledby='storeHeading#{storeIndex}', id='storeCollapse#{storeIndex}')
+              .panel-body
+                each transaction, transIndex in stores[storeIndex].transactions
+                  .panel
+                    .panel-heading.purpleHead
+                      .row(role='tab', id='transactionHeading#{transIndex}', data-toggle='collapse', data-target='#transactionCollapse#{transIndex}')
+                        .col-xs-4
                           h4.panel-title
-                            | $59.99
-                        .col-xs-4(style='padding:0;')
-                          if user.privileged >= 3
-                            .dropdown(style='margin-top:6px;')
-                              a.dropdown-toggle#ddMoreOptions(type='button', data-toggle='dropdown', aria-haspopup='true' aria-expanded='true')
-                                i.fa.fa-ellipsis-v.fa-2x(aria-hidden='true')
-                              ul.dropdown-menu(aria-labelledby='ddMoreOptions')
-                                li
-                                  a(href='#')
-                                    | Edit Transaction
-                                li
-                                  a(href='#')
-                                    | Remove Transaction
-                .panel-collapse.collapse(role='tabpanel', aria-labelledby='transactionHeading0', id='transactionCollapse0')
-                  .panel-body
-                    .col-xs-12.col-sm-6.col-md-4
-                      strong Transaction Type:
-                      span(style='margin-left: 5px;') Device
-                    .col-xs-12.col-sm-6.col-md-4
-                      strong Warranty Type:
-                      span(style='margin-left: 5px;') Device Care
-                    .col-xs-12.col-sm-6.col-md-4
-                      strong Learning Sessions:
-                      span(style='margin-left: 5px;') 1
-                    .col-xs-12.col-sm-6.col-md-4
-                      strong Sale Type:
-                      span(style='margin-left: 5px;') New Activation
-                    .col-xs-12.col-sm-6.col-md-4
-                      strong Attach (Yes/No):
-                      span(style='margin-left: 5px;') Yes
-                    .col-xs-12.col-sm-6.col-md-4
-                      strong AOTMs Sold:
-                      span(style='margin-left: 5px;') 1
-                    .col-xs-12.col-sm-6.col-md-4
-                      strong Device Type:
-                      span(style='margin-left: 5px;') Android
-                    .col-xs-12.col-sm-6.col-md-4
-                      strong Revenue:
-                      span(style='margin-left: 5px;') $79.99
-                    .col-xs-12.col-sm-6.col-md-4
-                      strong Critters Sold:
-                      span(style='margin-left: 5px;') 0
-                    .col-xs-12.col-sm-6.col-md-4
-                      strong SBS Activation (Yes/No):
-                      span(style='margin-left: 5px;') Yes
-                    .col-xs-12.col-sm-6.col-md-4
-                      strong Number of Accessories:
-                      span(style='margin-left: 5px;') 1
-                    .col-xs-12.col-sm-6.col-md-4
-                      strong Credit Card Apps:
-                      span(style='margin-left: 5px;') 1
-                    .col-xs-6(style='margin-top: 25px;')
-                      .pull-left
-                        strong Time:
-                        span(style='margin-left: 5px;') 6:48 PM
-                    .col-xs-6(style='margin-top: 25px;')
-                      .pull-right
-                        strong Completed By:
-                        span(style='margin-left: 5px;') Patrick Richey
+                            | #{transaction.transaction_date.toLocaleDateString()}
+                        .col-xs-4.text-center
+                          h4.panel-title
+                            | #{transaction.transactionItems.length} Item(s)
+                        .col-xs-4
+                          .pull-right
+                            .col-xs-8(style='padding:0;')
+                              h4.panel-title
+                                | #{transaction.totalRevenue.toLocaleString('en-CA', { style: 'currency', currency: 'CAD' })}
+                            .col-xs-4(style='padding:0;')
+                              if user.privileged >= 3
+                                .dropdown(style='margin-top:6px;')
+                                  a.dropdown-toggle#ddMoreOptions(type='button', data-toggle='dropdown', aria-haspopup='true' aria-expanded='true')
+                                    i.fa.fa-ellipsis-v.fa-2x(aria-hidden='true')
+                                  ul.dropdown-menu(aria-labelledby='ddMoreOptions')
+                                    li
+                                      a(href='#')
+                                        | Edit Transaction
+                                    li
+                                      a(href='#')
+                                        | Remove Transaction
+                    .panel-collapse.collapse(role='tabpanel', aria-labelledby='transactionHeading#{transIndex}', id='transactionCollapse#{transIndex}')
+                      .panel-body
+                        each transactionItem, transItemIndex in transaction.transactionItems
+                          .col-xs-12.col-sm-6.col-md-4
+                            strong Transaction Type:
+                            span(style='margin-left: 5px;') #{transaction.transaction_type}
+                          .col-xs-12.col-sm-6.col-md-4
+                            strong Warranty Type:
+                            span(style='margin-left: 5px;') #{transactionItem.warranty_type}
+                          .col-xs-12.col-sm-6.col-md-4
+                            strong Learning Sessions:
+                            span(style='margin-left: 5px;') 1
+                          .col-xs-12.col-sm-6.col-md-4
+                            strong Sale Type:
+                            span(style='margin-left: 5px;') #{transactionItem.activation_type}
+                          .col-xs-12.col-sm-6.col-md-4
+                            strong Attach (Yes/No):
+                            span(style='margin-left: 5px;') #{transactionItem.attachments}
+                          .col-xs-12.col-sm-6.col-md-4
+                            strong AOTMs Sold:
+                            span(style='margin-left: 5px;') 1
+                          .col-xs-12.col-sm-6.col-md-4
+                            strong Device Type:
+                            span(style='margin-left: 5px;') #{transactionItem.device_type}
+                          .col-xs-12.col-sm-6.col-md-4
+                            strong Revenue:
+                            span(style='margin-left: 5px;') #{transactionItem.revenue.toLocaleString('en-CA', { style: 'currency', currency: 'CAD' })}
+                          .col-xs-12.col-sm-6.col-md-4
+                            strong Critters Sold:
+                            span(style='margin-left: 5px;') 0
+                          .col-xs-12.col-sm-6.col-md-4
+                            strong SBS Activation (Yes/No):
+                            span(style='margin-left: 5px;') #{transactionItem.sbs_activation}
+                          .col-xs-12.col-sm-6.col-md-4
+                            strong Number of Accessories:
+                            span(style='margin-left: 5px;') #{transactionItem.num_of_accessories}
+                          .col-xs-12.col-sm-6.col-md-4
+                            strong Credit Card Apps:
+                            span(style='margin-left: 5px;') 1
+                          .col-xs-6(style='margin-top: 25px;')
+                            .pull-left
+                              strong Time:
+                              span(style='margin-left: 5px;') #{transaction.transaction_date.toLocaleDateString()}
+                          .col-xs-6(style='margin-top: 25px;')
+                            .pull-right
+                              strong Completed By:
+                              span(style='margin-left: 5px;') #{transaction.t_number}
+                          .col-xs-12
+                            hr
 
 block append script
   script(src='/bower_components/bootstrap-daterangepicker/moment.min.js')
   script(src='/bower_components/bootstrap-daterangepicker/daterangepicker.js')
   script(src='/javascripts/transactions/transactions.js')
+  script.
+    var storeObj = JSON.parse('!{storesObj}');
