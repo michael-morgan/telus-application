@@ -65,7 +65,15 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
                 });
 
                 returnObj['storesObj'] = JSON.stringify(returnObj['stores']);
-                return res.render('transactions/transactions', returnObj);
+
+                userModel.getAll(function(err, result) {
+                    if(err) {
+                        throw next(err);
+                    }
+
+                    returnObj['users'] = result;
+                    return res.render('transactions/transactions', returnObj);
+                });
             });
         });
     });

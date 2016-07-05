@@ -19,15 +19,13 @@ block content
     .col-xs-12.col-sm-4.col-lg-2.col-lg-offset-1
       label(for='store') Store:
       select.form-control(id='store', name='store')
-        option(value='0') Barrie
-        option(value='1') Toronto
-        option(value='2') Guelph
+        each store, storeIndex in stores
+          option(value='#{store.store_id}') #{store.store_name}
     .col-xs-12.col-sm-4.col-lg-2
       label(for='teamMember') Team Member:
       select.form-control(id='teamMember', name='teamMember')
-        option(value='0') Michael
-        option(value='1') Patrick
-        option(value='2') Bradley
+        each user, userIndex in users
+          option(value='#{user.t_number}') #{user.first_name} #{user.last_name}
     .col-xs-12.col-sm-4.col-lg-3.col-lg-offset-3
       label(for='dateRange') Date Range:
       .input-group
@@ -117,7 +115,6 @@ block content
                       span(style='margin-left: 5px;') Patrick Richey
     .col-xs-12.col-lg-10.col-lg-offset-1
       hr
-
 
   .row
     .panel-group(role='tablist', aria-multiselectable='true')
