@@ -64,18 +64,26 @@ block content
                                     .col-xs-9.ellipsis.padding10tb
                                       | #{observation.behaviour_desc}
                                   .col-xs-2
-                                    a.btn.btn-danger.btn-block(href='#', onclick='deleteObservation(#{observation.observation_id})')
-                                      i.fa.fa-trash-o.fa-lg
-                                      span.visible-md-inline.visible-lg-inline  Delete
+                                    .dropdown.pull-right.m-t-5
+                                      a.dropdown-toggle#ddMoreOptions(type='button', data-toggle='dropdown', aria-haspopup='true' aria-expanded='true', style='color: initial;')
+                                        i.fa.fa-ellipsis-v.fa-2x(aria-hidden='true')
+                                      ul.dropdown-menu(aria-labelledby='ddMoreOptions')
+                                        li
+                                          a(href='#', onclick='deleteObservation(#{observation.observation_id})')
+                                            | Delete
                                 .row.hidden-md.hidden-lg.visible-xs.visible-sm(role='tab', data-parent='#accordion', data-toggle='collapse', data-target='#observationCollapse#{j}', aria-expanded='false', aria-controls='observationCollapse#{j}', style='padding: 0; margin: 0;')
                                   .col-xs-4.text-center.m-t-5
                                     | #{observation.observation_date.toLocaleDateString()}
                                   .col-xs-2.text-center.m-t-5
                                     i.fa(class=((observation.observation_type == 1) ? 'fa-thumbs-up' : 'fa-thumbs-down'))
                                   .col-xs-6
-                                    a.btn.btn-danger.btn-block(href='#', onclick='deleteObservation(#{observation.observation_id})')
-                                      i.fa.fa-trash-o.fa-lg
-                                      span.visible-md-inline.visible-lg-inline  Delete
+                                    .dropdown.pull-right.m-t-5
+                                      a.dropdown-toggle#ddMoreOptions(type='button', data-toggle='dropdown', aria-haspopup='true' aria-expanded='true', style='color: initial;')
+                                        i.fa.fa-ellipsis-v.fa-2x(aria-hidden='true')
+                                      ul.dropdown-menu(aria-labelledby='ddMoreOptions')
+                                        li
+                                          a(href='#', onclick='deleteObservation(#{observation.observation_id})')
+                                            | Delete
                                   .col-xs-12.m-t-10
                                     | #{observation.behaviour_desc}
                               //More details tab
