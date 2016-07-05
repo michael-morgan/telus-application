@@ -60,6 +60,16 @@ exports.getWarranty = function(done) {
     });
 };
 
+exports.getTransactionTypes = function(done) {
+    connection.get().query('SELECT * FROM transaction_types', function(error, result) {
+        if(error) {
+            return done(error);
+        }
+
+        done(null, result);
+    });
+};
+
 
 exports.getSbs = function(done) {
     connection.get().query('SELECT * FROM sbs_returns_exchanges_discounts', function(error, result) {

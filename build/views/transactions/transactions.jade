@@ -160,25 +160,25 @@ block content
                         each transactionItem, transItemIndex in transaction.transactionItems
                           .col-xs-12.col-sm-6.col-md-4
                             strong Transaction Type:
-                            span(style='margin-left: 5px;') #{transaction.transaction_type}
+                            span(style='margin-left: 5px;') #{transactionItem.transaction}
                           .col-xs-12.col-sm-6.col-md-4
                             strong Warranty Type:
-                            span(style='margin-left: 5px;') #{transactionItem.warranty_type}
+                            span(style='margin-left: 5px;') #{transactionItem.warranty}
                           .col-xs-12.col-sm-6.col-md-4
                             strong Learning Sessions:
                             span(style='margin-left: 5px;') 1
                           .col-xs-12.col-sm-6.col-md-4
                             strong Sale Type:
-                            span(style='margin-left: 5px;') #{transactionItem.activation_type}
+                            span(style='margin-left: 5px;') #{transactionItem.activation}
                           .col-xs-12.col-sm-6.col-md-4
                             strong Attach (Yes/No):
-                            span(style='margin-left: 5px;') #{transactionItem.attachments}
+                            span(style='margin-left: 5px;') #{transactionItem.attachments.data === 1 ? 'Yes' : 'No'}
                           .col-xs-12.col-sm-6.col-md-4
                             strong AOTMs Sold:
                             span(style='margin-left: 5px;') 1
                           .col-xs-12.col-sm-6.col-md-4
                             strong Device Type:
-                            span(style='margin-left: 5px;') #{transactionItem.device_type}
+                            span(style='margin-left: 5px;') #{transactionItem.device}
                           .col-xs-12.col-sm-6.col-md-4
                             strong Revenue:
                             span(style='margin-left: 5px;') #{transactionItem.revenue.toLocaleString('en-CA', { style: 'currency', currency: 'CAD' })}
@@ -187,10 +187,10 @@ block content
                             span(style='margin-left: 5px;') 0
                           .col-xs-12.col-sm-6.col-md-4
                             strong SBS Activation (Yes/No):
-                            span(style='margin-left: 5px;') #{transactionItem.sbs_activation}
+                            span(style='margin-left: 5px;') #{transactionItem.sbs_activation === 1 ? 'Yes' : 'No'}
                           .col-xs-12.col-sm-6.col-md-4
                             strong Number of Accessories:
-                            span(style='margin-left: 5px;') #{transactionItem.num_of_accessories}
+                            span(style='margin-left: 5px;') #{transactionItem.number_of_accessories}
                           .col-xs-12.col-sm-6.col-md-4
                             strong Credit Card Apps:
                             span(style='margin-left: 5px;') 1
@@ -201,7 +201,10 @@ block content
                           .col-xs-6(style='margin-top: 25px;')
                             .pull-right
                               strong Completed By:
-                              span(style='margin-left: 5px;') #{transaction.t_number}
+                              span(style='margin-left: 5px;')
+                                each user, userIndex in users
+                                  if user.t_number === transaction.t_number
+                                    | #{user.first_name} #{user.last_name}
                           .col-xs-12
                             hr
 
