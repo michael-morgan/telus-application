@@ -550,7 +550,11 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
      */
 
     function pageRedirect(fnCallback) {
-        res.redirect('/users/transactions');
+        if(req.body.saveTransactionNew == undefined){
+            res.redirect('/users/transactions');
+        } else {
+            res.redirect('/users/transactions/add-transaction');
+        }
 
         fnCallback(null);
     }
