@@ -43,7 +43,7 @@ h1 {
     }
 }
 
-.form-group select {
+.form-group select, .form-group input {
     padding: 10px 5px;
     font-size: 14px;
     width:250px;

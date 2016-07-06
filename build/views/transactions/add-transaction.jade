@@ -91,17 +91,11 @@ block content
 
                     //Show on all transaction types
                     .form-group.show-on-all
-                        .col-sm-2.plus-minus-group.move.text-right
-                                span.metric.pull-left
+                        .col-sm-2.text-right.transaction
+                                span.transaction
                                     | Number of Accessories:
-                            .input-group
-                                    span.input-group-btn
-                                        button.btn.btn-danger.btn-number(type='button', data-type='minus', data-field='accessoryCount')
-                                            span.glyphicon.glyphicon-minus
-                                    input.form-control.input-number.plusminus(type='number', name='accessoryCount', value='0', min='0', max='100')
-                                    span.input-group-btn.pull-left
-                                        button.btn.btn-success.btn-number.whitespace(type='button', data-type='plus', data-field='accessoryCount')
-                                            span.glyphicon.glyphicon-plus
+                        .col-sm-10
+                            input.form-control.input-number(type='number', name='accessoryCount', value='0', min='0', max='100')
 
 
             .form-group.text-center.show-if-device
