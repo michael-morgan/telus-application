@@ -94,3 +94,7 @@ span.metric{
 .show-if-device {
     display: none;
 }
+
+.plus-minus-group {
+    margin-top: 5px;
+}
