@@ -208,17 +208,25 @@ block content
                             span(style='margin-left: 5px;') #{transactionItem.number_of_accessories}
                           .col-xs-12.col-sm-6.col-md-4
                             strong Credit Card Apps:
-                            span(style='margin-left: 5px;') 1
-                          .col-xs-12.col-sm-6.col-md-4.col-md-offset-8
-                            strong Appointments:
-                            span(style='margin-left: 5px;') 1
-                          .col-xs-12.col-sm-6.col-md-4.col-md-offset-8
-                            strong Donations:
-                            span(style='margin-left: 5px;') 1
-
                             span(style='margin-left: 5px;')
                               each learning, learningIndex in transaction.additionalMetricItems
                                 if learning.additional_metrics_items_type === 6
+                                  | #{learning.additional_metrics_items_count}
+                                else
+                                  | 0
+                          .col-xs-12.col-sm-6.col-md-4.col-md-offset-8
+                            strong Appointments:
+                            span(style='margin-left: 5px;')
+                              each learning, learningIndex in transaction.additionalMetricItems
+                                if learning.additional_metrics_items_type === 3
+                                  | #{learning.additional_metrics_items_count}
+                                else
+                                  | 0
+                          .col-xs-12.col-sm-6.col-md-4.col-md-offset-8
+                            strong Donations:
+                            span(style='margin-left: 5px;')
+                              each learning, learningIndex in transaction.additionalMetricItems
+                                if learning.additional_metrics_items_type === 5
                                   | #{learning.additional_metrics_items_count}
                                 else
                                   | 0
