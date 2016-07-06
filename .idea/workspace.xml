@@ -3,9 +3,13 @@
   <component name="ChangeListManager">
     <list default="true" id="28022f20-65db-4f13-84a7-aa69821504c8" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/public/javascripts/observations/observations.js" afterPath="$PROJECT_DIR$/build/public/javascripts/observations/observations.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/models/transactions.js" afterPath="$PROJECT_DIR$/build/models/transactions.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/public/javascripts/transactions/transactions.js" afterPath="$PROJECT_DIR$/build/public/javascripts/transactions/transactions.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/views/observations/observations.jade" afterPath="$PROJECT_DIR$/build/views/observations/observations.jade" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/public/stylesheets/add-transactions.css" afterPath="$PROJECT_DIR$/build/public/stylesheets/add-transactions.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/routes/users/transactions.js" afterPath="$PROJECT_DIR$/build/routes/users/transactions.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/views/layout.jade" afterPath="$PROJECT_DIR$/build/views/layout.jade" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/views/transactions/add-transaction.jade" afterPath="$PROJECT_DIR$/build/views/transactions/add-transaction.jade" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/views/transactions/transactions.jade" afterPath="$PROJECT_DIR$/build/views/transactions/transactions.jade" />
     </list>
     <ignored path="telus-application.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -56,11 +60,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="transactions.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="transactions.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/build/public/javascripts/transactions/transactions.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="5" column="6" selection-start-line="5" selection-start-column="6" selection-end-line="5" selection-end-column="6" />
+            <state relative-caret-position="170">
+              <caret line="10" column="32" selection-start-line="10" selection-start-column="32" selection-end-line="10" selection-end-column="32" />
               <folding />
             </state>
           </provider>
@@ -79,8 +83,8 @@
       <file leaf-file-name="transactions.jade" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/build/views/transactions/transactions.jade">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="476">
-              <caret line="28" column="4" selection-start-line="28" selection-start-column="4" selection-end-line="28" selection-end-column="48" />
+            <state relative-caret-position="459">
+              <caret line="27" column="4" selection-start-line="27" selection-start-column="4" selection-end-line="27" selection-end-column="4" />
               <folding />
             </state>
           </provider>
@@ -96,7 +100,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="observations.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="observations.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/build/public/javascripts/observations/observations.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="170">
@@ -143,10 +147,10 @@
         <option value="$PROJECT_DIR$/build/public/stylesheets/style.css" />
         <option value="$PROJECT_DIR$/build/public/stylesheets/binder.css" />
         <option value="$PROJECT_DIR$/build/views/transactions/transactions.jade" />
-        <option value="$PROJECT_DIR$/build/public/javascripts/transactions/transactions.js" />
         <option value="$PROJECT_DIR$/build/views/observations/observations.jade" />
         <option value="$PROJECT_DIR$/build/routes/users/observations.js" />
         <option value="$PROJECT_DIR$/build/public/javascripts/observations/observations.js" />
+        <option value="$PROJECT_DIR$/build/public/javascripts/transactions/transactions.js" />
       </list>
     </option>
   </component>
@@ -583,12 +587,12 @@
       <workItem from="1464749836528" duration="1092000" />
       <workItem from="1464808044045" duration="16450000" />
       <workItem from="1465850005389" duration="2637000" />
-      <workItem from="1467770461087" duration="5197000" />
+      <workItem from="1467770461087" duration="5580000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="27034000" />
+    <option name="totallyTimeSpent" value="27417000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1696" height="1036" extended-state="6" />
@@ -817,14 +821,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/build/public/javascripts/transactions/transactions.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="6" selection-start-line="5" selection-start-column="6" selection-end-line="5" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/build/views/observations/observations.jade">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="374">
@@ -835,8 +831,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/build/views/transactions/transactions.jade">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="28" column="4" selection-start-line="28" selection-start-column="4" selection-end-line="28" selection-end-column="48" />
+        <state relative-caret-position="459">
+          <caret line="27" column="4" selection-start-line="27" selection-start-column="4" selection-end-line="27" selection-end-column="4" />
           <folding />
         </state>
       </provider>
@@ -853,6 +849,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
           <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build/public/javascripts/transactions/transactions.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="32" selection-start-line="10" selection-start-column="32" selection-end-line="10" selection-end-column="32" />
           <folding />
         </state>
       </provider>

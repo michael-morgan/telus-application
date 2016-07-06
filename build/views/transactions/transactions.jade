@@ -8,13 +8,12 @@ block content
   .row
     .col-xs-12.col-md-10.col-md-offset-1
       h1.page-header #{title}
-    if(success_messages != null)
       .col-md-10.col-md-offset-1.col-xs-12
         div#successMessage.alert.success.alert-success(role='success')
           .alert-title
             i.fa.fa-check.fa-2x
             strong Great!
-          p !{success_messages}
+          p#successParagraph !{success_messages}
   .row.form-group
     .col-xs-12.col-sm-4.col-lg-2.col-lg-offset-1
       label(for='store') Store:
@@ -129,30 +128,29 @@ block content
             .panel-collapse.collapse(role='tabpanel', aria-labelledby='storeHeading#{storeIndex}', id='storeCollapse#{storeIndex}')
               .panel-body
                 each transaction, transIndex in stores[storeIndex].transactions
-                  form.form-horizontal(id='transactionID#{transaction.transaction_id}' method='post', role='form')
-                    .panel
-                      .panel-heading.purpleHead
-                        .row(role='tab', id='transactionHeading#{transIndex}', data-toggle='collapse', data-target='#transactionCollapse#{transIndex}')
-                          .col-xs-4
-                            h4.panel-title
-                              | #{transaction.transaction_date.toLocaleDateString()}
-                          .col-xs-4.text-center
-                            h4.panel-title
-                              | #{transaction.transactionItems.length} Item(s)
-                          .col-xs-4
-                            .pull-right
-                              .col-xs-8(style='padding:0;')
-                                h4.panel-title
-                                  | #{transaction.totalRevenue.toLocaleString('en-CA', { style: 'currency', currency: 'CAD' })}
-                              .col-xs-4(style='padding:0;')
-                                if user.privileged >= 3
-                                  .dropdown(style='margin-top:6px;')
-                                    a.dropdown-toggle#ddMoreOptions(type='button', data-toggle='dropdown', aria-haspopup='true' aria-expanded='true')
-                                      i.fa.fa-ellipsis-v.fa-2x(aria-hidden='true')
-                                    ul.dropdown-menu(aria-labelledby='ddMoreOptions')
-                                      li
-                                        a(href='#' onclick='deleteTransaction(#{transaction.transaction_id})')
-                                          | Remove Transaction
+                  .panel(id='transactionID#{transaction.transaction_id}')
+                    .panel-heading.purpleHead
+                      .row(role='tab', id='transactionHeading#{transIndex}', data-toggle='collapse', data-target='#transactionCollapse#{transIndex}')
+                        .col-xs-4
+                          h4.panel-title
+                            | #{transaction.transaction_date.toLocaleDateString()}
+                        .col-xs-4.text-center
+                          h4.panel-title
+                            | #{transaction.transactionItems.length} Item(s)
+                        .col-xs-4
+                          .pull-right
+                            .col-xs-8(style='padding:0;')
+                              h4.panel-title
+                                | #{transaction.totalRevenue.toLocaleString('en-CA', { style: 'currency', currency: 'CAD' })}
+                            .col-xs-4(style='padding:0;')
+                              if user.privileged >= 3
+                                .dropdown(style='margin-top:6px;')
+                                  a.dropdown-toggle#ddMoreOptions(type='button', data-toggle='dropdown', aria-haspopup='true' aria-expanded='true')
+                                    i.fa.fa-ellipsis-v.fa-2x(aria-hidden='true')
+                                  ul.dropdown-menu(aria-labelledby='ddMoreOptions')
+                                    li
+                                      a(href='#' onclick='deleteTransaction(#{transaction.transaction_id})')
+                                        | Remove Transaction
                     .panel-collapse.collapse(role='tabpanel', aria-labelledby='transactionHeading#{transIndex}', id='transactionCollapse#{transIndex}')
                       .panel-body
                         each transactionItem, transItemIndex in transaction.transactionItems
@@ -206,17 +204,25 @@ block content
                             span(style='margin-left: 5px;') #{transactionItem.number_of_accessories}
                           .col-xs-12.col-sm-6.col-md-4
                             strong Credit Card Apps:
-                            span(style='margin-left: 5px;') 1
-                          .col-xs-12.col-sm-6.col-md-4.col-md-offset-8
-                            strong Appointments:
-                            span(style='margin-left: 5px;') 1
-                          .col-xs-12.col-sm-6.col-md-4.col-md-offset-8
-                            strong Donations:
-                            span(style='margin-left: 5px;') 1
-
                             span(style='margin-left: 5px;')
                               each learning, learningIndex in transaction.additionalMetricItems
                                 if learning.additional_metrics_items_type === 6
+                                  | #{learning.additional_metrics_items_count}
+                                else
+                                  | 0
+                          .col-xs-12.col-sm-6.col-md-4
+                            strong Appointments:
+                            span(style='margin-left: 5px;')
+                              each learning, learningIndex in transaction.additionalMetricItems
+                                if learning.additional_metrics_items_type === 3
+                                  | #{learning.additional_metrics_items_count}
+                                else
+                                  | 0
+                          .col-xs-12.col-sm-6.col-md-4
+                            strong Donations:
+                            span(style='margin-left: 5px;')
+                              each learning, learningIndex in transaction.additionalMetricItems
+                                if learning.additional_metrics_items_type === 5
                                   | #{learning.additional_metrics_items_count}
                                 else
                                   | 0

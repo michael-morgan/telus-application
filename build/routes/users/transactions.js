@@ -19,10 +19,6 @@ function ensureAuthenticated(req, res, next) {
 
 
 router.get('/', ensureAuthenticated, function (req, res, next) {
-    if (req.user.privileged <= 2) {
-        return res.redirect('/users/');
-    }
-
     var returnObj = { title: 'Transaction History' };
 
     storeModel.getStores(function(err, result) {
@@ -157,11 +153,6 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
  ADD TRANSACTION
  ********************************************************************************************/
 router.get('/add-transaction', ensureAuthenticated, function (req, res, next) {
-    if (req.user.privileged <= 2) {
-        return res.redirect('/users/');
-    }
-
-
     var returnObj = {
         title: 'Add Transaction'
     };
@@ -170,7 +161,6 @@ router.get('/add-transaction', ensureAuthenticated, function (req, res, next) {
 
 
 }); //end get for /add-transaction
-
 
 router.get('/add-transaction/:employee', ensureAuthenticated, function (req, res, next) {
     if (req.user.privileged <= 2) {
@@ -185,19 +175,16 @@ router.get('/add-transaction/:employee', ensureAuthenticated, function (req, res
     renderPage(returnObj, req, res, next);
 
 }); //End get for add-transaction/:employee
+
 router.post('/', ensureAuthenticated, function (req, res, next) {
-    if (req.user.privileged <= 2) {
-        return res.redirect('/users/');
-    }
-    var returnObj = { title: 'Transaction History' };
+    console.log(req.body.id);
     var transactionId = req.body.id;
     transactionModel.deleteTransaction(transactionId, function(err, result) {
         if (err) {
-            console.log('Error deleting transaction_id ' + observationId);
+            console.log('Error deleting transaction_id ' + transactionId + 'Error: ' + err.message);
             return res.end('Error: ' + err.message);
         }
-
-        console.log('Removing observation ' + transactionId);
+        console.log('Removing transaction ' + transactionId);
         res.send(transactionId);
     });
 });
@@ -559,7 +546,11 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
      */
 
     function pageRedirect(fnCallback) {
-        res.redirect('/users/transactions');
+        if(req.body.saveTransactionNew == undefined){
+            res.redirect('/users/transactions');
+        } else {
+            res.redirect('/users/transactions/add-transaction');
+        }
 
         fnCallback(null);
     }
@@ -649,7 +640,7 @@ function renderPage(returnObj, req, res, next) {
                         returnObj['activations'] = activationResults;
                         returnObj['devices'] = deviceResults;
                         returnObj['warrantys'] = warrantyResults;
-                        returnObj['selectedEmployee'] = req.params.employee;
+                        returnObj['selectedEmployee'] = req.user.t_number;
                         return res.render('transactions/add-transaction', returnObj);
                     }); //end getWarranty
                 }); //end getDevice
