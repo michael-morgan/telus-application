@@ -1,7 +1,5 @@
 $(function() {
     $('input[name="dateRange"]').daterangepicker();
-
-    console.debug(storeObj);
 });
 
 function deleteTransaction(id) {

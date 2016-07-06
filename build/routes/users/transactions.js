@@ -185,11 +185,12 @@ router.get('/add-transaction/:employee', ensureAuthenticated, function (req, res
     renderPage(returnObj, req, res, next);
 
 }); //End get for add-transaction/:employee
+
 router.post('/', ensureAuthenticated, function (req, res, next) {
     if (req.user.privileged <= 2) {
         return res.redirect('/users/');
     }
-    var returnObj = { title: 'Transaction History' };
+
     var transactionId = req.body.id;
     transactionModel.deleteTransaction(transactionId, function(err, result) {
         if (err) {
