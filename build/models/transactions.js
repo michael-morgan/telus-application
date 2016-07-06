@@ -30,6 +30,16 @@ exports.getTransactionItems = function(done) {
     });
 };
 
+exports.getAdditionalMetricItems = function(done) {
+    connection.get().query('SELECT * FROM addition_metrics_items', function(error, result) {
+        if(error) {
+            return done(error);
+        }
+
+        done(null, result);
+    });
+};
+
 exports.getActivation = function(done) {
     connection.get().query('SELECT * FROM activation_types', function(error, result) {
         if(error) {

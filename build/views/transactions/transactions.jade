@@ -166,7 +166,12 @@ block content
                             span(style='margin-left: 5px;') #{transactionItem.warranty}
                           .col-xs-12.col-sm-6.col-md-4
                             strong Learning Sessions:
-                            span(style='margin-left: 5px;') 1
+                            span(style='margin-left: 5px;')
+                              each learning, learningIndex in transaction.additionalMetricItems
+                                if learning.additional_metrics_items_type === 1
+                                  | #{learning.additional_metrics_items_count}
+                                else
+                                  | 0
                           .col-xs-12.col-sm-6.col-md-4
                             strong Sale Type:
                             span(style='margin-left: 5px;') #{transactionItem.activation}
@@ -175,7 +180,12 @@ block content
                             span(style='margin-left: 5px;') #{transactionItem.attachments === 1 ? 'Yes' : 'No'}
                           .col-xs-12.col-sm-6.col-md-4
                             strong AOTMs Sold:
-                            span(style='margin-left: 5px;') 1
+                            span(style='margin-left: 5px;')
+                              each learning, learningIndex in transaction.additionalMetricItems
+                                if learning.additional_metrics_items_type === 2
+                                  | #{learning.additional_metrics_items_count}
+                                else
+                                  | 0
                           .col-xs-12.col-sm-6.col-md-4
                             strong Device Type:
                             span(style='margin-left: 5px;') #{transactionItem.device}
@@ -184,7 +194,12 @@ block content
                             span(style='margin-left: 5px;') #{transactionItem.revenue.toLocaleString('en-CA', { style: 'currency', currency: 'CAD' })}
                           .col-xs-12.col-sm-6.col-md-4
                             strong Critters Sold:
-                            span(style='margin-left: 5px;') 0
+                            span(style='margin-left: 5px;')
+                              each learning, learningIndex in transaction.additionalMetricItems
+                                if learning.additional_metrics_items_type === 4
+                                  | #{learning.additional_metrics_items_count}
+                                else
+                                  | 0
                           .col-xs-12.col-sm-6.col-md-4
                             strong SBS Activation (Yes/No):
                             span(style='margin-left: 5px;') #{transactionItem.sbs_activation === 1 ? 'Yes' : 'No'}
@@ -193,7 +208,12 @@ block content
                             span(style='margin-left: 5px;') #{transactionItem.number_of_accessories}
                           .col-xs-12.col-sm-6.col-md-4
                             strong Credit Card Apps:
-                            span(style='margin-left: 5px;') 1
+                            span(style='margin-left: 5px;')
+                              each learning, learningIndex in transaction.additionalMetricItems
+                                if learning.additional_metrics_items_type === 6
+                                  | #{learning.additional_metrics_items_count}
+                                else
+                                  | 0
                           .col-xs-6(style='margin-top: 25px;')
                             .pull-left
                               strong Time:
