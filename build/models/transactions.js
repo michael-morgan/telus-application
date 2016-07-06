@@ -112,18 +112,21 @@ exports.addTransactionItems = function(transactions_items, done) {
     });
 };
 exports.deleteTransaction  = function(id, done) {
-    connection.get().query('DELETE FROM `transaction_items` WHERE transaction_id = ?', id, function(error, result) {
+    connection.get().query('DELETE FROM `addition_metrics_items` WHERE transaction_id = ?', id, function(error, result) {
         if(error) {
             return done(error);
         }
-        connection.get().query('DELETE FROM `transactions` WHERE transaction_id = ?', id, function(error, result) {
+        connection.get().query('DELETE FROM `transaction_items` WHERE transaction_id = ?', id, function(error, result) {
             if(error) {
                 return done(error);
             }
-
-            done(null, result);
+            connection.get().query('DELETE FROM `transactions` WHERE transaction_id = ?', id, function(error, result) {
+                if(error) {
+                    return done(error);
+                }
+                done(null, result.affectedRows);
+            });
         });
-        done(null, result);
     });
 };
 exports.addAdditionalMetrics = function(metrics, done) {

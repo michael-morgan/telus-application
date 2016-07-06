@@ -177,18 +177,14 @@ router.get('/add-transaction/:employee', ensureAuthenticated, function (req, res
 }); //End get for add-transaction/:employee
 
 router.post('/', ensureAuthenticated, function (req, res, next) {
-    if (req.user.privileged <= 2) {
-        return res.redirect('/users/');
-    }
-
+    console.log(req.body.id);
     var transactionId = req.body.id;
     transactionModel.deleteTransaction(transactionId, function(err, result) {
         if (err) {
-            console.log('Error deleting transaction_id ' + observationId);
+            console.log('Error deleting transaction_id ' + transactionId + 'Error: ' + err.message);
             return res.end('Error: ' + err.message);
         }
-
-        console.log('Removing observation ' + transactionId);
+        console.log('Removing transaction ' + transactionId);
         res.send(transactionId);
     });
 });

@@ -8,13 +8,12 @@ block content
   .row
     .col-xs-12.col-md-10.col-md-offset-1
       h1.page-header #{title}
-    if(success_messages != null)
       .col-md-10.col-md-offset-1.col-xs-12
         div#successMessage.alert.success.alert-success(role='success')
           .alert-title
             i.fa.fa-check.fa-2x
             strong Great!
-          p !{success_messages}
+          p#successParagraph !{success_messages}
   .row.form-group
     .col-xs-12.col-sm-4.col-lg-2.col-lg-offset-1
       label(for='store') Store:
