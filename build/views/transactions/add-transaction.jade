@@ -38,7 +38,7 @@ block content
                 .col-sm-2.text-right
                     span.transaction Type:
                 .col-sm-10
-                    select.transact(onchange='ShowHideOptions()' required id='transactionDropdown' name='transactionDropdown')
+                    select.transact(required id='transactionDropdown' name='transactionDropdown')
                         option(disabled selected value='0') Select Transaction Type
                         each transaction, t in transactions
                             option(value='#{transaction.transaction_type_id}') #{transaction.transaction_types}
