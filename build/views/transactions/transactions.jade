@@ -129,32 +129,30 @@ block content
             .panel-collapse.collapse(role='tabpanel', aria-labelledby='storeHeading#{storeIndex}', id='storeCollapse#{storeIndex}')
               .panel-body
                 each transaction, transIndex in stores[storeIndex].transactions
-                  .panel
-                    .panel-heading.purpleHead
-                      .row(role='tab', id='transactionHeading#{transIndex}', data-toggle='collapse', data-target='#transactionCollapse#{transIndex}')
-                        .col-xs-4
-                          h4.panel-title
-                            | #{transaction.transaction_date.toLocaleDateString()}
-                        .col-xs-4.text-center
-                          h4.panel-title
-                            | #{transaction.transactionItems.length} Item(s)
-                        .col-xs-4
-                          .pull-right
-                            .col-xs-8(style='padding:0;')
-                              h4.panel-title
-                                | #{transaction.totalRevenue.toLocaleString('en-CA', { style: 'currency', currency: 'CAD' })}
-                            .col-xs-4(style='padding:0;')
-                              if user.privileged >= 3
-                                .dropdown(style='margin-top:6px;')
-                                  a.dropdown-toggle#ddMoreOptions(type='button', data-toggle='dropdown', aria-haspopup='true' aria-expanded='true')
-                                    i.fa.fa-ellipsis-v.fa-2x(aria-hidden='true')
-                                  ul.dropdown-menu(aria-labelledby='ddMoreOptions')
-                                    li
-                                      a(href='#')
-                                        | Edit Transaction
-                                    li
-                                      a(href='#')
-                                        | Remove Transaction
+                  form.form-horizontal(id='transactionID#{transaction.transaction_id}' method='post', role='form')
+                    .panel
+                      .panel-heading.purpleHead
+                        .row(role='tab', id='transactionHeading#{transIndex}', data-toggle='collapse', data-target='#transactionCollapse#{transIndex}')
+                          .col-xs-4
+                            h4.panel-title
+                              | #{transaction.transaction_date.toLocaleDateString()}
+                          .col-xs-4.text-center
+                            h4.panel-title
+                              | #{transaction.transactionItems.length} Item(s)
+                          .col-xs-4
+                            .pull-right
+                              .col-xs-8(style='padding:0;')
+                                h4.panel-title
+                                  | #{transaction.totalRevenue.toLocaleString('en-CA', { style: 'currency', currency: 'CAD' })}
+                              .col-xs-4(style='padding:0;')
+                                if user.privileged >= 3
+                                  .dropdown(style='margin-top:6px;')
+                                    a.dropdown-toggle#ddMoreOptions(type='button', data-toggle='dropdown', aria-haspopup='true' aria-expanded='true')
+                                      i.fa.fa-ellipsis-v.fa-2x(aria-hidden='true')
+                                    ul.dropdown-menu(aria-labelledby='ddMoreOptions')
+                                      li
+                                        a(href='#' onclick='deleteTransaction(#{transaction.transaction_id})')
+                                          | Remove Transaction
                     .panel-collapse.collapse(role='tabpanel', aria-labelledby='transactionHeading#{transIndex}', id='transactionCollapse#{transIndex}')
                       .panel-body
                         each transactionItem, transItemIndex in transaction.transactionItems

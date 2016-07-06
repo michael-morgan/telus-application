@@ -185,8 +185,24 @@ router.get('/add-transaction/:employee', ensureAuthenticated, function (req, res
     renderPage(returnObj, req, res, next);
 
 }); //End get for add-transaction/:employee
+router.post('/', ensureAuthenticated, function (req, res, next) {
+    if (req.user.privileged <= 2) {
+        return res.redirect('/users/');
+    }
+    var returnObj = { title: 'Transaction History' };
+    var transactionId = req.body.id;
+    transactionModel.deleteTransaction(transactionId, function(err, result) {
+        if (err) {
+            console.log('Error deleting transaction_id ' + observationId);
+            return res.end('Error: ' + err.message);
+        }
 
+        console.log('Removing observation ' + transactionId);
+        res.send(transactionId);
+    });
+});
 
+//When the add transaction page is submitted
 router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
     var returnObj = {
         title: 'Add Transaction'
