@@ -56,80 +56,93 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
 
                     returnObj['transactionItems'] = result;
 
-                    transactionModel.getActivation(function (err, result) {
+                    transactionModel.getAdditionalMetricItems(function(err, result) {
                         if (err) {
                             throw next(err);
                         }
 
-                        returnObj['activationTypes'] = {};
-                        for(var index in result) {
-                            returnObj['activationTypes'][result[index].activation_type_id] = result[index].activation_types;
-                        }
+                        returnObj['additionalMetricItems'] = result;
 
-                        transactionModel.getDevice(function (err, result) {
+                        transactionModel.getActivation(function (err, result) {
                             if (err) {
                                 throw next(err);
                             }
 
-                            returnObj['deviceTypes'] = {};
+                            returnObj['activationTypes'] = {};
                             for(var index in result) {
-                                returnObj['deviceTypes'][result[index].device_type_id] = result[index].device_types;
+                                returnObj['activationTypes'][result[index].activation_type_id] = result[index].activation_types;
                             }
 
-                            transactionModel.getWarranty(function (err, result) {
+                            transactionModel.getDevice(function (err, result) {
                                 if (err) {
                                     throw next(err);
                                 }
 
-                                returnObj['warrantyTypes'] = {};
+                                returnObj['deviceTypes'] = {};
                                 for(var index in result) {
-                                    returnObj['warrantyTypes'][result[index].warranty_type_id] = result[index].warranty_types;
+                                    returnObj['deviceTypes'][result[index].device_type_id] = result[index].device_types;
                                 }
 
-                                returnObj['stores'].forEach(function(storeVal, storeIndex) {
-                                    returnObj['stores'][storeIndex]['transactions'] = returnObj['transactions'].filter(function(transVal) {
-                                        return transVal.store_id === storeVal.store_id;
-                                    });
+                                transactionModel.getWarranty(function (err, result) {
+                                    if (err) {
+                                        throw next(err);
+                                    }
 
-                                    returnObj['stores'][storeIndex]['transactions'].forEach(function(transVal, transIndex) {
-                                        returnObj['stores'][storeIndex]['transactions'][transIndex]['transactionItems'] = returnObj['transactionItems']
+                                    returnObj['warrantyTypes'] = {};
+                                    for(var index in result) {
+                                        returnObj['warrantyTypes'][result[index].warranty_type_id] = result[index].warranty_types;
+                                    }
+
+                                    returnObj['stores'].forEach(function(storeVal, storeIndex) {
+                                        returnObj['stores'][storeIndex]['transactions'] = returnObj['transactions'].filter(function(transVal) {
+                                            return transVal.store_id === storeVal.store_id;
+                                        });
+
+                                        returnObj['stores'][storeIndex]['transactions'].forEach(function(transVal, transIndex) {
+                                            returnObj['stores'][storeIndex]['transactions'][transIndex]['transactionItems'] = returnObj['transactionItems']
                                             .filter(function(transItemVal) {
                                                 return transItemVal.transaction_id === transVal.transaction_id;
                                             });
 
-                                        returnObj['stores'][storeIndex]['transactions'][transIndex]['totalRevenue'] = 0;
-                                        returnObj['stores'][storeIndex]
-                                            ['transactions'][transIndex]['transactionItems'].forEach(function(transItemVal, transItemIndex) {
+                                            returnObj['stores'][storeIndex]['transactions'][transIndex]['additionalMetricItems'] = returnObj['additionalMetricItems']
+                                            .filter(function(addMetricItemVal) {
+                                                return addMetricItemVal.transaction_id === transVal.transaction_id;
+                                            });
+
+                                            returnObj['stores'][storeIndex]['transactions'][transIndex]['totalRevenue'] = 0;
                                             returnObj['stores'][storeIndex]
-                                                ['transactions'][transIndex]
-                                                ['transactionItems'][transItemIndex]
-                                                ['activation'] = returnObj['activationTypes'][transItemVal.activation_type];
-                                            returnObj['stores'][storeIndex]
-                                                ['transactions'][transIndex]
-                                                ['transactionItems'][transItemIndex]
-                                                ['device'] = returnObj['deviceTypes'][transItemVal.device_type];
-                                            returnObj['stores'][storeIndex]
-                                                ['transactions'][transIndex]
-                                                ['transactionItems'][transItemIndex]
-                                                ['warranty'] = returnObj['warrantyTypes'][transItemVal.warranty_type];
-                                            returnObj['stores'][storeIndex]
-                                                ['transactions'][transIndex]
-                                                ['transactionItems'][transItemIndex]
-                                                ['transaction'] = returnObj['transactionTypes'][transItemVal.transaction_id];
-                                            returnObj['stores'][storeIndex]['transactions'][transIndex]['totalRevenue'] += transItemVal.revenue;
+                                                ['transactions'][transIndex]['transactionItems'].forEach(function(transItemVal, transItemIndex) {
+                                                returnObj['stores'][storeIndex]
+                                                    ['transactions'][transIndex]
+                                                    ['transactionItems'][transItemIndex]
+                                                    ['activation'] = returnObj['activationTypes'][transItemVal.activation_type];
+                                                returnObj['stores'][storeIndex]
+                                                    ['transactions'][transIndex]
+                                                    ['transactionItems'][transItemIndex]
+                                                    ['device'] = returnObj['deviceTypes'][transItemVal.device_type];
+                                                returnObj['stores'][storeIndex]
+                                                    ['transactions'][transIndex]
+                                                    ['transactionItems'][transItemIndex]
+                                                    ['warranty'] = returnObj['warrantyTypes'][transItemVal.warranty_type];
+                                                returnObj['stores'][storeIndex]
+                                                    ['transactions'][transIndex]
+                                                    ['transactionItems'][transItemIndex]
+                                                    ['transaction'] = returnObj['transactionTypes'][transItemVal.transaction_id];
+                                                returnObj['stores'][storeIndex]['transactions'][transIndex]['totalRevenue'] += transItemVal.revenue;
+                                            });
                                         });
                                     });
-                                });
 
-                                returnObj['storesObj'] = JSON.stringify(returnObj['stores']);
+                                    returnObj['storesObj'] = JSON.stringify(returnObj['stores']);
 
-                                userModel.getAll(function(err, result) {
-                                    if(err) {
-                                        throw next(err);
-                                    }
+                                    userModel.getAll(function(err, result) {
+                                        if(err) {
+                                            throw next(err);
+                                        }
 
-                                    returnObj['users'] = result;
-                                    return res.render('transactions/transactions', returnObj);
+                                        returnObj['users'] = result;
+                                        return res.render('transactions/transactions', returnObj);
+                                    });
                                 });
                             });
                         });
