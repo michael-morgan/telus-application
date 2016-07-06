@@ -2,6 +2,7 @@ extends ../layout
 
 block append stylesheet
   link(rel='stylesheet', href='/stylesheets/observations.css')
+  link(rel='stylesheet', href='/bower_components/bootstrap-daterangepicker/daterangepicker.css')
 
 block content
   .row
@@ -14,6 +15,15 @@ block content
             i.fa.fa-check.fa-2x
             strong Great!
           p !{success_messages}
+  .row.form-group
+    .col-xs-12.col-sm-4.col-lg-3.col-lg-offset-1
+      label(for='dateRange') Date Range:
+      .input-group
+        span.input-group-addon#iconAddon
+          i.fa.fa-calendar(aria-hidden='true')
+        input.form-control(type='text', id='dateRange', name='dateRange', aria-describedby='iconAddon')
+    .col-xs-12.col-lg-10.col-lg-offset-1
+      hr
   .row#accordion.panel-group(role='tablist', aria-multiselectable='true')
     //Show list of stores
     each store, s in stores
@@ -141,4 +151,6 @@ block content
                                         | #{observation.assigned_by_name}
 
 block append script
+  script(src='/bower_components/bootstrap-daterangepicker/moment.min.js')
+  script(src='/bower_components/bootstrap-daterangepicker/daterangepicker.js')
   script(src='/javascripts/observations/observations.js')
