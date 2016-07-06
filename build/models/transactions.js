@@ -111,7 +111,21 @@ exports.addTransactionItems = function(transactions_items, done) {
         done(null, result);
     });
 };
+exports.deleteTransaction  = function(id, done) {
+    connection.get().query('DELETE FROM `transaction_items` WHERE transaction_id = ?', id, function(error, result) {
+        if(error) {
+            return done(error);
+        }
+        connection.get().query('DELETE FROM `transactions` WHERE transaction_id = ?', id, function(error, result) {
+            if(error) {
+                return done(error);
+            }
 
+            done(null, result);
+        });
+        done(null, result);
+    });
+};
 exports.addAdditionalMetrics = function(metrics, done) {
     connection.get().query('INSERT INTO `addition_metrics_items` SET ?', [metrics], function(error, result) {
         if(error) {
