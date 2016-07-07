@@ -10,8 +10,12 @@ $('input[name="dateRange"]').daterangepicker(
 );
 
 function deleteObservation(id) {
-    alert('Are you sure you want to delete this observation?');
-    $.post("/users/observations/remove", {'id': id}).done(function(result) {
-        $('#observationPanel' + id).remove();
+    bootbox.confirm("Are you sure you want to delete this observation?", function(result) {
+        if (result == true) {
+            $.post("/users/observations/remove", {'id': id}).done(function(result) {
+                $('#observationPanel' + id).remove();
+            });
+        }
     });
+
 }

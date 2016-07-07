@@ -254,3 +254,11 @@ li.disabled.active a {
 }
 
 /* END Accordion/Panel Styling */
+
+.modal-dialog {
+  z-index: 999;
+}
+
+.modal-backdrop {
+  z-index: 998;
+}
