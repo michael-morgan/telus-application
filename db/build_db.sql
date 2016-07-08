@@ -21,9 +21,9 @@ CREATE DATABASE `build_db`;
 USE `build_db`;
 
 
---------------------------------------
+-- --------------------------------------
 -- Table structure for table `skills`
---------------------------------------
+-- --------------------------------------
 DROP TABLE IF EXISTS `skills`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -44,9 +44,9 @@ INSERT INTO `skills` VALUES (1,'Welcome'),(2,'Building Trust'),(3,'Consultative 
 UNLOCK TABLES;
 
 
------------------------------------------
+-- -----------------------------------------
 -- Table structure for table `behaviours`
------------------------------------------
+--  -----------------------------------------
 DROP TABLE IF EXISTS `behaviours`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -109,9 +109,9 @@ INSERT INTO `behaviours` VALUES
 UNLOCK TABLES;
 
 
--------------------------------------------
+-- -------------------------------------------
 -- Table structure for table `observations`
--------------------------------------------
+-- -------------------------------------------
 DROP TABLE IF EXISTS `observations`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -146,9 +146,9 @@ INSERT INTO `observations` VALUES (3,1,'t901159', 't111111', '2016-02-01 18:57:4
 UNLOCK TABLES;
 
 
-------------------------------------
+-- ------------------------------------
 -- Table structure for table `stats`
-------------------------------------
+-- ------------------------------------
 DROP TABLE IF EXISTS `stats`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -180,9 +180,9 @@ INSERT INTO `stats` VALUES (1,'t901159','6529','GNO',1,1,1,1,'0016-02-01'),(2,'t
 UNLOCK TABLES;
 
 
--------------------------------------
+-- -------------------------------------
 -- Table structure for table `stores`
--------------------------------------
+-- -------------------------------------
 DROP TABLE IF EXISTS `stores`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -205,9 +205,9 @@ INSERT INTO `stores` VALUES ('6529','Alliston Mills','GNO'), ('6530','Georgian M
 UNLOCK TABLES;
 
 
--------------------------------------
+-- -------------------------------------
 -- Table structure for table `tokens`
--------------------------------------
+-- -------------------------------------
 DROP TABLE IF EXISTS `tokens`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -233,9 +233,9 @@ LOCK TABLES `tokens` WRITE;
 UNLOCK TABLES;
 
 
--------------------------------------
+-- -------------------------------------
 -- Table structure for table `users`
--------------------------------------
+-- -------------------------------------
 DROP TABLE IF EXISTS `users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -276,9 +276,9 @@ INSERT INTO `users` VALUES
 UNLOCK TABLES;
 
 
-------------------------------------------------------
+-- ------------------------------------------------------
 -- Table structure for table `selling_hours_schedule`
-------------------------------------------------------
+-- ------------------------------------------------------
 DROP TABLE IF EXISTS `selling_hours_schedule`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -302,9 +302,9 @@ INSERT INTO `selling_hours_schedule` VALUES (1,'t123456','0016-02-01', '6587', 5
 UNLOCK TABLES;
 
 
-------------------------------------------------
+-- ------------------------------------------------
 -- Table structure for table `discount_tracking`
-------------------------------------------------
+-- ------------------------------------------------
 DROP TABLE IF EXISTS `discount_tracking`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -332,9 +332,9 @@ INSERT INTO `discount_tracking` VALUES ('t123456',25,25,25,25,50,50,'6587'),('t1
 UNLOCK TABLES;
 
 
-----------------------------------------------
+-- ----------------------------------------------
 -- Table structure for table `results_to_send'
-----------------------------------------------
+-- ----------------------------------------------
 DROP TABLE IF EXISTS `results_to_send`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -370,9 +370,9 @@ UNLOCK TABLES;
 
 
 -- *** *** *** FOR LATER USE, NOT FOR SPRINT - JUNE 28th 2016 *** *** ***
---------------------------------------
+-- --------------------------------------
 -- Table structure for table `wps_day'
---------------------------------------
+-- --------------------------------------
 DROP TABLE IF EXISTS `wps_day`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -416,9 +416,9 @@ INSERT INTO `wps_day` VALUES (1,1,1,1,1,1,1,1,1,1,1,1,75,76,77,1,1,1,1,1,1,1,65,
 UNLOCK TABLES;
 
 
-------------------------------------------------
+-- ------------------------------------------------
 -- Table structure for table `transaction_types'
-------------------------------------------------
+-- ------------------------------------------------
 DROP TABLE IF EXISTS `transaction_types`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -439,9 +439,9 @@ INSERT INTO `transaction_types` VALUES (1,'Device'),(2,'Accessory'),(3,'Outright
 UNLOCK TABLES;
 
 
-------------------------------------------------
+-- ------------------------------------------------
 -- Table structure for table `activation_types'
-------------------------------------------------
+-- ------------------------------------------------
 DROP TABLE IF EXISTS `activation_types`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -462,9 +462,9 @@ INSERT INTO `activation_types` VALUES (1,'New Activation'),(2,'Renewal'),(3,'Pre
 UNLOCK TABLES;
 
 
---------------------------------------------
+-- --------------------------------------------
 -- Table structure for table `device_types'
---------------------------------------------
+-- --------------------------------------------
 DROP TABLE IF EXISTS `device_types`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -485,9 +485,9 @@ INSERT INTO `device_types` VALUES (1,'iPhone'),(2,'Android'),(3,'Blackberry'),(4
 UNLOCK TABLES;
 
 
----------------------------------------------
+-- ---------------------------------------------
 -- Table structure for table `warranty_types'
----------------------------------------------
+-- ---------------------------------------------
 DROP TABLE IF EXISTS `warranty_types`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -508,9 +508,9 @@ INSERT INTO `warranty_types` VALUES (1,'Device Care'),(2,'Device Care & T-UP'),(
 UNLOCK TABLES;
 
 
--------------------------------------------------
+-- -------------------------------------------------
 -- Table structure for table `additional_metrics'
--------------------------------------------------
+-- -------------------------------------------------
 DROP TABLE IF EXISTS `additional_metrics`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -531,9 +531,9 @@ INSERT INTO `additional_metrics` VALUES (1,'Learning Sessions'),(2,'AOTM'),(3,'A
 UNLOCK TABLES;
 
 
---------------------------------------------
+-- --------------------------------------------
 -- Table structure for table `transactions'
---------------------------------------------
+-- --------------------------------------------
 DROP TABLE IF EXISTS `transactions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -564,9 +564,9 @@ INSERT INTO `transactions` VALUES (1,'t111111','6529','2016-02-01', 1),(2,'t9011
 UNLOCK TABLES;
 
 
-------------------------------------------------
+-- ------------------------------------------------
 -- Table structure for table `transaction_items'
-------------------------------------------------
+-- ------------------------------------------------
 DROP TABLE IF EXISTS `transaction_items`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -602,9 +602,9 @@ INSERT INTO `transaction_items` VALUES (1, 2, 2, 1, 3, 1, 750.00, 4, 1);
 UNLOCK TABLES;
 
 
------------------------------------------------------
+-- -----------------------------------------------------
 -- Table structure for table `addition_metrics_items'
------------------------------------------------------
+-- -----------------------------------------------------
 DROP TABLE IF EXISTS `addition_metrics_items`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
