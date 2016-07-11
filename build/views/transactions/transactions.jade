@@ -8,24 +8,20 @@ block content
   .row
     .col-xs-12.col-md-10.col-md-offset-1
       h1.page-header #{title}
-      .col-md-10.col-md-offset-1.col-xs-12
-        div#successMessage.alert.success.alert-success(role='success')
-          .alert-title
-            i.fa.fa-check.fa-2x
-            strong Great!
-          p#successParagraph !{success_messages}
+      if(message)
+        .col-md-10.col-md-offset-1.col-xs-12
+          div#successMessage.alert.success.alert-success(role='success')
+            .alert-title
+              i.fa.fa-check.fa-2x
+              strong Great!
+            p#successParagraph !{success_messages}
   .row.form-group
     .col-xs-12.col-sm-4.col-lg-2.col-lg-offset-1
-      label(for='store') Store:
-      select.form-control(id='store', name='store')
-        each store, storeIndex in stores
-          option(value='#{store.store_id}') #{store.store_name}
-    .col-xs-12.col-sm-4.col-lg-2
       label(for='teamMember') Team Member:
       select.form-control(id='teamMember', name='teamMember')
         each user, userIndex in users
           option(value='#{user.t_number}') #{user.first_name} #{user.last_name}
-    .col-xs-12.col-sm-4.col-lg-3.col-lg-offset-3
+    .col-xs-12.col-sm-4.col-lg-3.col-lg-offset-5
       label(for='dateRange') Date Range:
       .input-group
         span.input-group-addon#iconAddon
@@ -108,10 +104,6 @@ block content
                   .col-xs-12.col-sm-6.col-md-4
                     strong Tablets:
                     span(style='margin-left: 5px;') 1
-                  .col-xs-12(style='margin-top: 25px;')
-                    .pull-right
-                      strong Completed By:
-                      span(style='margin-left: 5px;') Patrick Richey
     .col-xs-12.col-lg-10.col-lg-offset-1
       hr
 
@@ -228,7 +220,7 @@ block content
                                   | 0
                           .col-xs-6(style='margin-top: 25px;')
                             .pull-left
-                              strong Time:
+                              strong Date:
                               span(style='margin-left: 5px;') #{transaction.transaction_date.toLocaleDateString()}
                           .col-xs-6(style='margin-top: 25px;')
                             .pull-right
@@ -237,8 +229,6 @@ block content
                                 each user, userIndex in users
                                   if user.t_number === transaction.t_number
                                     | #{user.first_name} #{user.last_name}
-                          .col-xs-12
-                            hr
 
 block append script
   script(src='/bower_components/bootstrap-daterangepicker/moment.min.js')

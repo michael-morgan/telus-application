@@ -75,7 +75,7 @@ block content
                         .col-sm-2.text-right.transaction
                             span.transaction Warranty Type:
                         .col-sm-10
-                            select(required id='warrantyDropdown' name='warrantyDropdown')
+                            select(required id='warrantyDropdown' name='warrantyDropdown' class="warrantyDropdown")
                                 option.transact(disabled selected value='0') Select Warranty Type
                                 each warranty, w in warrantys
                                     option(value='#{warranty.warranty_type_id}') #{warranty.warranty_types}
