@@ -333,9 +333,16 @@ router.get('/profile/:id', ensureAuthenticated, function(req, res, next) {
     });
 });
 
+// If accessing the documentation page
+router.get('/documentation', ensureAuthenticated, function (req, res, next) {
+    if (req.user.privileged <= 2) {
+        return res.redirect('/users/');
+    }
 
-
-
+    res.render('documentation', {
+        title: 'Documentation'
+    });
+});
 
 function getRecentObservations(callback){
     connection.get().query('SELECT users.t_number,users.first_name, behaviour_desc, observations.observation_id, skills.skill_title, observations.observation_comment, observations.observation_date , '+
