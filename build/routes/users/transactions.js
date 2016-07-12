@@ -135,7 +135,12 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
                                         if(err) {
                                             throw next(err);
                                         }
-
+                                        //Display success message on adding a transaction
+                                        if(req.session.success) {
+                                            req.flash('success_messages', 'Transaction successfully added!');
+                                            res.locals.success_messages = req.flash('success_messages');
+                                            req.session.success = false;
+                                        }
                                         returnObj['users'] = result;
                                         return res.render('transactions/transactions', returnObj);
                                     });
@@ -177,14 +182,12 @@ router.get('/add-transaction/:employee', ensureAuthenticated, function (req, res
 }); //End get for add-transaction/:employee
 
 router.post('/', ensureAuthenticated, function (req, res, next) {
-    console.log(req.body.id);
     var transactionId = req.body.id;
     transactionModel.deleteTransaction(transactionId, function(err, result) {
         if (err) {
             console.log('Error deleting transaction_id ' + transactionId + 'Error: ' + err.message);
             return res.end('Error: ' + err.message);
         }
-        console.log('Removing transaction ' + transactionId);
         res.send(transactionId);
     });
 });
@@ -547,6 +550,7 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
 
     function pageRedirect(fnCallback) {
         if(req.body.saveTransactionNew == undefined){
+            req.session.success = true;
             res.redirect('/users/transactions');
         } else {
             res.redirect('/users/transactions/add-transaction');
@@ -634,7 +638,6 @@ function renderPage(returnObj, req, res, next) {
                             //Render the page wth error messages
                             return res.render('transactions/add-transaction', returnObj);
                         } //End if
-
                         returnObj['users'] = userResult;
                         returnObj['transactions'] = transactionResults;
                         returnObj['activations'] = activationResults;

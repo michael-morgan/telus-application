@@ -1,3 +1,10 @@
+$(function()
+{
+    //Hide the delete message until a transaction has been removed
+    $('#deleteMessage').hide();
+    //Fade out success message after 5 secconds
+    $('#successMessage').fadeOut(5000);
+});
 $('input[name="dateRange"]').daterangepicker(
     {
         locale: {
@@ -10,17 +17,14 @@ $('input[name="dateRange"]').daterangepicker(
 );
 
 function deleteTransaction(id) {
-
-    var result;
-
     bootbox.confirm("Are you sure you want to delete this transaction?", function(result) {
         if (result == true)
         {
             $.post("/users/transactions", {'id': id}).done(function(result) {
                 $('#transactionID' + id).remove();
-                $('#successMessage').show();
-                $('#successParagraph').html("The transaction was successfully deleted to the database.");
-                $('#successMessage').fadeOut(5000);
+                $('#deleteMessage').show();
+                $('#removalMessage').html("The transaction was successfully deleted.");
+                $('#deleteMessage').fadeOut(5000);
             });
         }
     });
