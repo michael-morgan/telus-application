@@ -1,0 +1,11 @@
+.docIndex{
+    list-style: none;
+}
+#docIndexContainer{
+    /*margin-left:35px;*/
+}
+.sectionHeading{
+    color:white;
+    background-color:rgb(73,22,109);
+    padding:10px;
+}
