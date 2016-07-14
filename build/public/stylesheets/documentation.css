@@ -8,12 +8,31 @@
     color:white;
     background-color:rgb(73,22,109);
     padding:10px;
+    border: 2px solid #8c68a6;
 }
 .menuImages
 {
     height:550px;
 }
+/*large*/
 .accountMenuImage{
     height:125px;
     background-color:white;
+}
+/*medium*/
+@media screen and (max-width: 1500px) and (min-width: 1001px) {
+    .accountMenuImage{
+        height:150px;
+    }
+}
+/*small*/
+@media screen and (max-width: 1000px) {
+    .accountMenuImage{
+        height:175px;
+    }
+}
+.wellItUp{
+    background-color:white;
+    max-width:100%;
+    max-height:100%;
 }

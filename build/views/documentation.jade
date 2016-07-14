@@ -168,7 +168,7 @@ block content
             h3#GS4 Your Account
             p Your account page can be accessed by:
             .col-xs-12.col-sm-6.accountMenuImage.well
-                strong Large Screen:
+                strong Large Screen
                 p Clicking on your name and the person icon located at the top right of the page
                 img(src='/documentationImages/fullRightMenu.png', alt='Account Menu')
             .col-xs-12.col-sm-6.accountMenuImage.well
@@ -200,18 +200,32 @@ block content
             h3#MU Logging in and out
             p When visiting the page and there is no active session, you will be prompted to login, there is no way around this. You cannot access the application if you are not logged in or do not have an account.
             p To logout, click on the person icon, at the top right of the application and select "Log out". You will be logged out and will not be able to access any part of the application until you login again.
-
+            /////////////////////////OBSERVATIONS///////////////////////////////
             h2.sectionHeading Observations
             h3#O1 What are Observations?
-            p Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took
+            p One of the primary functions of this application is the Observation system. This system allows any user to make and view observations. An observation is exactly as it sounds, an observation of a behaviour made by an employee. There are preset observations which are defined in the behaviours section of this documentation. Depending on your permissions, you can make/view observations on yourself, or on other employees. It is common for a manager or assistant manager to make observations on their respective employees.
+            p Observations can either be positive or negative, they have a description and corresponding skills/behaviours that they are associated with and are timestamped. It's a way to track an employees and store performance throughout the week.
+
             h3#O2 Creating Observations
-            p Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took
+            p Creating observations is designed to be quick and easy as it is one of the most common uses of this application. In order to make an observation one must take the following steps:
+            ol
+                li.col-xs-12 Navigate to the "Add Observation" page. This page can be found in the menu under it's parent "Observations" or through some quick access buttons located on the site.
+                li.col-xs-12 Next you must select the employee you are making the observation for. Depending on your permissions, you may see all employees or just yourself.
+                    img.well.wellItUp.col-xs-12.col-lg-6.col-lg-offset-3(src='/documentationImages/observationFor.png', alt='Observation for')
+                li.col-xs-12 Next there is a list of skills and within them; behaviours. Expand the skill you are observing for by clicking anywhere on it, and then choose whether it is positive or negative by clicking on either "thumbs up" or "thumbs down"
+                    img.well.wellItUp.col-xs-12.col-lg-6.col-lg-offset-3(src='/documentationImages/skillBehaviour.png', alt='Observation for')
+                li.col-xs-12 Finally, you have the option to write in a comment at the bottom of the page if there is more to say. When you are done, click "Submit" and your observation is done.
+                    img.well.wellItUp.col-xs-12.col-lg-6.col-lg-offset-3(src='/documentationImages/submitObservation.png', alt='Observation for')
             h3#O3 Viewing Observations
-            p Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took
+            p Observations can be viewed easily by clicking on "Observations" button in the menu, under its parent "Observations". Once on the page, you have the option to select a store, inside each store is a list of employees that you are able to see observations for, again this is based on your permissions.
+            p Once you have clicked on an employee, you can see all observations for them within the specified time range, which is set at the top of the page. If you click on an observation, it will be expanded and more details about the observation will be revealed.
             h3#O4 Removing Observations
-            p Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Why do we use it?It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
+            p Removing observations can be done when viewing them. When you click on the ellipsis at the top-right of the observation you will be given the option to delete it. If you select "delete" you will be prompted with a confirmation and once confirmed it will be deleted.
+            strong
+                u THIS CANNOT BE UNDONE
+
             h3#O5 Who can see Observations?
-            p Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Why do we use it?It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
+            p As mentioned above, the observations you are alloud to make/view depend on your permission level. You are only able to make/view observations about yourself and employees under you, not equal to you. So if you are just a regular employee you will only be able to make/view observations about yourself and no one else. If you are an assistant manager, you can make/view observations about yourself and employees under you. This pattern continues to the top of the chain.
 
 
             h2.sectionHeading Behaviours and Skills
