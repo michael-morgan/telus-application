@@ -141,6 +141,11 @@ function addDevices() {
                                     <input type="number" name="accessoryCount' + count + '" value="0" min="0" max="100" class="form-control input-number">\
                                 </div>\
                             </div>\
+                            <div class="form-group show-on-all" style="display: block">\
+                                <div class="col-sm-10 col-sm-offset-1">\
+                                    <input name="revenueText' + count + '" placeholder="Revenue" type="text" min="0" max="1000000" class="form-control formInput input-number">\
+                                </div>\
+                            </div>\
                         </div>';
     $('.device-group').append(deviceFields);
     count++;
@@ -213,6 +218,11 @@ function resetDevice() {
                                 <div class="col-sm-10">\
                                     <input type="number" name="accessoryCount" value="0" min="0" max="100" class="form-control input-number">\
                                 </div>\
+                            </div>\
+                        </div>\
+                        <div class="form-group show-on-all" style="display: block">\
+                            <div class="col-sm-10 col-sm-offset-1">\
+                                <input name="revenueText" placeholder="Revenue" type="text" min="0" max="1000000" class="form-control formInput input-number">\
                             </div>\
                         </div>';
     $('.device-group').html(deviceFields);

@@ -1,5 +1,6 @@
 $(function()
 {
+    console.debug(storeObj);
     //Hide the delete message until a transaction has been removed
     $('#deleteMessage').hide();
     //Fade out success message after 5 secconds

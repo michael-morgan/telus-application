@@ -457,37 +457,34 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
             var transaction_item = {};
             //Add the object(s) to the database
             async.eachSeries(Object.keys(transaction_items), function (item, callback) {
-                if(item.indexOf('activationDropdown') >= 0)
-                {
+                if(item.indexOf('activationDropdown') >= 0) {
                     transaction_item['activation_type'] = transaction_items[item];
                     callback(null);
                 }
-                else if(item.indexOf('sbsActivation') >= 0)
-                {
+                else if(item.indexOf('sbsActivation') >= 0) {
                     transaction_item['sbs_activation'] = 1;
                     callback(null);
                 }
-                else if(item.indexOf('deviceDropdown') >= 0)
-                {
+                else if(item.indexOf('revenue') >= 0) {
+                    transaction_item['revenue'] = transaction_items[item];
+                    console.log("First run: "+transaction_item['revenue']);
+                    callback(null);
+                }
+                else if(item.indexOf('deviceDropdown') >= 0) {
                     transaction_item['device_type'] = transaction_items[item];
                     callback(null);
                 }
-                else if(item.indexOf('warrantyDropdown') >= 0)
-                {
+                else if(item.indexOf('warrantyDropdown') >= 0) {
                     transaction_item['warranty_type'] = transaction_items[item];
                     callback(null);
                 }
-
-                else if(item.indexOf('attachedDropdown') >= 0)
-                {
+                else if(item.indexOf('attachedDropdown') >= 0) {
                     transaction_item['attached'] = transaction_items[item];
                     callback(null);
                 }
-                else if(item.indexOf('accessoryCount') >= 0)
-                {
+                else if(item.indexOf('accessoryCount') >= 0) {
                     transaction_item['num_of_accessories'] = transaction_items[item];
                     transaction_item['transaction_id'] = transaction_items['transaction_id'];
-                    transaction_item['revenue'] = revenue;
                     if(transaction_item['sbs_activation'] == undefined)
                         transaction_item['sbs_activation'] =0;
                     transactionModel.addTransactionItems(transaction_item, function (err, result) {

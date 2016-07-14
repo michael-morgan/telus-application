@@ -97,20 +97,14 @@ block content
                         .col-sm-10
                             input.form-control.input-number(type='number', name='accessoryCount', value='0', min='0', max='100')
 
-
+                    //Show on all transaction types
+                    .form-group.show-on-all
+                        .col-sm-10.col-sm-offset-1
+                            input.form-control.formInput.input-number(name='revenueText', placeholder='Revenue', type='text', min='0', max='1000000')
             .form-group.text-center.show-if-device
                 .col-lg-2.col-lg-offset-1
                     button#addDevice.form-btn.btn.btn-lg.btn-primary.btn-block(name='addDevice', type='button', onclick='addDevices()') Add Device
-
             hr
-
-            //Show on all transaction types
-            .form-group.show-on-all
-                .col-sm-10.col-sm-offset-1
-                    input.form-control.formInput.input-number(name='revenueText', placeholder='Revenue', type='text', min='0', max='1000000')
-
-            hr
-
             //Learning Sessions & AOTM
             .form-group
                 .col-sm-5.plus-minus-group.col-sm-offset-1
