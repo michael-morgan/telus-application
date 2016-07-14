@@ -38,7 +38,7 @@ block content
       .panel.panel-default.formPanel
         .panel-body
           .table-responsive
-            form.form-horizontal(method='post', action='/users/remove', role='form')
+            form.form-horizontal(method='post', action='/users/remove', role='form', id='listUsersForm' name='listUsersForm')
               table.table.table-hover
                 thead
                   tr
@@ -69,6 +69,9 @@ block content
                         td
                           input.form-control(name='remove#{user.t_number}' type='checkbox')
               .col-xs-12.col-sm-5.col-sm-offset-1.m-b-10
-                button.form-btn.btn.btn-danger.btn-lg.btn-block(name='submit', type='submit', value='remove') Remove
+                button.form-btn.btn.btn-danger.btn-lg.btn-block(name='btnSubmit', type='button', value='remove', onclick='deleteUser()') Remove
               .col-xs-12.col-sm-5.m-b-10
                 a.form-btn.btn.btn-primary.btn-lg.btn-block(href='/users/', title='Cancel To Dashboard') Cancel
+
+block append script
+  script(src='/javascripts/modify-users.js')
