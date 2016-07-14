@@ -123,7 +123,7 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
                                                 returnObj['stores'][storeIndex]
                                                     ['transactions'][transIndex]
                                                     ['transactionItems'][transItemIndex]
-                                                    ['transaction'] = returnObj['transactionTypes'][transItemVal.transaction_id];
+                                                    ['transactionType'] = returnObj['transactionTypes'][transVal.transaction_type];
                                                 returnObj['stores'][storeIndex]['transactions'][transIndex]['totalRevenue'] += transItemVal.revenue;
                                             });
                                         });
