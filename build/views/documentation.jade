@@ -131,13 +131,13 @@ block content
                 li
                     a(href='#P3')
                         | Who can see my profile page
+                    ///////////////////////////////////////////START OF MENU//////////////////////////////////////////
         .col-xs-12.col-sm-7.col-md-8.col-lg-9
             h2.sectionHeading Getting started
             h3#GS1 Welcome
             p Welcome to the complete user guide for this application. Throughout this documentation, we will cover all aspects of the application including: Users, Observations, Behaviours, Coaching, the EPS system, the dashboard and the profile page.
             h3#GS2 How to use this Documentation
             p Every section of the documentation is located on the index at the top of the page. If you are on a mobile device, the index is the first part of the documentation and if you are on a tablet or bigger device, the index will be at the top-left of the page. You can navigate to any section of the documentation by clicking on the corresponding index.
-            br
             p At the bottom of your screen, there is a link that will navigate you back to the top of the screen when you click on it.
             h3#GS3 Navigating the site
             p Once you get a feel for how the navigation works on the site, it will become quick and easy. The following are  navigation guides for different devices
@@ -158,36 +158,48 @@ block content
 
             h5
                 strong Mobile Device and Small Tablet
-            p On a smaller screen the menu will be displayed differently. At the top of the page there is a top-bar where you can find the name of the application, your profile settings, and the menu. The menu is set to be hidden until you click on the 3 horizontal white bars in the top left. When that button is clicked, it will expand into the full menu. When it is expanded, it will look almost identical to the expanded menu seen above. It will only be compressed once a link has been clicked in the menu or the 3 white bars are clicked again. the top bar of the mobile site looks like this
+            p On a smaller screen it will function the same as on desktop, just a smaller view. The menu will be displayed differently. At the top of the page there is a top-bar where you can find the name of the application, your profile settings, and the menu. The menu is set to be hidden until you click on the 3 horizontal white bars in the top left. When that button is clicked, it will expand into the full menu. When it is expanded, it will look almost identical to the expanded menu seen above. It will only be compressed once a link has been clicked in the menu or the 3 white bars are clicked again. the top bar of the mobile site looks like this
             .col-xs-12
                 .thumbnail
                     .caption
                         h3 Compressed Menu
-                    img(src='/documentationImages/mobileMenu.png', alt='Compressed Menu')
+                    img(src='/documentationImages/mobileMenu.png', alt='Mobile Compressed Menu')
 
             h3#GS4 Your Account
             p Your account page can be accessed by:
-            strong Large Screen:
-            p Clicking on your name and the person icon located at the top right of the page
-            strong Small Screen
-            p Clicking on the person icon located at the top right of the page
+            .col-xs-12.col-sm-6.accountMenuImage.well
+                strong Large Screen:
+                p Clicking on your name and the person icon located at the top right of the page
+                img(src='/documentationImages/fullRightMenu.png', alt='Account Menu')
+            .col-xs-12.col-sm-6.accountMenuImage.well
+                strong Small Screen
+                p Clicking on the person icon located at the top right of the page
+                img(src='/documentationImages/smallRightMenu.png', alt='Account Menu')
+
             p When clicking this button you reveal two options, Profile and Logout. To access your profiile page, click on the Profile link. On this page, you can see your personal profile with all your information. Some of this information can be edited and seen by others. Not all information can be seen by everyone.
 
 
             h3#GS5 Settings
             p The settings page can be accessed via the small gear icon aptly labelled "Settings". On this page, and depending on your permission level you can edit basic settings of the site, add and remove users and view the user guide documentation. More information on Users can be found in the next section of this documentation. More information on your profile can be found near the end of this documentation.
 
+
+            ////////////////////////////////////USERS/////////////////////////////////////
             h2.sectionHeading Managing Users
             h3#MU1 Creating Users
-            p Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took
+            p In order to create a user, you must navigate to the "Register User" page. The link to this page can be found int he settings page or on the Menu under its parent "Users". Once you are on the page, you will see a form. This form must be completely filled out to register a new user. There is a dropdown menu that will allow you to choose the type of user you are creating, so choose wisely.
+            p Once the new user has been registered, an email will be sent to them (the email entered in the form), and they must click the activation link in the email to activate their account. Once they have activated their account, they are now a full user and will be able to access the site on their own.
             h3#MU2 Removing Users
-            p Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took
+            p In order to remove a user, you must navigate to the "Modify Users" page. The link to this page can be found in the settings page or on the Menu under its parent "Users". Once you are on the page, the checkbox beside the user you want to remove must be checked. Just click the red "Remove" button. You will be prompted to confirm this action.
+            p
+                strong Be careful when performing this action as it
+                    u _CANNOT BE UNDONE_
             h3#MU3 Modifying Users
-            p Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took
+            p At the moment, there is no difference between removing/modifying users. This section is blank until the functionality is chnanged.
             h3#MU4 User Permissions
-            p Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Why do we use it?It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
+            p Throughout the site there is a built in permission system. You will be able to see certain things, access certain pages and add/modify users based on your permissions. When a new user is added, their permission is determined. When you are adding a new user, you may only add an employee with less permission than you. For the most part, you will be able to see user information, including observations and personal details if their permissions are lower than yours. Also, if your permissions are high enough, you will have the ability to edit behaviours and skills.
             h3#MU Logging in and out
-            p Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+            p When visiting the page and there is no active session, you will be prompted to login, there is no way around this. You cannot access the application if you are not logged in or do not have an account.
+            p To logout, click on the person icon, at the top right of the application and select "Log out". You will be logged out and will not be able to access any part of the application until you login again.
 
             h2.sectionHeading Observations
             h3#O1 What are Observations?
