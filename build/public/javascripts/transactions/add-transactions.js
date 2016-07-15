@@ -250,4 +250,8 @@ $("#transactionDropdown").change(function () {
     $('.show-on-all').attr('style', 'display: block');
 });
 
+//This function is called when the user presses the cancel button while adding a transaction
+function cancelButton() {
+    window.location.href = '/users/transactions';
+};
 
