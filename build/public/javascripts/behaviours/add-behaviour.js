@@ -61,5 +61,52 @@ function validate() {
     $('#saveBehaviour').prop('disabled', !isValid());
 }
 
+//The save and delete are the same button, determine which and perform an action
+function saveOrDeleteFunc(){
+    if(document.getElementById("saveBehaviour").textContent == "Save") {
+        document.getElementById("addBehaviourForm").submit();
+    }
+    else
+    {
+
+        var checkboxes = document.getElementsByClassName("skillOrBehaviourCheckbox");
+        var skillCheckbox = document.getElementsByClassName("skillCheckbox");
+        var behaviourCheckboxes = document.getElementsByClassName("behaviourCheckbox");
+        var checkedBoxes = 0
+
+        for (var i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i].checked == true) {
+                checkedBoxes ++;
+            }
+
+        }
+        //If the skill and all its behaviours are selected for deletion
+        if (skillCheckbox[0].checked == true)
+
+            bootbox.confirm("Are you sure you want to delete this skill and all of its behaviours?", function(result) {
+                if (result == true) {
+                    //If the user clicks on "OK" in the confirmation box
+                    document.getElementById("addBehaviourForm").submit();
+                }
+            });
+        //If there are behaviours selected for deletion, but not the skill
+        else if (checkedBoxes > 0) {
+            bootbox.confirm("Are you sure you want delete the behaviour(s)?", function (result) {
+                if (result == true) {
+                    //If the user clicks on "OK" in the confirmation box
+                    document.getElementById("addBehaviourForm").submit();
+                }
+            });
+        }
+
+        //If the user does not select any items for deletion
+        else {
+            bootbox.alert("You have not selected any items to delete.", function() {
+            });
+        }
+    }
+}
+
+
 
 
