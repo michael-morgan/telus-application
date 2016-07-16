@@ -465,11 +465,6 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
                     transaction_item['sbs_activation'] = 1;
                     callback(null);
                 }
-                else if(item.indexOf('revenue') >= 0) {
-                    transaction_item['revenue'] = transaction_items[item];
-                    console.log("First run: "+transaction_item['revenue']);
-                    callback(null);
-                }
                 else if(item.indexOf('deviceDropdown') >= 0) {
                     transaction_item['device_type'] = transaction_items[item];
                     callback(null);
@@ -484,6 +479,10 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
                 }
                 else if(item.indexOf('accessoryCount') >= 0) {
                     transaction_item['num_of_accessories'] = transaction_items[item];
+                    callback(null);
+                }
+                else if(item.indexOf('revenue') >= 0) {
+                    transaction_item['revenue'] = transaction_items[item];
                     transaction_item['transaction_id'] = transaction_items['transaction_id'];
                     if(transaction_item['sbs_activation'] == undefined)
                         transaction_item['sbs_activation'] =0;
