@@ -1,5 +1,9 @@
 $(function () {
     loadButtons();
+
+    console.debug(warrentyObj);
+    console.debug(deviceObj);
+    console.debug(activationObj);
 });
 
 function loadButtons() {

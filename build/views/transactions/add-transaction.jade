@@ -194,4 +194,9 @@ block content
 
 block append script
     script(src='/javascripts/transactions/add-transactions.js')
+    script.
+        var warrentyObj = JSON.parse('!{warrentysObj}');
+        var deviceObj = JSON.parse('!{devicesObj}');
+        var activationObj = JSON.parse('!{activationsObj}');
+
 

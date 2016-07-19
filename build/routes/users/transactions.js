@@ -654,6 +654,11 @@ function renderAddTransactionPage(returnObj, req, res, next) {
                         returnObj['devices'] = deviceResults;
                         returnObj['warrantys'] = warrantyResults;
                         returnObj['selectedEmployee'] = req.user.t_number;
+
+                        returnObj['warrentysObj'] = JSON.stringify(returnObj['warrantys']);
+                        returnObj['devicesObj'] = JSON.stringify(returnObj['devices']);
+                        returnObj['activationsObj'] = JSON.stringify(returnObj['activations']);
+
                         return res.render('transactions/add-transaction', returnObj);
                     }); //end getWarranty
                 }); //end getDevice
