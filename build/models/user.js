@@ -114,6 +114,16 @@ exports.getStoreByTNum = function(t_number, done) {
     });
 };
 
+exports.getAllUsersByStoreID = function(id,done) {
+    connection.get().query('SELECT * FROM users WHERE store_id = ?',id, function(error, result) {
+        if(error) {
+            return done(error);
+        }
+
+        done(null, result);
+    });
+};
+
 exports.getAll = function(done) {
     connection.get().query('SELECT * FROM `users`', function(error, result) {
         if(error) {

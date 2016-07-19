@@ -27,7 +27,10 @@ block content
       label(for='teamMember') Team Member:
       select.form-control(id='teamMember', name='teamMember')
         each user, userIndex in users
-          option(value='#{user.t_number}') #{user.first_name} #{user.last_name}
+          if selectedEmployee && selectedEmployee == user.t_number
+            option(value='#{user.t_number}' selected) #{user.first_name} #{user.last_name}
+          else
+            option(value='#{user.t_number}') #{user.first_name} #{user.last_name}
     .col-xs-12.col-sm-4.col-lg-3.col-lg-offset-5
       label(for='dateRange') Date Range:
       .input-group
@@ -114,7 +117,7 @@ block content
     .col-xs-12.col-lg-10.col-lg-offset-1
       hr
 
-  .row
+  .row#transactionList
     .panel-group(role='tablist', aria-multiselectable='true')
       each store, storeIndex in stores
         .col-xs-12.col-lg-10.col-lg-offset-1
@@ -125,7 +128,7 @@ block content
                   h3.panel-title(style='font-size: 24px;')
                     | #{store.store_name}
             .panel-collapse.collapse(role='tabpanel', aria-labelledby='storeHeading#{storeIndex}', id='storeCollapse#{storeIndex}')
-              .panel-body
+              .panel-body#transactionContainer
                 each transaction, transIndex in stores[storeIndex].transactions
                   .panel(id='transactionID#{transaction.transaction_id}')
                     .panel-heading.purpleHead

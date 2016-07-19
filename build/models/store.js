@@ -9,3 +9,13 @@ exports.getStores = function(done) {
         done(null, result);
     });
 };
+
+exports.getStoresByTNumber = function(id,done) {
+    connection.get().query('SELECT * FROM `stores` INNER JOIN `users` ON stores.store_id = users.store_id WHERE t_number = ?', id,function(error, result) {
+        if(error) {
+            return done(error);
+        }
+
+        done(null, result);
+    });
+};
