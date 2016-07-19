@@ -191,8 +191,8 @@ block content
             h3#MU2 Removing Users
             p In order to remove a user, you must navigate to the "Modify Users" page. The link to this page can be found in the settings page or on the Menu under its parent "Users". Once you are on the page, the checkbox beside the user you want to remove must be checked. Just click the red "Remove" button. You will be prompted to confirm this action.
             p
-                strong Be careful when performing this action as it
-                    u _CANNOT BE UNDONE_
+                strong
+                    u THIS CANNOT BE UNDONE
             h3#MU3 Modifying Users
             p At the moment, there is no difference between removing/modifying users. This section is blank until the functionality is chnanged.
             h3#MU4 User Permissions
@@ -230,12 +230,30 @@ block content
 
             h2.sectionHeading Behaviours and Skills
             h3#B1 What are Behaviours and Skills?
-            p Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took
+            p Behaviours and Skills are the fundamental components in observations. In order to make an observation, you must select a skill and a behaviour within that skill for the observation. These can either be positive or negative and are the most important things a manager looks for. They can be defined as:
+            h4 Skills
+            p The parent category for the behaviours. These will encompass several similar behaviours underneath them. An example of a skill would be: &nbsp
+                strong
+                    i Consultative Selling Skills
+            | &nbsp and this would encompass several behaviours that have to do with it.
+            h4 Behaviours
+            p The specific action an employee would do that can be recorded. Typically a manager or the employee themselves would notice these actions taking place and create an observation, either positive or negative. An example of a behaviour underneath the skill Consultative Selling Skills: &nbsp
+                strong
+                    i Asked open-ended lifestyle questions using trigger verbs and the FORE model.
             h3#B2 Creating Behaviours
-            p Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took
+            p When creating a behaviour one must first decide which skill this behaviour will fall under. If there is no appropriate skill for the new behaviour, you can create a skill as well which is documented below.
+            strong To create a behaviour for an already existing skill, take the following steps:
+            ol
+                li In the menu, click the button "Behaviours" under the parent "Behaviours"
+                img(src='/documentationImages/menuBehaviours.png', alt='Behaviours Menu')
+                li Next you must select the skill for which the behaviour will the reside under, it should be not be random.
+                li Once a skill is selected, click the ellipses located on that skill, click "Edit Skill"
+                img(src='/documentationImages/editSkill.png', alt='Edit Skill')
+                li On this page you will be brought to the "Edit Skills/Behaviours" page, 
             h3#B3 Creating Skills
             p Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took
             h3#B4 Removing Behaviours and Skills
+
             p Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Why do we use it?It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
 
             h2.sectionHeading Coaching Binder
@@ -253,12 +271,18 @@ block content
             p Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Why do we use it?It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
 
             h2.sectionHeading EPS
-            h3#EPS1 What is the EPS System?
-            p Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took
-            h3#EPS2 Transaction Types
-            p Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took
-            h3#EPS3 Creating Transactions
-            p Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took
+                h3#EPS1 What is the EPS System?
+                p The EPS System stands for "" and is the central location where employees can track sales metrics and view their transaction history. This System makes it easy to populate coaching logs and other necessary documents with each team member's sales stats, so that they can be discussed with a supervisor or used for self review.
+                h3#EPS2 Transaction Types
+                p There are several different types of transactions that can be recorded, they are as follows: Device, Accessory, Outright SIM, VPIN, Repair/Return, or Other Eligible Transactions. Based on whatever transaction needs to be recorded, selecting a transaction type will populate other related fields to the chosen transaction.
+                h3#EPS3 Creating Transactions
+                p Creating transactions can be completed by any user. By navigating to the 'Add Transaction' page, you can fill out a form that allows you to choose the team member who completed the transaction, as well as several form fields specifying the transaction type and other related items based on the transaction conducted. For example, a 'Device' transaction will show fields for 'Activation Type' and 'Device Type', which will not populate for other transaction types.
+                p When choosing an Activation Type for a Device, you can use the 'SBS Activation?' check box to signify that the device activated was for business.
+                p Be sure to record all information related to the sale conducted, otherwise you can leave the field empty. An example of this would be the 'Warranty Type' field. If you sold a warranty, be sure to include what type of warranty was sold with the device, however, if no warranty was sold you can leave this field empty.
+                p Clicking the 'Add Device' button below the 'Device 1' form will duplicate the form for including a second device in the transaction. For example, if you sold 2 devices in one transaction, clicking this button would allow you to input all items related to both devices, and save it under one transaction.
+                p The form at the bottom of the page includes additional metrics that can be tracked for your transaction. Learning Sessions, Credit Card Applications, Appointments, AOTMs, Critters and Donations are all metrics that are recorded as a count. You can use the '-' or '+' buttons on either side of the number box to increment or decrement the amount of 'items' included in the transaction. If no additional items were included in your transaction, you can leave these at 0.
+                p When you have finished filling out the form with your transaction details, you can use the 'Save' button to simply save your transaction. This will redirect you to the 'Transaction History' page where you can now view the transaction you just added. Clicking the 'Save & Start New Transaction' button will save your transaction and refresh the page, making it quick and easy to input multiple transactions at a time. In the event that you find you don't need or want to save the transaction you've started to create, you can always click the 'Cancel' button at the bottom of the page, or simply navigate to another page in the application.
+
             h3#EPS4 Viewing Transactions
             p Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Why do we use it?It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
             h3#EPS5 Viewing Transactions
