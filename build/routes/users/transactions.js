@@ -351,20 +351,24 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
                     callback(null);
                 }
                 else if(item.indexOf('revenue') >= 0) {
-                    transaction_item['revenue'] = transaction_items[item];
+                    transaction_item['revenue'] = transaction_items[item]
+                    if(transaction_item['revenue'] == ''){
+                        transaction_item['revenue'] = 0.00;
+                    }
                     transaction_item['transaction_id'] = transaction_items['transaction_id'];
-                    if(transaction_item['sbs_activation'] == undefined)
-                        transaction_item['sbs_activation'] =0;
+                    if(transaction_item['sbs_activation'] == undefined){
+                        transaction_item['sbs_activation'] = 0;
+                    }
                     transactionModel.addTransactionItems(transaction_item, function (err, result) {
                         if (!err) {
                             callback(null);
                         } else {
                             callback(null);
+                            console.log(err);
                         }
                     });
                 }
-                else
-                {
+                else {
                    callback(null);
                 }
             });
@@ -380,7 +384,6 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
      * Add any additional metrics te transaction may have
      * @param fnCallback
      */
-
     function addMetrics(fnCallback) {
         if (hasMetrics) {
             console.log("Additional Metrics");
@@ -584,8 +587,8 @@ function renderTransactionHistoryPage(returnObj, req, res, next) {
                                                 req.session.success = false;
                                             }
                                             returnObj['users'] = result;
+                                            returnObj['usersObj'] = JSON.stringify(result);
                                             returnObj['selectedEmployee']= req.user.t_number;
-                                            console.log(req.user.t_number);
                                             return res.render('transactions/transactions', returnObj);
                                     });
                                 });
@@ -606,7 +609,7 @@ function renderTransactionHistoryPage(returnObj, req, res, next) {
  * @param next
  */
 function renderAddTransactionPage(returnObj, req, res, next) {
-    userModel.getAll(function (err, userResult) {
+    userModel.getAllUsersByStoreID(req.user.store_id, function (err, userResult) {
         //If an error is thrown
         if (err) {
             returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');

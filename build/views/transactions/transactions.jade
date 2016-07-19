@@ -26,11 +26,13 @@ block content
     .col-xs-12.col-sm-4.col-lg-2.col-lg-offset-1
       label(for='teamMember') Team Member:
       select.form-control(id='teamMember', name='teamMember')
+        option(value='all') All Team Members
         each user, userIndex in users
           if selectedEmployee && selectedEmployee == user.t_number
             option(value='#{user.t_number}' selected) #{user.first_name} #{user.last_name}
           else
             option(value='#{user.t_number}') #{user.first_name} #{user.last_name}
+
     .col-xs-12.col-sm-4.col-lg-3.col-lg-offset-5
       label(for='dateRange') Date Range:
       .input-group
@@ -129,106 +131,10 @@ block content
                     | #{store.store_name}
             .panel-collapse.collapse(role='tabpanel', aria-labelledby='storeHeading#{storeIndex}', id='storeCollapse#{storeIndex}')
               .panel-body#transactionContainer
-                each transaction, transIndex in stores[storeIndex].transactions
-                  .panel(id='transactionID#{transaction.transaction_id}')
-                    .panel-heading.purpleHead
-                      .row(role='tab', id='transactionHeading#{transaction.transaction_id}', data-toggle='collapse', data-target='#transactionCollapse#{transaction.transaction_id}')
-                        .col-xs-4
-                          h4.panel-title
-                            | #{transaction.transaction_date.toLocaleDateString()}
-                        .col-xs-4.text-center
-                          h4.panel-title
-                            | #{transaction.transactionItems.length} Item(s)
-                        .col-xs-4
-                          .pull-right
-                            .col-xs-8(style='padding:0;')
-                              h4.panel-title
-                                | #{transaction.totalRevenue.toLocaleString('en-CA', { style: 'currency', currency: 'CAD' })}
-                            .col-xs-4(style='padding:0;')
-                              if user.privileged >= 3
-                                .dropdown(style='margin-top:6px;')
-                                  a.dropdown-toggle#ddMoreOptions(type='button', data-toggle='dropdown', aria-haspopup='true' aria-expanded='true')
-                                    i.fa.fa-ellipsis-v.fa-2x(aria-hidden='true')
-                                  ul.dropdown-menu(aria-labelledby='ddMoreOptions')
-                                    li
-                                      a(href='#' onclick='deleteTransaction(#{transaction.transaction_id})')
-                                        | Remove Transaction
-                    .panel-collapse.collapse(role='tabpanel', aria-labelledby='transactionHeading#{transaction.transaction_id}', id='transactionCollapse#{transaction.transaction_id}')
-                      .panel-body
-                        each transactionItem, transItemIndex in transaction.transactionItems
-                          .col-xs-12.col-sm-6.col-md-4
-                            strong Transaction Type:
-                            span(style='margin-left: 5px;') #{transactionItem.transactionType}
-                          .col-xs-12.col-sm-6.col-md-4
-                            strong Warranty Type:
-                            span(style='margin-left: 5px;') #{transactionItem.warranty}
-                          .col-xs-12.col-sm-6.col-md-4
-                            strong Sale Type:
-                            span(style='margin-left: 5px;') #{transactionItem.activation}
-                          .col-xs-12.col-sm-6.col-md-4
-                            strong Attach (Yes/No):
-                            span(style='margin-left: 5px;') #{transactionItem.attachments === 1 ? 'Yes' : 'No'}
-                          .col-xs-12.col-sm-6.col-md-4
-                            strong Device Type:
-                            span(style='margin-left: 5px;') #{transactionItem.device}
-                          .col-xs-12.col-sm-6.col-md-4
-                            strong Revenue:
-                            span(style='margin-left: 5px;') #{transactionItem.revenue.toLocaleString('en-CA', { style: 'currency', currency: 'CAD' })}
-                          .col-xs-12.col-sm-6.col-md-4
-                            strong SBS Activation (Yes/No):
-                            span(style='margin-left: 5px;') #{transactionItem.sbs_activation === 1 ? 'Yes' : 'No'}
-                          .col-xs-12.col-sm-6.col-md-4
-                            strong Number of Accessories:
-                            span(style='margin-left: 5px;') #{transactionItem.number_of_accessories}
-                          .col-xs-12
-                            hr
-                        each learning, learningIndex in transaction.additionalMetricItems
-                          if learning.additional_metrics_items_type === 1
-                            .col-xs-12.col-sm-6.col-md-4
-                              strong Learning Sessions:
-                              span(style='margin-left: 5px;')
-                                | #{learning.additional_metrics_items_count}
-                          if learning.additional_metrics_items_type === 2
-                            .col-xs-12.col-sm-6.col-md-4
-                              strong AOTMs Sold:
-                              span(style='margin-left: 5px;')
-                                | #{learning.additional_metrics_items_count}
-                          if learning.additional_metrics_items_type === 4
-                            .col-xs-12.col-sm-6.col-md-4
-                              strong Critters Sold:
-                              span(style='margin-left: 5px;')
-                                | #{learning.additional_metrics_items_count}
-                          if learning.additional_metrics_items_type === 6
-                            .col-xs-12.col-sm-6.col-md-4
-                              strong Credit Card Apps:
-                              span(style='margin-left: 5px;')
-                                | #{learning.additional_metrics_items_count}
-                          if learning.additional_metrics_items_type === 3
-                            .col-xs-12.col-sm-6.col-md-4
-                              strong Appointments:
-                              span(style='margin-left: 5px;')
-                                | #{learning.additional_metrics_items_count}
-                          if learning.additional_metrics_items_type === 5
-                            .col-xs-12.col-sm-6.col-md-4
-                              strong Donations:
-                              span(style='margin-left: 5px;')
-                                | #{learning.additional_metrics_items_count}
-                        .col-xs-12(style='padding: 0;')
-                          .col-xs-6(style='margin-top: 25px;')
-                            .pull-left
-                              strong Date:
-                              span(style='margin-left: 5px;') #{transaction.transaction_date.toLocaleDateString()}
-                          .col-xs-6(style='margin-top: 25px;')
-                            .pull-right
-                              strong Completed By:
-                              span(style='margin-left: 5px;')
-                                each user, userIndex in users
-                                  if user.t_number === transaction.t_number
-                                    | #{user.first_name} #{user.last_name}
-
 block append script
   script(src='/bower_components/bootstrap-daterangepicker/moment.min.js')
   script(src='/bower_components/bootstrap-daterangepicker/daterangepicker.js')
   script(src='/javascripts/transactions/transactions.js')
   script.
     var storeObj = JSON.parse('!{storesObj}');
+    var userObj = JSON.parse('!{usersObj}');
