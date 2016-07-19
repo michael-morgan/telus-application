@@ -20,138 +20,7 @@ function ensureAuthenticated(req, res, next) {
 
 router.get('/', ensureAuthenticated, function (req, res, next) {
     var returnObj = { title: 'Transaction History' };
-
-    storeModel.getStores(function(err, result) {
-        if(err) {
-            throw next(err);
-        }
-
-        returnObj['stores'] = result;
-
-        transactionModel.getTransactionss(function(err, result) {
-            if(err) {
-                throw next(err);
-            }
-
-            returnObj['transactions'] = result;
-
-            transactionModel.getTransactionTypes(function (err, result) {
-                if (err) {
-                    throw next(err);
-                }
-
-                returnObj['transactionTypes'] = {};
-                for(var index in result) {
-                    returnObj['transactionTypes'][result[index].transaction_type_id] = result[index].transaction_types;
-                }
-
-                transactionModel.getTransactionItems(function(err, result) {
-                    if(err) {
-                        throw next(err);
-                    }
-
-                    returnObj['transactionItems'] = result;
-
-                    transactionModel.getAdditionalMetricItems(function(err, result) {
-                        if (err) {
-                            throw next(err);
-                        }
-
-                        returnObj['additionalMetricItems'] = result;
-
-                        transactionModel.getActivation(function (err, result) {
-                            if (err) {
-                                throw next(err);
-                            }
-
-                            returnObj['activationTypes'] = {};
-                            for(var index in result) {
-                                returnObj['activationTypes'][result[index].activation_type_id] = result[index].activation_types;
-                            }
-
-                            transactionModel.getDevice(function (err, result) {
-                                if (err) {
-                                    throw next(err);
-                                }
-
-                                returnObj['deviceTypes'] = {};
-                                for(var index in result) {
-                                    returnObj['deviceTypes'][result[index].device_type_id] = result[index].device_types;
-                                }
-
-                                transactionModel.getWarranty(function (err, result) {
-                                    if (err) {
-                                        throw next(err);
-                                    }
-
-                                    returnObj['warrantyTypes'] = {};
-                                    for(var index in result) {
-                                        returnObj['warrantyTypes'][result[index].warranty_type_id] = result[index].warranty_types;
-                                    }
-
-                                    returnObj['stores'].forEach(function(storeVal, storeIndex) {
-                                        returnObj['stores'][storeIndex]['transactions'] = returnObj['transactions'].filter(function(transVal) {
-                                            return transVal.store_id === storeVal.store_id;
-                                        });
-
-                                        returnObj['stores'][storeIndex]['transactions'].forEach(function(transVal, transIndex) {
-                                            returnObj['stores'][storeIndex]['transactions'][transIndex]['transactionItems'] = returnObj['transactionItems']
-                                            .filter(function(transItemVal) {
-                                                return transItemVal.transaction_id === transVal.transaction_id;
-                                            });
-
-                                            returnObj['stores'][storeIndex]['transactions'][transIndex]['additionalMetricItems'] = returnObj['additionalMetricItems']
-                                            .filter(function(addMetricItemVal) {
-                                                return addMetricItemVal.transaction_id === transVal.transaction_id;
-                                            });
-
-                                            returnObj['stores'][storeIndex]['transactions'][transIndex]['totalRevenue'] = 0;
-                                            returnObj['stores'][storeIndex]
-                                                ['transactions'][transIndex]['transactionItems'].forEach(function(transItemVal, transItemIndex) {
-                                                returnObj['stores'][storeIndex]
-                                                    ['transactions'][transIndex]
-                                                    ['transactionItems'][transItemIndex]
-                                                    ['activation'] = returnObj['activationTypes'][transItemVal.activation_type];
-                                                returnObj['stores'][storeIndex]
-                                                    ['transactions'][transIndex]
-                                                    ['transactionItems'][transItemIndex]
-                                                    ['device'] = returnObj['deviceTypes'][transItemVal.device_type];
-                                                returnObj['stores'][storeIndex]
-                                                    ['transactions'][transIndex]
-                                                    ['transactionItems'][transItemIndex]
-                                                    ['warranty'] = returnObj['warrantyTypes'][transItemVal.warranty_type];
-                                                returnObj['stores'][storeIndex]
-                                                    ['transactions'][transIndex]
-                                                    ['transactionItems'][transItemIndex]
-                                                    ['transactionType'] = returnObj['transactionTypes'][transVal.transaction_type];
-                                                returnObj['stores'][storeIndex]['transactions'][transIndex]['totalRevenue'] += transItemVal.revenue;
-                                            });
-                                        });
-                                    });
-
-                                    returnObj['storesObj'] = JSON.stringify(returnObj['stores']);
-
-                                    userModel.getAll(function(err, result) {
-                                        if(err) {
-                                            throw next(err);
-                                        }
-                                        //Display success message on adding a transaction
-                                        if(req.session.success) {
-                                            req.flash('success_messages', 'Transaction successfully added!');
-                                            res.locals.success_messages = req.flash('success_messages');
-                                            req.session.success = false;
-                                        }
-                                        returnObj['users'] = result;
-                                        return res.render('transactions/transactions', returnObj);
-                                    });
-                                });
-                            });
-                        });
-                    });
-                });
-            });
-        });
-    });
+    renderTransactionHistoryPage(returnObj, req, res, next);
 });
 
 /********************************************************************************************
@@ -162,7 +31,7 @@ router.get('/add-transaction', ensureAuthenticated, function (req, res, next) {
         title: 'Add Transaction'
     };
 
-    renderPage(returnObj, req, res, next);
+    renderAddTransactionPage(returnObj, req, res, next);
 
 
 }); //end get for /add-transaction
@@ -177,7 +46,7 @@ router.get('/add-transaction/:employee', ensureAuthenticated, function (req, res
     };
 
 
-    renderPage(returnObj, req, res, next);
+    renderAddTransactionPage(returnObj, req, res, next);
 
 }); //End get for add-transaction/:employee
 
@@ -201,13 +70,13 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
     if (req.body.employeeDropdown == undefined) {
         console.log("No user selected");
         returnObj['message'] = 'Please select a user';
-        return renderPage(returnObj, req, res, next);
+        return renderAddTransactionPage(returnObj, req, res, next);
     }
 
     if (req.body.transactionDropdown == undefined) {
         console.log("No transaction selected");
         returnObj['message'] = 'Please select a transaction type';
-        return renderPage(returnObj, req, res, next);
+        return renderAddTransactionPage(returnObj, req, res, next);
     }
 
     //Get all the data from the form
@@ -482,20 +351,24 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
                     callback(null);
                 }
                 else if(item.indexOf('revenue') >= 0) {
-                    transaction_item['revenue'] = transaction_items[item];
+                    transaction_item['revenue'] = transaction_items[item]
+                    if(transaction_item['revenue'] == ''){
+                        transaction_item['revenue'] = 0.00;
+                    }
                     transaction_item['transaction_id'] = transaction_items['transaction_id'];
-                    if(transaction_item['sbs_activation'] == undefined)
-                        transaction_item['sbs_activation'] =0;
+                    if(transaction_item['sbs_activation'] == undefined){
+                        transaction_item['sbs_activation'] = 0;
+                    }
                     transactionModel.addTransactionItems(transaction_item, function (err, result) {
                         if (!err) {
                             callback(null);
                         } else {
                             callback(null);
+                            console.log(err);
                         }
                     });
                 }
-                else
-                {
+                else {
                    callback(null);
                 }
             });
@@ -511,7 +384,6 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
      * Add any additional metrics te transaction may have
      * @param fnCallback
      */
-
     function addMetrics(fnCallback) {
         if (hasMetrics) {
             console.log("Additional Metrics");
@@ -588,14 +460,156 @@ function getCurrentDate() {
 } //end getCurrentDate
 
 /**
- * This method pull all the data required to load the transaction page from the database and loads the page
+ * This method pulls all the data required to load the transaction history page from the database and loads the page
  * @param returnObj
  * @param req
  * @param res
  * @param next
  */
-function renderPage(returnObj, req, res, next) {
-    userModel.getAll(function (err, userResult) {
+function renderTransactionHistoryPage(returnObj, req, res, next) {
+    storeModel.getStoresByTNumber(req.user.t_number,function(err, result) {
+        if(err) {
+            throw next(err);
+        }
+        returnObj['stores'] = result;
+
+        transactionModel.getTransactionss(function(err, result) {
+            if(err) {
+                throw next(err);
+            }
+
+            returnObj['transactions'] = result;
+
+            transactionModel.getTransactionTypes(function (err, result) {
+                if (err) {
+                    throw next(err);
+                }
+
+                returnObj['transactionTypes'] = {};
+                for(var index in result) {
+                    returnObj['transactionTypes'][result[index].transaction_type_id] = result[index].transaction_types;
+                }
+
+                transactionModel.getTransactionItems(function(err, result) {
+                    if(err) {
+                        throw next(err);
+                    }
+
+                    returnObj['transactionItems'] = result;
+
+                    transactionModel.getAdditionalMetricItems(function(err, result) {
+                        if (err) {
+                            throw next(err);
+                        }
+
+                        returnObj['additionalMetricItems'] = result;
+
+                        transactionModel.getActivation(function (err, result) {
+                            if (err) {
+                                throw next(err);
+                            }
+
+                            returnObj['activationTypes'] = {};
+                            for(var index in result) {
+                                returnObj['activationTypes'][result[index].activation_type_id] = result[index].activation_types;
+                            }
+
+                            transactionModel.getDevice(function (err, result) {
+                                if (err) {
+                                    throw next(err);
+                                }
+
+                                returnObj['deviceTypes'] = {};
+                                for(var index in result) {
+                                    returnObj['deviceTypes'][result[index].device_type_id] = result[index].device_types;
+                                }
+
+                                transactionModel.getWarranty(function (err, result) {
+                                    if (err) {
+                                        throw next(err);
+                                    }
+
+                                    returnObj['warrantyTypes'] = {};
+                                    for(var index in result) {
+                                        returnObj['warrantyTypes'][result[index].warranty_type_id] = result[index].warranty_types;
+                                    }
+
+                                    returnObj['stores'].forEach(function(storeVal, storeIndex) {
+                                        returnObj['stores'][storeIndex]['transactions'] = returnObj['transactions'].filter(function(transVal) {
+                                            return transVal.store_id === storeVal.store_id;
+                                        });
+
+                                        returnObj['stores'][storeIndex]['transactions'].forEach(function(transVal, transIndex) {
+                                            returnObj['stores'][storeIndex]['transactions'][transIndex]['transactionItems'] = returnObj['transactionItems']
+                                                .filter(function(transItemVal) {
+                                                    return transItemVal.transaction_id === transVal.transaction_id;
+                                                });
+
+                                            returnObj['stores'][storeIndex]['transactions'][transIndex]['additionalMetricItems'] = returnObj['additionalMetricItems']
+                                                .filter(function(addMetricItemVal) {
+                                                    return addMetricItemVal.transaction_id === transVal.transaction_id;
+                                                });
+
+                                            returnObj['stores'][storeIndex]['transactions'][transIndex]['totalRevenue'] = 0;
+                                            returnObj['stores'][storeIndex]
+                                                ['transactions'][transIndex]['transactionItems'].forEach(function(transItemVal, transItemIndex) {
+                                                returnObj['stores'][storeIndex]
+                                                    ['transactions'][transIndex]
+                                                    ['transactionItems'][transItemIndex]
+                                                    ['activation'] = returnObj['activationTypes'][transItemVal.activation_type];
+                                                returnObj['stores'][storeIndex]
+                                                    ['transactions'][transIndex]
+                                                    ['transactionItems'][transItemIndex]
+                                                    ['device'] = returnObj['deviceTypes'][transItemVal.device_type];
+                                                returnObj['stores'][storeIndex]
+                                                    ['transactions'][transIndex]
+                                                    ['transactionItems'][transItemIndex]
+                                                    ['warranty'] = returnObj['warrantyTypes'][transItemVal.warranty_type];
+                                                returnObj['stores'][storeIndex]
+                                                    ['transactions'][transIndex]
+                                                    ['transactionItems'][transItemIndex]
+                                                    ['transactionType'] = returnObj['transactionTypes'][transVal.transaction_type];
+                                                returnObj['stores'][storeIndex]['transactions'][transIndex]['totalRevenue'] += transItemVal.revenue;
+                                            });
+                                        });
+                                    });
+
+                                    returnObj['storesObj'] = JSON.stringify(returnObj['stores']);
+
+                                    userModel.getAllUsersByStoreID(req.user.store_id,function(err, result) {
+                                            if(err) {
+                                                throw next(err);
+                                            }
+                                            //Display success message on adding a transaction
+                                            if(req.session.success) {
+                                                req.flash('success_messages', 'Transaction successfully added!');
+                                                res.locals.success_messages = req.flash('success_messages');
+                                                req.session.success = false;
+                                            }
+                                            returnObj['users'] = result;
+                                            returnObj['usersObj'] = JSON.stringify(result);
+                                            returnObj['selectedEmployee']= req.user.t_number;
+                                            return res.render('transactions/transactions', returnObj);
+                                    });
+                                });
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    });
+} //End renderTransactionHistoryPage
+
+/**
+ * This method pulls all the data required to load the add-transaction page from the database and loads the page
+ * @param returnObj
+ * @param req
+ * @param res
+ * @param next
+ */
+function renderAddTransactionPage(returnObj, req, res, next) {
+    userModel.getAllUsersByStoreID(req.user.store_id, function (err, userResult) {
         //If an error is thrown
         if (err) {
             returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');
@@ -646,7 +660,7 @@ function renderPage(returnObj, req, res, next) {
             }); //end getActivation
         }); //end getTransactions
     }); //end getAll
-} //End renderPage
+} //End renderAddTransactionPage
 
 
 module.exports = router;

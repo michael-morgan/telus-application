@@ -79,8 +79,15 @@ function loadButtons() {
 var count = 2;
 function addDevices() {
     //Add device fields
-    var deviceFields = '<div class="single-device" id="device'+count+' ">\
-                            <h3 class="device show-if-device">Device  ' + count + '</h3>\
+    var deviceFields = '<div class="single-device" id="device'+count+'">\
+                            <div class="form-group show-if-device">\
+                                <div class="col-sm-4">\
+                                    <h3 class="device show-if-device">Device  ' +count+'</h3>\
+                                </div>\
+                                <div class="col-sm-8">\
+                                <a class="btn-remove pull-left btn btn-danger" id="remove'+count+'" onclick="removeDevice('+count+')">X</a>\
+                                </div>\
+                            </div>\
                             <div class="form-group show-if-device">\
                                 <div class="col-sm-2 text-right transaction"><span class="transaction">Activation Type:</span></div>\
                                 <div class="col-sm-10">\
@@ -142,7 +149,10 @@ function addDevices() {
                                 </div>\
                             </div>\
                             <div class="form-group show-on-all" style="display: block">\
-                                <div class="col-sm-10 col-sm-offset-1">\
+                                <div class="col-sm-2 text-right transaction">\
+                                    <span class="transaction">Revenue:</span>\
+                                </div>\
+                                <div class="col-sm-10">\
                                     <input name="revenueText' + count + '" placeholder="Revenue" type="text" min="0" max="1000000" class="form-control formInput input-number">\
                                 </div>\
                             </div>\
@@ -219,11 +229,14 @@ function resetDevice() {
                                     <input type="number" name="accessoryCount" value="0" min="0" max="100" class="form-control input-number">\
                                 </div>\
                             </div>\
-                        </div>\
                         <div class="form-group show-on-all" style="display: block">\
-                            <div class="col-sm-10 col-sm-offset-1">\
+                            <div class="col-sm-2 text-right transaction">\
+                                    <span class="transaction">Revenue:</span>\
+                            </div>\
+                            <div class="col-sm-10">\
                                 <input name="revenueText" placeholder="Revenue" type="text" min="0" max="1000000" class="form-control formInput input-number">\
                             </div>\
+                        </div>\
                         </div>';
     $('.device-group').html(deviceFields);
     count = 2;
@@ -253,5 +266,10 @@ $("#transactionDropdown").change(function () {
 //This function is called when the user presses the cancel button while adding a transaction
 function cancelButton() {
     window.location.href = '/users/transactions';
+};
+
+function removeDevice(id) {
+    $('#device'+id).remove();
+    count--;
 };
 

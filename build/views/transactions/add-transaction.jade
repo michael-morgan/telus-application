@@ -99,7 +99,10 @@ block content
 
                     //Show on all transaction types
                     .form-group.show-on-all
-                        .col-sm-10.col-sm-offset-1
+                        .col-sm-2.text-right.transaction
+                            span.transaction
+                                | Revenue:
+                        .col-sm-10
                             input.form-control.formInput.input-number(name='revenueText', placeholder='Revenue', type='text', min='0', max='1000000')
             .form-group.text-center.show-if-device
                 .col-lg-2.col-lg-offset-1
