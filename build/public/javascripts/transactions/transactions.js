@@ -1,3 +1,21 @@
+var filteredArray;
+var teamMember;
+var filterTeamMembers = function(transaction) {
+    teamMember = $('#teamMember');
+    //If the 'All Team Members' was chosen from the drop down, show all transactions
+    if(teamMember.val() == 'all')
+        return transaction.t_number != teamMember.val();
+    //If a team member was chosen from the drop down, show transactions related to that user
+    else
+        return transaction.t_number == teamMember.val();
+}, filterDate = function(transaction) {
+    var transactionDate = new Date(transaction.transaction_date);
+
+    return ((transactionDate >= startDate) && (transactionDate <= endDate));
+};
+var startDate;
+var endDate;
+
 $(function() {
     console.debug(storeObj);
     //console.debug(userObj);
@@ -10,31 +28,38 @@ $(function() {
 
     teamDropdown.change(function () {
         //Get the selected user from from the drop down
-        var teamMember = $('#teamMember');
+        teamMember = $('#teamMember');
+        filteredArray = storeObj[0].transactions.filter(filterTeamMembers);
 
         //Render the transactions and edit the HTML based on team member drop down
-        renderTransactions(teamMember.val(), userObj, storeObj[0].privileged, storeObj[0].transactions.filter(function(transaction) {
-            //If the 'All Team Members' was chosen from the drop down, show all transactions
-            if(teamMember.val() == 'all')
-                return transaction.t_number != teamMember.val();
-            //If a team member was chosen from the drop down, show transactions related to that user
-            else
-                return transaction.t_number == teamMember.val();
-        }));
+        renderTransactions(teamMember.val(), userObj, storeObj[0].privileged, filteredArray.filter(filterDate));
+    });
+
+    $('#dateRange').daterangepicker({
+        "showWeekNumbers": true,
+        "showCustomRangeLabel": false,
+        "alwaysShowCalendars": true,
+        "startDate": startDate = moment(),
+        "endDate": endDate = moment().add(7, 'days'),
+        "opens": "center",
+        locale: {
+            format: "MMMM D, YYYY"
+        }
+    }, function(start, end, label) {
+        console.log("New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')");
+        startDate = start;
+        endDate = end;
+
+        //Render the transactions and edit the HTML based on team member drop down
+        renderTransactions(teamMember.val(), userObj, storeObj[0].privileged, filteredArray.filter(filterDate));
+
+        console.log(startDate + ' ' + endDate)
     });
 
     //Trigger the drop down change function to load the HTML
     teamDropdown.trigger('change');
 });
-$('input[name="dateRange"]').daterangepicker({
-        locale: {
-            format: 'MMMM D, YYYY'
-        }
-    },
-    function(start, end, label) {
-        alert("A new date range was chosen: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
-    }
-);
+
 
 /**
  * Delete a transaction, uses AJAX
@@ -50,7 +75,7 @@ function deleteTransaction(id) {
                 $('#deleteMessage').fadeOut(5000);
             });
         } //end if
-    }) //end confirm;
+    }); //end confirm;
 } //end deleteTransaction
 
 /**
@@ -61,6 +86,11 @@ function deleteTransaction(id) {
  * @param transactions
  */
 function renderTransactions(t_num, users, privileged, transactions) {
+    if(transactions.length > 0) {
+        filteredArray = transactions;
+    }
+    console.debug(filteredArray);
+
     //Initialize variables for storing data
     var totalDeviceCount = 0;
     var deviceCount = 0;

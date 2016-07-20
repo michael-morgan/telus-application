@@ -150,7 +150,10 @@ block content
                                         strong Observed by:
                                         | #{observation.assigned_by_name}
 
+
 block append script
   script(src='/bower_components/bootstrap-daterangepicker/moment.min.js')
   script(src='/bower_components/bootstrap-daterangepicker/daterangepicker.js')
   script(src='/javascripts/observations/observations.js')
+  script.
+    var obsObj = JSON.parse('!{obsObj}');

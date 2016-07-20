@@ -57,6 +57,8 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
                     returnObj['users'] = userResults;
                     returnObj['observations'] = obsResults;
                     returnObj['stores'] = storesResults;
+
+                    returnObj['obsObj'] = JSON.stringify(returnObj);
                     //Render the observations page with the list of users and observations
                     res.render('observations/observations', returnObj);
                 });
@@ -83,6 +85,9 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
                     returnObj['users'] = userResults;
                     returnObj['observations'] = obsResults;
                     returnObj['stores'] = storesResults;
+
+                    returnObj['obsObj'] = JSON.stringify(returnObj);
+
                     //Render the observations page with the list of users and observations
                     res.render('observations/observations', returnObj);
                 });
