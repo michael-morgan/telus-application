@@ -95,7 +95,7 @@ function addDevices() {
                             <div class="form-group show-if-device">\
                                 <div class="col-sm-2 text-right transaction"><span class="transaction">Activation Type:</span></div>\
                                 <div class="col-sm-10">\
-                                    <select required="" id="activationDropdown' + count + '" name="activationDropdown' + count + '" class="transact">\
+                                    <select id="activationDropdown' + count + '" name="activationDropdown' + count + '" class="transact">\
                                         <option disabled="" selected="" value="0">Select Activation Type</option>\
                                         <option value="1">New Activation</option>\
                                         <option value="2">Renewal</option>\
@@ -109,7 +109,7 @@ function addDevices() {
                             <div class="form-group show-if-device">\
                                 <div class="col-sm-2 text-right transaction"><span class="transaction">Device Type:</span></div>\
                                 <div class="col-sm-10">\
-                                    <select required="" id="deviceDropdown' + count + '" name="deviceDropdown' + count + '" class="transact">\
+                                    <select id="deviceDropdown' + count + '" name="deviceDropdown' + count + '" class="transact">\
                                         <option disabled="" selected="" value="0">Select Device Type</option>\
                                         <option value="1">iPhone</option>\
                                         <option value="2">Android</option>\
@@ -126,7 +126,7 @@ function addDevices() {
                             <div class="form-group show-if-device">\
                                 <div class="col-sm-2 text-right transaction"><span class="transaction">Warranty Type:</span></div>\
                                 <div class="col-sm-10">\
-                                    <select required="" id="warrantyDropdown' + count + '" name="warrantyDropdown' + count + '" class="warrantyDropdown">\
+                                    <select id="warrantyDropdown' + count + '" name="warrantyDropdown' + count + '" class="warrantyDropdown">\
                                         <option disabled="" selected="" value="0" class="transact">Select Warranty Type</option>\
                                         <option value="1">Device Care</option>\
                                         <option value="2">Device Care &amp; T-UP</option>\
@@ -139,7 +139,7 @@ function addDevices() {
                             <div class="form-group show-if-not-accessory">\
                                 <div class="col-sm-2 text-right transaction"><span class="transaction">Attached?</span></div>\
                                 <div class="col-sm-10">\
-                                    <select required="" id="attached' + count + '" name="attachedDropdown' + count + '" class="transact">\
+                                    <select id="attached' + count + '" name="attachedDropdown' + count + '" class="transact">\
                                         <option selected="" value="no">No</option>\
                                         <option value="yes">Yes</option>\
                                     </select>\
@@ -176,7 +176,7 @@ function resetDevice() {
                                 <div class="form-group show-if-device">\
                                     <div class="col-sm-2 text-right transaction"><span class="transaction">Activation Type:</span></div>\
                                         <div class="col-sm-10">\
-                                            <select required="" id="activationDropdown" name="activationDropdown" class="transact">\
+                                            <select id="activationDropdown" name="activationDropdown" class="transact">\
                                                 <option disabled="" selected="" value="0">Select Activation Type</option>\
                                                 <option value="1">New Activation</option>\
                                                 <option value="2">Renewal</option>\
@@ -190,7 +190,7 @@ function resetDevice() {
                         <div class="form-group show-if-device">\
                             <div class="col-sm-2 text-right transaction"><span class="transaction">Device Type:</span></div>\
                             <div class="col-sm-10">\
-                                <select required="" id="deviceDropdown" name="deviceDropdown" class="transact">\
+                                <select id="deviceDropdown" name="deviceDropdown" class="transact">\
                                     <option disabled="" selected="" value="0">Select Device Type</option>\
                                     <option value="1">iPhone</option>\
                                     <option value="2">Android</option>\
@@ -207,7 +207,7 @@ function resetDevice() {
                         <div class="form-group show-if-device">\
                             <div class="col-sm-2 text-right transaction"><span class="transaction">Warranty Type:</span></div>\
                             <div class="col-sm-10">\
-                                <select required="" id="warrantyDropdown" name="warrantyDropdown" class="warrantyDropdown">\
+                                <select id="warrantyDropdown" name="warrantyDropdown" class="warrantyDropdown">\
                                     <option disabled="" selected="" value="0" class="transact">Select Warranty Type</option>\
                                     <option value="1">Device Care</option>\
                                     <option value="2">Device Care &amp; T-UP</option>\
@@ -220,7 +220,7 @@ function resetDevice() {
                         <div class="form-group show-if-not-accessory">\
                             <div class="col-sm-2 text-right transaction"><span class="transaction">Attached?</span></div>\
                             <div class="col-sm-10">\
-                                <select required="" id="attached" name="attachedDropdown" class="transact">\
+                                <select id="attached" name="attachedDropdown" class="transact">\
                                     <option selected="" value="no">No</option>\
                                     <option value="yes">Yes</option>\
                                 </select>\
