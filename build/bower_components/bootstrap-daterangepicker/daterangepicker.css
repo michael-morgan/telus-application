@@ -94,8 +94,9 @@
       border-color: transparent;
       color: inherit; }
     .daterangepicker td.week, .daterangepicker th.week {
-      font-size: 80%;
-      color: #ccc; }
+      font-size: 16px;
+      color: #333;
+      font-weight: 600;}
   .daterangepicker td.off, .daterangepicker td.off.in-range, .daterangepicker td.off.start-date, .daterangepicker td.off.end-date {
     background-color: #fff;
     border-color: transparent;
