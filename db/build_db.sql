@@ -558,7 +558,7 @@ CREATE TABLE `transactions` (
 --
 USE build_db;
 LOCK TABLES `transactions` WRITE;
-/*!40000 ALTER TABLE `transactions` DISABLE KEYS
+/*!40000 ALTER TABLE `transactions` DISABLE KEYS */;
 INSERT INTO `transactions` VALUES (1,'t111111','6529','2016-02-01', 1),(2,'t901159','6529','2016-02-03', 1),(3,'t901159','6529','2016-02-05', 2); 
 /*!40000 ALTER TABLE `transactions` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -596,7 +596,7 @@ CREATE TABLE `transaction_items` (
 --
 USE build_db;
 LOCK TABLES `transaction_items` WRITE;
-/*!40000 ALTER TABLE `transaction_items` DISABLE KEYS
+/*!40000 ALTER TABLE `transaction_items` DISABLE KEYS */;
 INSERT INTO `transaction_items` VALUES (1, 2, 2, 1, 3, 1, 750.00, 4, 1); 
 /*!40000 ALTER TABLE `transaction_items` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -625,7 +625,7 @@ CREATE TABLE `addition_metrics_items` (
 -- Dumping data for table `learning_sessions_aotm_apts`
 --
 LOCK TABLES `addition_metrics_items` WRITE;
-/*!40000 ALTER TABLE `addition_metrics_items` DISABLE KEYS
+/*!40000 ALTER TABLE `addition_metrics_items` DISABLE KEYS */;
 INSERT INTO `addition_metrics_items` VALUES (1, 1, 1, 2),(2, 2, 2, 1),(3, 3, 5, 3);
 /*!40000 ALTER TABLE `addition_metrics_items` ENABLE KEYS */;
 UNLOCK TABLES;
