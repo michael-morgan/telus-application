@@ -50,7 +50,7 @@ block content
                         .col-sm-2.text-right.transaction
                             span.transaction Activation Type:
                         .col-sm-10
-                            select.transact(required id='activationDropdown' name='activationDropdown' )
+                            select.transact(id='activationDropdown' name='activationDropdown')
                                 option(disabled selected value='0') Select Activation Type
                                 each activation, a in activations
                                     option(value='#{activation.activation_type_id}') #{activation.activation_types}
@@ -65,7 +65,7 @@ block content
                         .col-sm-2.text-right.transaction
                             span.transaction Device Type:
                         .col-sm-10
-                            select.transact(required id='deviceDropdown' name='deviceDropdown')
+                            select.transact(id='deviceDropdown' name='deviceDropdown')
                                 option(disabled selected value='0') Select Device Type
                                 each device, d in devices
                                     option(value='#{device.device_type_id}') #{device.device_types}
@@ -75,7 +75,7 @@ block content
                         .col-sm-2.text-right.transaction
                             span.transaction Warranty Type:
                         .col-sm-10
-                            select(required id='warrantyDropdown' name='warrantyDropdown' class="warrantyDropdown")
+                            select(id='warrantyDropdown' name='warrantyDropdown' class="warrantyDropdown")
                                 option.transact(disabled selected value='0') Select Warranty Type
                                 each warranty, w in warrantys
                                     option(value='#{warranty.warranty_type_id}') #{warranty.warranty_types}
@@ -85,7 +85,7 @@ block content
                         .col-sm-2.text-right.transaction
                             span.transaction Attached?
                         .col-sm-10
-                            select.transact(required id='attached' name='attachedDropdown')
+                            select.transact(id='attached' name='attachedDropdown')
                                 option(selected value='no') No
                                 option(value='yes') Yes
 
