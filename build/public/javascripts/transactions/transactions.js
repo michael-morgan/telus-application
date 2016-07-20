@@ -15,9 +15,8 @@ var filterTeamMembers = function(transaction) {
 };
 var startDate;
 var endDate;
-
 $(function() {
-    console.debug(storeObj);
+    //console.debug(storeObj);
     //console.debug(userObj);
     //Hide the delete message until a transaction has been removed
     $('#deleteMessage').hide();
@@ -39,7 +38,7 @@ $(function() {
         "showWeekNumbers": true,
         "showCustomRangeLabel": false,
         "alwaysShowCalendars": true,
-        "startDate": startDate = moment(),
+        "startDate": startDate = moment().startOf('day'),
         "endDate": endDate = moment().add(7, 'days'),
         "opens": "center",
         locale: {
@@ -52,8 +51,6 @@ $(function() {
 
         //Render the transactions and edit the HTML based on team member drop down
         renderTransactions(teamMember.val(), userObj, storeObj[0].privileged, filteredArray.filter(filterDate));
-
-        console.log(startDate + ' ' + endDate)
     });
 
     //Trigger the drop down change function to load the HTML
@@ -89,7 +86,7 @@ function renderTransactions(t_num, users, privileged, transactions) {
     if(transactions.length > 0) {
         filteredArray = transactions;
     }
-    console.debug(filteredArray);
+    //console.debug(filteredArray);
 
     //Initialize variables for storing data
     var totalDeviceCount = 0;
@@ -576,7 +573,6 @@ function renderTransactions(t_num, users, privileged, transactions) {
                                 <h4 class="panel-title">${transactions[transactionIndex].totalRevenue.toLocaleString('en-CA', { style: 'currency', currency: 'CAD' })}</h4>
                            </div><!-- end col-xs-8 -->
                            <div style="padding:0;" class="col-xs-4">`;
-        console.log(privileged);
         if(privileged >= 3){
             content += `
                                        <div style="padding:0;" class="col-xs-4">
