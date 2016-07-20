@@ -36,3 +36,21 @@
     max-width:100%;
     max-height:100%;
 }
+
+.back-to-top {
+    cursor: pointer;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display:none;
+    background-color:#49166D;
+}
+
+.back-to-top:hover {
+    background-color:#8c68a6;
+}
+
+.back-to-top:active {
+    background-color: #8c68a6;
+}
+
