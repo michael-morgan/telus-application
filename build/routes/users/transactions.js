@@ -470,80 +470,81 @@ function renderTransactionHistoryPage(returnObj, req, res, next) {
     storeModel.getStoresByTNumber(req.user.t_number,function(err, result) {
         if(err) {
             throw next(err);
-        }
+        } //end if
+
         returnObj['stores'] = result;
 
         transactionModel.getTransactionss(function(err, result) {
             if(err) {
                 throw next(err);
-            }
+            } //end if
 
             returnObj['transactions'] = result;
 
             transactionModel.getTransactionTypes(function (err, result) {
                 if (err) {
                     throw next(err);
-                }
+                } ///end if
 
                 returnObj['transactionTypes'] = {};
                 for(var index in result) {
                     returnObj['transactionTypes'][result[index].transaction_type_id] = result[index].transaction_types;
-                }
+                } //end for
 
                 transactionModel.getTransactionItems(function(err, result) {
                     if(err) {
                         throw next(err);
-                    }
+                    } //end if
 
                     returnObj['transactionItems'] = result;
 
                     transactionModel.getAdditionalMetricItems(function(err, result) {
                         if (err) {
                             throw next(err);
-                        }
+                        } //end if
 
                         returnObj['additionalMetricItems'] = result;
 
                         transactionModel.getActivation(function (err, result) {
                             if (err) {
                                 throw next(err);
-                            }
+                            } //end if
 
                             returnObj['activationTypes'] = {};
                             for(var index in result) {
                                 returnObj['activationTypes'][result[index].activation_type_id] = result[index].activation_types;
-                            }
+                            } //end if
 
                             transactionModel.getDevice(function (err, result) {
                                 if (err) {
                                     throw next(err);
-                                }
+                                } //end if
 
                                 returnObj['deviceTypes'] = {};
                                 for(var index in result) {
                                     returnObj['deviceTypes'][result[index].device_type_id] = result[index].device_types;
-                                }
+                                } //end for
 
                                 transactionModel.getWarranty(function (err, result) {
                                     if (err) {
                                         throw next(err);
-                                    }
+                                    } //end if
 
                                     returnObj['warrantyTypes'] = {};
                                     for(var index in result) {
                                         returnObj['warrantyTypes'][result[index].warranty_type_id] = result[index].warranty_types;
-                                    }
+                                    } //end for
 
                                     returnObj['stores'].forEach(function(storeVal, storeIndex) {
                                         returnObj['stores'][storeIndex]['transactions'] = returnObj['transactions'].filter(function(transVal) {
                                             return transVal.store_id === storeVal.store_id;
-                                        });
+                                        }); //end filter;
 
                                         returnObj['stores'][storeIndex]['transactions'].forEach(function(transVal, transIndex) {
                                             returnObj['stores'][storeIndex]['transactions'][transIndex]['transactionItems'] = returnObj['transactionItems']
                                                 .filter(function(transItemVal) {
                                                     return transItemVal.transaction_id === transVal.transaction_id;
-                                                });
+                                                }); //end filter
 
                                             returnObj['stores'][storeIndex]['transactions'][transIndex]['additionalMetricItems'] = returnObj['additionalMetricItems']
                                                 .filter(function(addMetricItemVal) {
@@ -570,35 +571,35 @@ function renderTransactionHistoryPage(returnObj, req, res, next) {
                                                     ['transactionItems'][transItemIndex]
                                                     ['transactionType'] = returnObj['transactionTypes'][transVal.transaction_type];
                                                 returnObj['stores'][storeIndex]['transactions'][transIndex]['totalRevenue'] += transItemVal.revenue;
-                                            });
-                                        });
-                                    });
+                                            }); //end for each
+                                        }); //end for each
+                                    }); //end for each
 
                                     returnObj['storesObj'] = JSON.stringify(returnObj['stores']);
 
                                     userModel.getAllUsersByStoreID(req.user.store_id,function(err, result) {
                                             if(err) {
                                                 throw next(err);
-                                            }
+                                            } //end if
                                             //Display success message on adding a transaction
                                             if(req.session.success) {
                                                 req.flash('success_messages', 'Transaction successfully added!');
                                                 res.locals.success_messages = req.flash('success_messages');
                                                 req.session.success = false;
-                                            }
+                                            }  //end if
                                             returnObj['users'] = result;
                                             returnObj['usersObj'] = JSON.stringify(result);
                                             returnObj['selectedEmployee']= req.user.t_number;
                                             return res.render('transactions/transactions', returnObj);
-                                    });
-                                });
-                            });
-                        });
-                    });
-                });
-            });
-        });
-    });
+                                    }); //getAllUsersByStoreID;
+                                }); //getWarranty
+                            }); //get devices
+                        }); //end getActivation
+                    }); //end getAdditionalMetricItems
+                }); //end getTransactionItems
+            }); //end getTransactionTypes
+        }); //end getTransactions
+    }); //end getStoresByTNumber
 } //End renderTransactionHistoryPage
 
 /**

@@ -41,83 +41,6 @@ block content
         input.form-control(type='text', id='dateRange', name='dateRange', aria-describedby='iconAddon')
     .col-xs-12.col-lg-10.col-lg-offset-1
       hr
-  .row
-    .panel-group(role='tablist', aria-multiselectable='true')
-      .col-xs-12.col-lg-10.col-lg-offset-1
-        .panel.panel-default
-          .panel-heading.purpleHead(role='tab', id='transactionHeading', data-toggle='collapse', data-target='#transactionCollapse')
-            .row
-              .col-xs-4.text-center
-                h4.panel-title
-                  | Acc. Units per Transaction:
-                  strong(style='margin-left: 5px;') 1.33
-              .col-xs-4.text-center
-                h4.panel-title
-                  | Basket Size:
-                  strong(style='margin-left: 5px;') $38.33
-              .col-xs-4.text-center
-                h4.panel-title
-                  | Average $ per HS:
-                  strong(style='margin-left: 5px;') $147.50
-          .panel-collapse.collapse(role='tabpanel', aria-labelledby='transactionHeading', id='transactionCollapse')
-            .panel-body
-              .panel.panel-default
-                .panel-body
-                  .col-xs-12.col-sm-6.col-md-4
-                    strong Number of Transactions:
-                    span(style='margin-left: 5px;') 4
-                  .col-xs-12.col-sm-6.col-md-4
-                    strong Device Care:
-                    span(style='margin-left: 5px;') 66.7%
-                  .col-xs-12.col-sm-6.col-md-4
-                    strong iPhone:
-                    span(style='margin-left: 5px;') 1
-                  .col-xs-12.col-sm-6.col-md-4
-                    strong Controllable Transactions:
-                    span(style='margin-left: 5px;') 3
-                  .col-xs-12.col-sm-6.col-md-4
-                    strong AppleCare:
-                    span(style='margin-left: 5px;') 100%
-                  .col-xs-12.col-sm-6.col-md-4
-                    strong Android:
-                    span(style='margin-left: 5px;') 3
-                  .col-xs-12.col-sm-6.col-md-4
-                    strong Controllable Revenue:
-                    span(style='margin-left: 5px;') $287.36
-                  .col-xs-12.col-sm-6.col-md-4
-                    strong Warranty:
-                    span(style='margin-left: 5px;') 75%
-                  .col-xs-12.col-sm-6.col-md-4
-                    strong Other Devices:
-                    span(style='margin-left: 5px;') 0
-                  .col-xs-12
-                    hr
-                  .col-xs-12.col-sm-6.col-md-4
-                    strong SBS Activations:
-                    span(style='margin-left: 5px;') 0
-                  .col-xs-12.col-sm-6.col-md-4
-                    strong Learning Sessions:
-                    span(style='margin-left: 5px;') 6
-                  .col-xs-12.col-sm-6.col-md-4
-                    strong Critters:
-                    span(style='margin-left: 5px;') 0
-                  .col-xs-12.col-sm-6.col-md-4
-                    strong Appointments:
-                    span(style='margin-left: 5px;') 1
-                  .col-xs-12.col-sm-6.col-md-4
-                    strong AOTM:
-                    span(style='margin-left: 5px;') 2
-                  .col-xs-12.col-sm-6.col-md-4
-                    strong Donations:
-                    span(style='margin-left: 5px;') 0
-                  .col-xs-12.col-sm-6.col-md-4
-                    strong Credit Cards:
-                    span(style='margin-left: 5px;') 2
-                  .col-xs-12.col-sm-6.col-md-4
-                    strong Tablets:
-                    span(style='margin-left: 5px;') 1
-    .col-xs-12.col-lg-10.col-lg-offset-1
-      hr
 
   .row#transactionList
     .panel-group(role='tablist', aria-multiselectable='true')
@@ -130,6 +53,7 @@ block content
                   h3.panel-title(style='font-size: 24px;')
                     | #{store.store_name}
             .panel-collapse.collapse(role='tabpanel', aria-labelledby='storeHeading#{storeIndex}', id='storeCollapse#{storeIndex}')
+              .row#summaryContainer
               .panel-body#transactionContainer
 block append script
   script(src='/bower_components/bootstrap-daterangepicker/moment.min.js')
