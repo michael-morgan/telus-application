@@ -175,7 +175,7 @@ function renderTransactions(t_num, users, privileged, transactions) {
                 sbsCount++;
 
             //If the device_type is 6 (tablet), increment the tabletCount
-            if (transactions[transactionIndex].transactionItems[transactionItemsIndex].device_type == 6)
+            if (transactions[transactionIndex].transactionItems[transactionItemsIndex].device_type == 6 || transactions[transactionIndex].transactionItems[transactionItemsIndex].device_type == 7)
                 tabletCount++;
 
             //Sum up all the num_of_accessories
@@ -530,7 +530,7 @@ function renderTransactions(t_num, users, privileged, transactions) {
                <div style="margin-top: 25px;" class="col-xs-6">
                    <div class="pull-left">
                        <strong>Time:</strong>
-                       <span style="margin-left: 5px;">${new Date(transactions[transactionIndex].transaction_date).toLocaleDateString()}</span>
+                       <span style="margin-left: 5px;">${new Date(transactions[transactionIndex].transaction_date).toLocaleTimeString()}</span>
                    </div><!-- end pull-left -->
                </div><!-- end col-xs-6 -->
                <div style="margin-top: 25px;" class="col-xs-6">
@@ -709,7 +709,7 @@ function renderTransactions(t_num, users, privileged, transactions) {
                <div style="margin-top: 25px;" class="col-xs-6">
                    <div class="pull-left">
                        <strong>Time:</strong>
-                       <span style="margin-left: 5px;">${new Date(transactions[transactionIndex].transaction_date).toLocaleDateString()}</span>
+                       <span style="margin-left: 5px;">${new Date(transactions[transactionIndex].transaction_date).toLocaleTimeString()}</span>
                    </div><!-- end pull-left -->
                </div><!-- end col-xs-6 -->
                <div style="margin-top: 25px;" class="col-xs-6">
