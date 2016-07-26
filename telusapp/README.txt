@@ -22,3 +22,5 @@ Requirements:
 -> Android SDK environment/path variable
 -> Might have to change Android Studio project settings to locate your JDK & SDK
 
+Link to APK on live site: prod-telus.rhcloud.com/apk/TelusCoachingApp.apk
+
