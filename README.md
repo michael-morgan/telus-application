@@ -1,6 +1,7 @@
 # telus-application
 Telus application for Systems Project <br />
 <strong>Live</strong> Access (UP): http://prod-telus.rhcloud.com <br />
+<strong>Link To Telus APP:</strong> prod-telus.rhcloud.com/apk/TelusCoachingApp.apk
 Discord Text/Voice Server: https://discord.gg/0oiEFS60xCk7KKBL <br />
 Git & Node Quick Start: https://www.dropbox.com/s/8mepnr7avyr40aq/Node_Git_QuickStart.zip?dl=0 <br />
 <strong>If</strong> doing Node Quick Start: here is the completed project as reference -> https://www.dropbox.com/s/3g1phvb71vh0c1y/express-website.zip?dl=0 <br />
