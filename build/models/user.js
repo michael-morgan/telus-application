@@ -115,7 +115,7 @@ exports.getStoreByTNum = function(t_number, done) {
 };
 
 exports.getAllUsersByStoreID = function(id,done) {
-    connection.get().query('SELECT * FROM users WHERE store_id = ?',id, function(error, result) {
+    connection.get().query('SELECT * FROM users INNER JOIN stores_util on users.t_number = stores_util.t_number WHERE stores_util.store_id = ? GROUP BY users.t_number',id, function(error, result) {
         if(error) {
             return done(error);
         }

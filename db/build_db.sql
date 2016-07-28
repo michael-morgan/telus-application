@@ -179,32 +179,6 @@ INSERT INTO `stats` VALUES (1,'t901159','6529','GNO',1,1,1,1,'0016-02-01'),(2,'t
 /*!40000 ALTER TABLE `stats` ENABLE KEYS */;
 UNLOCK TABLES;
 
-
--- -------------------------------------
--- Table structure for table `stores`
--- -------------------------------------
-DROP TABLE IF EXISTS `stores`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `stores` (
-  `store_id` varchar(4) NOT NULL,
-  `store_name` varchar(255) NOT NULL,
-  `store_region` varchar(5) NOT NULL,
-  PRIMARY KEY (`store_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `stores`
---
-
-LOCK TABLES `stores` WRITE;
-/*!40000 ALTER TABLE `stores` DISABLE KEYS */;
-INSERT INTO `stores` VALUES ('6529','Alliston Mills','GNO'), ('6530','Georgian Mall','GNO'), ('6587','Bramalea City Centre','GMO');
-/*!40000 ALTER TABLE `stores` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
 -- -------------------------------------
 -- Table structure for table `tokens`
 -- -------------------------------------
@@ -234,6 +208,30 @@ UNLOCK TABLES;
 
 
 -- -------------------------------------
+-- Table structure for table `stores`
+-- -------------------------------------
+DROP TABLE IF EXISTS `stores`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `stores` (
+  `store_id` varchar(4) NOT NULL,
+  `store_name` varchar(255) NOT NULL,
+  `store_region` varchar(5) NOT NULL,
+  PRIMARY KEY (`store_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `stores`
+--
+
+LOCK TABLES `stores` WRITE;
+/*!40000 ALTER TABLE `stores` DISABLE KEYS */;
+INSERT INTO `stores` VALUES ('6529','Alliston Mills','GNO'), ('6530','Georgian Mall','GNO'), ('6587','Bramalea City Centre','GMO');
+/*!40000 ALTER TABLE `stores` ENABLE KEYS */;
+UNLOCK TABLES;
+
+-- -------------------------------------
 -- Table structure for table `users`
 -- -------------------------------------
 DROP TABLE IF EXISTS `users`;
@@ -247,10 +245,7 @@ CREATE TABLE `users` (
   `first_name` varchar(50) NOT NULL,
   `last_name` varchar(50) NOT NULL,
   `privileged` tinyint(1) DEFAULT '0',
-  `store_id` varchar(4) DEFAULT NULL,
-  PRIMARY KEY (`t_number`),
-  KEY `users_ibfk_1` (`store_id`),
-  CONSTRAINT `users_ibfk_1` FOREIGN KEY (`store_id`) REFERENCES `stores` (`store_id`)
+  PRIMARY KEY (`t_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -260,19 +255,61 @@ CREATE TABLE `users` (
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` VALUES 
-('t111111','T111111','$2a$10$J7gMv/aF5C.qTfL6EOQFluUiOuAFB7/HyotXpXAiifKhIK9GdK03q','michael.morgan@telus.com','Michael','Morgan',5,'6529'),
-('t861370','T861370','$2a$10$J7gMv/aF5C.qTfL6EOQFluUiOuAFB7/HyotXpXAiifKhIK9GdK03q','nick.lovsin@telus.com','Nick','Lovsin',3,'6530'),
-('t846956','T846956','$2a$10$J7gMv/aF5C.qTfL6EOQFluUiOuAFB7/HyotXpXAiifKhIK9GdK03q','lorna.chapman@telus.com','Lorna','Chapman',3,'6529'),
-('t444444','T444444','$2a$10$J7gMv/aF5C.qTfL6EOQFluUiOuAFB7/HyotXpXAiifKhIK9GdK03q','steve.urkel@telus.com','Steve','Urkel',1,'6529'),
-('t555555','T555555','$2a$10$J7gMv/aF5C.qTfL6EOQFluUiOuAFB7/HyotXpXAiifKhIK9GdK03q','bob.dylan@telus.com','Bob','Dylan',1,'6530'),
-('t666666','T666666','$2a$10$J7gMv/aF5C.qTfL6EOQFluUiOuAFB7/HyotXpXAiifKhIK9GdK03q','john.doe@telus.com','John','Doe',4,'6530'),
-('t777777','T777777','$2a$10$J7gMv/aF5C.qTfL6EOQFluUiOuAFB7/HyotXpXAiifKhIK9GdK03q','will.bill@telus.com','Will','Bill',1,'6529'),
-('t888888','T888888','$2a$10$J7gMv/aF5C.qTfL6EOQFluUiOuAFB7/HyotXpXAiifKhIK9GdK03q','brad.haveman@telus.com','Bradley','Haveman',5,'6529'),
-('t999999','T999999','$2a$10$J7gMv/aF5C.qTfL6EOQFluUiOuAFB7/HyotXpXAiifKhIK9GdK03q','jacob.amaral@telus.com','Jacob','Amaral',5,'6529'),
-('t901159','T901159','$2a$10$J7gMv/aF5C.qTfL6EOQFluUiOuAFB7/HyotXpXAiifKhIK9GdK03q','patrick.richey@telus.com','Patrick','Richey',2,'6529'),
-('t875314','T875314','$2a$10$J7gMv/aF5C.qTfL6EOQFluUiOuAFB7/HyotXpXAiifKhIK9GdK03q','amanda.martinho@telus.com','Amanda','Martinho',3,'6587'),
-('t333333','T333333','$2a$10$J7gMv/aF5C.qTfL6EOQFluUiOuAFB7/HyotXpXAiifKhIK9GdK03q','greg.symonds@telus.com','Greg','Symonds',1,'6587');
+('t111111','T111111','$2a$10$J7gMv/aF5C.qTfL6EOQFluUiOuAFB7/HyotXpXAiifKhIK9GdK03q','michael.morgan@telus.com','Michael','Morgan',5),
+('t861370','T861370','$2a$10$J7gMv/aF5C.qTfL6EOQFluUiOuAFB7/HyotXpXAiifKhIK9GdK03q','nick.lovsin@telus.com','Nick','Lovsin',3),
+('t846956','T846956','$2a$10$J7gMv/aF5C.qTfL6EOQFluUiOuAFB7/HyotXpXAiifKhIK9GdK03q','lorna.chapman@telus.com','Lorna','Chapman',3),
+('t444444','T444444','$2a$10$J7gMv/aF5C.qTfL6EOQFluUiOuAFB7/HyotXpXAiifKhIK9GdK03q','steve.urkel@telus.com','Steve','Urkel',1),
+('t555555','T555555','$2a$10$J7gMv/aF5C.qTfL6EOQFluUiOuAFB7/HyotXpXAiifKhIK9GdK03q','bob.dylan@telus.com','Bob','Dylan',1),
+('t666666','T666666','$2a$10$J7gMv/aF5C.qTfL6EOQFluUiOuAFB7/HyotXpXAiifKhIK9GdK03q','john.doe@telus.com','John','Doe',4),
+('t777777','T777777','$2a$10$J7gMv/aF5C.qTfL6EOQFluUiOuAFB7/HyotXpXAiifKhIK9GdK03q','will.bill@telus.com','Will','Bill',1),
+('t888888','T888888','$2a$10$J7gMv/aF5C.qTfL6EOQFluUiOuAFB7/HyotXpXAiifKhIK9GdK03q','brad.haveman@telus.com','Bradley','Haveman',5),
+('t999999','T999999','$2a$10$J7gMv/aF5C.qTfL6EOQFluUiOuAFB7/HyotXpXAiifKhIK9GdK03q','jacob.amaral@telus.com','Jacob','Amaral',5),
+('t901159','T901159','$2a$10$J7gMv/aF5C.qTfL6EOQFluUiOuAFB7/HyotXpXAiifKhIK9GdK03q','patrick.richey@telus.com','Patrick','Richey',2),
+('t875314','T875314','$2a$10$J7gMv/aF5C.qTfL6EOQFluUiOuAFB7/HyotXpXAiifKhIK9GdK03q','amanda.martinho@telus.com','Amanda','Martinho',3),
+('t333333','T333333','$2a$10$J7gMv/aF5C.qTfL6EOQFluUiOuAFB7/HyotXpXAiifKhIK9GdK03q','greg.symonds@telus.com','Greg','Symonds',1);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+-- -------------------------------------
+-- Table structure for table `stores_util`
+-- -------------------------------------
+DROP TABLE IF EXISTS `stores_util`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `stores_util` (
+  `stores_util_id` INT NOT NULL AUTO_INCREMENT,
+  `t_number` varchar(255) NOT NULL,
+  `store_id` varchar(4) NOT NULL,
+  PRIMARY KEY (`stores_util_id`),
+  KEY `stores_util_ibfk_2` (`t_number`),
+  KEY `stores_util_ibfk_1` (`store_id`),
+  CONSTRAINT `stores_util_ibfk_2` FOREIGN KEY (`t_number`) REFERENCES `users` (`t_number`),
+  CONSTRAINT `stores_util_ibfk_1` FOREIGN KEY (`store_id`) REFERENCES `stores` (`store_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+
+--
+-- Dumping data for table `stores_util`
+--
+
+LOCK TABLES `stores_util` WRITE;
+/*!40000 ALTER TABLE `stores_util` DISABLE KEYS */;
+INSERT INTO `stores_util` (t_number, store_id) VALUES 
+('t111111','6529'), 
+('t861370','6530'), 
+('t846956','6529'), 
+('t444444','6530'), 
+('t555555','6530'), 
+('t666666','6529'), 
+('t777777','6529'),
+('t888888','6529'),
+('t999999','6529'),
+('t901159','6529'),
+('t875314','6587'),
+('t333333','6587');
+/*!40000 ALTER TABLE `stores_util` ENABLE KEYS */;
 UNLOCK TABLES;
 
 
