@@ -103,7 +103,7 @@ exports.addTransaction = function(transactions, done) {
 };
 
 exports.addTransactionItems = function(transactions_items, done) {
-    connection.get().query('INSERT INTO `transaction_items`  SET ?', [transactions_items], function(error, result) {
+    connection.get().query('INSERT INTO `transaction_items` SET ?', [transactions_items], function(error, result) {
         if(error) {
             return done(error);
         }

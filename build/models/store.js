@@ -10,8 +10,8 @@ exports.getStores = function(done) {
     });
 };
 
-exports.getStoresByTNumber = function(id,done) {
-    connection.get().query('SELECT * FROM `stores_util` INNER JOIN `stores` ON stores_util.store_id = stores.store_id WHERE t_number = ? GROUP BY stores_util.store_id', id,function(error, result) {
+exports.getStoresByTNumber = function(id, done) {
+    connection.get().query('SELECT * FROM `stores_util` INNER JOIN `stores` ON stores_util.store_id = stores.store_id WHERE t_number = ? GROUP BY stores_util.store_id', id, function(error, result) {
         if(error) {
             return done(error);
         }
@@ -21,8 +21,8 @@ exports.getStoresByTNumber = function(id,done) {
 };
 
 
-exports.createStoresUtil = function(id,done) {
-    connection.get().query('INSERT INTO stores_util SET ', id,function(error, result) {
+exports.createStoresUtil = function(id, done) {
+    connection.get().query('INSERT INTO stores_util SET ', id, function(error, result) {
         if(error) {
             return done(error);
         }

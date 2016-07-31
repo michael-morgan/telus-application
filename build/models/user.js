@@ -114,8 +114,18 @@ exports.getStoreByTNum = function(t_number, done) {
     });
 };
 
-exports.getAllUsersByStoreID = function(id,done) {
-    connection.get().query('SELECT * FROM users INNER JOIN stores_util on users.t_number = stores_util.t_number WHERE stores_util.store_id = ? GROUP BY users.t_number',id, function(error, result) {
+exports.getAllUsersByStoreID = function(id, done) {
+    connection.get().query('SELECT * FROM users INNER JOIN stores_util on users.t_number = stores_util.t_number WHERE stores_util.store_id = ? GROUP BY users.t_number', id, function(error, result) {
+        if(error) {
+            return done(error);
+        }
+
+        done(null, result);
+    });
+};
+
+exports.getAllUsersByStoreIds = function(ids, done) {
+    connection.get().query('SELECT * FROM users INNER JOIN stores_util on users.t_number = stores_util.t_number WHERE stores_util.store_id in (?) GROUP BY users.t_number', [ids], function(error, result) {
         if(error) {
             return done(error);
         }

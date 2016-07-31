@@ -237,7 +237,7 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
             t_number: t_number,
             store_id: store_id,
             transaction_date: currentDate,
-            transaction_type: transaction_type,
+            transaction_type: transaction_type
         };
 
 
@@ -246,34 +246,34 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
         learning_sessions_obj = {
             transaction_id: undefined,
             additional_metrics_items_type: learning_sessions,
-            additional_metrics_items_count: learning_sessions_count,
+            additional_metrics_items_count: learning_sessions_count
         };
 
         //Credit card object
         credit_card_obj = {
             transaction_id: undefined,
             additional_metrics_items_type: credit_card,
-            additional_metrics_items_count: credit_card_count,
+            additional_metrics_items_count: credit_card_count
         };
 
         //Appointments object
         appointments_obj = {
             transaction_id: undefined,
             additional_metrics_items_type: appointments,
-            additional_metrics_items_count: appointments_count,
+            additional_metrics_items_count: appointments_count
         };
 
         //AOTM object
         aotm_obj = {
             additional_metrics_items_type: aotm,
-            additional_metrics_items_count: aotm_count,
+            additional_metrics_items_count: aotm_count
         };
 
         //Critters object
         critters_obj = {
             transaction_id: undefined,
             additional_metrics_items_type: critters,
-            additional_metrics_items_count: critters_count,
+            additional_metrics_items_count: critters_count
         };
 
         //Donations object
@@ -577,10 +577,16 @@ function renderTransactionHistoryPage(returnObj, req, res, next) {
 
                                     returnObj['storesObj'] = JSON.stringify(returnObj['stores']);
 
-                                    userModel.getAllUsersByStoreID(req.user.store_id,function(err, result) {
+                                    var storeIds = [];
+                                    for(var storeIndex in returnObj['stores']) {
+                                        storeIds.push(returnObj['stores'][storeIndex].store_id);
+                                    }
+
+                                    userModel.getAllUsersByStoreIds(storeIds, function(err, result) {
                                             if(err) {
                                                 throw next(err);
                                             } //end if
+
                                             //Display success message on adding a transaction
                                             if(req.session.success) {
                                                 req.flash('success_messages', 'Transaction successfully added!');
