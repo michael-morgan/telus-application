@@ -1,13 +1,16 @@
+'use strict';
+
 var express = require('express');
 var connection = require('../../connection');
 var passport = require('passport');
 
 var router = express.Router();
 
-
 // Ensure sure the user is authenticated
 function ensureAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) { return next(); }
+    if (req.isAuthenticated()) {
+        return next();
+    }
     res.redirect('/');
 }
 
@@ -22,3 +25,5 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
 });
 
 module.exports = router;
+
+//# sourceMappingURL=binder.js.map

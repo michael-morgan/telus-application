@@ -1,8 +1,10 @@
+'use strict';
+
 var connection = require('../connection');
 
-exports.getStores = function(done) {
-    connection.get().query('SELECT * FROM `stores`', function(error, result) {
-        if(error) {
+exports.getStores = function (done) {
+    connection.get().query('SELECT * FROM `stores`', function (error, result) {
+        if (error) {
             return done(error);
         }
 
@@ -10,9 +12,9 @@ exports.getStores = function(done) {
     });
 };
 
-exports.getStoresByTNumber = function(id, done) {
-    connection.get().query('SELECT * FROM `stores_util` INNER JOIN `stores` ON stores_util.store_id = stores.store_id WHERE t_number = ? GROUP BY stores_util.store_id', id, function(error, result) {
-        if(error) {
+exports.getStoresByTNumber = function (id, done) {
+    connection.get().query('SELECT * FROM `stores_util` ' + 'INNER JOIN `stores` ON stores_util.store_id = stores.store_id ' + 'WHERE t_number = ? GROUP BY stores_util.store_id', id, function (error, result) {
+        if (error) {
             return done(error);
         }
 
@@ -20,10 +22,9 @@ exports.getStoresByTNumber = function(id, done) {
     });
 };
 
-
-exports.createStoresUtil = function(id, done) {
-    connection.get().query('INSERT INTO stores_util SET ', id, function(error, result) {
-        if(error) {
+exports.createStoresUtil = function (id, done) {
+    connection.get().query('INSERT INTO stores_util SET ', id, function (error, result) {
+        if (error) {
             return done(error);
         }
 
@@ -31,13 +32,14 @@ exports.createStoresUtil = function(id, done) {
     });
 };
 
-
-exports.addStore = function(store, done) {
-    connection.get().query('INSERT INTO stores_util (t_number, store_id) VALUES ?', [store], function(error, result) {
-        if(error) {
+exports.addStore = function (store, done) {
+    connection.get().query('INSERT INTO stores_util (t_number, store_id) VALUES ?', [store], function (error, result) {
+        if (error) {
             return done(error);
         }
 
         done(null, null);
     });
 };
+
+//# sourceMappingURL=store.js.map

@@ -1,8 +1,10 @@
+'use strict';
+
 var connection = require('../connection');
 
-exports.getTransactions = function(done) {
-    connection.get().query('SELECT * FROM transaction_types', function(error, result) {
-        if(error) {
+exports.getTransactions = function (done) {
+    connection.get().query('SELECT * FROM transaction_types', function (error, result) {
+        if (error) {
             return done(error);
         }
 
@@ -10,9 +12,9 @@ exports.getTransactions = function(done) {
     });
 };
 
-exports.getTransactionss = function(done) {
-    connection.get().query('SELECT * FROM transactions', function(error, result) {
-        if(error) {
+exports.getTransactionss = function (done) {
+    connection.get().query('SELECT * FROM transactions', function (error, result) {
+        if (error) {
             return done(error);
         }
 
@@ -20,9 +22,9 @@ exports.getTransactionss = function(done) {
     });
 };
 
-exports.getTransactionItems = function(done) {
-    connection.get().query('SELECT * FROM transaction_items', function(error, result) {
-        if(error) {
+exports.getTransactionItems = function (done) {
+    connection.get().query('SELECT * FROM transaction_items', function (error, result) {
+        if (error) {
             return done(error);
         }
 
@@ -30,9 +32,9 @@ exports.getTransactionItems = function(done) {
     });
 };
 
-exports.getAdditionalMetricItems = function(done) {
-    connection.get().query('SELECT * FROM addition_metrics_items', function(error, result) {
-        if(error) {
+exports.getAdditionalMetricItems = function (done) {
+    connection.get().query('SELECT * FROM addition_metrics_items', function (error, result) {
+        if (error) {
             return done(error);
         }
 
@@ -40,9 +42,9 @@ exports.getAdditionalMetricItems = function(done) {
     });
 };
 
-exports.getActivation = function(done) {
-    connection.get().query('SELECT * FROM activation_types', function(error, result) {
-        if(error) {
+exports.getActivation = function (done) {
+    connection.get().query('SELECT * FROM activation_types', function (error, result) {
+        if (error) {
             return done(error);
         }
 
@@ -50,9 +52,9 @@ exports.getActivation = function(done) {
     });
 };
 
-exports.getDevice = function(done) {
-    connection.get().query('SELECT * FROM device_types', function(error, result) {
-        if(error) {
+exports.getDevice = function (done) {
+    connection.get().query('SELECT * FROM device_types', function (error, result) {
+        if (error) {
             return done(error);
         }
 
@@ -60,9 +62,9 @@ exports.getDevice = function(done) {
     });
 };
 
-exports.getWarranty = function(done) {
-    connection.get().query('SELECT * FROM warranty_types', function(error, result) {
-        if(error) {
+exports.getWarranty = function (done) {
+    connection.get().query('SELECT * FROM warranty_types', function (error, result) {
+        if (error) {
             return done(error);
         }
 
@@ -70,9 +72,9 @@ exports.getWarranty = function(done) {
     });
 };
 
-exports.getTransactionTypes = function(done) {
-    connection.get().query('SELECT * FROM transaction_types', function(error, result) {
-        if(error) {
+exports.getTransactionTypes = function (done) {
+    connection.get().query('SELECT * FROM transaction_types', function (error, result) {
+        if (error) {
             return done(error);
         }
 
@@ -80,10 +82,9 @@ exports.getTransactionTypes = function(done) {
     });
 };
 
-
-exports.getSbs = function(done) {
-    connection.get().query('SELECT * FROM sbs_returns_exchanges_discounts', function(error, result) {
-        if(error) {
+exports.getSbs = function (done) {
+    connection.get().query('SELECT * FROM sbs_returns_exchanges_discounts', function (error, result) {
+        if (error) {
             return done(error);
         }
 
@@ -91,10 +92,9 @@ exports.getSbs = function(done) {
     });
 };
 
-
-exports.addTransaction = function(transactions, done) {
-    connection.get().query('INSERT INTO `transactions` SET ?', [transactions], function(error, result) {
-        if(error) {
+exports.addTransaction = function (transactions, done) {
+    connection.get().query('INSERT INTO `transactions` SET ?', [transactions], function (error, result) {
+        if (error) {
             return done(error);
         }
 
@@ -102,26 +102,26 @@ exports.addTransaction = function(transactions, done) {
     });
 };
 
-exports.addTransactionItems = function(transactions_items, done) {
-    connection.get().query('INSERT INTO `transaction_items` SET ?', [transactions_items], function(error, result) {
-        if(error) {
+exports.addTransactionItems = function (transactions_items, done) {
+    connection.get().query('INSERT INTO `transaction_items` SET ?', [transactions_items], function (error, result) {
+        if (error) {
             return done(error);
         }
 
         done(null, result);
     });
 };
-exports.deleteTransaction  = function(id, done) {
-    connection.get().query('DELETE FROM `addition_metrics_items` WHERE transaction_id = ?', id, function(error, result) {
-        if(error) {
+exports.deleteTransaction = function (id, done) {
+    connection.get().query('DELETE FROM `addition_metrics_items` WHERE transaction_id = ?', id, function (error, result) {
+        if (error) {
             return done(error);
         }
-        connection.get().query('DELETE FROM `transaction_items` WHERE transaction_id = ?', id, function(error, result) {
-            if(error) {
+        connection.get().query('DELETE FROM `transaction_items` WHERE transaction_id = ?', id, function (error, result) {
+            if (error) {
                 return done(error);
             }
-            connection.get().query('DELETE FROM `transactions` WHERE transaction_id = ?', id, function(error, result) {
-                if(error) {
+            connection.get().query('DELETE FROM `transactions` WHERE transaction_id = ?', id, function (error, result) {
+                if (error) {
                     return done(error);
                 }
                 done(null, result.affectedRows);
@@ -129,12 +129,14 @@ exports.deleteTransaction  = function(id, done) {
         });
     });
 };
-exports.addAdditionalMetrics = function(metrics, done) {
-    connection.get().query('INSERT INTO `addition_metrics_items` SET ?', [metrics], function(error, result) {
-        if(error) {
+exports.addAdditionalMetrics = function (metrics, done) {
+    connection.get().query('INSERT INTO `addition_metrics_items` SET ?', [metrics], function (error, result) {
+        if (error) {
             return done(error);
         }
 
         done(null, result);
     });
 };
+
+//# sourceMappingURL=transactions.js.map

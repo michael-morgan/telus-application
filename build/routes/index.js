@@ -1,3 +1,5 @@
+'use strict';
+
 var express = require('express');
 
 var connection = require('../connection');
@@ -9,8 +11,8 @@ var tokenModel = require('../models/token');
 var router = express.Router();
 
 // render the login page when the user goes to index/root
-router.get('/', function(req, res, next) {
-    if(req.user) {
+router.get('/', function (req, res, next) {
+    if (req.user) {
         return res.redirect('/users/');
     }
 
@@ -29,19 +31,18 @@ router.post('/', passport.authenticate('local', {
 
 // after the user has clicked the register button, check if the token generated is valid.
 // if valid go to the activate page
-router.get('/activate/:token', function(req, res, next) {
-    if(req.params.token.length != 16) {
+router.get('/activate/:token', function (req, res, next) {
+    if (req.params.token.length != 16) {
         return res.redirect('/');
     }
 
-    tokenModel.getById([req.params.token], function(err, rows) {
+    tokenModel.getById([req.params.token], function (err, rows) {
         if (err) {
             throw next(err);
         }
-        if(rows.length <= 0) {
+        if (rows.length <= 0) {
             res.redirect('/');
-        }
-        else {
+        } else {
             res.render('activate', {
                 title: 'Activate',
                 row: rows[0]
@@ -54,11 +55,11 @@ router.get('/activate/:token', function(req, res, next) {
 // then insert the password into the users table where the generated token match.
 // then delete the token from the tokens table.
 // lastly redirect to the login page.
-router.post('/activate/:token', function(req, res, next) {
-    if(!req.body) {
+router.post('/activate/:token', function (req, res, next) {
+    if (!req.body) {
         return res.sendStatus(400);
     }
-    if(req.params.token.length != 16) {
+    if (req.params.token.length != 16) {
         return res.redirect('/');
     }
 
@@ -69,7 +70,7 @@ router.post('/activate/:token', function(req, res, next) {
     req.checkBody('password', "Passwords must match").equals(passwordVerify);
 
     var errors = req.validationErrors();
-    if(errors) {
+    if (errors) {
         res.render('activate', {
             title: 'Activate',
             errors: errors,
@@ -77,26 +78,22 @@ router.post('/activate/:token', function(req, res, next) {
                 token: req.params.token
             }
         });
-    }
-    else {
-        bcrypt.hash(password, 8, function(err, hash) {
-            if(err) {
+    } else {
+        bcrypt.hash(password, 8, function (err, hash) {
+            if (err) {
                 throw next(err);
             }
 
             // set hashed password
             var hashedPassword = hash;
 
-            connection.get().query('UPDATE users ' +
-                'INNER JOIN tokens ON users.t_number = tokens.t_number' +
-                ' SET users.password = ?' +
-                ' WHERE tokens.token = ?', [hashedPassword, req.params.token], function (err, rows) {
+            connection.get().query('UPDATE users ' + 'INNER JOIN tokens ON users.t_number = tokens.t_number' + ' SET users.password = ?' + ' WHERE tokens.token = ?', [hashedPassword, req.params.token], function (err, rows) {
                 if (err) {
-                    req.flash('Our database servers maybe down, please try again','Our database servers maybe down, please try again');
+                    req.flash('Our database servers maybe down, please try again', 'Our database servers maybe down, please try again');
                     res.render('activate', {
                         title: 'Activate',
                         token: req.params.token,
-                        message: req.flash('Our database servers maybe down, please try again')});
+                        message: req.flash('Our database servers maybe down, please try again') });
                     return;
                 }
                 console.log('Updated user password');
@@ -104,19 +101,18 @@ router.post('/activate/:token', function(req, res, next) {
 
             tokenModel.deleteById([req.params.token], function (err, rows) {
                 if (err) {
-                    req.flash('Our database servers maybe down, please try again','Our database servers maybe down, please try again');
+                    req.flash('Our database servers maybe down, please try again', 'Our database servers maybe down, please try again');
                     res.render('activate', {
                         title: 'Activate',
                         token: req.params.token,
-                        message: req.flash('Our database servers maybe down, please try again')});
+                        message: req.flash('Our database servers maybe down, please try again') });
                     return;
                 }
                 console.log('Token record removed');
 
-                if(req.user) {
+                if (req.user) {
                     res.redirect('/users/');
-                }
-                else {
+                } else {
                     res.redirect('/');
                 }
             });
@@ -125,3 +121,5 @@ router.post('/activate/:token', function(req, res, next) {
 });
 
 module.exports = router;
+
+//# sourceMappingURL=index.js.map

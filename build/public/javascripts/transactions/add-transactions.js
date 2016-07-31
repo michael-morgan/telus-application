@@ -1,3 +1,5 @@
+'use strict';
+
 $(function () {
     loadButtons();
 
@@ -22,7 +24,6 @@ function loadButtons() {
                 if (parseInt(input.val()) == input.attr('min')) {
                     $(this).attr('disabled', true);
                 }
-
             } else if (type == 'plus') {
 
                 if (currentVal < input.attr('max')) {
@@ -31,7 +32,6 @@ function loadButtons() {
                 if (parseInt(input.val()) == input.attr('max')) {
                     $(this).attr('disabled', true);
                 }
-
             }
         } else {
             input.val(0);
@@ -48,48 +48,45 @@ function loadButtons() {
 
         name = $(this).attr('name');
         if (valueCurrent >= minValue) {
-            $(".btn-number[data-type='minus'][data-field='" + name + "']").removeAttr('disabled')
+            $(".btn-number[data-type='minus'][data-field='" + name + "']").removeAttr('disabled');
         } else {
             alert('Sorry, the minimum value was reached');
             $(this).val($(this).data('oldValue'));
         }
         if (valueCurrent <= maxValue) {
-            $(".btn-number[data-type='plus'][data-field='" + name + "']").removeAttr('disabled')
+            $(".btn-number[data-type='plus'][data-field='" + name + "']").removeAttr('disabled');
         } else {
             alert('Sorry, the maximum value was reached');
             $(this).val($(this).data('oldValue'));
         }
-
-
     });
     $(".input-number").keydown(function (e) {
         // Allow: backspace, delete, tab, escape, enter and .
         if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
-                // Allow: Ctrl+A
-            (e.keyCode == 65 && e.ctrlKey === true) ||
-                // Allow: home, end, left, right
-            (e.keyCode >= 35 && e.keyCode <= 39)) {
+        // Allow: Ctrl+A
+        e.keyCode == 65 && e.ctrlKey === true ||
+        // Allow: home, end, left, right
+        e.keyCode >= 35 && e.keyCode <= 39) {
             // let it happen, don't do anything
             return;
         }
         // Ensure that it is a number and stop the keypress
-        if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+        if ((e.shiftKey || e.keyCode < 48 || e.keyCode > 57) && (e.keyCode < 96 || e.keyCode > 105)) {
             e.preventDefault();
         }
-    })
+    });
 }
-
 
 var count = 2;
 function addDevices() {
     //Add device fields
-    var deviceFields = '<div class="single-device" id="device'+count+'">\
+    var deviceFields = '<div class="single-device" id="device' + count + '">\
                             <div class="form-group show-if-device">\
                                 <div class="col-sm-4">\
-                                    <h3 class="device show-if-device">Device  ' +count+'</h3>\
+                                    <h3 class="device show-if-device">Device  ' + count + '</h3>\
                                 </div>\
                                 <div class="col-sm-8">\
-                                <a class="btn-remove pull-left btn btn-danger" id="remove'+count+'" onclick="removeDevice('+count+')">X</a>\
+                                <a class="btn-remove pull-left btn btn-danger" id="remove' + count + '" onclick="removeDevice(' + count + ')">X</a>\
                                 </div>\
                             </div>\
                             <div class="form-group show-if-device">\
@@ -166,8 +163,6 @@ function addDevices() {
     $('.show-if-device').attr('style', 'display: block');
     $('.show-if-not-accessory').attr('style', 'display: block');
     $('.show-on-all').attr('style', 'display: block');
-
-
 }
 
 function resetDevice() {
@@ -244,16 +239,13 @@ function resetDevice() {
                         </div>';
     $('.device-group').html(deviceFields);
     count = 2;
-
 }
-
 
 $("#transactionDropdown").change(function () {
     var selector = document.getElementById('transactionDropdown');
     if (selector.value == "1") {
         $('.show-if-device').attr('style', 'display: block');
-    }
-    else if (selector.value == "2") {
+    } else if (selector.value == "2") {
         $('.show-if-not-accessory').attr('style', 'display: none');
         $('.show-if-device').attr('style', 'display: none');
     }
@@ -273,7 +265,8 @@ function cancelButton() {
 };
 
 function removeDevice(id) {
-    $('#device'+id).remove();
+    $('#device' + id).remove();
     count--;
 };
 
+//# sourceMappingURL=add-transactions.js.map

@@ -1,11 +1,13 @@
+'use strict';
+
 /**
  * Created by michael on 07/05/16.
  */
 var connection = require('../connection');
 
-exports.create = function(token, done) {
-    connection.get().query('INSERT INTO `tokens` SET ?', [token], function(error, result) {
-        if(error) {
+exports.create = function (token, done) {
+    connection.get().query('INSERT INTO `tokens` SET ?', [token], function (error, result) {
+        if (error) {
             return done(error);
         }
 
@@ -13,9 +15,9 @@ exports.create = function(token, done) {
     });
 };
 
-exports.deleteById = function(token, done) {
-    connection.get().query('DELETE * FROM `tokens` WHERE `token` = ?', [token], function(error, result) {
-        if(error) {
+exports.deleteById = function (token, done) {
+    connection.get().query('DELETE * FROM `tokens` WHERE `token` = ?', [token], function (error, result) {
+        if (error) {
             return done(error);
         }
 
@@ -23,9 +25,9 @@ exports.deleteById = function(token, done) {
     });
 };
 
-exports.deleteByIds = function(tokens, done) {
-    connection.get().query('DELETE * FROM `tokens` WHERE `token` IN (?)', [tokens], function(error, result) {
-        if(error) {
+exports.deleteByIds = function (tokens, done) {
+    connection.get().query('DELETE * FROM `tokens` WHERE `token` IN (?)', [tokens], function (error, result) {
+        if (error) {
             return done(error);
         }
 
@@ -33,12 +35,14 @@ exports.deleteByIds = function(tokens, done) {
     });
 };
 
-exports.getById = function(token, done) {
-    connection.get().query('SELECT * FROM `tokens` WHERE `token` = ?', token, function(error, result) {
-        if(error) {
+exports.getById = function (token, done) {
+    connection.get().query('SELECT * FROM `tokens` WHERE `token` = ?', token, function (error, result) {
+        if (error) {
             return done(error);
         }
 
         done(null, result);
     });
 };
+
+//# sourceMappingURL=token.js.map
