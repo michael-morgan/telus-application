@@ -53,8 +53,8 @@ block content
                   h3.panel-title(style='font-size: 24px;')
                     | #{store.store_name}
             .panel-collapse.collapse(role='tabpanel', aria-labelledby='storeHeading#{storeIndex}', id='storeCollapse#{storeIndex}')
-              .row#summaryContainer
-              .panel-body#transactionContainer
+              .row(id="summaryContainer")
+              .panel-body(id='transactionContainer')
 block append script
   script(src='/bower_components/bootstrap-daterangepicker/moment.min.js')
   script(src='/bower_components/bootstrap-daterangepicker/daterangepicker.js')

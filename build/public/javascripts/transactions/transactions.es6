@@ -371,7 +371,7 @@ function renderTransactions(t_num, users, privileged, transactions) {
             </div><!--end col-xs-12 col-lg-10 col-lg-offset-1 -->
         </div><!--end panel group -->`;
 
-    $('#summaryContainer').html(summaryContent);
+    $("#summaryContainer").html(summaryContent);
 
     var content = '';
 //For each transaction

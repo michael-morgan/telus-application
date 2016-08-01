@@ -167,7 +167,7 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
      * @param fnCallback
      */
     function getStoreID(fnCallback) {
-        userModel.getById(t_number, function (err, rows) {
+        storeModel.getFirstStoreByTNumber(t_number, function (err, rows) {
             if (err) {
                 throw next(err);
             } else if (rows.length <= 0) {
@@ -578,7 +578,9 @@ function renderTransactionHistoryPage(returnObj, req, res, next) {
  * @param next
  */
 function renderAddTransactionPage(returnObj, req, res, next) {
-    userModel.getAllUsersByStoreID(req.session.store_id, function (err, userResult) {
+    
+
+    userModel.getAllUsersByStoreIds(req.session.store_id, function (err, userResult) {
         //If an error is thrown
         if (err) {
             returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');

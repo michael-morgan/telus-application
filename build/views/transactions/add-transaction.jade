@@ -26,9 +26,7 @@ block content
                         option(disabled selected value='0') Select Employee
                             //Code gets every user in the employee table of the database for the select employee drop down
                         each user, i in users
-                            if employee != undefined && employee == user.t_number
-                                option(value='#{user.t_number}' selected) #{user.first_name} #{user.last_name}
-                            else if selectedEmployee != undefined && selectedEmployee == user.t_number
+                            if selectedEmployee && selectedEmployee == user.t_number
                                 option(value='#{user.t_number}' selected) #{user.first_name} #{user.last_name}
                             else
                                 option(value='#{user.t_number}') #{user.first_name} #{user.last_name}
