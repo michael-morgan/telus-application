@@ -32,7 +32,7 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
     }
 
     //Check if the current logged in user is a manager
-    connection.get().query('SELECT stores.store_id, store_name, users.t_number FROM stores ' + 'INNER JOIN stores_util ON stores.store_id = stores_util.store_id ' + 'INNER JOIN users ON stores_util.t_number = users.t_number ' + 'WHERE users.t_number = ? AND stores.store_id = ?', [req.user.t_number, req.session.store_id], function (err, storesResults) {
+    connection.get().query('SELECT stores.store_id, store_name, users.t_number FROM stores ' + 'INNER JOIN stores_util ON stores.store_id = stores_util.store_id ' + 'INNER JOIN users ON stores_util.t_number = users.t_number ' + 'WHERE users.t_number = ? AND stores.store_id = ? GROUP BY stores.store_id', [req.user.t_number, req.session.store_id], function (err, storesResults) {
         if (err) {
             returnObj['message'] = 'Our database servers maybe down. Please try again.';
             //Render the page wth error messages

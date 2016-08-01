@@ -2,6 +2,8 @@
 
 var filteredArray;
 var teamMember;
+
+var storesArray;
 var filterTeamMembers = function filterTeamMembers(transaction) {
     teamMember = $('#teamMember');
     //If the 'All Team Members' was chosen from the drop down, show all transactions
@@ -18,7 +20,9 @@ var startDate;
 var endDate;
 
 $(function () {
-    console.debug(storeObj);
+
+    storesArray = storeObj;
+    console.debug(storesArray);
     console.debug(userObj);
 
     //Hide the delete message until a transaction has been removed
@@ -201,170 +205,127 @@ function renderTransactions(t_num, users, privileged, transactions) {
         } //end for metricItemsIndex
     } //end for transactionIndex
 
-    var summaryContent = '';
-    summaryContent += '\n        <div role="tablist" aria-multiselectable="true" class="panel-group">\n            <div class="panel">\n                <div class="panel panel-default">\n                    <div role="tab" id="transactionHeading" data-toggle="collapse" data-target="#transactionCollapse" class="panel-heading purpleHead collapsed" aria-expanded="false">\n                        <div class="row">\n                            <div class="col-xs-4 text-center">\n                                <h4 class="panel-title">Acc. Units per Transaction:\n                                    <strong style="margin-left: 5px;">';
-    //If transactionsCount is 0, display 0
-    if (transactionCount <= 0) summaryContent += '0%';
-    //Else display the value
-    else summaryContent += '' + parseFloat(Math.round(accessoriesCount / transactionCount)).toFixed(2);
-    summaryContent += '\n                                    </strong>\n                                </h4>\n                            </div><!--end col-xs-4 text-center-->\n                            <div class="col-xs-4 text-center">\n                                <h4 class="panel-title">Basket Size:\n                                    <strong style="margin-left: 5px;">';
-    //If transactionsCount is 0, display 0
-    if (transactionCount <= 0) summaryContent += '' + 0 .toLocaleString('en-CA', { style: 'currency', currency: 'CAD' });
-    //Else display the value
-    else summaryContent += ' ' + (controllableRevenue / transactionCount).toLocaleString('en-CA', { style: 'currency', currency: 'CAD' });
-    summaryContent += '\n                                    </strong>\n                                </h4>\n                            </div><!--end col-xs-4 text-center-->\n                            <div class="col-xs-4 text-center">\n                                <h4 class="panel-title">Average $ per HS:\n                                    <strong style="margin-left: 5px;">';
-    //If totalDeviceCount is 0, display 0
-    if (totalDeviceCount <= 0) summaryContent += '' + 0 .toLocaleString('en-CA', { style: 'currency', currency: 'CAD' });
-    //Else display the value
-    else summaryContent += ' ' + (hsRevenue / totalDeviceCount).toLocaleString('en-CA', { style: 'currency', currency: 'CAD' });
-    summaryContent += '\n                                    </strong>\n                                </h4>\n                            </div><!--end row-->\n                        </div><!--end -->\n                    </div><!--end panel-heading purpleHead collapsed-->\n                    <div role="tabpanel" aria-labelledby="transactionHeading" id="transactionCollapse" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">\n                        <div class="panel-body">\n                            <div class="panel panel-default">\n                                <div class="panel-body">\n                                    <div class="col-xs-12 col-sm-6 col-md-4">\n                                        <strong>Number of Transactions:</strong>\n                                        <span style="margin-left: 5px;">' + transactionCount + '</span>\n                                    </div><!--end col-xs-12 col-sm-6 col-md-4-->\n                                    <div class="col-xs-12 col-sm-6 col-md-4">\n                                        <strong>Device Care:</strong>\n                                        <span style="margin-left: 5px;">';
-    //If deviceCount is 0, display 0
-    if (deviceCount <= 0) summaryContent += '0%';
-    //Else display the value
-    else summaryContent += parseInt(deviceWarrantyCount / deviceCount * 100, 10) + '%';
-    summaryContent += '\n                                        </span>\n                                    </div><!--end col-xs-12 col-sm-6 col-md-4-->\n                                    <div class="col-xs-12 col-sm-6 col-md-4">\n                                        <strong>iPhone:</strong>\n                                        <span style="margin-left: 5px;">' + appleDeviceCount + '</span>\n                                    </div><!--end col-xs-12 col-sm-6 col-md-4-->\n                                    <div class="col-xs-12 col-sm-6 col-md-4">\n                                        <strong>Controllable Transactions:</strong>\n                                        <span style="margin-left: 5px;">' + controllableTransactionsCount + '</span>\n                                    </div><!--end col-xs-12 col-sm-6 col-md-4-->\n                                    <div class="col-xs-12 col-sm-6 col-md-4">\n                                        <strong>AppleCare:</strong>\n                                        <span style="margin-left: 5px;">';
-    //If appleDeviceCount is 0, display 0
-    if (appleDeviceCount <= 0) summaryContent += '0%';
-    //Else display the value
-    else summaryContent += parseInt(appleWarrantyCount / appleDeviceCount * 100, 10) + '%';
-    summaryContent += '\n                                        </span>\n                                    </div><!--end col-xs-12 col-sm-6 col-md-4-->\n                                    <div class="col-xs-12 col-sm-6 col-md-4">\n                                        <strong>Android:</strong>\n                                        <span style="margin-left: 5px;">' + deviceCount + '</span>\n                                    </div><!--end col-xs-12 col-sm-6 col-md-4-->\n                                    <div class="col-xs-12 col-sm-6 col-md-4">\n                                        <strong>Controllable Revenue:</strong>\n                                        <span style="margin-left: 5px;">' + controllableRevenue.toLocaleString('en-CA', { style: 'currency', currency: 'CAD' }) + '</span>\n                                    </div><!--end col-xs-12 col-sm-6 col-md-4-->\n                                    <div class="col-xs-12 col-sm-6 col-md-4">\n                                        <strong>Warranty:</strong>\n                                        <span style="margin-left: 5px;">';
-    //If warrantyDevices is 0, display 0
-    if (warrantyDevices <= 0) summaryContent += '0%';
-    //Else display the value
-    else summaryContent += parseInt(appleWarrantyCount + deviceWarrantyCount / warrantyDevices * 100, 10) + '%';
-    summaryContent += '\n                                        </span>\n                                    </div><!--end col-xs-12 col-sm-6 col-md-4-->\n                                    <div class="col-xs-12 col-sm-6 col-md-4">\n                                        <strong>Other Devices:</strong>\n                                        <span style="margin-left: 5px;">' + otherDevices + '</span>\n                                    </div><!--end col-xs-12 col-sm-6 col-md-4-->\n                                    <div class="col-xs-12">\n                                        <hr>\n                                    </div><!--end col-xs-12 col-sm-6 col-md-4-->\n                                    <div class="col-xs-12 col-sm-6 col-md-4">\n                                        <strong>SBS Activations:</strong>\n                                        <span style="margin-left: 5px;">' + sbsCount + '</span>\n                                    </div><!--end col-xs-12 col-sm-6 col-md-4-->\n                                    <div class="col-xs-12 col-sm-6 col-md-4">\n                                        <strong>Learning Sessions:</strong>\n                                        <span style="margin-left: 5px;">' + learningSessions + '</span>\n                                    </div><!--end col-xs-12 col-sm-6 col-md-4-->\n                                    <div class="col-xs-12 col-sm-6 col-md-4">\n                                        <strong>Critters:</strong>\n                                        <span style="margin-left: 5px;">' + critters + '</span>\n                                    </div><!--end col-xs-12 col-sm-6 col-md-4-->\n                                    <div class="col-xs-12 col-sm-6 col-md-4">\n                                        <strong>Appointments:</strong>\n                                        <span style="margin-left: 5px;">' + appointments + '</span>\n                                    </div><!--end col-xs-12 col-sm-6 col-md-4-->\n                                    <div class="col-xs-12 col-sm-6 col-md-4">\n                                        <strong>AOTM:</strong>\n                                        <span style="margin-left: 5px;">' + aotm + '</span>\n                                    </div><!--end col-xs-12 col-sm-6 col-md-4-->\n                                    <div class="col-xs-12 col-sm-6 col-md-4">\n                                        <strong>Donations:</strong>\n                                        <span style="margin-left: 5px;">' + donations + '</span>\n                                    </div><!--end col-xs-12 col-sm-6 col-md-4-->\n                                    <div class="col-xs-12 col-sm-6 col-md-4">\n                                        <strong>Credit Cards:</strong>\n                                        <span style="margin-left: 5px;">' + creditCards + '</span>\n                                    </div><!--end col-xs-12 col-sm-6 col-md-4-->\n                                    <div class="col-xs-12 col-sm-6 col-md-4">\n                                        <strong>Tablets:</strong>\n                                        <span style="margin-left: 5px;">' + tabletCount + '</span>\n                                    </div><!--end col-xs-12 col-sm-6 col-md-4-->\n                                </div><!--end panel-body-->\n                            </div><!--end panel panel-default -->\n                        </div><!--end panel-body-->\n                    </div><!--end panel-collapse collapse-->\n                </div><!--end panel panel-default -->\n            </div><!--end col-xs-12 col-lg-10 col-lg-offset-1 -->\n        </div><!--end panel group -->';
 
-    $('#summaryContainer').html(summaryContent);
+    for (var i in storesArray) {
+        var summaryContent = '';
+        summaryContent += '\n        <div role="tablist" aria-multiselectable="true" class="panel-group">\n            <div class="panel">\n                <div class="panel panel-default">\n                    <div role="tab" id="transactionHeading' + storesArray[i].store_id + '" data-toggle="collapse" data-target="#transactionCollapse' + storesArray[i].store_id + '" class="panel-heading purpleHead collapsed" aria-expanded="false">\n                        <div class="row">\n                            <div class="col-xs-4 text-center">\n                                <h4 class="panel-title">Acc. Units per Transaction:\n                                    <strong style="margin-left: 5px;">';
+        //If transactionsCount is 0, display 0
+        if (transactionCount <= 0) summaryContent += '0%';
+        //Else display the value
+        else summaryContent += '' + parseFloat(Math.round(accessoriesCount / transactionCount)).toFixed(2);
+        summaryContent += '\n                                    </strong>\n                                </h4>\n                            </div><!--end col-xs-4 text-center-->\n                            <div class="col-xs-4 text-center">\n                                <h4 class="panel-title">Basket Size:\n                                    <strong style="margin-left: 5px;">';
+        //If transactionsCount is 0, display 0
+        if (transactionCount <= 0) summaryContent += '' + 0 .toLocaleString('en-CA', { style: 'currency', currency: 'CAD' });
+        //Else display the value
+        else summaryContent += ' ' + (controllableRevenue / transactionCount).toLocaleString('en-CA', {
+                style: 'currency',
+                currency: 'CAD'
+            });
+        summaryContent += '\n                                    </strong>\n                                </h4>\n                            </div><!--end col-xs-4 text-center-->\n                            <div class="col-xs-4 text-center">\n                                <h4 class="panel-title">Average $ per HS:\n                                    <strong style="margin-left: 5px;">';
+        //If totalDeviceCount is 0, display 0
+        if (totalDeviceCount <= 0) summaryContent += '' + 0 .toLocaleString('en-CA', { style: 'currency', currency: 'CAD' });
+        //Else display the value
+        else summaryContent += ' ' + (hsRevenue / totalDeviceCount).toLocaleString('en-CA', {
+                style: 'currency',
+                currency: 'CAD'
+            });
+        summaryContent += '\n                                    </strong>\n                                </h4>\n                            </div><!--end row-->\n                        </div><!--end -->\n                    </div><!--end panel-heading purpleHead collapsed-->\n                    <div role="tabpanel" aria-labelledby="transactionHeading' + storesArray[i].store_id + '" id="transactionCollapse' + storesArray[i].store_id + '" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">\n                        <div class="panel-body">\n                            <div class="panel panel-default">\n                                <div class="panel-body">\n                                    <div class="col-xs-12 col-sm-6 col-md-4">\n                                        <strong>Number of Transactions:</strong>\n                                        <span style="margin-left: 5px;">' + transactionCount + '</span>\n                                    </div><!--end col-xs-12 col-sm-6 col-md-4-->\n                                    <div class="col-xs-12 col-sm-6 col-md-4">\n                                        <strong>Device Care:</strong>\n                                        <span style="margin-left: 5px;">';
+        //If deviceCount is 0, display 0
+        if (deviceCount <= 0) summaryContent += '0%';
+        //Else display the value
+        else summaryContent += parseInt(deviceWarrantyCount / deviceCount * 100, 10) + '%';
+        summaryContent += '\n                                        </span>\n                                    </div><!--end col-xs-12 col-sm-6 col-md-4-->\n                                    <div class="col-xs-12 col-sm-6 col-md-4">\n                                        <strong>iPhone:</strong>\n                                        <span style="margin-left: 5px;">' + appleDeviceCount + '</span>\n                                    </div><!--end col-xs-12 col-sm-6 col-md-4-->\n                                    <div class="col-xs-12 col-sm-6 col-md-4">\n                                        <strong>Controllable Transactions:</strong>\n                                        <span style="margin-left: 5px;">' + controllableTransactionsCount + '</span>\n                                    </div><!--end col-xs-12 col-sm-6 col-md-4-->\n                                    <div class="col-xs-12 col-sm-6 col-md-4">\n                                        <strong>AppleCare:</strong>\n                                        <span style="margin-left: 5px;">';
+        //If appleDeviceCount is 0, display 0
+        if (appleDeviceCount <= 0) summaryContent += '0%';
+        //Else display the value
+        else summaryContent += parseInt(appleWarrantyCount / appleDeviceCount * 100, 10) + '%';
+        summaryContent += '\n                                        </span>\n                                    </div><!--end col-xs-12 col-sm-6 col-md-4-->\n                                    <div class="col-xs-12 col-sm-6 col-md-4">\n                                        <strong>Android:</strong>\n                                        <span style="margin-left: 5px;">' + deviceCount + '</span>\n                                    </div><!--end col-xs-12 col-sm-6 col-md-4-->\n                                    <div class="col-xs-12 col-sm-6 col-md-4">\n                                        <strong>Controllable Revenue:</strong>\n                                        <span style="margin-left: 5px;">' + controllableRevenue.toLocaleString('en-CA', {
+            style: 'currency',
+            currency: 'CAD'
+        }) + '</span>\n                                    </div><!--end col-xs-12 col-sm-6 col-md-4-->\n                                    <div class="col-xs-12 col-sm-6 col-md-4">\n                                        <strong>Warranty:</strong>\n                                        <span style="margin-left: 5px;">';
+        //If warrantyDevices is 0, display 0
+        if (warrantyDevices <= 0) summaryContent += '0%';
+        //Else display the value
+        else summaryContent += parseInt(appleWarrantyCount + deviceWarrantyCount / warrantyDevices * 100, 10) + '%';
+        summaryContent += '\n                                        </span>\n                                    </div><!--end col-xs-12 col-sm-6 col-md-4-->\n                                    <div class="col-xs-12 col-sm-6 col-md-4">\n                                        <strong>Other Devices:</strong>\n                                        <span style="margin-left: 5px;">' + otherDevices + '</span>\n                                    </div><!--end col-xs-12 col-sm-6 col-md-4-->\n                                    <div class="col-xs-12">\n                                        <hr>\n                                    </div><!--end col-xs-12 col-sm-6 col-md-4-->\n                                    <div class="col-xs-12 col-sm-6 col-md-4">\n                                        <strong>SBS Activations:</strong>\n                                        <span style="margin-left: 5px;">' + sbsCount + '</span>\n                                    </div><!--end col-xs-12 col-sm-6 col-md-4-->\n                                    <div class="col-xs-12 col-sm-6 col-md-4">\n                                        <strong>Learning Sessions:</strong>\n                                        <span style="margin-left: 5px;">' + learningSessions + '</span>\n                                    </div><!--end col-xs-12 col-sm-6 col-md-4-->\n                                    <div class="col-xs-12 col-sm-6 col-md-4">\n                                        <strong>Critters:</strong>\n                                        <span style="margin-left: 5px;">' + critters + '</span>\n                                    </div><!--end col-xs-12 col-sm-6 col-md-4-->\n                                    <div class="col-xs-12 col-sm-6 col-md-4">\n                                        <strong>Appointments:</strong>\n                                        <span style="margin-left: 5px;">' + appointments + '</span>\n                                    </div><!--end col-xs-12 col-sm-6 col-md-4-->\n                                    <div class="col-xs-12 col-sm-6 col-md-4">\n                                        <strong>AOTM:</strong>\n                                        <span style="margin-left: 5px;">' + aotm + '</span>\n                                    </div><!--end col-xs-12 col-sm-6 col-md-4-->\n                                    <div class="col-xs-12 col-sm-6 col-md-4">\n                                        <strong>Donations:</strong>\n                                        <span style="margin-left: 5px;">' + donations + '</span>\n                                    </div><!--end col-xs-12 col-sm-6 col-md-4-->\n                                    <div class="col-xs-12 col-sm-6 col-md-4">\n                                        <strong>Credit Cards:</strong>\n                                        <span style="margin-left: 5px;">' + creditCards + '</span>\n                                    </div><!--end col-xs-12 col-sm-6 col-md-4-->\n                                    <div class="col-xs-12 col-sm-6 col-md-4">\n                                        <strong>Tablets:</strong>\n                                        <span style="margin-left: 5px;">' + tabletCount + '</span>\n                                    </div><!--end col-xs-12 col-sm-6 col-md-4-->\n                                </div><!--end panel-body-->\n                            </div><!--end panel panel-default -->\n                        </div><!--end panel-body-->\n                    </div><!--end panel-collapse collapse-->\n                </div><!--end panel panel-default -->\n            </div><!--end col-xs-12 col-lg-10 col-lg-offset-1 -->\n        </div><!--end panel group -->';
+        $('#summaryContainer' + storesArray[i].store_id).html(summaryContent);
+        console.log(storesArray[i].store_id);
+    }
 
-    var content = '';
     //For each transaction
-    for (var transactionIndex in transactions) {
-        //content hold all the HTML for the filtered array
-        content += '\n       <div id="transactionID' + transactions[transactionIndex].transaction_id + '" class="panel">\n           <div class="panel-heading purpleHead">\n               <div role="tab" class="row" id="transactionHeading' + transactions[transactionIndex].transaction_id + '" data-toggle="collapse" data-target="#transactionCollapse' + transactions[transactionIndex].transaction_id + '">\n                  <div class="col-xs-4">\n                       <h4 class="panel-title">' + new Date(transactions[transactionIndex].transaction_date).toLocaleDateString() + '</h4>\n                  </div><!-- end col-xs-4 -->\n\n                  <div class="col-xs-4 text-center">\n                       <h4 class="panel-title">' + transactions[transactionIndex].transactionItems.length + ' Item(s)</h4>\n                  </div><!-- end col-xs-4 text-center -->\n\n                  <div class="col-xs-4">\n                       <div class="pull-right">\n                           <div style="padding:0;" class="col-xs-8">\n                                <h4 class="panel-title">' + transactions[transactionIndex].totalRevenue.toLocaleString('en-CA', { style: 'currency', currency: 'CAD' }) + '</h4>\n                           </div><!-- end col-xs-8 -->\n                           <div style="padding:0;" class="col-xs-4">';
-        //If the user is privileged to remove transactions'
-        if (privileged >= 3) {
-            content += '\n                                       <div style="padding:0;" class="col-xs-4">\n                                           <div style="margin-top:6px;" class="dropdown">\n                                               <a id="ddMoreOptions" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="dropdown-toggle"><i aria-hidden="true" class="fa fa-ellipsis-v fa-2x"></i></a>\n                                               <ul aria-labelledby="ddMoreOptions" class="dropdown-menu">\n                                                   <li><a href="#" onclick="deleteTransaction(' + transactions[transactionIndex].transaction_id + ')">Remove Transaction</a></li>\n                                               </ul>\n                                           </div><!-- end dropdown -->\n                                       </div><!-- end col-xs-4 -->\n                                    ';
-        }
-        content += '\n                           </div><!-- end col-xs-8 -->\n                       </div><!-- end pull-right -->\n                  </div><!-- end col-xs-4 -->\n               </div><!-- end row -->\n           </div><!-- end panel heading -->';
-        content += '\n           <div class="panel-collapse collapse" role="tabpanel" aria-labelledby="transactionHeading' + transactions[transactionIndex].transaction_id + '" id="transactionCollapse' + transactions[transactionIndex].transaction_id + '">\n               <div class="panel-body">';
-        //For each transactionItem in a trasactions
-        for (var transactionItemsIndex in transactions[transactionIndex].transactionItems) {
-            content += '\n                   <div class="col-xs-12 col-sm-6 col-md-4">\n                       <strong>Transaction Type:</strong>\n                       <span style="margin-left: 5px;">' + transactions[transactionIndex].transactionItems[transactionItemsIndex].transactionType + '</span>\n                   </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                   <div class="col-xs-12 col-sm-6 col-md-4">\n                       <strong>Warranty Type:</strong>\n                       <span style="margin-left: 5px;">';
-            if (transactions[transactionIndex].transactionItems[transactionItemsIndex].warranty) {
-                content += '' + transactions[transactionIndex].transactionItems[transactionItemsIndex].warranty;
-            } else {
-                content += 'None';
+    for (var i in storesArray) {
+        var content = '';
+        for (var transactionIndex in transactions) {
+            //content hold all the HTML for the filtered array
+            content += '\n       <div id="' + storesArray[i].store_id + 'transactionID' + transactions[transactionIndex].transaction_id + '" class="panel">\n           <div class="panel-heading purpleHead">\n               <div role="tab" class="row" id="' + storesArray[i].store_id + 'transactionHeading' + transactions[transactionIndex].transaction_id + '" data-toggle="collapse" data-target="#' + storesArray[i].store_id + 'transactionCollapse' + transactions[transactionIndex].transaction_id + '">\n                  <div class="col-xs-4">\n                       <h4 class="panel-title">' + new Date(transactions[transactionIndex].transaction_date).toLocaleDateString() + '</h4>\n                  </div><!-- end col-xs-4 -->\n\n                  <div class="col-xs-4 text-center">\n                       <h4 class="panel-title">' + transactions[transactionIndex].transactionItems.length + ' Item(s)</h4>\n                  </div><!-- end col-xs-4 text-center -->\n\n                  <div class="col-xs-4">\n                       <div class="pull-right">\n                           <div style="padding:0;" class="col-xs-8">\n                                <h4 class="panel-title">' + transactions[transactionIndex].totalRevenue.toLocaleString('en-CA', {
+                style: 'currency',
+                currency: 'CAD'
+            }) + '</h4>\n                           </div><!-- end col-xs-8 -->\n                           <div style="padding:0;" class="col-xs-4">';
+            //If the user is privileged to remove transactions'
+            if (privileged >= 3) {
+                content += '\n                                       <div style="padding:0;" class="col-xs-4">\n                                           <div style="margin-top:6px;" class="dropdown">\n                                               <a id="ddMoreOptions" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="dropdown-toggle"><i aria-hidden="true" class="fa fa-ellipsis-v fa-2x"></i></a>\n                                               <ul aria-labelledby="ddMoreOptions" class="dropdown-menu">\n                                                   <li><a href="#" onclick="deleteTransaction(' + transactions[transactionIndex].transaction_id + ')">Remove Transaction</a></li>\n                                               </ul>\n                                           </div><!-- end dropdown -->\n                                       </div><!-- end col-xs-4 -->\n                                    ';
             }
-            content += '</span>\n                   </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                   <div class="col-xs-12 col-sm-6 col-md-4">\n                       <strong>Sale Type:</strong>\n                       <span style="margin-left: 5px;">';
-            if (transactions[transactionIndex].transactionItems[transactionItemsIndex].activation) {
-                content += '' + transactions[transactionIndex].transactionItems[transactionItemsIndex].activation;
-            } else {
-                content += 'None';
-            }
-            content += '</span>\n                   </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                   <div class="col-xs-12 col-sm-6 col-md-4">\n                       <strong>Attach (Yes/No):</strong>\n                       <span style="margin-left: 5px;">' + (transactions[transactionIndex].transactionItems[transactionItemsIndex].attached === 1 ? 'Yes' : 'No') + '</span>\n                   </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                   <div class="col-xs-12 col-sm-6 col-md-4">\n                       <strong>Device Type:</strong>\n                       <span style="margin-left: 5px;">';
-            if (transactions[transactionIndex].transactionItems[transactionItemsIndex].device) {
-                content += '' + transactions[transactionIndex].transactionItems[transactionItemsIndex].device;
-            } else {
-                content += 'None';
-            }
-            content += '</span>\n                   </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                   <div class="col-xs-12 col-sm-6 col-md-4">\n                       <strong>Revenue:</strong>\n                       <span style="margin-left: 5px;">' + transactions[transactionIndex].transactionItems[transactionItemsIndex].revenue.toLocaleString('en-CA', { style: 'currency', currency: 'CAD' }) + '</span>\n                   </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                   <div class="col-xs-12 col-sm-6 col-md-4">\n                       <strong>SBS Activation (Yes/No):</strong>\n                       <span style="margin-left: 5px;">' + (transactions[transactionIndex].transactionItems[transactionItemsIndex].sbs_activation === 1 ? 'Yes' : 'No') + '</span>\n                   </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                   <div class="col-xs-12 col-sm-6 col-md-4">\n                       <strong>Number of Accessories:</strong>\n                       <span style="margin-left: 5px;">' + transactions[transactionIndex].transactionItems[transactionItemsIndex].num_of_accessories + '</span>\n                   </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                   <div class="col-xs-12">\n                       <hr />\n                   </div><!-- end col-xs-12 -->\n               ';
-        } //end for transactionItems
-        //For each additionalMetric
-        for (var additionalMetricIndex in transactions[transactionIndex].additionalMetricItems) {
-            if (transactions[transactionIndex].additionalMetricItems[additionalMetricIndex].additional_metrics_items_type === 1) {
-                content += '\n                           <div class="col-xs-12 col-sm-6 col-md-4">\n                               <strong>Learning Sessions:</strong>\n                               <span style="margin-left: 5px;">' + transactions[transactionIndex].additionalMetricItems[additionalMetricIndex].additional_metrics_items_count + '</span>\n                           </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                       ';
-            } //end if
-            if (transactions[transactionIndex].additionalMetricItems[additionalMetricIndex].additional_metrics_items_type === 2) {
-                content += '\n                           <div class="col-xs-12 col-sm-6 col-md-4">\n                               <strong>AOTMs Sold:</strong>\n                               <span style="margin-left: 5px;">' + transactions[transactionIndex].additionalMetricItems[additionalMetricIndex].additional_metrics_items_count + '</span>\n                           </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                       ';
-            } //end if
-            if (transactions[transactionIndex].additionalMetricItems[additionalMetricIndex].additional_metrics_items_type === 3) {
-                content += '\n                           <div class="col-xs-12 col-sm-6 col-md-4">\n                               <strong>Appointments:</strong>\n                               <span style="margin-left: 5px;">' + transactions[transactionIndex].additionalMetricItems[additionalMetricIndex].additional_metrics_items_count + '</span>\n                           </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                       ';
-            } //end if
-            if (transactions[transactionIndex].additionalMetricItems[additionalMetricIndex].additional_metrics_items_type === 4) {
-                content += '\n                           <div class="col-xs-12 col-sm-6 col-md-4">\n                               <strong>Critters Sold:</strong>\n                               <span style="margin-left: 5px;">' + transactions[transactionIndex].additionalMetricItems[additionalMetricIndex].additional_metrics_items_count + '</span>\n                           </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                       ';
-            } //end if
+            content += '\n                           </div><!-- end col-xs-8 -->\n                       </div><!-- end pull-right -->\n                  </div><!-- end col-xs-4 -->\n               </div><!-- end row -->\n           </div><!-- end panel heading -->';
+            content += '\n           <div class="panel-collapse collapse" role="tabpanel" aria-labelledby="' + storesArray[i].store_id + 'transactionHeading' + transactions[transactionIndex].transaction_id + '" id="' + storesArray[i].store_id + 'transactionCollapse' + transactions[transactionIndex].transaction_id + '">\n               <div class="panel-body">';
+            //For each transactionItem in a trasactions
+            for (var transactionItemsIndex in transactions[transactionIndex].transactionItems) {
+                content += '\n                   <div class="col-xs-12 col-sm-6 col-md-4">\n                       <strong>Transaction Type:</strong>\n                       <span style="margin-left: 5px;">' + transactions[transactionIndex].transactionItems[transactionItemsIndex].transactionType + '</span>\n                   </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                   <div class="col-xs-12 col-sm-6 col-md-4">\n                       <strong>Warranty Type:</strong>\n                       <span style="margin-left: 5px;">';
+                if (transactions[transactionIndex].transactionItems[transactionItemsIndex].warranty) {
+                    content += '' + transactions[transactionIndex].transactionItems[transactionItemsIndex].warranty;
+                } else {
+                    content += 'None';
+                }
+                content += '</span>\n                   </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                   <div class="col-xs-12 col-sm-6 col-md-4">\n                       <strong>Sale Type:</strong>\n                       <span style="margin-left: 5px;">';
+                if (transactions[transactionIndex].transactionItems[transactionItemsIndex].activation) {
+                    content += '' + transactions[transactionIndex].transactionItems[transactionItemsIndex].activation;
+                } else {
+                    content += 'None';
+                }
+                content += '</span>\n                   </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                   <div class="col-xs-12 col-sm-6 col-md-4">\n                       <strong>Attach (Yes/No):</strong>\n                       <span style="margin-left: 5px;">' + (transactions[transactionIndex].transactionItems[transactionItemsIndex].attached === 1 ? 'Yes' : 'No') + '</span>\n                   </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                   <div class="col-xs-12 col-sm-6 col-md-4">\n                       <strong>Device Type:</strong>\n                       <span style="margin-left: 5px;">';
+                if (transactions[transactionIndex].transactionItems[transactionItemsIndex].device) {
+                    content += '' + transactions[transactionIndex].transactionItems[transactionItemsIndex].device;
+                } else {
+                    content += 'None';
+                }
+                content += '</span>\n                   </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                   <div class="col-xs-12 col-sm-6 col-md-4">\n                       <strong>Revenue:</strong>\n                       <span style="margin-left: 5px;">' + transactions[transactionIndex].transactionItems[transactionItemsIndex].revenue.toLocaleString('en-CA', {
+                    style: 'currency',
+                    currency: 'CAD'
+                }) + '</span>\n                   </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                   <div class="col-xs-12 col-sm-6 col-md-4">\n                       <strong>SBS Activation (Yes/No):</strong>\n                       <span style="margin-left: 5px;">' + (transactions[transactionIndex].transactionItems[transactionItemsIndex].sbs_activation === 1 ? 'Yes' : 'No') + '</span>\n                   </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                   <div class="col-xs-12 col-sm-6 col-md-4">\n                       <strong>Number of Accessories:</strong>\n                       <span style="margin-left: 5px;">' + transactions[transactionIndex].transactionItems[transactionItemsIndex].num_of_accessories + '</span>\n                   </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                   <div class="col-xs-12">\n                       <hr />\n                   </div><!-- end col-xs-12 -->\n               ';
+            } //end for transactionItems
+            //For each additionalMetric
+            for (var additionalMetricIndex in transactions[transactionIndex].additionalMetricItems) {
+                if (transactions[transactionIndex].additionalMetricItems[additionalMetricIndex].additional_metrics_items_type === 1) {
+                    content += '\n                           <div class="col-xs-12 col-sm-6 col-md-4">\n                               <strong>Learning Sessions:</strong>\n                               <span style="margin-left: 5px;">' + transactions[transactionIndex].additionalMetricItems[additionalMetricIndex].additional_metrics_items_count + '</span>\n                           </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                       ';
+                } //end if
+                if (transactions[transactionIndex].additionalMetricItems[additionalMetricIndex].additional_metrics_items_type === 2) {
+                    content += '\n                           <div class="col-xs-12 col-sm-6 col-md-4">\n                               <strong>AOTMs Sold:</strong>\n                               <span style="margin-left: 5px;">' + transactions[transactionIndex].additionalMetricItems[additionalMetricIndex].additional_metrics_items_count + '</span>\n                           </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                       ';
+                } //end if
+                if (transactions[transactionIndex].additionalMetricItems[additionalMetricIndex].additional_metrics_items_type === 3) {
+                    content += '\n                           <div class="col-xs-12 col-sm-6 col-md-4">\n                               <strong>Appointments:</strong>\n                               <span style="margin-left: 5px;">' + transactions[transactionIndex].additionalMetricItems[additionalMetricIndex].additional_metrics_items_count + '</span>\n                           </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                       ';
+                } //end if
+                if (transactions[transactionIndex].additionalMetricItems[additionalMetricIndex].additional_metrics_items_type === 4) {
+                    content += '\n                           <div class="col-xs-12 col-sm-6 col-md-4">\n                               <strong>Critters Sold:</strong>\n                               <span style="margin-left: 5px;">' + transactions[transactionIndex].additionalMetricItems[additionalMetricIndex].additional_metrics_items_count + '</span>\n                           </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                       ';
+                } //end if
 
-            if (transactions[transactionIndex].additionalMetricItems[additionalMetricIndex].additional_metrics_items_type === 5) {
-                content += '\n                           <div class="col-xs-12 col-sm-6 col-md-4">\n                               <strong>Donations:</strong>\n                               <span style="margin-left: 5px;">' + transactions[transactionIndex].additionalMetricItems[additionalMetricIndex].additional_metrics_items_count + '</span>\n                           </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                       ';
-            } //end if
-            if (transactions[transactionIndex].additionalMetricItems[additionalMetricIndex].additional_metrics_items_type === 6) {
-                content += '\n                           <div class="col-xs-12 col-sm-6 col-md-4">\n                               <strong>Credit Card Apps:</strong>\n                               <span style="margin-left: 5px;">' + transactions[transactionIndex].additionalMetricItems[additionalMetricIndex].additional_metrics_items_count + '</span>\n                           </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                       ';
-            } //end if
-        } //end for additionalMetricItems
-        content += '\n               <div class="col-xs-12"></div><!-- end col-xs-12 -->\n               <div style="margin-top: 25px;" class="col-xs-6">\n                   <div class="pull-left">\n                       <strong>Time:</strong>\n                       <span style="margin-left: 5px;">' + new Date(transactions[transactionIndex].transaction_date).toLocaleTimeString() + '</span>\n                   </div><!-- end pull-left -->\n               </div><!-- end col-xs-6 -->\n               <div style="margin-top: 25px;" class="col-xs-6">\n                   <div class="pull-right">\n                       <strong>Completed By:</strong>\n                       <span style="margin-left: 5px;">';
-        for (var userIndex in users) {
-            if (users[userIndex].t_number === transactions[transactionIndex].t_number) {
-                content += users[userIndex].first_name + ' ' + users[userIndex].last_name;
-            } //end if
-        } //end for
-        content += '</span>\n                   </div><!-- end pull-right -->\n              </div><!-- end col-xs-6 -->\n          </div><!-- end panel-body -->\n       </div><!-- end panel-collapse collapse -->\n   </div> <!-- end panel -->';
-    } //end for transactions
+                if (transactions[transactionIndex].additionalMetricItems[additionalMetricIndex].additional_metrics_items_type === 5) {
+                    content += '\n                           <div class="col-xs-12 col-sm-6 col-md-4">\n                               <strong>Donations:</strong>\n                               <span style="margin-left: 5px;">' + transactions[transactionIndex].additionalMetricItems[additionalMetricIndex].additional_metrics_items_count + '</span>\n                           </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                       ';
+                } //end if
+                if (transactions[transactionIndex].additionalMetricItems[additionalMetricIndex].additional_metrics_items_type === 6) {
+                    content += '\n                           <div class="col-xs-12 col-sm-6 col-md-4">\n                               <strong>Credit Card Apps:</strong>\n                               <span style="margin-left: 5px;">' + transactions[transactionIndex].additionalMetricItems[additionalMetricIndex].additional_metrics_items_count + '</span>\n                           </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                       ';
+                } //end if
+            } //end for additionalMetricItems
+            content += '\n               <div class="col-xs-12"></div><!-- end col-xs-12 -->\n               <div style="margin-top: 25px;" class="col-xs-6">\n                   <div class="pull-left">\n                       <strong>Time:</strong>\n                       <span style="margin-left: 5px;">' + new Date(transactions[transactionIndex].transaction_date).toLocaleTimeString() + '</span>\n                   </div><!-- end pull-left -->\n               </div><!-- end col-xs-6 -->\n               <div style="margin-top: 25px;" class="col-xs-6">\n                   <div class="pull-right">\n                       <strong>Completed By:</strong>\n                       <span style="margin-left: 5px;">';
+            for (var userIndex in users) {
+                if (users[userIndex].t_number === transactions[transactionIndex].t_number) {
+                    content += users[userIndex].first_name + ' ' + users[userIndex].last_name;
+                } //end if
+            } //end for
+            content += '</span>\n                   </div><!-- end pull-right -->\n              </div><!-- end col-xs-6 -->\n          </div><!-- end panel-body -->\n       </div><!-- end panel-collapse collapse -->\n   </div> <!-- end panel -->';
+        } //end for transactions
 
-    $('#transactionContainer').html(content);
-    var content = '';
-    //For each transaction
-    for (var transactionIndex in transactions) {
-        //content hold all the HTML for the filtered array
-        content += '\n       <div id="transactionID' + transactions[transactionIndex].transaction_id + '" class="panel">\n           <div class="panel-heading purpleHead">\n               <div role="tab" class="row" id="transactionHeading' + transactions[transactionIndex].transaction_id + '" data-toggle="collapse" data-target="#transactionCollapse' + transactions[transactionIndex].transaction_id + '">\n                  <div class="col-xs-4">\n                       <h4 class="panel-title">' + new Date(transactions[transactionIndex].transaction_date).toLocaleDateString() + '</h4>\n                  </div><!-- end col-xs-4 -->\n\n                  <div class="col-xs-4 text-center">\n                       <h4 class="panel-title">' + transactions[transactionIndex].transactionItems.length + ' Item(s)</h4>\n                  </div><!-- end col-xs-4 text-center -->\n\n                  <div class="col-xs-4">\n                       <div class="pull-right">\n                           <div style="padding:0;" class="col-xs-8">\n                                <h4 class="panel-title">' + transactions[transactionIndex].totalRevenue.toLocaleString('en-CA', { style: 'currency', currency: 'CAD' }) + '</h4>\n                           </div><!-- end col-xs-8 -->\n                           <div style="padding:0;" class="col-xs-4">';
-        if (privileged >= 3) {
-            content += '\n                                       <div style="padding:0;" class="col-xs-4">\n                                           <div style="margin-top:6px;" class="dropdown">\n                                               <a id="ddMoreOptions" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="dropdown-toggle"><i aria-hidden="true" class="fa fa-ellipsis-v fa-2x"></i></a>\n                                               <ul aria-labelledby="ddMoreOptions" class="dropdown-menu">\n                                                   <li><a href="#" onclick="deleteTransaction(' + transactions[transactionIndex].transaction_id + ')">Remove Transaction</a></li>\n                                               </ul>\n                                           </div><!-- end dropdown -->\n                                       </div><!-- end col-xs-4 -->\n                                    ';
-        }
-        content += '\n                           </div><!-- end col-xs-8 -->\n                       </div><!-- end pull-right -->\n                  </div><!-- end col-xs-4 -->\n               </div><!-- end row -->\n           </div><!-- end panel heading -->';
-        content += '\n           <div class="panel-collapse collapse" role="tabpanel" aria-labelledby="transactionHeading' + transactions[transactionIndex].transaction_id + '" id="transactionCollapse' + transactions[transactionIndex].transaction_id + '">\n               <div class="panel-body">';
-        //For each transactionItem in a trasactions
-        for (var transactionItemsIndex in transactions[transactionIndex].transactionItems) {
-            content += '\n                   <div class="col-xs-12 col-sm-6 col-md-4">\n                       <strong>Transaction Type:</strong>\n                       <span style="margin-left: 5px;">' + transactions[transactionIndex].transactionItems[transactionItemsIndex].transactionType + '</span>\n                   </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                   <div class="col-xs-12 col-sm-6 col-md-4">\n                       <strong>Warranty Type:</strong>\n                       <span style="margin-left: 5px;">';
-            if (transactions[transactionIndex].transactionItems[transactionItemsIndex].warranty) {
-                content += '' + transactions[transactionIndex].transactionItems[transactionItemsIndex].warranty;
-            } else {
-                content += 'None';
-            }
-            content += '</span>\n                   </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                   <div class="col-xs-12 col-sm-6 col-md-4">\n                       <strong>Sale Type:</strong>\n                       <span style="margin-left: 5px;">';
-            if (transactions[transactionIndex].transactionItems[transactionItemsIndex].activation) {
-                content += '' + transactions[transactionIndex].transactionItems[transactionItemsIndex].activation;
-            } else {
-                content += 'None';
-            }
-            content += '</span>\n                   </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                   <div class="col-xs-12 col-sm-6 col-md-4">\n                       <strong>Attach (Yes/No):</strong>\n                       <span style="margin-left: 5px;">' + (transactions[transactionIndex].transactionItems[transactionItemsIndex].attached === 1 ? 'Yes' : 'No') + '</span>\n                   </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                   <div class="col-xs-12 col-sm-6 col-md-4">\n                       <strong>Device Type:</strong>\n                       <span style="margin-left: 5px;">';
-            if (transactions[transactionIndex].transactionItems[transactionItemsIndex].device) {
-                content += '' + transactions[transactionIndex].transactionItems[transactionItemsIndex].device;
-            } else {
-                content += 'None';
-            }
-            content += '</span>\n                   </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                   <div class="col-xs-12 col-sm-6 col-md-4">\n                       <strong>Revenue:</strong>\n                       <span style="margin-left: 5px;">' + transactions[transactionIndex].transactionItems[transactionItemsIndex].revenue.toLocaleString('en-CA', { style: 'currency', currency: 'CAD' }) + '</span>\n                   </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                   <div class="col-xs-12 col-sm-6 col-md-4">\n                       <strong>SBS Activation (Yes/No):</strong>\n                       <span style="margin-left: 5px;">' + (transactions[transactionIndex].transactionItems[transactionItemsIndex].sbs_activation === 1 ? 'Yes' : 'No') + '</span>\n                   </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                   <div class="col-xs-12 col-sm-6 col-md-4">\n                       <strong>Number of Accessories:</strong>\n                       <span style="margin-left: 5px;">' + transactions[transactionIndex].transactionItems[transactionItemsIndex].num_of_accessories + '</span>\n                   </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                   <div class="col-xs-12">\n                       <hr />\n                   </div><!-- end col-xs-12 -->\n               ';
-        } //end for transactionItems
-        //For each additionalMetric
-        for (var additionalMetricIndex in transactions[transactionIndex].additionalMetricItems) {
-            if (transactions[transactionIndex].additionalMetricItems[additionalMetricIndex].additional_metrics_items_type === 1) {
-                content += '\n                           <div class="col-xs-12 col-sm-6 col-md-4">\n                               <strong>Learning Sessions:</strong>\n                               <span style="margin-left: 5px;">' + transactions[transactionIndex].additionalMetricItems[additionalMetricIndex].additional_metrics_items_count + '</span>\n                           </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                       ';
-            } //end if
-            if (transactions[transactionIndex].additionalMetricItems[additionalMetricIndex].additional_metrics_items_type === 2) {
-                content += '\n                           <div class="col-xs-12 col-sm-6 col-md-4">\n                               <strong>AOTMs Sold:</strong>\n                               <span style="margin-left: 5px;">' + transactions[transactionIndex].additionalMetricItems[additionalMetricIndex].additional_metrics_items_count + '</span>\n                           </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                       ';
-            } //end if
-            if (transactions[transactionIndex].additionalMetricItems[additionalMetricIndex].additional_metrics_items_type === 3) {
-                content += '\n                           <div class="col-xs-12 col-sm-6 col-md-4">\n                               <strong>Appointments:</strong>\n                               <span style="margin-left: 5px;">' + transactions[transactionIndex].additionalMetricItems[additionalMetricIndex].additional_metrics_items_count + '</span>\n                           </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                       ';
-            } //end if
-            if (transactions[transactionIndex].additionalMetricItems[additionalMetricIndex].additional_metrics_items_type === 4) {
-                content += '\n                           <div class="col-xs-12 col-sm-6 col-md-4">\n                               <strong>Critters Sold:</strong>\n                               <span style="margin-left: 5px;">' + transactions[transactionIndex].additionalMetricItems[additionalMetricIndex].additional_metrics_items_count + '</span>\n                           </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                       ';
-            } //end if
+        $('#transactionContainer' + storesArray[i].store_id).html(content);
+    } //end for stores
 
-            if (transactions[transactionIndex].additionalMetricItems[additionalMetricIndex].additional_metrics_items_type === 5) {
-                content += '\n                           <div class="col-xs-12 col-sm-6 col-md-4">\n                               <strong>Donations:</strong>\n                               <span style="margin-left: 5px;">' + transactions[transactionIndex].additionalMetricItems[additionalMetricIndex].additional_metrics_items_count + '</span>\n                           </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                       ';
-            } //end if
-            if (transactions[transactionIndex].additionalMetricItems[additionalMetricIndex].additional_metrics_items_type === 6) {
-                content += '\n                           <div class="col-xs-12 col-sm-6 col-md-4">\n                               <strong>Credit Card Apps:</strong>\n                               <span style="margin-left: 5px;">' + transactions[transactionIndex].additionalMetricItems[additionalMetricIndex].additional_metrics_items_count + '</span>\n                           </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                       ';
-            } //end if
-        } //end for additionalMetricItems
-        content += '\n               <div class="col-xs-12"></div><!-- end col-xs-12 -->\n               <div style="margin-top: 25px;" class="col-xs-6">\n                   <div class="pull-left">\n                       <strong>Time:</strong>\n                       <span style="margin-left: 5px;">' + new Date(transactions[transactionIndex].transaction_date).toLocaleTimeString() + '</span>\n                   </div><!-- end pull-left -->\n               </div><!-- end col-xs-6 -->\n               <div style="margin-top: 25px;" class="col-xs-6">\n                   <div class="pull-right">\n                       <strong>Completed By:</strong>\n                       <span style="margin-left: 5px;">';
-        for (var userIndex in users) {
-            if (users[userIndex].t_number === transactions[transactionIndex].t_number) {
-                content += users[userIndex].first_name + ' ' + users[userIndex].last_name;
-            } //end if
-        } //end for
-        content += '</span>\n                   </div><!-- end pull-right -->\n              </div><!-- end col-xs-6 -->\n          </div><!-- end panel-body -->\n       </div><!-- end panel-collapse collapse -->\n   </div> <!-- end panel -->';
-    } //end for transactions
-
-    $('#transactionContainer').html(content);
 } //end render transaction
 
 //# sourceMappingURL=transactions.js.map
