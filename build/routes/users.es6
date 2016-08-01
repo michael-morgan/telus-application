@@ -1,5 +1,6 @@
 var express = require('express');
 var connection = require('../connection');
+var credential = require('../credential');
 var passport = require('passport');
 var nodemailer = require('nodemailer');
 var randtoken = require('rand-token');
@@ -128,8 +129,8 @@ router.post('/register', ensureAuthenticated, function (req, res, next) {
                         var transporter = nodemailer.createTransport({
                             service: 'Gmail',
                             auth: {
-                                user: 'maplefssb@gmail.com',
-                                pass: '123Maple123'
+                                user: credential.EMAIL_USERNAME,
+                                pass: credential.EMAIL_PASSWORD
                             }
                         });
 
@@ -238,8 +239,8 @@ router.post('/register', ensureAuthenticated, function (req, res, next) {
 });
 
 
-// Get method for remove users when the page is loaded
-router.get('/remove', ensureAuthenticated, function (req, res, next) {
+// Get method for edit users when the page is loaded
+router.get('/edit', ensureAuthenticated, function (req, res, next) {
     //Ensure user is logged in
     if (req.user.privileged <= 2) { return res.redirect('/users/'); }
 
@@ -249,15 +250,15 @@ router.get('/remove', ensureAuthenticated, function (req, res, next) {
             throw next(err);
         }
 
-        res.render('remove', {
-            title: 'Remove',
+        res.render('edit', {
+            title: 'Edit',
             users: results
         });
     });
 });
 
-// Post for remove when the submit button is pressed
-router.post('/remove', ensureAuthenticated, function (req, res, next) {
+// Post for edit when the submit button is pressed
+router.post('/edit', ensureAuthenticated, function (req, res, next) {
     if (!req.body) { return res.sendStatus(400); }
     if (req.user.privileged <= 2 || req.body.submit == "cancel") { return res.redirect('/users/'); }
 
@@ -272,12 +273,12 @@ router.post('/remove', ensureAuthenticated, function (req, res, next) {
         if (err) {
             returnObj['message'] = err.toString();
             //Render the page wth error messages
-            return res.render('remove', returnObj);
+            return res.render('edit', returnObj);
         }
 
         var removeIds = []; // User(s) to be deleted
 
-        //Add to removeIds the user that where selected of the remove page
+        //Add to removeIds the user that where selected of the edit page
         results.forEach(function (value, index) {
             if (req.body.hasOwnProperty('remove' + value.t_number)) {
                 //Check if the user is trying to delete themselves
@@ -297,7 +298,7 @@ router.post('/remove', ensureAuthenticated, function (req, res, next) {
             if (err) {
                 returnObj['message'] = err.toString();
                 //Render the page wth error messages
-                return res.render('remove', returnObj);
+                return res.render('edit', returnObj);
             }
             else
             {
@@ -311,12 +312,12 @@ router.post('/remove', ensureAuthenticated, function (req, res, next) {
                 if (err) {
                     returnObj['message'] = err.toString();
                     //Render the page wth error messages
-                    return res.render('remove', returnObj);
+                    return res.render('edit', returnObj);
                 }
 
                 returnObj['users'] = results;
-                //Re-render the remove users page
-                res.render('remove', returnObj);
+                //Re-render the edit users page
+                res.render('edit', returnObj);
             });
         });
     });
