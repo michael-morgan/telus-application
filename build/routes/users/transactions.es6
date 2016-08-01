@@ -14,55 +14,41 @@ function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
         return next();
     }
+
     res.redirect('/');
 }
 
-
-router.get('/', ensureAuthenticated, function (req, res, next) {
-    var returnObj = { title: 'Transaction History' };
-    renderTransactionHistoryPage(returnObj, req, res, next);
+router.get('/', ensureAuthenticated, (req, res, next) => {
+    renderTransactionHistoryPage({ title: 'Transaction History' }, req, res, next);
 });
 
-/********************************************************************************************
- ADD TRANSACTION
- ********************************************************************************************/
-router.get('/add-transaction', ensureAuthenticated, function (req, res, next) {
-    var returnObj = {
-        title: 'Add Transaction'
-    };
-
-    renderAddTransactionPage(returnObj, req, res, next);
-
-
+router.get('/add-transaction', ensureAuthenticated, (req, res, next) => {
+    renderAddTransactionPage({title: 'Add Transaction'}, req, res, next);
 }); //end get for /add-transaction
 
-router.get('/add-transaction/:employee', ensureAuthenticated, function (req, res, next) {
+router.get('/add-transaction/:employee', ensureAuthenticated, (req, res, next) => {
     if (req.user.privileged <= 2) {
         return res.redirect('/users/');
     }
 
-    var returnObj = {
-        title: 'Add Transaction'
-    };
-
-
-    renderAddTransactionPage(returnObj, req, res, next);
-
+    renderAddTransactionPage({title: 'Add Transaction'}, req, res, next);
 }); //End get for add-transaction/:employee
 
-router.post('/', ensureAuthenticated, function (req, res, next) {
-    var transactionId = req.body.id;
-    transactionModel.deleteTransaction(transactionId, function(err, result) {
+router.post('/', ensureAuthenticated, (req, res, next) => {
+    let transactionId = req.body.id;
+
+    transactionModel.deleteTransaction(transactionId, (err, result) => {
         if (err) {
             console.log('Error deleting transaction_id ' + transactionId + 'Error: ' + err.message);
             return res.end('Error: ' + err.message);
         }
+
         res.send(transactionId);
     });
 });
 
 //When the add transaction page is submitted
-router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
+router.post('/add-transaction', ensureAuthenticated, (req, res, next) => {
     var returnObj = {
         title: 'Add Transaction'
     };
@@ -80,105 +66,98 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
     }
 
     //Get all the data from the form
-    var data = req.body;
+    let data = req.body;
 
     //For transactions
-    var t_number = undefined;
-    var store_id = undefined;
-    var currentDate = undefined;
-    var transaction_type = undefined;
+    let t_number = req.body.employeeDropdown;
+    let store_id = undefined;
+    let currentDate = undefined;
+    let transaction_type = undefined;
 
     //For Transaction Items
-    var activation_type = undefined;
-    var device_type = undefined;
-    var warranty_type = undefined;
-    var attached = undefined;
-    var revenue = 0;
-    var num_of_accessories = undefined;
-    var sbs_activation = undefined;
+    let activation_type = undefined;
+    let device_type = undefined;
+    let warranty_type = undefined;
+    let attached = undefined;
+    let revenue = 0;
+    let num_of_accessories = undefined;
+    let sbs_activation = undefined;
 
     //For Additional Metrics
-    var hasMetrics = false;
-    var hasItems = false;
+    let hasMetrics = false;
+    let hasItems = false;
 
-    var learning_sessions = undefined;
-    var learning_sessions_count = data.learningSessionsCount; // Get the value from the input
+    let learning_sessions = undefined;
+    let learning_sessions_count = data.learningSessionsCount; // Get the value from the input
+
     //Assign corresponding id if the value is greater than 0
     if (learning_sessions_count > 0) {
         learning_sessions = 1;
         hasMetrics = true;
     }
 
-    var credit_card = undefined;
-    var credit_card_count = data.creditCardCount; // Get the value from the input
+    let credit_card = undefined;
+    let credit_card_count = data.creditCardCount; // Get the value from the input
+
     //Assign corresponding id if the value is greater than 0
     if (credit_card_count > 0) {
         credit_card = 6;
         hasMetrics = true;
     }
 
-    var appointments = undefined;
-    var appointments_count = data.appointmentsCount; // Get the value from the input
+    let appointments = undefined;
+    let appointments_count = data.appointmentsCount; // Get the value from the input
+
     //Assign corresponding id if the value is greater than 0
     if (appointments_count > 0) {
         appointments = 3;
         hasMetrics = true;
     }
 
-    var aotm = undefined;
-    var aotm_count = data.aotmCount; // Get the value from the input
+    let aotm = undefined;
+    let aotm_count = data.aotmCount; // Get the value from the input
+
     //Assign corresponding id if the value is greater than 0
     if (aotm_count > 0) {
         aotm = 2;
         hasMetrics = true;
     }
 
-    var critters = undefined;
-    var critters_count = data.crittersCount; // Get the value from the input
+    let critters = undefined;
+    let critters_count = data.crittersCount; // Get the value from the input
+
     //Assign corresponding id if the value is greater than 0
     if (critters_count > 0) {
         critters = 4;
         hasMetrics = true;
     }
 
-    var donations = undefined;
-    var donations_count = data.donationsCount; // Get the value from the input
+    let donations = undefined;
+    let donations_count = data.donationsCount; // Get the value from the input
+
     //Assign corresponding id if the value is greater than 0
     if (donations_count > 0) {
         donations = 5;
         hasMetrics = true;
     }
 
-    var transaction = undefined;
-    var transaction_items = undefined;
+    let transaction = undefined;
+    let transaction_items = undefined;
 
     //Objects for metrics
-    var learning_sessions_obj = undefined;
-    var credit_card_obj = undefined;
-    var appointments_obj = undefined;
-    var aotm_obj = undefined;
-    var critters_obj = undefined;
-    var donations_obj = undefined;
+    let learning_sessions_obj = undefined;
+    let credit_card_obj = undefined;
+    let appointments_obj = undefined;
+    let aotm_obj = undefined;
+    let critters_obj = undefined;
+    let donations_obj = undefined;
 
-    var metrics = undefined;
+    let metrics = undefined;
 
     transaction_items = data;
 
-
     //Call the following methods in order
-    async.series([getTNumber, getStoreID, getData, addTransaction, addTransactionItems, addMetrics, pageRedirect]);
-
-
-    /**
-     * First method in the async series
-     * Assigned t_number
-     * @param fnCallback
-     */
-    function getTNumber(fnCallback) {
-        t_number = req.body.employeeDropdown;
-
-        fnCallback(null);
-    }
+    async.series([getStoreID, getData, addTransaction, addTransactionItems, addMetrics, pageRedirect]);
 
 
     /**
@@ -187,20 +166,17 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
      * @param fnCallback
      */
     function getStoreID(fnCallback) {
-        store_id = userModel.getById(t_number, function (err, rows) {
+        userModel.getById(t_number, (err, rows) => {
             if (err) {
                 throw next(err);
             }
             else if (rows.length <= 0) {
                 console.error('Invalid profile id.');
-                fnCallback(null);
                 return res.redirect('/users/');
-
             }
             else {
                 store_id = rows[0].store_id;
                 fnCallback(null);
-                return store_id;
             }
         });
     } //End getStoreID
@@ -283,9 +259,9 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
             additional_metrics_items_count: donations_count
         };
 
-
         //Store the objects in an array for looping
-        metrics = [learning_sessions_obj, credit_card_obj, appointments_obj, aotm_obj, critters_obj, donations_obj]
+        metrics = [learning_sessions_obj, credit_card_obj, appointments_obj, aotm_obj, critters_obj, donations_obj];
+
         fnCallback(null);
     }//end getData
 
@@ -293,10 +269,9 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
      * Fourth method in the async series
      * @param fnCallback
      */
-
     function addTransaction(fnCallback) {
         //Add the transaction models and assign the insert ID to the other objects
-        transactionModel.addTransaction(transaction, function (err, result) {
+        transactionModel.addTransaction(transaction, (err, result) => {
             transaction_items['transaction_id'] = result.insertId;
             learning_sessions_obj['transaction_id'] = result.insertId;
             credit_card_obj['transaction_id'] = result.insertId;
@@ -313,19 +288,19 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
      * Add the transaction items, if there are some
      * @param fnCallback
      */
-
     function addTransactionItems(fnCallback) {
 
         //Check if any of the these fields have be filled out, to know if we are inserting or not
-        if (activation_type != undefined || device_type != undefined || warranty_type != undefined || attached != 'no' || revenue != '' || num_of_accessories != '0' || sbs_activation != 0) {
-            hasItems = true
-        }
+        hasItems = activation_type != undefined || device_type != undefined ||
+            warranty_type != undefined || attached != 'no' || revenue != '' ||
+            num_of_accessories != '0' || sbs_activation != 0;
 
         //If there are transaction items, insert record to the DB
         if (hasItems) {
-            var transaction_item = {};
+            let transaction_item = {};
+
             //Add the object(s) to the database
-            async.eachSeries(Object.keys(transaction_items), function (item, callback) {
+            async.eachSeries(Object.keys(transaction_items), (item, callback) => {
                 if(item.indexOf('activationDropdown') >= 0) {
                     transaction_item['activation_type'] = transaction_items[item];
                     callback(null);
@@ -351,7 +326,7 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
                     callback(null);
                 }
                 else if(item.indexOf('revenue') >= 0) {
-                    transaction_item['revenue'] = transaction_items[item]
+                    transaction_item['revenue'] = transaction_items[item];
                     if(transaction_item['revenue'] == ''){
                         transaction_item['revenue'] = 0.00;
                     }
@@ -359,7 +334,7 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
                     if(transaction_item['sbs_activation'] == undefined){
                         transaction_item['sbs_activation'] = 0;
                     }
-                    transactionModel.addTransactionItems(transaction_item, function (err, result) {
+                    transactionModel.addTransactionItems(transaction_item, (err, result) => {
                         if (!err) {
                             callback(null);
                         } else {
@@ -375,6 +350,7 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
         } else {
             console.log("No Items");
         }
+
         fnCallback(null);
     } //End Transaction Items
 
@@ -389,17 +365,17 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
             console.log("Additional Metrics");
 
             //Foreach object in the array of metrics objects
-            metrics.forEach(function (item) {
+            metrics.forEach((item) => {
                 if (item.additional_metrics_items_count > 0) {
-                    transactionModel.addAdditionalMetrics(item, function (err, result) {
+                    transactionModel.addAdditionalMetrics(item, (err, result) => {
                         if (!err) {
-                            console.log(item + ' added')
+                            console.log(item + ' added');
                         } else {
-                            console.log('Error!' + item + ' not added' + err)
+                            console.log('Error!' + item + ' not added' + err);
                         }
                     });
                 } else {
-                    console.log(item + " not added")
+                    console.log(item + " not added");
                 }
             });
 
@@ -415,9 +391,8 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
      * Simply redirect to the summary page
      * @param fnCallback
      */
-
     function pageRedirect(fnCallback) {
-        if(req.body.saveTransactionNew == undefined){
+        if(req.body.saveTransactionNew == undefined) {
             req.session.success = true;
             res.redirect('/users/transactions');
         } else {
@@ -429,34 +404,31 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
 
 }); //end post for add-transaction
 
-
 /**
  * Custom function that return the current date and time
  * @returns {string} in yyyy:mm:dd hh:mm:ss format
  */
 function getCurrentDate() {
-    var date = new Date();
+    let date = new Date();
 
-    var hour = date.getHours();
+    let hour = date.getHours();
     hour = (hour < 10 ? "0" : "") + hour;
 
-    var min = date.getMinutes();
+    let min = date.getMinutes();
     min = (min < 10 ? "0" : "") + min;
 
-    var sec = date.getSeconds();
+    let sec = date.getSeconds();
     sec = (sec < 10 ? "0" : "") + sec;
 
-    var year = date.getFullYear();
+    let year = date.getFullYear();
 
-    var month = date.getMonth() + 1;
+    let month = date.getMonth() + 1;
     month = (month < 10 ? "0" : "") + month;
 
-    var day = date.getDate();
+    let day = date.getDate();
     day = (day < 10 ? "0" : "") + day;
 
-    var today = year + ":" + month + ":" + day + " " + hour + ":" + min + ":" + sec;
-
-    return today;
+    return year + ":" + month + ":" + day + " " + hour + ":" + min + ":" + sec;
 } //end getCurrentDate
 
 /**
@@ -467,93 +439,93 @@ function getCurrentDate() {
  * @param next
  */
 function renderTransactionHistoryPage(returnObj, req, res, next) {
-    storeModel.getStoresByTNumber(req.user.t_number,function(err, result) {
+    storeModel.getStoresByTNumber(req.user.t_number, (err, result) => {
         if(err) {
             throw next(err);
         } //end if
 
         returnObj['stores'] = result;
 
-        transactionModel.getTransactionss(function(err, result) {
+        transactionModel.getTransactionss((err, result) => {
             if(err) {
                 throw next(err);
             } //end if
 
             returnObj['transactions'] = result;
 
-            transactionModel.getTransactionTypes(function (err, result) {
+            transactionModel.getTransactionTypes((err, result) => {
                 if (err) {
                     throw next(err);
                 } ///end if
 
                 returnObj['transactionTypes'] = {};
-                for(var index in result) {
+                for(let index in result) {
+                    if(!result.hasOwnProperty(index)) { continue; }
                     returnObj['transactionTypes'][result[index].transaction_type_id] = result[index].transaction_types;
                 } //end for
 
-                transactionModel.getTransactionItems(function(err, result) {
+                transactionModel.getTransactionItems((err, result) => {
                     if(err) {
                         throw next(err);
                     } //end if
 
                     returnObj['transactionItems'] = result;
 
-                    transactionModel.getAdditionalMetricItems(function(err, result) {
+                    transactionModel.getAdditionalMetricItems((err, result) => {
                         if (err) {
                             throw next(err);
                         } //end if
 
                         returnObj['additionalMetricItems'] = result;
 
-                        transactionModel.getActivation(function (err, result) {
+                        transactionModel.getActivation((err, result) => {
                             if (err) {
                                 throw next(err);
                             } //end if
 
                             returnObj['activationTypes'] = {};
-                            for(var index in result) {
+                            for(let index in result) {
+                                if(!result.hasOwnProperty(index)) { continue; }
                                 returnObj['activationTypes'][result[index].activation_type_id] = result[index].activation_types;
                             } //end if
 
-                            transactionModel.getDevice(function (err, result) {
+                            transactionModel.getDevice((err, result) => {
                                 if (err) {
                                     throw next(err);
                                 } //end if
 
                                 returnObj['deviceTypes'] = {};
-                                for(var index in result) {
+                                for(let index in result) {
+                                    if(!result.hasOwnProperty(index)) { continue; }
                                     returnObj['deviceTypes'][result[index].device_type_id] = result[index].device_types;
                                 } //end for
 
-                                transactionModel.getWarranty(function (err, result) {
+                                transactionModel.getWarranty((err, result) => {
                                     if (err) {
                                         throw next(err);
                                     } //end if
 
                                     returnObj['warrantyTypes'] = {};
-                                    for(var index in result) {
+                                    for(let index in result) {
+                                        if(!result.hasOwnProperty(index)) { continue; }
                                         returnObj['warrantyTypes'][result[index].warranty_type_id] = result[index].warranty_types;
                                     } //end for
 
-                                    returnObj['stores'].forEach(function(storeVal, storeIndex) {
-                                        returnObj['stores'][storeIndex]['transactions'] = returnObj['transactions'].filter(function(transVal) {
-                                            return transVal.store_id === storeVal.store_id;
-                                        }); //end filter;
+                                    returnObj['stores'].forEach((storeVal, storeIndex) => {
+                                        returnObj['stores'][storeIndex]['transactions'] = returnObj['transactions'].filter(
+                                            (transVal) => transVal.store_id === storeVal.store_id
+                                        ); //end filter;
 
-                                        returnObj['stores'][storeIndex]['transactions'].forEach(function(transVal, transIndex) {
+                                        returnObj['stores'][storeIndex]['transactions'].forEach((transVal, transIndex) => {
                                             returnObj['stores'][storeIndex]['transactions'][transIndex]['transactionItems'] = returnObj['transactionItems']
-                                                .filter(function(transItemVal) {
-                                                    return transItemVal.transaction_id === transVal.transaction_id;
-                                                }); //end filter
+                                                .filter((transItemVal) => transItemVal.transaction_id === transVal.transaction_id);
 
                                             returnObj['stores'][storeIndex]['transactions'][transIndex]['additionalMetricItems'] = returnObj['additionalMetricItems']
-                                                .filter(function(addMetricItemVal) {
-                                                    return addMetricItemVal.transaction_id === transVal.transaction_id;
-                                                });
+                                                .filter((addMetricItemVal) => addMetricItemVal.transaction_id === transVal.transaction_id);
 
                                             returnObj['stores'][storeIndex]['transactions'][transIndex]['totalRevenue'] = 0;
                                             returnObj['stores'][storeIndex]
-                                                ['transactions'][transIndex]['transactionItems'].forEach(function(transItemVal, transItemIndex) {
+                                                ['transactions'][transIndex]['transactionItems'].forEach((transItemVal, transItemIndex) => {
                                                 returnObj['stores'][storeIndex]
                                                     ['transactions'][transIndex]
                                                     ['transactionItems'][transItemIndex]
@@ -577,12 +549,13 @@ function renderTransactionHistoryPage(returnObj, req, res, next) {
 
                                     returnObj['storesObj'] = JSON.stringify(returnObj['stores']);
 
-                                    var storeIds = [];
-                                    for(var storeIndex in returnObj['stores']) {
+                                    let storeIds = [];
+                                    for(let storeIndex in returnObj['stores']) {
+                                        if(!returnObj['stores'].hasOwnProperty(storeIndex)) { continue; }
                                         storeIds.push(returnObj['stores'][storeIndex].store_id);
                                     }
 
-                                    userModel.getAllUsersByStoreIds(storeIds, function(err, result) {
+                                    userModel.getAllUsersByStoreIds(storeIds, (err, result) => {
                                             if(err) {
                                                 throw next(err);
                                             } //end if
@@ -593,9 +566,11 @@ function renderTransactionHistoryPage(returnObj, req, res, next) {
                                                 res.locals.success_messages = req.flash('success_messages');
                                                 req.session.success = false;
                                             }  //end if
+
                                             returnObj['users'] = result;
                                             returnObj['usersObj'] = JSON.stringify(result);
                                             returnObj['selectedEmployee']= req.user.t_number;
+
                                             return res.render('transactions/transactions', returnObj);
                                     }); //getAllUsersByStoreID;
                                 }); //getWarranty
@@ -616,7 +591,7 @@ function renderTransactionHistoryPage(returnObj, req, res, next) {
  * @param next
  */
 function renderAddTransactionPage(returnObj, req, res, next) {
-    userModel.getAllUsersByStoreID(req.user.store_id, function (err, userResult) {
+    userModel.getAllUsersByStoreID(req.session.store_id, (err, userResult) => {
         //If an error is thrown
         if (err) {
             returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');
@@ -624,7 +599,7 @@ function renderAddTransactionPage(returnObj, req, res, next) {
             return res.render('transactions/add-transaction', returnObj);
         } //End if
 
-        transactionModel.getTransactions(function (err, transactionResults) {
+        transactionModel.getTransactions((err, transactionResults) => {
             //If an error is thrown
             if (err) {
                 returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');
@@ -632,7 +607,7 @@ function renderAddTransactionPage(returnObj, req, res, next) {
                 return res.render('transactions/add-transaction', returnObj);
             } //End if
 
-            transactionModel.getActivation(function (err, activationResults) {
+            transactionModel.getActivation((err, activationResults) => {
                 //If an error is thrown
                 if (err) {
                     returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');
@@ -640,7 +615,7 @@ function renderAddTransactionPage(returnObj, req, res, next) {
                     return res.render('transactions/add-transaction', returnObj);
                 } //End if
 
-                transactionModel.getDevice(function (err, deviceResults) {
+                transactionModel.getDevice((err, deviceResults) => {
                     //If an error is thrown
                     if (err) {
                         returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');
@@ -648,13 +623,14 @@ function renderAddTransactionPage(returnObj, req, res, next) {
                         return res.render('transactions/add-transaction', returnObj);
                     } //End if
 
-                    transactionModel.getWarranty(function (err, warrantyResults) {
+                    transactionModel.getWarranty((err, warrantyResults) => {
                         //If an error is thrown
                         if (err) {
                             returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');
                             //Render the page wth error messages
                             return res.render('transactions/add-transaction', returnObj);
                         } //End if
+
                         returnObj['users'] = userResult;
                         returnObj['transactions'] = transactionResults;
                         returnObj['activations'] = activationResults;
@@ -673,6 +649,5 @@ function renderAddTransactionPage(returnObj, req, res, next) {
         }); //end getTransactions
     }); //end getAll
 } //End renderAddTransactionPage
-
 
 module.exports = router;

@@ -43,3 +43,27 @@ exports.addStore = (store, done) => {
         done(null, null);
     });
 };
+
+exports.getFirstStoreByTNumber = (id, done) => {
+    connection.get().query('SELECT * FROM `stores_util` ' +
+        'INNER JOIN `stores` ON stores_util.store_id = stores.store_id ' +
+        'WHERE t_number = ? GROUP BY stores_util.store_id LIMIT 1', id, (error, result) => {
+        if(error) {
+            return done(error);
+        }
+
+        done(null, result);
+    });
+};
+
+exports.getUsersByStoreId = (id, done) => {
+    connection.get().query('SELECT first_name, last_name, users.t_number FROM `users` ' +
+        'INNER JOIN `stores_util` ON users.t_number = stores_util.t_number ' +
+        'WHERE store_id = ?', id, (error, result) => {
+        if(error) {
+            return done(error);
+        }
+
+        done(null, result);
+    });
+};

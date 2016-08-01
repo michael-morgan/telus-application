@@ -3,18 +3,20 @@ var connection = require('../../connection');
 var passport = require('passport');
 
 var observationModel = require('../../models/observation');
+var userModel = require('../../models/user');
+var storeModel = require('../../models/store');
 
 var router = express.Router();
 // Get for observations when the page is loaded, show the observations for each user
-router.get('/', ensureAuthenticated, function (req, res, next) {
+router.get('/', ensureAuthenticated, (req, res, next) => {
     if (!req.body) { return res.sendStatus(400); }
 
-    var stores = {
-        store_id:undefined,
-        store_name:undefined
+    let stores = {
+        store_id: undefined,
+        store_name: undefined
     };
 
-    var returnObj = {
+    let returnObj = {
         title: 'Observations'
     };
 
@@ -26,9 +28,10 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
     }
 
     //Check if the current logged in user is a manager
-    connection.get().query('SELECT stores.store_id, store_name,t_number FROM  stores ' +
-        'INNER JOIN users ON stores.store_id = users.store_id ' +
-        'WHERE t_number = ?', req.user.t_number, function (err, storesResults) {
+    connection.get().query('SELECT stores.store_id, store_name, users.t_number FROM stores ' +
+        'INNER JOIN stores_util ON stores.store_id = stores_util.store_id ' +
+        'INNER JOIN users ON stores_util.t_number = users.t_number ' +
+        'WHERE users.t_number = ? AND stores.store_id = ?', [req.user.t_number, req.session.store_id], (err, storesResults) => {
         if (err) {
             returnObj['message'] = 'Our database servers maybe down. Please try again.';
             //Render the page wth error messages
@@ -37,7 +40,8 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
 
         //Connection to get all the employees
         if(req.user.privileged >= 2) {
-            connection.get().query('SELECT first_name, last_name,t_number,store_id FROM users ', function (err, userResults) {
+            connection.get().query('SELECT first_name, last_name, users.t_number, store_id FROM users ' +
+                'INNER JOIN stores_util ON users.t_number = stores_util.t_number GROUP BY users.t_number', (err, userResults) => {
                 //If an error is thrown
                 if (err) {
                     returnObj['message'] = 'Our database servers maybe down. Please try again.';
@@ -46,7 +50,7 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
                 }
 
                 //Connection to get all of the observations for each employee ordered by date
-                getAllObservations(function (err, obsResults) {
+                getAllObservations((err, obsResults) => {
                     //If an error is thrown
                     if (err) {
                         returnObj['message'] = 'Our database servers maybe down. Please try again.';
@@ -65,7 +69,10 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
             });
         }
         else {
-            connection.get().query('SELECT first_name, last_name, t_number, store_id FROM users WHERE t_number = ? ', req.user.t_number, function (err, userResults) {
+            connection.get().query('SELECT first_name, last_name, users.t_number, store_id FROM users ' +
+                'INNER JOIN stores_util ON users.t_number = stores_util.t_number' +
+                'WHERE users.t_number = ? GROUP BY users.t_number', req.user.t_number, (err, userResults) => {
+
                 //If an error is thrown
                 if (err) {
                     returnObj['message'] = 'Our database servers maybe down. Please try again.';
@@ -74,7 +81,7 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
                 }
 
                 //Connection to get all of the observations for each employee ordered by date
-                getAllObservations(function (err, obsResults) {
+                getAllObservations((err, obsResults) => {
                     //If an error is thrown
                     if (err) {
                         returnObj['message'] = 'Our database servers maybe down. Please try again.';
@@ -97,23 +104,24 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
 });
 
 // When the add-observation page is loaded, render the add observations page
-router.get('/add-observation', ensureAuthenticated, function (req, res, next) {
+router.get('/add-observation', ensureAuthenticated, (req, res, next) => {
     if (!req.body) { return res.sendStatus(400); }
 
-    var returnObj = {
+    let returnObj = {
         title: 'Add Observation'
     };
 
     if(req.user.privileged >= 2) {
+
         //Connection to get all of the employees in the users table
-        connection.get().query('SELECT first_name, last_name, t_number FROM users WHERE store_id = ? ', req.user.store_id, function (err, userResults) {
+        storeModel.getUsersByStoreId(req.session.store_id, (err, userResults) => {
             if (err) {
                 returnObj['message'] = 'Our database servers maybe down. Please try again.';
                 return res.render('observations/add-observation', returnObj);
             }
 
             //Get all the skills from the skills table
-            getAllSkills(function (err, categoryResults) {
+            getAllSkills((err, categoryResults) => {
                 //If an error is thrown
                 if (err) {
                     returnObj['message'] = 'Our database servers maybe down. Please try again';
@@ -122,7 +130,7 @@ router.get('/add-observation', ensureAuthenticated, function (req, res, next) {
                 }
 
                 //Connection to get the behaviours from the  behaviours table
-                getAllBehaviours(function (err, behaviourResults) {
+                getAllBehaviours((err, behaviourResults) => {
                     //If an error is thrown
                     if (err) {
                         returnObj['message'] = 'Our database servers maybe down. Please try again.';
@@ -142,14 +150,14 @@ router.get('/add-observation', ensureAuthenticated, function (req, res, next) {
     }
     else {
         //Connection to get all of the employees in the users table
-        connection.get().query('SELECT first_name, last_name, t_number FROM users WHERE t_number = ? ', req.user.t_number, function (err, userResults) {
+        userModel.getById(req.user.t_number, (err, userResults) => {
             if (err) {
                 returnObj['message'] = 'Our database servers maybe down. Please try again.';
                 return res.render('observations/add-observation', returnObj);
             }
 
             //Get all the skills from the skills table
-            getAllSkills(function (err, categoryResults) {
+            getAllSkills((err, categoryResults) => {
                 //If an error is thrown
                 if (err) {
                     returnObj['message'] = 'Our database servers maybe down. Please try again.';
@@ -158,7 +166,7 @@ router.get('/add-observation', ensureAuthenticated, function (req, res, next) {
                 }
 
                 //Connection to get the behaviours from the  behaviours table
-                getAllBehaviours(function (err, behaviourResults) {
+                getAllBehaviours((err, behaviourResults) => {
                     //If an error is thrown
                     if (err) {
                         returnObj['message'] = 'Our database servers maybe down. Please try again.';
@@ -179,16 +187,18 @@ router.get('/add-observation', ensureAuthenticated, function (req, res, next) {
 });
 
 // When the add-observation page is loaded, and there is a t_number is the url. Render the add observations page
-router.get('/add-observation/:employee', ensureAuthenticated, function (req, res, next) {
+router.get('/add-observation/:employee', ensureAuthenticated, (req, res, next) => {
     if (!req.body) {
         return res.sendStatus(400);
     }
-    var returnObj = {
+
+    let returnObj = {
         title: 'Add Observation'
     };
+
     if(req.user.privileged >= 2) {
         //Connection to get all of the employees in the users table
-        connection.get().query('SELECT first_name, last_name, t_number FROM users WHERE store_id = ? ', req.user.store_id, function (err, userResults) {
+        storeModel.getUsersByStoreId(req.session.store_id, (err, userResults) => {
             //If an error is thrown
             if (err) {
                 //Render the page wth error messages
@@ -197,7 +207,7 @@ router.get('/add-observation/:employee', ensureAuthenticated, function (req, res
             }
 
             //Get all the skills from the skills table
-            getAllSkills(function (err, categoryResults) {
+            getAllSkills((err, categoryResults) => {
                 //If an error is thrown
                 if (err) {
                     //Render the page wth error messages
@@ -206,7 +216,7 @@ router.get('/add-observation/:employee', ensureAuthenticated, function (req, res
                 }
 
                 //Connection to get the behaviours from the behaviours table
-                getAllBehaviours(function (err, behaviourResults) {
+                getAllBehaviours((err, behaviourResults) => {
                     //If an error is thrown
                     if (err) {
                         //Render the page wth error messages
@@ -226,7 +236,7 @@ router.get('/add-observation/:employee', ensureAuthenticated, function (req, res
         });
     }
     else {
-        connection.get().query('SELECT first_name, last_name, t_number FROM users WHERE t_number = ?', req.user.t_number, function (err, userResults) {
+        userModel.getById(req.user.t_number, (err, userResults) => {
             //If an error is thrown
             if (err) {
                 returnObj['message'] = 'Our database servers maybe down. Please try again.';
@@ -234,7 +244,7 @@ router.get('/add-observation/:employee', ensureAuthenticated, function (req, res
             }
 
             //Get all the skills from the skills table
-            getAllSkills(function (err, categoryResults) {
+            getAllSkills((err, categoryResults) => {
                 //If an error is thrown
                 if (err) {
                     returnObj['message'] = 'Our database servers maybe down. Please try again.';
@@ -242,7 +252,7 @@ router.get('/add-observation/:employee', ensureAuthenticated, function (req, res
                 }
 
                 //Connection to get the behaviours from the behaviours table
-                getAllBehaviours(function (err, behaviourResults) {
+                getAllBehaviours((err, behaviourResults) => {
                     //If an error is thrown
                     if (err) {
                         returnObj['message'] = 'Our database servers maybe down. Please try again.';
@@ -267,12 +277,12 @@ router.get('/add-observation/:employee', ensureAuthenticated, function (req, res
  * When the observation is submitted, this router.post gets triggered.
  * It takes the form values from the front-end page and inserts them into the observations table
  */
-router.post('/add-observation', ensureAuthenticated, function (req, res, next) {
+router.post('/add-observation', ensureAuthenticated, (req, res, next) => {
     if (!req.body) {
         return res.sendStatus(400);
     }
 
-    var returnObj = {
+    let returnObj = {
         title: 'Observations'
     };
 
@@ -306,7 +316,7 @@ router.post('/add-observation', ensureAuthenticated, function (req, res, next) {
         }; //End observation
 
         //Inserting the data into the observations table using a JSON array
-        observationModel.create(observation, function(err, result) {
+        observationModel.create(observation, (err, result) => {
             //If an error is thrown
             if (err) {
                 //Render the page wth error messages
@@ -325,7 +335,7 @@ router.post('/add-observation', ensureAuthenticated, function (req, res, next) {
             res.locals.success_messages = req.flash('success_messages');
 
             //Connection to get all of the employees in the users table
-            connection.get().query('SELECT first_name, last_name, t_number FROM users', function(err, userResults) {
+            connection.get().query('SELECT first_name, last_name, t_number FROM users', (err, userResults) => {
                 //If an error is thrown
                 if (err) {
                     returnObj['message'] = 'Our database servers maybe down. Please try again.';
@@ -338,7 +348,7 @@ router.post('/add-observation', ensureAuthenticated, function (req, res, next) {
                     'observations.observation_comment , observations.observation_date , observations.assigned_by FROM users ' +
                     'LEFT JOIN observations on users.t_number = observations.assigned_to ' +
                     'LEFT JOIN behaviours on observations.behaviour_id = behaviours.behaviour_id ' +
-                    'LEFT JOIN skills on behaviours.skill_id = skills.skill_id', function (err, obsResults) {
+                    'LEFT JOIN skills on behaviours.skill_id = skills.skill_id', (err, obsResults) => {
                     //If an error is thrown
                     returnObj['message'] = 'Our database servers maybe down. Please try again.';
                     if(err)
@@ -356,16 +366,16 @@ router.post('/add-observation', ensureAuthenticated, function (req, res, next) {
     else {
         returnObj['title'] = 'Add Observation';
         //Connection to get all of the employees in the users table
-        connection.get().query('SELECT first_name, last_name,t_number FROM users', function (err, userResults) {
+        userModel.getAll((err, userResults) => {
             //If an error is thrown
             if (err) {
                 returnObj['message'] = 'Our database servers maybe down. Please try again.';
                 //Render the page wth error messages
-                return res.render('observations/add-observation',returnObj);
+                return res.render('observations/add-observation', returnObj);
             }
 
             //Get all the skills from the skills table
-            getAllSkills(function (err, categoryResults) {
+            getAllSkills((err, categoryResults) => {
                 //if an error is thrown
                 if (err) {
                     returnObj['message'] = 'Our database servers maybe down. Please try again.';
@@ -374,7 +384,7 @@ router.post('/add-observation', ensureAuthenticated, function (req, res, next) {
                 }
 
                 //Connection to get the behaviours from the behaviours table
-                getAllBehaviours(function (err, behaviourResults) {
+                getAllBehaviours((err, behaviourResults) => {
                     //If an error is thrown
                     if (err) {
                         returnObj['message'] = 'Our database servers maybe down. Please try again.';
@@ -419,32 +429,36 @@ router.post('/add-observation', ensureAuthenticated, function (req, res, next) {
  * When the observation is submitted, this router.post gets triggered. It takes the form values from the front-end page and inserts them into the observations table
  * This method is called when there is an t_number in the url
  */
-router.post('/add-observation/:employee', ensureAuthenticated, function (req, res, next) {
+router.post('/add-observation/:employee', ensureAuthenticated, (req, res, next) => {
     if (!req.body) {
         return res.sendStatus(400);
     }
 
-    var returnObj = {
+    let returnObj = {
         title: 'Observations'
     };
 
     //Check that the user has selected an employee
     if (req.body.employeeDropdown != undefined && req.body.goodorbad != undefined) {
         //Store form variables
-        var behaviour = req.body.goodorbad.replace("bad", "").replace("good", "");
-        var assignedTo = req.body.employeeDropdown;
-        var assignedBy = req.user.t_number;
-        var observationDate = getCurrentDate();
-        var observationType = req.body.goodorbad;
+        let behaviour = req.body.goodorbad.replace("bad", "").replace("good", "");
+        let assignedTo = req.body.employeeDropdown;
+        let assignedBy = req.user.t_number;
+        let observationDate = getCurrentDate();
+        let observationType = req.body.goodorbad;
 
         //Assign observationType
-        if (observationType.indexOf("good") != -1) { observationType = "1"; }
-        else { observationType = "0"; }
+        if (observationType.indexOf("good") != -1) {
+            observationType = "1";
+        }
+        else {
+            observationType = "0";
+        }
 
-        var observationComment = req.body.commentBox;
+        let observationComment = req.body.commentBox;
 
         //Creating the JSON array to store the observation data
-        var observation = {
+        let observation = {
             behaviour_id: behaviour,
             assigned_to: assignedTo,
             assigned_by: assignedBy,
@@ -456,7 +470,7 @@ router.post('/add-observation/:employee', ensureAuthenticated, function (req, re
         console.log(observation);
 
         //Inserting the data into the observations table using a JSON array
-        observationModel.create(observation, function(err, result) {
+        observationModel.create(observation, (err, result) => {
             //If an error is thrown
             if (err) {
                 //Render the page wth error messages
@@ -471,14 +485,13 @@ router.post('/add-observation/:employee', ensureAuthenticated, function (req, re
                 //Render the page wth error messages
                 return res.render('observations/add-observation', returnObj); //End render
                 //Render the page wth error messages
-
             }
 
             req.flash('success_messages', 'The observation was successfully added to the database.');
             res.locals.success_messages = req.flash('success_messages');
 
             //Connection to get all of the employees in the users table
-            selectAllUsers(function (err, userResults) {
+            selectAllUsers((err, userResults) => {
                 //If an error is thrown
                 if (err) {
                     returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');
@@ -491,13 +504,14 @@ router.post('/add-observation/:employee', ensureAuthenticated, function (req, re
                     'observations.observation_comment , observations.observation_date , observations.assigned_by FROM users ' +
                     'LEFT JOIN observations on users.t_number = observations.assigned_to ' +
                     'LEFT JOIN behaviours on observations.behaviour_id = behaviours.behaviour_id ' +
-                    'LEFT JOIN skills on behaviours.skill_id = skills.skill_id', function (err, obsResults) {
+                    'LEFT JOIN skills on behaviours.skill_id = skills.skill_id', (err, obsResults) => {
                     //If an error is thrown
                     if (err) {
                         returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');
                         //Render the page wth error messages
                         return res.render('observations/observations',returnObj); //End render
-                    } //End if
+                    } //end if
+
                     req.session.success = true;
                     return res.redirect('/users/observations');
                 });
@@ -510,7 +524,7 @@ router.post('/add-observation/:employee', ensureAuthenticated, function (req, re
     else {
         returnObj['title'] = 'Add Observation';
         //Connection to get all of the employees in the users table
-        selectAllUsers(function (err, userResults) {
+        selectAllUsers((err, userResults) => {
             //If an error is thrown
             if (err) {
                 returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');
@@ -519,7 +533,7 @@ router.post('/add-observation/:employee', ensureAuthenticated, function (req, re
             } //End if
 
             //Get all the skills from the skills table
-            getAllSkills(function (err, categoryResults) {
+            getAllSkills((err, categoryResults) => {
                 //if an error is thrown
                 if (err) {
                     returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');
@@ -528,7 +542,7 @@ router.post('/add-observation/:employee', ensureAuthenticated, function (req, re
                 } //End if
 
                 //Connection to get the behaviours from the behaviours table
-                getAllBehaviours(function (err, behaviourResults) {
+                getAllBehaviours((err, behaviourResults) => {
                     //If an error is thrown
                     if (err) {
                         returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');
@@ -536,10 +550,8 @@ router.post('/add-observation/:employee', ensureAuthenticated, function (req, re
                         return res.render('observations/add-observation',returnObj);
                     } //End if
 
-
-
                     //JSON array to hold behaviour info
-                    var behaviour = {
+                    let behaviour = {
                         behaviour_desc: undefined,
                         behaviour_id: undefined,
                         skill_id: undefined
@@ -571,9 +583,9 @@ router.post('/add-observation/:employee', ensureAuthenticated, function (req, re
     }
 });
 
-router.post('/remove', ensureAuthenticated, function (req, res, next) {
+router.post('/remove', ensureAuthenticated, (req, res, next) => {
     var observationId = req.body.id;
-    observationModel.deleteById(observationId, function(err, result) {
+    observationModel.deleteById(observationId, (err, result) => {
         if (err) {
             console.log('Error deleting observation_id ' + observationId);
             return res.end('Error: ' + err.message);
@@ -592,7 +604,7 @@ function ensureAuthenticated(req, res, next) {
 
 //Select all users in the db
 function selectAllUsers(callback) {
-    connection.get().query('SELECT * FROM users WHERE privileged != 4', function(err, rows) {
+    connection.get().query('SELECT * FROM users WHERE privileged != 4', (err, rows) => {
         if (err) {
             callback(err, null);
         } else
@@ -610,7 +622,7 @@ function getAllObservations(callback) {
         'INNER JOIN skills on behaviours.skill_id = skills.skill_id ' +
         'INNER JOIN (SELECT users.t_number AS assigned_by, observations.assigned_to AS assigned_to, CONCAT(users.first_name, " ", users.last_name) AS full_name FROM users ' +
         'INNER JOIN observations on users.t_number = observations.assigned_by) as ASSIGNED_BY_STATEMENT on observations.assigned_by = ASSIGNED_BY_STATEMENT.assigned_by ' +
-        'GROUP BY observations.observation_id ORDER BY observations.observation_date DESC ', function(err, rows) {
+        'GROUP BY observations.observation_id ORDER BY observations.observation_date DESC ', (err, rows) => {
         if (err) {
             callback(err, null);
         } else
@@ -620,7 +632,7 @@ function getAllObservations(callback) {
 
 //Select all skills in the db
 function getAllSkills(callback) {
-    connection.get().query('SELECT skills.skill_title, skills.skill_id FROM skills', function(err, rows) {
+    connection.get().query('SELECT skills.skill_title, skills.skill_id FROM skills', (err, rows) => {
         if (err) {
             callback(err, null);
         } else
@@ -631,7 +643,7 @@ function getAllSkills(callback) {
 //Select all behaviours in the db
 function getAllBehaviours(callback) {
     connection.get().query('SELECT behaviours.behaviour_desc, behaviour_id, skills.skill_id FROM behaviours ' +
-        'JOIN skills ON behaviours.skill_id = skills.skill_id', function(err, rows) {
+        'JOIN skills ON behaviours.skill_id = skills.skill_id', (err, rows) => {
         if (err) {
             callback(err, null);
         } else
@@ -644,28 +656,26 @@ function getAllBehaviours(callback) {
  * @returns {string} in yyyy:mm:dd hh:mm:ss format
  */
 function getCurrentDate() {
-    var date = new Date();
+    let date = new Date();
 
-    var hour = date.getHours();
+    let hour = date.getHours();
     hour = (hour < 10 ? "0" : "") + hour;
 
-    var min = date.getMinutes();
+    let min = date.getMinutes();
     min = (min < 10 ? "0" : "") + min;
 
-    var sec = date.getSeconds();
+    let sec = date.getSeconds();
     sec = (sec < 10 ? "0" : "") + sec;
 
-    var year = date.getFullYear();
+    let year = date.getFullYear();
 
-    var month = date.getMonth() + 1;
+    let month = date.getMonth() + 1;
     month = (month < 10 ? "0" : "") + month;
 
-    var day = date.getDate();
+    let day = date.getDate();
     day = (day < 10 ? "0" : "") + day;
 
-    var today = year + ":" + month + ":" + day + " " + hour + ":" + min + ":" + sec;
-
-    return today;
+    return year + ":" + month + ":" + day + " " + hour + ":" + min + ":" + sec;
 }
 
 module.exports = router;

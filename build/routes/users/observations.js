@@ -5,6 +5,8 @@ var connection = require('../../connection');
 var passport = require('passport');
 
 var observationModel = require('../../models/observation');
+var userModel = require('../../models/user');
+var storeModel = require('../../models/store');
 
 var router = express.Router();
 // Get for observations when the page is loaded, show the observations for each user
@@ -30,7 +32,7 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
     }
 
     //Check if the current logged in user is a manager
-    connection.get().query('SELECT stores.store_id, store_name,t_number FROM  stores ' + 'INNER JOIN users ON stores.store_id = users.store_id ' + 'WHERE t_number = ?', req.user.t_number, function (err, storesResults) {
+    connection.get().query('SELECT stores.store_id, store_name, users.t_number FROM stores ' + 'INNER JOIN stores_util ON stores.store_id = stores_util.store_id ' + 'INNER JOIN users ON stores_util.t_number = users.t_number ' + 'WHERE users.t_number = ? AND stores.store_id = ?', [req.user.t_number, req.session.store_id], function (err, storesResults) {
         if (err) {
             returnObj['message'] = 'Our database servers maybe down. Please try again.';
             //Render the page wth error messages
@@ -39,7 +41,7 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
 
         //Connection to get all the employees
         if (req.user.privileged >= 2) {
-            connection.get().query('SELECT first_name, last_name,t_number,store_id FROM users ', function (err, userResults) {
+            connection.get().query('SELECT first_name, last_name, users.t_number, store_id FROM users ' + 'INNER JOIN stores_util ON users.t_number = stores_util.t_number GROUP BY users.t_number', function (err, userResults) {
                 //If an error is thrown
                 if (err) {
                     returnObj['message'] = 'Our database servers maybe down. Please try again.';
@@ -66,7 +68,8 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
                 });
             });
         } else {
-            connection.get().query('SELECT first_name, last_name, t_number, store_id FROM users WHERE t_number = ? ', req.user.t_number, function (err, userResults) {
+            connection.get().query('SELECT first_name, last_name, users.t_number, store_id FROM users ' + 'INNER JOIN stores_util ON users.t_number = stores_util.t_number' + 'WHERE users.t_number = ? GROUP BY users.t_number', req.user.t_number, function (err, userResults) {
+
                 //If an error is thrown
                 if (err) {
                     returnObj['message'] = 'Our database servers maybe down. Please try again.';
@@ -108,8 +111,9 @@ router.get('/add-observation', ensureAuthenticated, function (req, res, next) {
     };
 
     if (req.user.privileged >= 2) {
+
         //Connection to get all of the employees in the users table
-        connection.get().query('SELECT first_name, last_name, t_number FROM users WHERE store_id = ? ', req.user.store_id, function (err, userResults) {
+        storeModel.getUsersByStoreId(req.session.store_id, function (err, userResults) {
             if (err) {
                 returnObj['message'] = 'Our database servers maybe down. Please try again.';
                 return res.render('observations/add-observation', returnObj);
@@ -144,7 +148,7 @@ router.get('/add-observation', ensureAuthenticated, function (req, res, next) {
         });
     } else {
         //Connection to get all of the employees in the users table
-        connection.get().query('SELECT first_name, last_name, t_number FROM users WHERE t_number = ? ', req.user.t_number, function (err, userResults) {
+        userModel.getById(req.user.t_number, function (err, userResults) {
             if (err) {
                 returnObj['message'] = 'Our database servers maybe down. Please try again.';
                 return res.render('observations/add-observation', returnObj);
@@ -185,12 +189,14 @@ router.get('/add-observation/:employee', ensureAuthenticated, function (req, res
     if (!req.body) {
         return res.sendStatus(400);
     }
+
     var returnObj = {
         title: 'Add Observation'
     };
+
     if (req.user.privileged >= 2) {
         //Connection to get all of the employees in the users table
-        connection.get().query('SELECT first_name, last_name, t_number FROM users WHERE store_id = ? ', req.user.store_id, function (err, userResults) {
+        storeModel.getUsersByStoreId(req.session.store_id, function (err, userResults) {
             //If an error is thrown
             if (err) {
                 //Render the page wth error messages
@@ -227,7 +233,7 @@ router.get('/add-observation/:employee', ensureAuthenticated, function (req, res
             });
         });
     } else {
-        connection.get().query('SELECT first_name, last_name, t_number FROM users WHERE t_number = ?', req.user.t_number, function (err, userResults) {
+        userModel.getById(req.user.t_number, function (err, userResults) {
             //If an error is thrown
             if (err) {
                 returnObj['message'] = 'Our database servers maybe down. Please try again.';
@@ -348,7 +354,7 @@ router.post('/add-observation', ensureAuthenticated, function (req, res, next) {
     } else {
         returnObj['title'] = 'Add Observation';
         //Connection to get all of the employees in the users table
-        connection.get().query('SELECT first_name, last_name,t_number FROM users', function (err, userResults) {
+        userModel.getAll(function (err, userResults) {
             //If an error is thrown
             if (err) {
                 returnObj['message'] = 'Our database servers maybe down. Please try again.';
@@ -422,77 +428,80 @@ router.post('/add-observation/:employee', ensureAuthenticated, function (req, re
 
     //Check that the user has selected an employee
     if (req.body.employeeDropdown != undefined && req.body.goodorbad != undefined) {
-        //Store form variables
-        var behaviour = req.body.goodorbad.replace("bad", "").replace("good", "");
-        var assignedTo = req.body.employeeDropdown;
-        var assignedBy = req.user.t_number;
-        var observationDate = getCurrentDate();
-        var observationType = req.body.goodorbad;
+        (function () {
+            //Store form variables
+            var behaviour = req.body.goodorbad.replace("bad", "").replace("good", "");
+            var assignedTo = req.body.employeeDropdown;
+            var assignedBy = req.user.t_number;
+            var observationDate = getCurrentDate();
+            var observationType = req.body.goodorbad;
 
-        //Assign observationType
-        if (observationType.indexOf("good") != -1) {
-            observationType = "1";
-        } else {
-            observationType = "0";
-        }
-
-        var observationComment = req.body.commentBox;
-
-        //Creating the JSON array to store the observation data
-        var observation = {
-            behaviour_id: behaviour,
-            assigned_to: assignedTo,
-            assigned_by: assignedBy,
-            observation_date: observationDate,
-            observation_type: observationType,
-            observation_comment: observationComment
-        };
-
-        console.log(observation);
-
-        //Inserting the data into the observations table using a JSON array
-        observationModel.create(observation, function (err, result) {
-            //If an error is thrown
-            if (err) {
-                //Render the page wth error messages
-                returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');
-                returnObj['behaviour'] = behaviour;
-                returnObj['assignedTo'] = assignedTo;
-                returnObj['assignedBy'] = assignedBy;
-                returnObj['observationDate'] = observationDate;
-                returnObj['observationType'] = observationType;
-                returnObj['observationComment'] = observationComment;
-
-                //Render the page wth error messages
-                return res.render('observations/add-observation', returnObj); //End render
-                //Render the page wth error messages
+            //Assign observationType
+            if (observationType.indexOf("good") != -1) {
+                observationType = "1";
+            } else {
+                observationType = "0";
             }
 
-            req.flash('success_messages', 'The observation was successfully added to the database.');
-            res.locals.success_messages = req.flash('success_messages');
+            var observationComment = req.body.commentBox;
 
-            //Connection to get all of the employees in the users table
-            selectAllUsers(function (err, userResults) {
+            //Creating the JSON array to store the observation data
+            var observation = {
+                behaviour_id: behaviour,
+                assigned_to: assignedTo,
+                assigned_by: assignedBy,
+                observation_date: observationDate,
+                observation_type: observationType,
+                observation_comment: observationComment
+            };
+
+            console.log(observation);
+
+            //Inserting the data into the observations table using a JSON array
+            observationModel.create(observation, function (err, result) {
                 //If an error is thrown
                 if (err) {
-                    returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');
                     //Render the page wth error messages
-                    return res.render('observations/observations', returnObj); //End render
+                    returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');
+                    returnObj['behaviour'] = behaviour;
+                    returnObj['assignedTo'] = assignedTo;
+                    returnObj['assignedBy'] = assignedBy;
+                    returnObj['observationDate'] = observationDate;
+                    returnObj['observationType'] = observationType;
+                    returnObj['observationComment'] = observationComment;
+
+                    //Render the page wth error messages
+                    return res.render('observations/add-observation', returnObj); //End render
+                    //Render the page wth error messages
                 }
 
-                //Get all of the observations for each employee
-                connection.get().query('SELECT users.t_number, behaviour_desc, observations.observation_id, skills.skill_title, ' + 'observations.observation_comment , observations.observation_date , observations.assigned_by FROM users ' + 'LEFT JOIN observations on users.t_number = observations.assigned_to ' + 'LEFT JOIN behaviours on observations.behaviour_id = behaviours.behaviour_id ' + 'LEFT JOIN skills on behaviours.skill_id = skills.skill_id', function (err, obsResults) {
+                req.flash('success_messages', 'The observation was successfully added to the database.');
+                res.locals.success_messages = req.flash('success_messages');
+
+                //Connection to get all of the employees in the users table
+                selectAllUsers(function (err, userResults) {
                     //If an error is thrown
                     if (err) {
                         returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');
                         //Render the page wth error messages
                         return res.render('observations/observations', returnObj); //End render
-                    } //End if
-                    req.session.success = true;
-                    return res.redirect('/users/observations');
+                    }
+
+                    //Get all of the observations for each employee
+                    connection.get().query('SELECT users.t_number, behaviour_desc, observations.observation_id, skills.skill_title, ' + 'observations.observation_comment , observations.observation_date , observations.assigned_by FROM users ' + 'LEFT JOIN observations on users.t_number = observations.assigned_to ' + 'LEFT JOIN behaviours on observations.behaviour_id = behaviours.behaviour_id ' + 'LEFT JOIN skills on behaviours.skill_id = skills.skill_id', function (err, obsResults) {
+                        //If an error is thrown
+                        if (err) {
+                            returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');
+                            //Render the page wth error messages
+                            return res.render('observations/observations', returnObj); //End render
+                        } //end if
+
+                        req.session.success = true;
+                        return res.redirect('/users/observations');
+                    });
                 });
             });
-        });
+        })();
     }
 
     //Display error message if a user has not selected an employee for the dropdown
@@ -524,7 +533,6 @@ router.post('/add-observation/:employee', ensureAuthenticated, function (req, re
                             //Render the page wth error messages
                             return res.render('observations/add-observation', returnObj);
                         } //End if
-
 
                         //JSON array to hold behaviour info
                         var behaviour = {
@@ -640,9 +648,7 @@ function getCurrentDate() {
     var day = date.getDate();
     day = (day < 10 ? "0" : "") + day;
 
-    var today = year + ":" + month + ":" + day + " " + hour + ":" + min + ":" + sec;
-
-    return today;
+    return year + ":" + month + ":" + day + " " + hour + ":" + min + ":" + sec;
 }
 
 module.exports = router;

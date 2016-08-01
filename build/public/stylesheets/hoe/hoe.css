@@ -19,7 +19,7 @@ DEMO URL: http://gohooey.com/demo/sidebar/hoedemo.html
 
 /********** 1. IMPORTS **********/
 /********************************/
-@import url('bootstrap.min.css');
+/*@import url('bootstrap.min.css');*/
 @import url('hoe-overlay-effect.css');
 @import url('hoe-push-effect.css');
 @import url('hoe-shrink-effect.css');
@@ -49,9 +49,6 @@ body{position:relative;}
     font-size: 13px;
     overflow-x: hidden;
     overflow-y: hidden;
-	width: 100%;
-	margin: 0;
-    padding: 0;
 }
  
 /************** 3. Theme Header Style Start Here ********************/
@@ -427,7 +424,7 @@ body{position:relative;}
     height: 0;
     position: absolute;
     right: 0;
-    top: 13px;
+    top: 21px;
     vertical-align: middle;
     width: 0;
 }

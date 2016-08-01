@@ -13,6 +13,22 @@ var storesModel = require('../models/store');
 
 // get the users listing
 router.get('/', ensureAuthenticated, function (req, res, next) {
+    // Check if store_id session value is set
+    // if not then set it
+    if (!req.session.store_id) {
+        storesModel.getFirstStoreByTNumber(req.user.t_number, function (err, result) {
+            if (err) {
+                console.log('Error retrieving first store.');
+                return;
+            }
+
+            req.session.store_id = result[0].store_id;
+
+            // log the store id
+            console.log(req.session.store_id);
+        });
+    }
+
     var returnObj = {
         title: 'Dashboard'
     };
@@ -27,6 +43,7 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
         }
 
         returnObj['recentObservations'] = obsResults;
+
         //Render the observations page with the list of users and observations
         res.render('index', returnObj);
     });

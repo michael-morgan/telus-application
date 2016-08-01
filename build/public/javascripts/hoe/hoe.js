@@ -1,7 +1,7 @@
 'use strict';
 
 $(document).ready(function () {
-    HoeDatapp = {
+    var HoeDatapp = {
         appinit: function appinit() {
             HoeDatapp.HandleSidebartoggle();
             HoeDatapp.HandleProfileToggle();
@@ -120,13 +120,13 @@ $(document).ready(function () {
                 $('#theme-color > a.lpanel-bg').on("click", function () {
                     $('#hoeapp-container').attr("hoe-color-type", $(this).attr("hoe-color-type"));
                 });
-            };
+            }
 
             function setllogocolor() {
                 $('#theme-color > a.logo-bg').on("click", function () {
                     $('#hoe-header').attr("hoe-color-type", $(this).attr("hoe-color-type"));
                 });
-            };
+            }
             setheadercolor();
             setlpanelcolor();
             setllogocolor();
@@ -141,7 +141,7 @@ $(document).ready(function () {
                 var lpanelH = WH - HH - 2;
                 $("#main-content ").css('min-height', contentH);
                 $(".inner-left-panel ").css('height', lpanelH);
-            };
+            }
             setHeight();
 
             $(window).resize(function () {
@@ -240,7 +240,6 @@ $(document).ready(function () {
             Responsivelpanel();
             $(window).resize(Responsivelpanel);
         }
-
     };
     HoeDatapp.appinit();
 });

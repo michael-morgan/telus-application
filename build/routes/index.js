@@ -84,10 +84,7 @@ router.post('/activate/:token', function (req, res, next) {
                 throw next(err);
             }
 
-            // set hashed password
-            var hashedPassword = hash;
-
-            connection.get().query('UPDATE users ' + 'INNER JOIN tokens ON users.t_number = tokens.t_number' + ' SET users.password = ?' + ' WHERE tokens.token = ?', [hashedPassword, req.params.token], function (err, rows) {
+            connection.get().query('UPDATE users ' + 'INNER JOIN tokens ON users.t_number = tokens.t_number' + ' SET users.password = ?' + ' WHERE tokens.token = ?', [hash, req.params.token], function (err, rows) {
                 if (err) {
                     req.flash('Our database servers maybe down, please try again', 'Our database servers maybe down, please try again');
                     res.render('activate', {

@@ -10,13 +10,29 @@ var tokenModel = require('../models/token');
 var storesModel = require('../models/store');
 
 // get the users listing
-router.get('/', ensureAuthenticated, function (req, res, next) {
+router.get('/', ensureAuthenticated, (req, res, next) => {
+    // Check if store_id session value is set
+    // if not then set it
+    if(!req.session.store_id) {
+        storesModel.getFirstStoreByTNumber(req.user.t_number, (err, result) => {
+            if(err) {
+                console.log('Error retrieving first store.');
+                return;
+            }
+
+            req.session.store_id = result[0].store_id;
+
+            // log the store id
+            console.log(req.session.store_id);
+        });
+    }
+
     var returnObj = {
         title: 'Dashboard'
     };
 
     //Connection to get all of the observations for each employee ordered by date
-    getRecentObservations(function (err, obsResults) {
+    getRecentObservations((err, obsResults) => {
         //If an error is thrown
         if (err) {
             returnObj['message'] = 'Our database servers maybe down. Please try again.';
@@ -25,6 +41,7 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
         }
 
         returnObj['recentObservations'] = obsResults;
+
         //Render the observations page with the list of users and observations
         res.render('index', returnObj);
     });

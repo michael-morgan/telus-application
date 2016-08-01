@@ -16,9 +16,11 @@ var filterTeamMembers = function filterTeamMembers(transaction) {
 };
 var startDate;
 var endDate;
+
 $(function () {
-    //console.debug(storeObj);
-    //console.debug(userObj);
+    console.debug(storeObj);
+    console.debug(userObj);
+
     //Hide the delete message until a transaction has been removed
     $('#deleteMessage').hide();
     //Fade out success message after 5 secconds
