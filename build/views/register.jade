@@ -6,7 +6,7 @@ block content
       h1.page-header Register
   if(message)
     .row
-      .col-md-10.col-md-offset-1.col-xs-12
+      .col-md-10.col-md-offset-1.col-xs-12.m-b-10
         div.alert.alert-danger(role='alert')
           .alert-title
             i.fa.fa-exclamation-circle.fa-2x
@@ -14,7 +14,7 @@ block content
           p !{message}
   if(success_messages != null)
     .row
-      .col-md-10.col-md-offset-1.col-xs-12
+      .col-md-10.col-md-offset-1.col-xs-12.m-b-10
         div.alert.success.alert-success(role='success')
           .alert-title
             i.fa.fa-check.fa-2x
@@ -22,7 +22,7 @@ block content
           p !{success_messages}
   if errors
     .row
-      .col-md-10.col-md-offset-1.col-xs-12
+      .col-md-10.col-md-offset-1.col-xs-12.m-b-10
         div.alert.alert-danger(role='alert')
           .alert-title
             i.fa.fa-exclamation-circle.fa-2x
@@ -36,7 +36,7 @@ block content
         .panel-heading.text-center.formTitle
           h2 Enter User Info
         .panel-body
-          form.form-horizontal(method='post', action='/users/register', role='form')
+          form.form-horizontal#registerForm(method='post', action='/users/register', role='form')
             .col-xs-12.col-sm-10.col-sm-offset-1.m-b-10
               input.form-control.formInput(name='firstName', placeholder='First Name', type='text', value='#{first}', required)
             .col-xs-12.col-sm-10.col-sm-offset-1.m-b-10
@@ -50,8 +50,19 @@ block content
                 option(value='3') Manager
                 option(value='4') Area Manager
             .col-xs-12.col-sm-10.col-sm-offset-1.m-b-10
+              select.formInput.privilegedDropdown(required id='storeSelect' name='storeSelect')
+                option(value='0') Select Store
+                each store, storeIndex in stores
+                  option(value='#{store.store_id}') #{store.store_name}
+            .col-xs-12.col-sm-10.col-sm-offset-1.m-b-10
+              ul.list-group#storeList
+            .col-xs-12.col-sm-10.col-sm-offset-1.m-b-10
               input.form-control.formInput(name='email', placeholder='example@email.com', type='email', value='#{email}', required)
             .col-xs-12.col-sm-5.col-sm-offset-1.m-b-10
               button.form-btn.btn.btn-success.btn-lg.btn-block(name='submit', type='submit', value='register') Register
             .col-xs-12.col-sm-5.m-b-10
               a.form-btn.btn.btn-primary.btn-lg.btn-block(href='/users/', title='Cancel To Dashboard') Cancel
+block append script
+  script(src='/javascripts/users/register-users.js')
+  script.
+    var storesObj = JSON.parse('!{storesObj}');

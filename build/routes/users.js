@@ -56,13 +56,21 @@ router.get('/register', ensureAuthenticated, function (req, res, next) {
         return res.redirect('/users/');
     }
 
-    res.render('register', {
-        title: 'Register',
-        first: '',
-        last: '',
-        username: '',
-        privileged: '',
-        email: ''
+    storesModel.getStores(function (err, result) {
+        if (err) {
+            throw next(err);
+        }
+
+        return res.render('register', {
+            title: 'Register',
+            first: '',
+            last: '',
+            username: '',
+            privileged: '',
+            email: '',
+            stores: result,
+            storesObj: JSON.stringify(result)
+        });
     });
 });
 
@@ -156,25 +164,6 @@ router.post('/register', ensureAuthenticated, function (req, res, next) {
                                 console.log('Message sent: ' + info.response);
                             });
 
-                            // create a token object
-                            var tokenObj = {
-                                t_number: username,
-                                token: token
-                            };
-
-                            // create a connection to add the email token to the database
-                            tokenModel.create(tokenObj, function (err, result) {
-                                //If an error is thrown
-                                if (err) {
-                                    req.flash('Our database servers maybe down, please try again', 'Our database servers maybe down, please try again');
-                                    returnObj['message'] = 'Our database servers maybe down, please try again';
-                                    //Render the page wth error messages
-                                    return res.render('register', returnObj);
-                                }
-
-                                console.log("Token added");
-                            });
-
                             //Create a user object
                             var user = {
                                 first_name: first,
@@ -197,16 +186,14 @@ router.post('/register', ensureAuthenticated, function (req, res, next) {
 
                                 console.log("User added successfully.");
 
-                                var stores = ['6529', '6530'];
+                                // create a token object
+                                var tokenObj = {
+                                    t_number: username,
+                                    token: token
+                                };
 
-                                //Create a user object
-                                var storeObjArr = [];
-
-                                for (var store in stores) {
-                                    storeObjArr[store] = [req.body.username, stores[store]];
-                                }
-
-                                storesModel.addStore(storeObjArr, function (err, result) {
+                                // create a connection to add the email token to the database
+                                tokenModel.create(tokenObj, function (err, result) {
                                     //If an error is thrown
                                     if (err) {
                                         req.flash('Our database servers maybe down, please try again', 'Our database servers maybe down, please try again');
@@ -215,17 +202,46 @@ router.post('/register', ensureAuthenticated, function (req, res, next) {
                                         return res.render('register', returnObj);
                                     }
 
-                                    console.log("Store added successfully.");
+                                    console.log("Token added");
 
-                                    req.flash('success_messages', 'User successfully registered, a registration email has been sent');
-                                    res.locals.success_messages = req.flash('success_messages');
-                                    res.render('register', {
-                                        title: 'Register',
-                                        first: '',
-                                        last: '',
-                                        username: '',
-                                        privileged: '',
-                                        email: ''
+                                    var stores = req.body['stores[]'];
+
+                                    //Create a user object
+                                    var storeObjArr = [];
+
+                                    for (var store in stores) {
+                                        storeObjArr[store] = [req.body.username, stores[store]];
+                                    }
+
+                                    storesModel.addStore(storeObjArr, function (err, result) {
+                                        //If an error is thrown
+                                        if (err) {
+                                            req.flash('Our database servers maybe down, please try again', 'Our database servers maybe down, please try again');
+                                            returnObj['message'] = 'Our database servers maybe down, please try again';
+                                            //Render the page wth error messages
+                                            return res.render('register', returnObj);
+                                        }
+
+                                        console.log("Store added successfully.");
+
+                                        storesModel.getStores(function (err, result) {
+                                            if (err) {
+                                                throw next(err);
+                                            }
+
+                                            req.flash('success_messages', 'User successfully registered, a registration email has been sent');
+                                            res.locals.success_messages = req.flash('success_messages');
+                                            res.render('register', {
+                                                title: 'Register',
+                                                first: '',
+                                                last: '',
+                                                username: '',
+                                                privileged: '',
+                                                email: '',
+                                                stores: result,
+                                                storesObj: JSON.stringify(result)
+                                            });
+                                        });
                                     });
                                 });
                             });
