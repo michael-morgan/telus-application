@@ -1,6 +1,6 @@
 var storeArray;
 
-// document.load
+// document.ready
 $(() => {
     // initialize store array
     storeArray = [];

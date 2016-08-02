@@ -83,8 +83,6 @@ router.post('/register', ensureAuthenticated, function (req, res, next) {
         return res.redirect('/users/');
     }
 
-    console.log(req.body.privilege);
-
     //Store the variables form the register page
     var first = req.body.firstName;
     var last = req.body.lastName;
@@ -107,93 +105,85 @@ router.post('/register', ensureAuthenticated, function (req, res, next) {
     req.checkBody('firstName', "Only letters A-Z maybe used in the first name").matches(/^[a-zA-Z]*$/);
     req.checkBody('lastName', "Last name field is required").notEmpty();
     req.checkBody('lastName', "Only letters A-Z maybe used in the last name").matches(/^[a-zA-Z]*$/);
-    req.checkBody('email', "Invalid email").isEmail();
+    req.checkBody('email', "Invalid email, must follow example@telus.com").isEmail().matches(/^[A-Z0-9._%+-]+@telus.com$/);
     req.checkBody('username', "T number required format: t123456").matches(/t[0-9]{6}/);
 
-    //Check for errors
-    var errors = req.validationErrors();
-    if (errors) {
-        returnObj['errors'] = errors;
-        res.render('register', returnObj);
-    } else {
-        //Check for duplicate users
-        userModel.exists(username, function (err, rows) {
-            if (rows.length > 0) {
-                returnObj['message'] = 'Duplicate T#, please enter a unique T#';
-                return res.render('register', returnObj);
-            } else {
-                //Check for duplicate emails
-                userModel.emailExists(email, function (err, rows) {
-                    if (rows.length > 0) {
-                        returnObj['message'] = 'Sorry that email is already in use!';
-                        return res.render('register', returnObj);
-                    }
-                    //The user is unique, insert the user into the database and send them a token
-                    else {
-                            //generate token
-                            var token = randtoken.generate(16);
+    // grab stores for returnObj
+    storesModel.getStores(function (err, result) {
+        if (err) {
+            throw next(err);
+        }
 
-                            // create reusable transporter object using the default SMTP transport
-                            var transporter = nodemailer.createTransport({
-                                service: 'Gmail',
-                                auth: {
-                                    user: credential.EMAIL_USERNAME,
-                                    pass: credential.EMAIL_PASSWORD
-                                }
-                            });
+        returnObj['stores'] = result;
+        returnObj['storesObj'] = JSON.stringify(result);
 
-                            // setup e-mail data with unicode symbols
-                            var mailOptions = {
-                                from: 'no-reply <no-reply@telus.com>', // sender address
-                                to: email, // list of receivers
-                                subject: 'Verification', // subject line
-                                html: '<p>Hello ' + first + ' ' + last + ', </p>' + '<p>Click the following link to activate your account: </p>' + 'http://localhost:3000/activate/' + token
-                            };
+        //Check for errors
+        var errors = req.validationErrors();
 
-                            // Send mail with defined transport object
-                            transporter.sendMail(mailOptions, function (err, info) {
+        if (errors) {
+            returnObj['errors'] = errors;
+            return res.render('register', returnObj);
+        } else {
+            //Check for duplicate users
+            userModel.exists(username, function (err, rows) {
+                if (rows.length > 0) {
+                    returnObj['message'] = 'Duplicate T#, please enter a unique T#';
+                    return res.render('register', returnObj);
+                } else {
+                    //Check for duplicate emails
+                    userModel.emailExists(email, function (err, rows) {
+                        if (rows.length > 0) {
+                            returnObj['message'] = 'Sorry that email is already in use!';
+                            return res.render('register', returnObj);
+                        }
+                        //The user is unique, insert the user into the database and send them a token
+                        else {
+                                //generate token
+                                var token = randtoken.generate(16);
 
-                                //If an error is thrown
-                                if (err) {
-                                    //Check if email can be sent
-                                    req.flash('The activation email did not send, please try again', 'The activation email did not send, please try again');
-                                    returnObj['message'] = 'The activation email did not send, please try again';
-                                    //Render the page wth error messages
-                                    return res.render('register', returnObj);
-                                }
-                                console.log('Message sent: ' + info.response);
-                            });
+                                // create reusable transporter object using the default SMTP transport
+                                var transporter = nodemailer.createTransport({
+                                    service: 'Gmail',
+                                    auth: {
+                                        user: credential.EMAIL_USERNAME,
+                                        pass: credential.EMAIL_PASSWORD
+                                    }
+                                });
 
-                            //Create a user object
-                            var user = {
-                                first_name: first,
-                                last_name: last,
-                                email: email,
-                                privileged: privileged,
-                                username: username,
-                                t_number: username
-                            };
-
-                            // Create connection to add the user to the database
-                            userModel.create(user, function (err, result) {
-                                //If an error is thrown
-                                if (err) {
-                                    req.flash('Our database servers maybe down, please try again', 'Our database servers maybe down, please try again');
-                                    returnObj['message'] = 'Our database servers maybe down, please try again';
-                                    //Render the page wth error messages
-                                    return res.render('register', returnObj);
-                                }
-
-                                console.log("User added successfully.");
-
-                                // create a token object
-                                var tokenObj = {
-                                    t_number: username,
-                                    token: token
+                                // setup e-mail data with unicode symbols
+                                var mailOptions = {
+                                    from: 'no-reply <no-reply@telus.com>', // sender address
+                                    to: email, // list of receivers
+                                    subject: 'Verification', // subject line
+                                    html: '<p>Hello ' + first + ' ' + last + ', </p>' + '<p>Click the following link to activate your account: </p>' + 'http://localhost:3000/activate/' + token
                                 };
 
-                                // create a connection to add the email token to the database
-                                tokenModel.create(tokenObj, function (err, result) {
+                                // Send mail with defined transport object
+                                transporter.sendMail(mailOptions, function (err, info) {
+
+                                    //If an error is thrown
+                                    if (err) {
+                                        //Check if email can be sent
+                                        req.flash('The activation email did not send, please try again', 'The activation email did not send, please try again');
+                                        returnObj['message'] = 'The activation email did not send, please try again';
+                                        //Render the page wth error messages
+                                        return res.render('register', returnObj);
+                                    }
+                                    console.log('Message sent: ' + info.response);
+                                });
+
+                                //Create a user object
+                                var user = {
+                                    first_name: first,
+                                    last_name: last,
+                                    email: email,
+                                    privileged: privileged,
+                                    username: username,
+                                    t_number: username
+                                };
+
+                                // Create connection to add the user to the database
+                                userModel.create(user, function (err, result) {
                                     //If an error is thrown
                                     if (err) {
                                         req.flash('Our database servers maybe down, please try again', 'Our database servers maybe down, please try again');
@@ -202,18 +192,16 @@ router.post('/register', ensureAuthenticated, function (req, res, next) {
                                         return res.render('register', returnObj);
                                     }
 
-                                    console.log("Token added");
+                                    console.log("User added successfully.");
 
-                                    var stores = req.body['stores[]'];
+                                    // create a token object
+                                    var tokenObj = {
+                                        t_number: username,
+                                        token: token
+                                    };
 
-                                    //Create a user object
-                                    var storeObjArr = [];
-
-                                    for (var store in stores) {
-                                        storeObjArr[store] = [req.body.username, stores[store]];
-                                    }
-
-                                    storesModel.addStore(storeObjArr, function (err, result) {
+                                    // create a connection to add the email token to the database
+                                    tokenModel.create(tokenObj, function (err, result) {
                                         //If an error is thrown
                                         if (err) {
                                             req.flash('Our database servers maybe down, please try again', 'Our database servers maybe down, please try again');
@@ -222,12 +210,27 @@ router.post('/register', ensureAuthenticated, function (req, res, next) {
                                             return res.render('register', returnObj);
                                         }
 
-                                        console.log("Store added successfully.");
+                                        console.log("Token added");
 
-                                        storesModel.getStores(function (err, result) {
+                                        var stores = req.body['stores[]'];
+
+                                        //Create a user object
+                                        var storeObjArr = [];
+
+                                        for (var store in stores) {
+                                            storeObjArr[store] = [req.body.username, stores[store]];
+                                        }
+
+                                        storesModel.addStore(storeObjArr, function (err, result) {
+                                            //If an error is thrown
                                             if (err) {
-                                                throw next(err);
+                                                req.flash('Our database servers maybe down, please try again', 'Our database servers maybe down, please try again');
+                                                returnObj['message'] = 'Our database servers maybe down, please try again';
+                                                //Render the page wth error messages
+                                                return res.render('register', returnObj);
                                             }
+
+                                            console.log("Store added successfully.");
 
                                             req.flash('success_messages', 'User successfully registered, a registration email has been sent');
                                             res.locals.success_messages = req.flash('success_messages');
@@ -238,18 +241,18 @@ router.post('/register', ensureAuthenticated, function (req, res, next) {
                                                 username: '',
                                                 privileged: '',
                                                 email: '',
-                                                stores: result,
-                                                storesObj: JSON.stringify(result)
+                                                stores: returnObj['stores'],
+                                                storesObj: returnObj['storesObj']
                                             });
                                         });
                                     });
                                 });
-                            });
-                        }
-                });
-            }
-        });
-    }
+                            }
+                    });
+                }
+            });
+        }
+    });
 });
 
 // Get method for edit users when the page is loaded
@@ -272,8 +275,26 @@ router.get('/edit', ensureAuthenticated, function (req, res, next) {
     });
 });
 
-// Post for edit when the submit button is pressed
 router.post('/edit', ensureAuthenticated, function (req, res, next) {
+    if (!req.body) {
+        return res.sendStatus(400);
+    }
+    if (req.user.privileged <= 2) {
+        return res.redirect('/users/');
+    }
+
+    userModel.update([req.body.t_number, req.body.first_name, req.body.last_name, req.body.email, req.body.title, req.body.t_number], function (err, result) {
+        if (err) {
+            console.log('Error updating user ' + req.body.t_number);
+        }
+
+        console.log('Updated user ' + req.body.t_number);
+        res.send(JSON.stringify(req.body));
+    });
+});
+
+// Post for edit when the submit button is pressed
+router.post('/remove', ensureAuthenticated, function (req, res, next) {
     if (!req.body) {
         return res.sendStatus(400);
     }

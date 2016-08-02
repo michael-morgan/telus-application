@@ -34,28 +34,9 @@ exports.deleteByIds = function(ids, done) {
     });
 };
 
-/*
-    TODO: make export function for users update query
-    UPDATE users ' +
-    'INNER JOIN tokens ON users.t_number = tokens.t_number' +
-    ' SET users.password = ?' +
-    ' WHERE tokens.token = ?
- */
-exports.update = function(joins, columns, conditions, values) {
-    var queryParams = [];
-    if(joins) {
-        queryParams.push(joins.join(' '));
-    }
-    queryParams.push(columns, conditions);
-    var query = connection.get().format(
-                'UPDATE `users` ' + joins ? '? ' : '' +
-                'SET ? ' +
-                'WHERE ? ',
-                queryParams);
-
-    console.log(query);
-    return;
-    connection.get().query(query, [values], function(error, result) {
+exports.update = function(values, done) {
+    connection.get().query('UPDATE `users` SET t_number = ?, first_name = ?, last_name = ?, email = ?, privileged = ? ' +
+        'WHERE t_number = ?', values, function(error, result) {
         if(error) {
             return done(error);
         }

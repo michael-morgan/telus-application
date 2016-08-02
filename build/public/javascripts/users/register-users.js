@@ -2,7 +2,7 @@
 
 var storeArray;
 
-// document.load
+// document.ready
 $(function () {
     // initialize store array
     storeArray = [];

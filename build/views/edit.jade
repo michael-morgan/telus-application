@@ -1,6 +1,45 @@
 extends layout
 
 block content
+  .modal.fade#editModal(tabindex='-1', role='dialog', aria-labelledby='editModalLabel')
+    .modal-dialog.modal-lg(role='document')
+      .modal-content
+        .modal-header
+          button.close(type='button', data-dismiss='modal', aria-label='Close')
+            span(aria-hidden='true') &times;
+          h4.modal-title#editModalLabel Edit User
+        .modal-body
+          .row
+            .col-xs-12.col-sm-6.col-lg-4.m-b-10.form-group
+              label(for='tNumberInput') T Number
+              input.form-control#tNumberInput(name='tNumberInput', placeholder='t#####', type='text', value='', pattern='^[t]{1}[0-9]{6}', required)
+            .col-xs-12.col-sm-6.col-lg-4.m-b-10.form-group
+              label(for='firstNameInput') First Name
+              input.form-control#firstNameInput(name='firstNameInput', placeholder='John', type='text', value='', required)
+            .col-xs-12.col-sm-6.col-lg-4.m-b-10.form-group
+              label(for='lastNameInput') Last Name
+              input.form-control#lastNameInput(name='lastNameInput', placeholder='Doe', type='text', value='', required)
+            .col-xs-12.col-sm-6.col-lg-4.m-b-10.form-group
+              label(for='emailInput') Email
+              input.form-control#emailInput(name='emailInput', placeholder='example@telus.com', type='email', value='', required)
+            .col-xs-12.col-sm-6.col-lg-4.m-b-10.form-group
+              label(for='titleInput') Privilege
+              select.form-control#titleInput(name='titleInput', required)
+                option(value='1', selected='selected') Employee
+                option(value='2') Assistant Manager
+                option(value='3') Manager
+                option(value='4') Area Manager
+            .col-xs-12.col-sm-6.col-lg-4.m-b-10.form-group
+              label(for='passwordInput') Password
+              i.fa.fa-question-circle(data-toggle='tooltip', data-placement='right', title='Leave blank if not updating password', aria-hidden='true', style='margin-left: 10px;')
+              input.form-control#passwordInput(name='passwordInput', type='password', value='', required)
+
+        .modal-footer
+          .row
+            .col-xs-6.col-md-3.col-md-offset-6.col-lg-2.col-lg-offset-8
+              button.btn.btn-default.btn-block(type='button', data-dismiss='modal') Close
+            .col-xs-6.col-md-3.col-lg-2
+              button.btn.btn-primary.btn-block(type='button', data-dismiss='modal', onclick='updateUser()') Save
   .row
     .col-xs-12.col-md-10.col-md-offset-1
       h1.page-header Edit Users
@@ -47,11 +86,12 @@ block content
                     th Last Name
                     th Email
                     th Title
+                    th Edit
                     th Remove
                 tbody
                   each user, i in users
                     if user.privileged != 5
-                      tr
+                      tr(id='userRow#{user.t_number}')
                         td #{user.t_number}
                         td #{user.first_name}
                         td #{user.last_name}
@@ -66,6 +106,9 @@ block content
                           default
                             td Employee
 
+                        td
+                          a.btn.btn-primary(href='#', aria-label='Edit', onclick='populateEditModal(\'#userRow#{user.t_number}\')')
+                            i.fa.fa-pencil-square-o(aria-hidden='true')
                         td
                           input.form-control(name='remove#{user.t_number}' type='checkbox')
               .col-xs-12.col-sm-5.col-sm-offset-1.m-b-10
