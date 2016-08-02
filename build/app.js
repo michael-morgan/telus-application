@@ -18,6 +18,9 @@ var randtoken = require('rand-token');
 var bcrypt = require('bcryptjs');
 var async = require('async');
 
+// babel polyfill
+require("babel-polyfill");
+
 var index = require('./routes/index');
 var users = require('./routes/users');
 var observations = require('./routes/users/observations');
