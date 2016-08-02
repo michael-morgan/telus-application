@@ -3,6 +3,9 @@ var privileges;
 var tNumberInput, firstNameInput, lastNameInput,
     emailInput, titleInput;
 
+const T_NUMBER_INDEX = 0, FIRST_NAME_INDEX = 1, LAST_NAME_INDEX = 2,
+    EMAIL_INDEX = 3, TITLE_INDEX = 4;
+
 // document.ready
 $(() => {
     tNumberInput = $('#tNumberInput');
@@ -22,11 +25,11 @@ $(() => {
 });
 
 function populateEditModal(rowId) {
-    tNumberInput.val($(rowId)[0].children[0].textContent);
-    firstNameInput.val($(rowId)[0].children[1].textContent);
-    lastNameInput.val($(rowId)[0].children[2].textContent);
-    emailInput.val($(rowId)[0].children[3].textContent);
-    titleInput.val(privileges.find((privilege) => privilege.name == $(rowId)[0].children[4].textContent).value);
+    tNumberInput.val($(rowId)[0].children[T_NUMBER_INDEX].textContent);
+    firstNameInput.val($(rowId)[0].children[FIRST_NAME_INDEX].textContent);
+    lastNameInput.val($(rowId)[0].children[LAST_NAME_INDEX].textContent);
+    emailInput.val($(rowId)[0].children[EMAIL_INDEX].textContent);
+    titleInput.val(privileges.find((privilege) => privilege.name == $(rowId)[0].children[TITLE_INDEX].textContent).value);
 
     $('#editModal').modal('show');
 }
