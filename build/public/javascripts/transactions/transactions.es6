@@ -1,43 +1,51 @@
+var storesArray;
 var filteredArray;
 var teamMember;
 
-var storesArray;
-var filterTeamMembers = function(transaction) {
+var startDate;
+var endDate;
+
+var filterTNumber = (obj) => {
     teamMember = $('#teamMember');
-    //If the 'All Team Members' was chosen from the drop down, show all transactions
-    if(teamMember.val() == 'all')
-        return transaction.t_number != teamMember.val();
-    //If a team member was chosen from the drop down, show transactions related to that user
-    else
-        return transaction.t_number == teamMember.val();
-}, filterDate = function(transaction) {
+
+    if(teamMember.val() == 'all') {
+        return obj.t_number != teamMember.val();
+    }
+    else {
+        return obj.t_number == teamMember.val();
+    }
+};
+
+var filterDate = (transaction) => {
     var transactionDate = new Date(transaction.transaction_date);
 
     return ((transactionDate >= startDate) && (transactionDate <= endDate));
 };
-var startDate;
-var endDate;
 
-$(function() {
+$(() => {
+    storesArray = JSON.parse(JSON.stringify(storeObj));
 
-    storesArray = storeObj
     console.debug(storesArray);
     console.debug(userObj);
 
     //Hide the delete message until a transaction has been removed
     $('#deleteMessage').hide();
-    //Fade out success message after 5 secconds
+
+    //Fade out success message after 5 seconds
     $('#successMessage').fadeOut(5000);
 
     var teamDropdown = $("#teamMember");
 
-    teamDropdown.change(function () {
+    teamDropdown.change((event) => {
         //Get the selected user from from the drop down
         teamMember = $('#teamMember');
-        filteredArray = storeObj[0].transactions.filter(filterTeamMembers);
+
+        applyFilter();
+
+        //filteredArray = storeObj[0].transactions.filter(filterTeamMembers);
 
         //Render the transactions and edit the HTML based on team member drop down
-        renderTransactions(teamMember.val(), userObj, storeObj[0].privileged, filteredArray.filter(filterDate));
+        renderTransactions(teamMember.val(), userObj, storeObj[0].privileged, filteredArray);
     });
 
     $('#dateRange').daterangepicker({
@@ -55,14 +63,24 @@ $(function() {
         startDate = start;
         endDate = end;
 
+        applyFilter();
+
         //Render the transactions and edit the HTML based on team member drop down
-        renderTransactions(teamMember.val(), userObj, storeObj[0].privileged, filteredArray.filter(filterDate));
+        renderTransactions(teamMember.val(), userObj, storeObj[0].privileged, filteredArray);
     });
 
     //Trigger the drop down change function to load the HTML
     teamDropdown.trigger('change');
 });
 
+function applyFilter() {
+    filteredArray = JSON.parse(JSON.stringify(storesArray.filter(filterTNumber)));
+    for(let storeIndex in filteredArray) {
+        filteredArray[storeIndex].transactions = JSON.parse(JSON.stringify(storesArray[storesArray.findIndex(
+            (store) => store.store_id == filteredArray[storeIndex].store_id
+        )].transactions.filter(filterTNumber).filter(filterDate)));
+    }
+}
 
 /**
  * Delete a transaction, uses AJAX
@@ -82,169 +100,175 @@ function deleteTransaction(id) {
 } //end deleteTransaction
 
 /**
- * This method filter the transactions history by filtering though the array
+ * This method filter the transactions history by filtering through the array
  * @param t_num
  * @param users
  * @param privileged
- * @param transactions
+ * @param stores
  */
-function renderTransactions(t_num, users, privileged, transactions) {
-    if(transactions.length > 0) {
-        filteredArray = transactions;
+function renderTransactions(t_num, users, privileged, stores) {
+    if(stores.length == 0) {
+        return;
     }
-    //console.debug(filteredArray);
 
-    //Initialize variables for storing data
-    var totalDeviceCount = 0;
-    var deviceCount = 0;
-    var appleDeviceCount = 0;
-    var deviceWarrantyCount = 0;
-    var appleWarrantyCount = 0;
-    var transactionCount = 0;
-    var accessoriesCount = 0;
-    var controllableTransactionsCount = 0;
-    var controllableRevenue = 0;
-    var warrantyDevices = 0;
-    var otherDevices = 0;
-    var sbsCount = 0;
-    var tabletCount = 0;
-    var hsRevenue = 0;
-    var learningSessions = 0;
-    var critters = 0;
-    var appointments = 0;
-    var aotm = 0;
-    var donations = 0;
-    var creditCards = 0;
+    for(let storeIndex in stores) {
 
-    //Loop through all the transactions
-    for (var transactionIndex in transactions) {
+        //Initialize variables for storing data
+        var totalDeviceCount = 0;
+        var deviceCount = 0;
+        var appleDeviceCount = 0;
+        var deviceWarrantyCount = 0;
+        var appleWarrantyCount = 0;
+        var transactionCount = 0;
+        var accessoriesCount = 0;
+        var controllableTransactionsCount = 0;
+        var controllableRevenue = 0;
+        var warrantyDevices = 0;
+        var otherDevices = 0;
+        var sbsCount = 0;
+        var tabletCount = 0;
+        var hsRevenue = 0;
+        var learningSessions = 0;
+        var critters = 0;
+        var appointments = 0;
+        var aotm = 0;
+        var donations = 0;
+        var creditCards = 0;
 
-        //If 'All Team Members' was selected, count all transactions
-        if (t_num == 'all')
-            transactionCount = transactions.length;
-        //If a team member was chosen, only show transactions related to them
-        else {
-            if (transactions[transactionIndex].t_number == t_num)
-                transactionCount++
-        } //end if
+        //Loop through all the transactions
+        for (let transactionIndex in stores[storeIndex].transactions) {
+            let transactions = stores[storeIndex].transactions;
 
-        //Loop through the transactionsItems for each transactions
-        for (var transactionItemsIndex in transactions[transactionIndex].transactionItems) {
-
-            //If device type is 2 (Android) or 3 (Blackberry), increment the deviceCount
-            if (transactions[transactionIndex].transactionItems[transactionItemsIndex].device_type == 2 || transactions[transactionIndex].transactionItems[transactionItemsIndex].device_type == 3)
-                deviceCount++;
-
-            //If device type is 1 (iPhone) or 7 (iPad), increment the appleDeviceCount
-            else if (transactions[transactionIndex].transactionItems[transactionItemsIndex].device_type == 1 || transactions[transactionIndex].transactionItems[transactionItemsIndex].device_type == 7)
-                appleDeviceCount++;
-
-            //If device type is not 5 (SIM), increment the totalDeviceCount
-            if (transactions[transactionIndex].transactionItems[transactionItemsIndex].device_type != 5)
-                totalDeviceCount++;
-
-            //If the transaction type is 1 (Device), add the revenue of the transaction to hsRevenue
-            if (transactions[transactionIndex].transaction_type == 1)
-                hsRevenue += transactions[transactionIndex].transactionItems[transactionItemsIndex].revenue;
-
-            //If the warranty type is 1 (Device Care) or 2 (Device Care & T-UP), increment the deviceWarrantyCount
-            if (transactions[transactionIndex].transactionItems[transactionItemsIndex].warranty_type == 1 || transactions[transactionIndex].transactionItems[transactionItemsIndex].warranty_type == 2)
-                deviceWarrantyCount++;
-
-            //If the warranty type is 3 (AppleCare+) or 4 (AppleCare+ & T-UP), increment the appleWarrantyCount
-            else if (transactions[transactionIndex].transactionItems[transactionItemsIndex].warranty_type == 3 || transactions[transactionIndex].transactionItems[transactionItemsIndex].warranty_type == 4)
-                appleWarrantyCount++;
-
-            //If the warranty type is 1 (New Activation) or 2 (Renewal), increment the controllableTransactionsCount
-            if (transactions[transactionIndex].transactionItems[transactionItemsIndex].activation_type == 1 || transactions[transactionIndex].transactionItems[transactionItemsIndex].activation_type == 2)
-                controllableTransactionsCount++;
-
-            //If 'All Team Members' was selected, sum up all the revenue
+            //If 'All Team Members' was selected, count all transactions
             if (t_num == 'all')
-                controllableRevenue += transactions[transactionIndex].transactionItems[transactionItemsIndex].revenue;
-            //If a team member was chosen, sum up transactions related to them
+                transactionCount = transactions.length;
+            //If a team member was chosen, only show transactions related to them
             else {
                 if (transactions[transactionIndex].t_number == t_num)
+                    transactionCount++
+            } //end if
+
+            //Loop through the transactionsItems for each transactions
+            for (var transactionItemsIndex in transactions[transactionIndex].transactionItems) {
+
+                //If device type is 2 (Android) or 3 (Blackberry), increment the deviceCount
+                if (transactions[transactionIndex].transactionItems[transactionItemsIndex].device_type == 2 || transactions[transactionIndex].transactionItems[transactionItemsIndex].device_type == 3)
+                    deviceCount++;
+
+                //If device type is 1 (iPhone) or 7 (iPad), increment the appleDeviceCount
+                else if (transactions[transactionIndex].transactionItems[transactionItemsIndex].device_type == 1 || transactions[transactionIndex].transactionItems[transactionItemsIndex].device_type == 7)
+                    appleDeviceCount++;
+
+                //If device type is not 5 (SIM), increment the totalDeviceCount
+                if (transactions[transactionIndex].transactionItems[transactionItemsIndex].device_type != 5)
+                    totalDeviceCount++;
+
+                //If the transaction type is 1 (Device), add the revenue of the transaction to hsRevenue
+                if (transactions[transactionIndex].transaction_type == 1)
+                    hsRevenue += transactions[transactionIndex].transactionItems[transactionItemsIndex].revenue;
+
+                //If the warranty type is 1 (Device Care) or 2 (Device Care & T-UP), increment the deviceWarrantyCount
+                if (transactions[transactionIndex].transactionItems[transactionItemsIndex].warranty_type == 1 || transactions[transactionIndex].transactionItems[transactionItemsIndex].warranty_type == 2)
+                    deviceWarrantyCount++;
+
+                //If the warranty type is 3 (AppleCare+) or 4 (AppleCare+ & T-UP), increment the appleWarrantyCount
+                else if (transactions[transactionIndex].transactionItems[transactionItemsIndex].warranty_type == 3 || transactions[transactionIndex].transactionItems[transactionItemsIndex].warranty_type == 4)
+                    appleWarrantyCount++;
+
+                //If the warranty type is 1 (New Activation) or 2 (Renewal), increment the controllableTransactionsCount
+                if (transactions[transactionIndex].transactionItems[transactionItemsIndex].activation_type == 1 || transactions[transactionIndex].transactionItems[transactionItemsIndex].activation_type == 2)
+                    controllableTransactionsCount++;
+
+                //If 'All Team Members' was selected, sum up all the revenue
+                if (t_num == 'all')
                     controllableRevenue += transactions[transactionIndex].transactionItems[transactionItemsIndex].revenue;
-            }
+                //If a team member was chosen, sum up transactions related to them
+                else {
+                    if (transactions[transactionIndex].t_number == t_num)
+                        controllableRevenue += transactions[transactionIndex].transactionItems[transactionItemsIndex].revenue;
+                }
 
-            //If the device_type is not 5 (SIM) or 8 (Mobile Internet), increment the warrantyDevices
-            if (transactions[transactionIndex].transactionItems[transactionItemsIndex].device_type != 5 || transactions[transactionIndex].transactionItems[transactionItemsIndex].device_type != 8)
-                warrantyDevices++;
+                //If the device_type is not 5 (SIM) or 8 (Mobile Internet), increment the warrantyDevices
+                if (transactions[transactionIndex].transactionItems[transactionItemsIndex].device_type != 5 || transactions[transactionIndex].transactionItems[transactionItemsIndex].device_type != 8)
+                    warrantyDevices++;
 
-            //If the device_type is not 1 (iPhone) or 2 (Android), increment the otherDevices
-            if (transactions[transactionIndex].transactionItems[transactionItemsIndex].device_type != 1 || transactions[transactionIndex].transactionItems[transactionItemsIndex].device_type != 2)
-                otherDevices++;
+                //If the device_type is not 1 (iPhone) or 2 (Android), increment the otherDevices
+                if (transactions[transactionIndex].transactionItems[transactionItemsIndex].device_type != 1 || transactions[transactionIndex].transactionItems[transactionItemsIndex].device_type != 2)
+                    otherDevices++;
 
-            //If the sbs_activation is 1 (Yes), increment the sbsCount
-            if (transactions[transactionIndex].transactionItems[transactionItemsIndex].sbs_activation == 1)
-                sbsCount++;
+                //If the sbs_activation is 1 (Yes), increment the sbsCount
+                if (transactions[transactionIndex].transactionItems[transactionItemsIndex].sbs_activation == 1)
+                    sbsCount++;
 
-            //If the device_type is 6 (tablet), increment the tabletCount
-            if (transactions[transactionIndex].transactionItems[transactionItemsIndex].device_type == 6 || transactions[transactionIndex].transactionItems[transactionItemsIndex].device_type == 7)
-                tabletCount++;
+                //If the device_type is 6 (tablet), increment the tabletCount
+                if (transactions[transactionIndex].transactionItems[transactionItemsIndex].device_type == 6 || transactions[transactionIndex].transactionItems[transactionItemsIndex].device_type == 7)
+                    tabletCount++;
 
-            //Sum up all the num_of_accessories
-            accessoriesCount += transactions[transactionIndex].transactionItems[transactionItemsIndex].num_of_accessories;
-        }//end for transactionItemsIndex
+                //Sum up all the num_of_accessories
+                accessoriesCount += transactions[transactionIndex].transactionItems[transactionItemsIndex].num_of_accessories;
+            }//end for transactionItemsIndex
 
-        //Loop through all the additionalMetricItems per transaction
-        for (var metricItemsIndex in transactions[transactionIndex].additionalMetricItems) {
-            //Check based on the additional metric type
-            switch (transactions[transactionIndex].additionalMetricItems[metricItemsIndex].additional_metrics_items_type) {
-                //If metric type is 1 (Learning Sessions), add the metric count to learningSessions
-                case 1:
-                    learningSessions += transactions[transactionIndex].additionalMetricItems[metricItemsIndex].additional_metrics_items_count
-                    break
-                //If metric type is 2 (AOTM), add the metric count to aotm
-                case 2:
-                    aotm += transactions[transactionIndex].additionalMetricItems[metricItemsIndex].additional_metrics_items_count
-                    break;
-                //If metric type is 3 (Appointments), add the metric count to appointments
-                case 3:
-                    appointments += transactions[transactionIndex].additionalMetricItems[metricItemsIndex].additional_metrics_items_count
-                    break;
-                //If metric type is 4 (Critters), add the metric count to critters
-                case 4:
-                    critters += transactions[transactionIndex].additionalMetricItems[metricItemsIndex].additional_metrics_items_count
-                    break;
-                //If metric type is 5 (Donations), add the metric count to donations
-                case 5:
-                    donations += transactions[transactionIndex].additionalMetricItems[metricItemsIndex].additional_metrics_items_count
-                    break;
-                //If metric type is 6 (Credit Cards), add the metric count to creditCards
-                case 6:
-                    creditCards += transactions[transactionIndex].additionalMetricItems[metricItemsIndex].additional_metrics_items_count
-                    break;
-            } //end switch
-        } //end for metricItemsIndex
-    } //end for transactionIndex
+            //Loop through all the additionalMetricItems per transaction
+            for (var metricItemsIndex in transactions[transactionIndex].additionalMetricItems) {
+                //Check based on the additional metric type
+                switch (transactions[transactionIndex].additionalMetricItems[metricItemsIndex].additional_metrics_items_type) {
+                    //If metric type is 1 (Learning Sessions), add the metric count to learningSessions
+                    case 1:
+                        learningSessions += transactions[transactionIndex].additionalMetricItems[metricItemsIndex].additional_metrics_items_count
+                        break
+                    //If metric type is 2 (AOTM), add the metric count to aotm
+                    case 2:
+                        aotm += transactions[transactionIndex].additionalMetricItems[metricItemsIndex].additional_metrics_items_count
+                        break;
+                    //If metric type is 3 (Appointments), add the metric count to appointments
+                    case 3:
+                        appointments += transactions[transactionIndex].additionalMetricItems[metricItemsIndex].additional_metrics_items_count
+                        break;
+                    //If metric type is 4 (Critters), add the metric count to critters
+                    case 4:
+                        critters += transactions[transactionIndex].additionalMetricItems[metricItemsIndex].additional_metrics_items_count
+                        break;
+                    //If metric type is 5 (Donations), add the metric count to donations
+                    case 5:
+                        donations += transactions[transactionIndex].additionalMetricItems[metricItemsIndex].additional_metrics_items_count
+                        break;
+                    //If metric type is 6 (Credit Cards), add the metric count to creditCards
+                    case 6:
+                        creditCards += transactions[transactionIndex].additionalMetricItems[metricItemsIndex].additional_metrics_items_count
+                        break;
+                } //end switch
+            } //end for metricItemsIndex
+        } //end for transactionIndex
 
-
-    for(var i in storesArray) {
         var summaryContent = '';
         summaryContent += `
-        <div role="tablist" aria-multiselectable="true" class="panel-group">
-            <div class="panel">
-                <div class="panel panel-default">
-                    <div role="tab" id="transactionHeading${storesArray[i].store_id}" data-toggle="collapse" data-target="#transactionCollapse${storesArray[i].store_id}" class="panel-heading purpleHead collapsed" aria-expanded="false">
-                        <div class="row">
-                            <div class="col-xs-4 text-center">
-                                <h4 class="panel-title">Acc. Units per Transaction:
-                                    <strong style="margin-left: 5px;">`;
+            <div role="tablist" aria-multiselectable="true" class="panel-group">
+                <div class="panel">
+                    <div class="panel panel-default">
+                        <div role="tab" id="transactionHeading${stores[storeIndex].store_id}" data-toggle="collapse" data-target="#transactionCollapse${stores[storeIndex].store_id}" class="panel-heading purpleHead collapsed" aria-expanded="false">
+                            <div class="row">
+                                <div class="col-xs-4 text-center">
+                                    <h4 class="panel-title">Acc. Units per Transaction:
+                                        <strong style="margin-left: 5px;">
+        `;
+
         //If transactionsCount is 0, display 0
-        if (transactionCount <= 0)
+        if (transactionCount <= 0) {
             summaryContent += `0%`;
+        }
         //Else display the value
-        else
+        else {
             summaryContent += `${parseFloat(Math.round(accessoriesCount / transactionCount)).toFixed(2)}`;
+        }
+
         summaryContent += `
                                     </strong>
                                 </h4>
                             </div><!--end col-xs-4 text-center-->
                             <div class="col-xs-4 text-center">
                                 <h4 class="panel-title">Basket Size:
-                                    <strong style="margin-left: 5px;">`;
+                                    <strong style="margin-left: 5px;">
+        `;
         //If transactionsCount is 0, display 0
         if (transactionCount <= 0)
             summaryContent += `${(0).toLocaleString('en-CA', {style: 'currency', currency: 'CAD'})}`;
@@ -276,7 +300,7 @@ function renderTransactions(t_num, users, privileged, transactions) {
                             </div><!--end row-->
                         </div><!--end -->
                     </div><!--end panel-heading purpleHead collapsed-->
-                    <div role="tabpanel" aria-labelledby="transactionHeading${storesArray[i].store_id}" id="transactionCollapse${storesArray[i].store_id}" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+                    <div role="tabpanel" aria-labelledby="transactionHeading${stores[storeIndex].store_id}" id="transactionCollapse${stores[storeIndex].store_id}" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
                         <div class="panel-body">
                             <div class="panel panel-default">
                                 <div class="panel-body">
@@ -385,21 +409,18 @@ function renderTransactions(t_num, users, privileged, transactions) {
                 </div><!--end panel panel-default -->
             </div><!--end col-xs-12 col-lg-10 col-lg-offset-1 -->
         </div><!--end panel group -->`;
-        $(`#summaryContainer${storesArray[i].store_id}`).html(summaryContent);
-        console.log(storesArray[i].store_id);
-    }
+        $(`#summaryContainer${stores[storeIndex].store_id}`).html(summaryContent);
 
-
-
-//For each transaction
-    for(var i in storesArray) {
+        //For each store
         var content = '';
-        for (var transactionIndex in transactions) {
+        for (let transactionIndex in stores[storeIndex].transactions) {
+            let transactions = stores[storeIndex].transactions;
+
             //content hold all the HTML for the filtered array
             content += `
-       <div id="${storesArray[i].store_id}transactionID${transactions[transactionIndex].transaction_id}" class="panel">
+       <div id="${stores[storeIndex].store_id}transactionID${transactions[transactionIndex].transaction_id}" class="panel">
            <div class="panel-heading purpleHead">
-               <div role="tab" class="row" id="${storesArray[i].store_id}transactionHeading${transactions[transactionIndex].transaction_id}" data-toggle="collapse" data-target="#${storesArray[i].store_id}transactionCollapse${transactions[transactionIndex].transaction_id}">
+               <div role="tab" class="row" id="${stores[storeIndex].store_id}transactionHeading${transactions[transactionIndex].transaction_id}" data-toggle="collapse" data-target="#${stores[storeIndex].store_id}transactionCollapse${transactions[transactionIndex].transaction_id}">
                   <div class="col-xs-4">
                        <h4 class="panel-title">${new Date(transactions[transactionIndex].transaction_date).toLocaleDateString()}</h4>
                   </div><!-- end col-xs-4 -->
@@ -437,7 +458,7 @@ function renderTransactions(t_num, users, privileged, transactions) {
                </div><!-- end row -->
            </div><!-- end panel heading -->`;
             content += `
-           <div class="panel-collapse collapse" role="tabpanel" aria-labelledby="${storesArray[i].store_id}transactionHeading${transactions[transactionIndex].transaction_id}" id="${storesArray[i].store_id}transactionCollapse${transactions[transactionIndex].transaction_id}">
+           <div class="panel-collapse collapse" role="tabpanel" aria-labelledby="${stores[storeIndex].store_id}transactionHeading${transactions[transactionIndex].transaction_id}" id="${stores[storeIndex].store_id}transactionCollapse${transactions[transactionIndex].transaction_id}">
                <div class="panel-body">`;
             //For each transactionItem in a trasactions
             for (var transactionItemsIndex in transactions[transactionIndex].transactionItems) {
@@ -577,9 +598,6 @@ function renderTransactions(t_num, users, privileged, transactions) {
    </div> <!-- end panel -->`;
         } //end for transactions
 
-        $(`#transactionContainer${storesArray[i].store_id}`).html(content);
-
-    } //end for stores
-
-
+        $(`#transactionContainer${stores[storeIndex].store_id}`).html(content);
+    } // end of stores for loop
 } //end render transaction
