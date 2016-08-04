@@ -23,12 +23,15 @@ block content
                         strong Great!
                         p#removalMessage
     .row.form-group
-        .col-xs-12.col-sm-4.col-lg-2.col-lg-offset-1
+        .col-xs-12.col-sm-4
             label(for='store') Store:
             select.form-control(id='store', name='store')
                 each store, storeIndex in stores
                     option(value='#{store.store_id}' selected) #{store.store_name}
-        .col-xs-12.col-sm-4.col-lg-3.col-lg-offset-5
+        .col-xs-12.col-sm-4
+            label(for='store') &nbsp;
+            button.form-btn.btn.btn-lg.btn-block.btn-success.clearSellingHoursButton(name='view', type='button') Clear Selling Hours
+        .col-xs-12.col-sm-4
             label(for='dateRange') Date Range:
             .input-group
                 span.input-group-addon#iconAddon
@@ -36,6 +39,44 @@ block content
                 input.form-control(type='text', id='dateRange', name='dateRange', aria-describedby='iconAddon')
         .col-xs-12.col-lg-10.col-lg-offset-1
             hr
+    .panel.panel-primary
+        .col-md-12
+            .table-responsive
+                table.table-condensed.table-bordered.table-nonfluid-report
+                    thead
+                        tr
+                            th
+                            th Sunday
+                            th Monday
+                            th Tuesday
+                            th Wednesday
+                            th Thursday
+                            th Friday
+                            th Saturday
+                            th Total
+                    tbody
+                        tr
+                            td
+                            th#Sunday
+                            th#Monday
+                            th#Tuesday
+                            th#Wednesday
+                            th#Thursday
+                            th#Friday
+                            th#Saturday
+                            th
+                        each user, userIndex in users
+                            tr
+                                td #{user.first_name}
+                                td#SundayHours
+                                td#MondayHours
+                                td#TuesdayHours
+                                td#WednesdayHours
+                                td#ThursdayHours
+                                td#FridayHours
+                                td#SaturdayHours
+                                td
+                                    button.form-btn.btn.btn-lg.btn-block.btn-success(name='view', type='button') Edit
 block append script
     script(src='/bower_components/bootstrap-daterangepicker/moment.min.js')
     script(src='/bower_components/bootstrap-daterangepicker/daterangepicker.js')
