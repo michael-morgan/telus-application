@@ -12,7 +12,7 @@ $(() => {
 
     console.debug(storesArray);
     console.debug(userObj);
-
+    //console.debug(hourObj);
     //Hide the delete message until a transaction has been removed
     $('#deleteMessage').hide();
 
