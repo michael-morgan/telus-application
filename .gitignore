@@ -1,1 +1,3 @@
 build/.idea/
+build/.idea/watcherTasks.xml
+*.xml

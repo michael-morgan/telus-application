@@ -335,7 +335,7 @@ CREATE TABLE `selling_hours_schedule` (
 --
 LOCK TABLES `selling_hours_schedule` WRITE;
 /*!40000 ALTER TABLE `selling_hours_schedule` DISABLE KEYS */;
-INSERT INTO `selling_hours_schedule` VALUES (1,'t111111','2016-07-31', '6529', 5),(2,'t1111111','2016-02-02', '6530', 6),(3,'t861370','2016-02-03', '6529', 4),(4,'t846956','2016-02-04', '6530', 9),(5,'t846956','2016-02-05', '6530', 3);
+INSERT INTO `selling_hours_schedule` VALUES (1,'t111111',CURDATE(), '6529', 5),(2,'t1111111','2016-08-08', '6529', 6),(3,'t861370','2016-08-08', '6529', 4),(4,'t846956','2016-08-09', '6529', 9),(5,'t846956','2016-08-10', '6529', 3);
 /*!40000 ALTER TABLE `selling_hours_schedule` ENABLE KEYS */;
 UNLOCK TABLES;
 

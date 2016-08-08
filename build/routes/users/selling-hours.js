@@ -49,11 +49,12 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
             returnObj['usersObj'] = JSON.stringify(result);
             returnObj['selectedEmployee'] = req.user.t_number;
             //Display success message on adding a transaction
-            sellingHoursModel.getHoursByStoreIDForCurrentWeek(storeIds[0], function (err, result) {
+            sellingHoursModel.getHoursByStoreIDForCurrentWeek(req.session.store_id, function (err, result) {
                 if (err) {
                     throw next(err);
                 } //end if)
-                returnObj['hoursObj'] = result;
+                returnObj['hours'] = result;
+                returnObj['hoursObj'] = JSON.stringify(result);
                 console.log(result);
                 if (req.session.success) {
                     req.flash('success_messages', 'Transaction successfully added!');

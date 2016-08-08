@@ -67,21 +67,20 @@ block content
                             th#Saturday
                             th
                             th
+                        script(src='/bower_components/bootstrap-daterangepicker/moment.min.js')
                         each user, userIndex in users
                             tr
                                 td #{user.first_name} #{user.last_name}
-                                each hour, hourIndex in hoursObj
-                                    if user.t_number = hour.team_member
-                                        td#SundayHours
-                                        td#MondayHours
-                                        td#TuesdayHours
-                                        td#WednesdayHours
-                                        td#ThursdayHours
-                                        td#FridayHours
-                                        td#SaturdayHours
-                                        td
-                                        td
-                                            button.form-btn.btn.btn-lg.btn-block.btn-success(name='view', type='button') Edit
+                                td(id='SundayHours'+'#{user.t_number}')
+                                td(id='MondayHours'+'#{user.t_number}')
+                                td(id='TuesdayHours'+'#{user.t_number}')
+                                td(id='WednesdayHours'+'#{user.t_number}')
+                                td(id='ThursdayHours'+'#{user.t_number}')
+                                td(id='FridayHours'+'#{user.t_number}')
+                                td(id='SaturdayHours'+'#{user.t_number}')
+                                td
+                                td
+                                    button.form-btn.btn.btn-lg.btn-block.btn-success(name='view', type='button') Edit
 block append script
     script(src='/bower_components/bootstrap-daterangepicker/moment.min.js')
     script(src='/bower_components/bootstrap-daterangepicker/daterangepicker.js')
@@ -89,4 +88,4 @@ block append script
     script.
         var storeObj = JSON.parse('!{storesObj}');
         var userObj = JSON.parse('!{usersObj}');
-        //var hourObj = JSON.parse('!{hoursObj}');
+        var hourObj = JSON.parse('!{hoursObj}');

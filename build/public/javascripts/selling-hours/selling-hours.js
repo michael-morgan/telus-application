@@ -11,7 +11,7 @@ var endDate;
 $(function () {
     storesArray = JSON.parse(JSON.stringify(storeObj));
     getDaysOfTheWeek();
-
+    displayEmployeeHours();
     console.debug(storesArray);
     console.debug(userObj);
     //console.debug(hourObj);
@@ -54,37 +54,40 @@ $(function () {
     //Trigger the drop down change function to load the HTML
     store.trigger('change');
 });
+//Retrieve hours from array and display them in the appropriate row
+function displayEmployeeHours() {
+    for (var user in userObj) {
+        for (var hour in hourObj) {
+            if (moment().startOf('day').format("YYYY-MM-DD") == hourObj[hour].date.substring(0, 10) && userObj[user].t_number == hourObj[hour].team_member) $('#SundayHours' + userObj[user].t_number + '').text(hourObj[hour].selling_hours);
+            if (moment().add(1, 'days').format("YYYY-MM-DD") == hourObj[hour].date.substring(0, 10) && userObj[user].t_number == hourObj[hour].team_member) $('#MondayHours' + userObj[user].t_number + '').text(hourObj[hour].selling_hours);
+            if (moment().add(2, 'days').format("YYYY-MM-DD") == hourObj[hour].date.substring(0, 10) && userObj[user].t_number == hourObj[hour].team_member) $('#TuesdayHours' + userObj[user].t_number + '').text(hourObj[hour].selling_hours);
+            if (moment().add(3, 'days').format("YYYY-MM-DD") == hourObj[hour].date.substring(0, 10) && userObj[user].t_number == hourObj[hour].team_member) $('#WednesdayHours' + userObj[user].t_number + '').text(hourObj[hour].selling_hours);
+            if (moment().add(4, 'days').format("YYYY-MM-DD") == hourObj[hour].date.substring(0, 10) && userObj[user].t_number == hourObj[hour].team_member) $('#ThursdayHours' + userObj[user].t_number + '').text(hourObj[hour].selling_hours);
+            if (moment().add(5, 'days').format("YYYY-MM-DD") == hourObj[hour].date.substring(0, 10) && userObj[user].t_number == hourObj[hour].team_member) $('#FridayHours' + userObj[user].t_number + '').text(hourObj[hour].selling_hours);
+            if (moment().add(6, 'days').format("YYYY-MM-DD") == hourObj[hour].date.substring(0, 10) && userObj[user].t_number == hourObj[hour].team_member) $('#SaturdayHours' + userObj[user].t_number + '').text(hourObj[hour].selling_hours);
+        }
+    }
+}
 
 //Get the current dates for the week
 function getDaysOfTheWeek() {
-    var today, todayNumber, mondayNumber, tuesdayNumber, wednesdayNumber, thursdayNumber, fridayNumber, saturdayNumber, sundayNumber, monday, tuesday, wednesday, thursday, friday, saturday, sunday;
-    today = new Date();
-    todayNumber = today.getDay();
-    mondayNumber = 1 - todayNumber;
-    tuesdayNumber = 2 - todayNumber;
-    wednesdayNumber = 3 - todayNumber;
-    thursdayNumber = 4 - todayNumber;
-    fridayNumber = 5 - todayNumber;
-    saturdayNumber = 6 - todayNumber;
-    sundayNumber = 7 - todayNumber;
+    var monday, tuesday, wednesday, thursday, friday, saturday, sunday;
 
-    monday = new Date(today.getFullYear(), today.getMonth(), today.getDate() + mondayNumber);
-    tuesday = new Date(today.getFullYear(), today.getMonth(), today.getDate() + tuesdayNumber);
-    wednesday = new Date(today.getFullYear(), today.getMonth(), today.getDate() + wednesdayNumber);
-    thursday = new Date(today.getFullYear(), today.getMonth(), today.getDate() + thursdayNumber);
-    friday = new Date(today.getFullYear(), today.getMonth(), today.getDate() + fridayNumber);
-    saturday = new Date(today.getFullYear(), today.getMonth(), today.getDate() + saturdayNumber);
-    sunday = new Date(today.getFullYear(), today.getMonth(), today.getDate() - sundayNumber);
+    sunday = moment().startOf('day').format('MMMM-DD');
+    monday = moment().add(1, 'days').format('MMMM-DD');
+    tuesday = moment().add(2, 'days').format('MMMM-DD');
+    wednesday = moment().add(3, 'days').format('MMMM-DD');
+    thursday = moment().add(4, 'days').format('MMMM-DD');
+    friday = moment().add(5, 'days').format('MMMM-DD');
+    saturday = moment().add(6, 'days').format('MMMM-DD');
 
-    var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-
-    $('#Sunday').text(monthNames[sunday.getMonth()] + ' ' + sunday.getDate());
-    $('#Monday').text(monthNames[monday.getMonth()] + ' ' + monday.getDate());
-    $('#Tuesday').text(monthNames[tuesday.getMonth()] + ' ' + tuesday.getDate());
-    $('#Wednesday').text(monthNames[wednesday.getMonth()] + ' ' + wednesday.getDate());
-    $('#Thursday').text(monthNames[thursday.getMonth()] + ' ' + thursday.getDate());
-    $('#Friday').text(monthNames[friday.getMonth()] + ' ' + friday.getDate());
-    $('#Saturday').text(monthNames[saturday.getMonth()] + ' ' + saturday.getDate());
+    $('#Sunday').text(sunday);
+    $('#Monday').text(monday);
+    $('#Tuesday').text(tuesday);
+    $('#Wednesday').text(wednesday);
+    $('#Thursday').text(thursday);
+    $('#Friday').text(friday);
+    $('#Saturday').text(saturday);
 }
 function applyFilter() {}
 
