@@ -3,7 +3,7 @@ extends ../layout
 block append stylesheet
     link(rel='stylesheet', href='/bower_components/bootstrap-daterangepicker/daterangepicker.css')
     link(rel='stylesheet', href='/stylesheets/selling-hours.css')
-
+    link(href='//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css', rel='stylesheet')
 block content
     .row
         .col-xs-12.col-md-10.col-md-offset-1
@@ -41,10 +41,10 @@ block content
             hr
     .panel.panel-primary
         .col-md-12
-            .table-responsive
+            .table-responsive.edit
                 table.table-condensed.table-bordered.table-nonfluid-report
                     thead
-                        tr
+                        tr(data-editable="true")
                             th
                             th Sunday
                             th Monday
@@ -56,8 +56,8 @@ block content
                             th Total
                             th Edit
                     tbody
-                        tr
-                            td
+                        tr(data-editable="true")
+                            td(data-editable="true")
                             th#Sunday
                             th#Monday
                             th#Tuesday
@@ -81,7 +81,45 @@ block content
                                 td
                                 td
                                     button.form-btn.btn.btn-lg.btn-block.btn-success(name='view', type='button') Edit
+    .col-md-12
+        .table-responsive.edit
+            table.table-condensed.table-bordered.table-nonfluid-report
+                thead
+                    tr
+                        th CTs
+                        th Revenue
+                        th AOTM
+                        th LS
+                tbody
+                    tr
+                        td#CTs
+                        td#Rev
+                        td#AOTM
+                        td#LS
+    .col-md-12
+        .table-responsive.edit
+            table.table-condensed.table-bordered.table-nonfluid-report
+                thead
+                    tr
+                        th
+                        th CC
+                        th SBS
+                        th Tablets
+                tbody
+                    tr
+                        td % to CTs
+                        th#CTCC
+                        th#CTSBS
+                        th#CTTB
+                    tr
+                        td Budgets
+                        th#BDCC
+                        th#BDSBS
+                        th#BDTB
+
+
 block append script
+    script(src='//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js')
     script(src='/bower_components/bootstrap-daterangepicker/moment.min.js')
     script(src='/bower_components/bootstrap-daterangepicker/daterangepicker.js')
     script(src='/javascripts/selling-hours/selling-hours.js')

@@ -58,13 +58,48 @@ $(function () {
 function displayEmployeeHours() {
     for (var user in userObj) {
         for (var hour in hourObj) {
-            if (moment().startOf('day').format("YYYY-MM-DD") == hourObj[hour].date.substring(0, 10) && userObj[user].t_number == hourObj[hour].team_member) $('#SundayHours' + userObj[user].t_number + '').text(hourObj[hour].selling_hours);
-            if (moment().add(1, 'days').format("YYYY-MM-DD") == hourObj[hour].date.substring(0, 10) && userObj[user].t_number == hourObj[hour].team_member) $('#MondayHours' + userObj[user].t_number + '').text(hourObj[hour].selling_hours);
-            if (moment().add(2, 'days').format("YYYY-MM-DD") == hourObj[hour].date.substring(0, 10) && userObj[user].t_number == hourObj[hour].team_member) $('#TuesdayHours' + userObj[user].t_number + '').text(hourObj[hour].selling_hours);
-            if (moment().add(3, 'days').format("YYYY-MM-DD") == hourObj[hour].date.substring(0, 10) && userObj[user].t_number == hourObj[hour].team_member) $('#WednesdayHours' + userObj[user].t_number + '').text(hourObj[hour].selling_hours);
-            if (moment().add(4, 'days').format("YYYY-MM-DD") == hourObj[hour].date.substring(0, 10) && userObj[user].t_number == hourObj[hour].team_member) $('#ThursdayHours' + userObj[user].t_number + '').text(hourObj[hour].selling_hours);
-            if (moment().add(5, 'days').format("YYYY-MM-DD") == hourObj[hour].date.substring(0, 10) && userObj[user].t_number == hourObj[hour].team_member) $('#FridayHours' + userObj[user].t_number + '').text(hourObj[hour].selling_hours);
-            if (moment().add(6, 'days').format("YYYY-MM-DD") == hourObj[hour].date.substring(0, 10) && userObj[user].t_number == hourObj[hour].team_member) $('#SaturdayHours' + userObj[user].t_number + '').text(hourObj[hour].selling_hours);
+            if (moment().startOf('day').format("YYYY-MM-DD") == hourObj[hour].date.substring(0, 10) && userObj[user].t_number == hourObj[hour].team_member) $('#SundayHours' + userObj[user].t_number + '').text(hourObj[hour].selling_hours).editable({
+                type: 'text',
+                pk: 1,
+                url: '/post',
+                title: 'Enter username'
+            });
+            if (moment().add(1, 'days').format("YYYY-MM-DD") == hourObj[hour].date.substring(0, 10) && userObj[user].t_number == hourObj[hour].team_member) $('#MondayHours' + userObj[user].t_number + '').text(hourObj[hour].selling_hours).editable({
+                type: 'text',
+                pk: 1,
+                url: '/post',
+                title: 'Enter username'
+            });
+            if (moment().add(2, 'days').format("YYYY-MM-DD") == hourObj[hour].date.substring(0, 10) && userObj[user].t_number == hourObj[hour].team_member) $('#TuesdayHours' + userObj[user].t_number + '').text(hourObj[hour].selling_hours).editable({
+                type: 'text',
+                pk: 1,
+                url: '/post',
+                title: 'Enter username'
+            });
+            if (moment().add(3, 'days').format("YYYY-MM-DD") == hourObj[hour].date.substring(0, 10) && userObj[user].t_number == hourObj[hour].team_member) $('#WednesdayHours' + userObj[user].t_number + '').text(hourObj[hour].selling_hours).editable({
+                type: 'text',
+                pk: 1,
+                url: '/post',
+                title: 'Enter username'
+            });
+            if (moment().add(4, 'days').format("YYYY-MM-DD") == hourObj[hour].date.substring(0, 10) && userObj[user].t_number == hourObj[hour].team_member) $('#ThursdayHours' + userObj[user].t_number + '').text(hourObj[hour].selling_hours).editable({
+                type: 'text',
+                pk: 1,
+                url: '/post',
+                title: 'Enter username'
+            });
+            if (moment().add(5, 'days').format("YYYY-MM-DD") == hourObj[hour].date.substring(0, 10) && userObj[user].t_number == hourObj[hour].team_member) $('#FridayHours' + userObj[user].t_number + '').text(hourObj[hour].selling_hours).editable({
+                type: 'text',
+                pk: 1,
+                url: '/post',
+                title: 'Enter username'
+            });
+            if (moment().add(6, 'days').format("YYYY-MM-DD") == hourObj[hour].date.substring(0, 10) && userObj[user].t_number == hourObj[hour].team_member) $('#SaturdayHours' + userObj[user].t_number + '').text(hourObj[hour].selling_hours).editable({
+                type: 'text',
+                pk: 1,
+                url: '/post',
+                title: 'Enter username'
+            });
         }
     }
 }
@@ -104,6 +139,59 @@ function getDaysOfTheWeek() {
     $('#Friday').text(friday);
     $('#Saturday').text(saturday);
 }
+$.fn.editable.defaults.mode = 'inline';
+$(document).ready(function () {
+    $('#CTs').editable({
+        type: 'text',
+        url: '',
+        title: 'Enter username'
+    });
+    $('#Rev').editable({
+        type: 'text',
+        url: '',
+        title: 'Enter username'
+    });
+    $('#AOTM').editable({
+        type: 'text',
+        url: '',
+        title: 'Enter username'
+    });
+    $('#LS').editable({
+        type: 'text',
+        url: '',
+        title: 'Enter username'
+    });
+    $('#CTCC').editable({
+        type: 'text',
+        url: '',
+        title: 'Enter username'
+    });
+    $('#CTSBS').editable({
+        type: 'text',
+        url: '',
+        title: 'Enter username'
+    });
+    $('#CTTB').editable({
+        type: 'text',
+        url: '',
+        title: 'Enter username'
+    });
+    $('#BDCC').editable({
+        type: 'text',
+        url: '',
+        title: 'Enter username'
+    });
+    $('#BDSBS').editable({
+        type: 'text',
+        url: '',
+        title: 'Enter username'
+    });
+    $('#BDTB').editable({
+        type: 'text',
+        url: '',
+        title: 'Enter username'
+    });
+});
 function applyFilter() {}
 
 //# sourceMappingURL=selling-hours.js.map
