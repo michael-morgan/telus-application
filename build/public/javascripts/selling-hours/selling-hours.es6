@@ -62,56 +62,75 @@ function displayEmployeeHours()
                 $('#SundayHours'+userObj[user].t_number+'').text(hourObj[hour].selling_hours).editable({
                     type: 'text',
                     pk: 1,
-                    url: '/post',
-                    title: 'Enter username'
+                    url: '/users/selling-hours',
+                    t_number: userObj[user].t_number,
+                    sellinghours: hourObj[hour].selling_hours,
+                    store_id: hourObj[hour].store_id
                 });
             if (moment().add(1, 'days').format("YYYY-MM-DD") == hourObj[hour].date.substring(0, 10)
                 && userObj[user].t_number == hourObj[hour].team_member)
                 $('#MondayHours'+userObj[user].t_number+'').text(hourObj[hour].selling_hours).editable({
                     type: 'text',
                     pk: 1,
-                    url: '/post',
-                    title: 'Enter username'
+                    url: '/users/selling-hours',
+                    t_number: userObj[user].t_number,
+                    sellinghours: hourObj[hour].selling_hours,
+                    store_id: hourObj[hour].store_id
                 });
             if (moment().add(2, 'days').format("YYYY-MM-DD") == hourObj[hour].date.substring(0, 10)
                 && userObj[user].t_number == hourObj[hour].team_member)
                 $('#TuesdayHours'+userObj[user].t_number+'').text(hourObj[hour].selling_hours).editable({
                     type: 'text',
                     pk: 1,
-                    url: '/post',
-                    title: 'Enter username'
+                    url: '/users/selling-hours',
+                    t_number: userObj[user].t_number,
+                    sellinghours: hourObj[hour].selling_hours,
+                    store_id: hourObj[hour].store_id
+
                 });
             if (moment().add(3, 'days').format("YYYY-MM-DD") == hourObj[hour].date.substring(0, 10)
                 && userObj[user].t_number == hourObj[hour].team_member)
                 $('#WednesdayHours'+userObj[user].t_number+'').text(hourObj[hour].selling_hours).editable({
                     type: 'text',
                     pk: 1,
-                    url: '/post',
-                    title: 'Enter username'
+                    url: '/users/selling-hours',
+                    t_number: userObj[user].t_number,
+                    sellinghours: hourObj[hour].selling_hours,
+                    store_id: hourObj[hour].store_id
+
                 });
             if (moment().add(4, 'days').format("YYYY-MM-DD") == hourObj[hour].date.substring(0, 10)
                 && userObj[user].t_number == hourObj[hour].team_member)
                 $('#ThursdayHours'+userObj[user].t_number+'').text(hourObj[hour].selling_hours).editable({
                     type: 'text',
                     pk: 1,
-                    url: '/post',
-                    title: 'Enter username'
+                    url: '/users/selling-hours',
+                    t_number: userObj[user].t_number,
+                    sellinghours: hourObj[hour].selling_hours,
+                    store_id: hourObj[hour].store_id
+
                 });
             if (moment().add(5, 'days').format("YYYY-MM-DD") == hourObj[hour].date.substring(0, 10)
                 && userObj[user].t_number == hourObj[hour].team_member)
                 $('#FridayHours'+userObj[user].t_number+'').text(hourObj[hour].selling_hours).editable({
                     type: 'text',
                     pk: 1,
-                    url: '/post',
-                    title: 'Enter username'
+                    url: '/users/selling-hours',
+                    t_number: userObj[user].t_number,
+                    sellinghours: hourObj[hour].selling_hours,
+                    store_id: hourObj[hour].store_id
+
                 });
             if (moment().add(6, 'days').format("YYYY-MM-DD") == hourObj[hour].date.substring(0, 10)
                 && userObj[user].t_number == hourObj[hour].team_member)
                 $('#SaturdayHours'+userObj[user].t_number+'').text(hourObj[hour].selling_hours).editable({
                     type: 'text',
                     pk: 1,
-                    url: '/post',
-                    title: 'Enter username'
+                    url: '/users/selling-hours',
+                    t_number: userObj[user].t_number,
+                    sellinghours: hourObj[hour].selling_hours,
+                    store_id: hourObj[hour].store_id
+
                 });
         }
     }

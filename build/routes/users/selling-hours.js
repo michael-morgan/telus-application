@@ -69,9 +69,7 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
 });
 
 router.post('/', ensureAuthenticated, function (req, res, next) {
-    var transactionId = req.body.id;
-
-    sellingHoursModel.updateHoursByID([req.body.hourEdited, req.body.teamMember, req.body.storeID], function (err, result) {
+    sellingHoursModel.updateHoursByID([req.body.sellinghours, req.body.t_number, req.body.store_id], function (err, result) {
         if (err) {
             return res.end('Error: ' + err.message);
         }
