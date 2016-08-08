@@ -60,6 +60,17 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
     });
 });
 
+router.post('/', ensureAuthenticated, (req, res, next) => {
+    let transactionId = req.body.id;
+
+    sellingHoursModel.updateHoursByID([req.body.hourEdited,req.body.teamMember,req.body.storeID], (err, result) => {
+        if (err) {
+            return res.end('Error: ' + err.message);
+        }
+        res.send(JSON.stringify(req.body));
+    });
+});
+
 // Ensure sure the user is authenticated
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) { return next(); }

@@ -2,59 +2,62 @@
   <library name="Generated files" type="javaScript">
     <properties>
       <sourceFilesUrls>
-        <item url="file://$PROJECT_DIR$/routes/users.js" />
+        <item url="file://$PROJECT_DIR$/public/javascripts/transactions/transactions.js" />
+        <item url="file://$PROJECT_DIR$/models/token.js" />
+        <item url="file://$PROJECT_DIR$/models/user.js" />
+        <item url="file://$PROJECT_DIR$/models/behaviour.js" />
+        <item url="file://$PROJECT_DIR$/models/observation.js" />
+        <item url="file://$PROJECT_DIR$/routes/users/transactions.js" />
+        <item url="file://$PROJECT_DIR$/models/store.js" />
+        <item url="file://$PROJECT_DIR$/models/transactions.js" />
+        <item url="file://$PROJECT_DIR$/public/javascripts/behaviours/add-behaviour.js" />
+        <item url="file://$PROJECT_DIR$/public/javascripts/behaviours/behaviours.js" />
+        <item url="file://$PROJECT_DIR$/public/javascripts/observations/observations.js" />
+        <item url="file://$PROJECT_DIR$/public/javascripts/observations/add-observation.js" />
+        <item url="file://$PROJECT_DIR$/public/javascripts/documentation.js" />
+        <item url="file://$PROJECT_DIR$/public/javascripts/hoe/npm.js" />
+        <item url="file://$PROJECT_DIR$/public/javascripts/hoe/hoe.js" />
         <item url="file://$PROJECT_DIR$/public/javascripts/binder.js" />
         <item url="file://$PROJECT_DIR$/routes/users/observations.js" />
         <item url="file://$PROJECT_DIR$/public/javascripts/sb-admin-2.js" />
-        <item url="file://$PROJECT_DIR$/public/javascripts/observations/add-observation.js" />
-        <item url="file://$PROJECT_DIR$/public/javascripts/hoe/hoe.js" />
-        <item url="file://$PROJECT_DIR$/public/javascripts/hoe/npm.js" />
-        <item url="file://$PROJECT_DIR$/models/user.js" />
-        <item url="file://$PROJECT_DIR$/public/javascripts/behaviours/behaviours.js" />
-        <item url="file://$PROJECT_DIR$/models/behaviour.js" />
-        <item url="file://$PROJECT_DIR$/models/observation.js" />
-        <item url="file://$PROJECT_DIR$/models/token.js" />
-        <item url="file://$PROJECT_DIR$/models/transactions.js" />
-        <item url="file://$PROJECT_DIR$/public/javascripts/transactions/add-transactions.js" />
-        <item url="file://$PROJECT_DIR$/public/javascripts/transactions/transactions.js" />
-        <item url="file://$PROJECT_DIR$/models/store.js" />
-        <item url="file://$PROJECT_DIR$/routes/users/binder.js" />
-        <item url="file://$PROJECT_DIR$/public/javascripts/modify-users.js" />
-        <item url="file://$PROJECT_DIR$/public/javascripts/documentation.js" />
-        <item url="file://$PROJECT_DIR$/routes/users/behaviours.js" />
-        <item url="file://$PROJECT_DIR$/public/javascripts/behaviours/add-behaviour.js" />
-        <item url="file://$PROJECT_DIR$/routes/users/transactions.js" />
-        <item url="file://$PROJECT_DIR$/public/javascripts/observations/observations.js" />
         <item url="file://$PROJECT_DIR$/routes/index.js" />
+        <item url="file://$PROJECT_DIR$/routes/users.js" />
+        <item url="file://$PROJECT_DIR$/public/javascripts/selling-hours/selling-hours.js" />
+        <item url="file://$PROJECT_DIR$/routes/users/binder.js" />
+        <item url="file://$PROJECT_DIR$/routes/users/selling-hours.js" />
+        <item url="file://$PROJECT_DIR$/routes/users/behaviours.js" />
+        <item url="file://$PROJECT_DIR$/public/javascripts/transactions/add-transactions.js" />
       </sourceFilesUrls>
     </properties>
     <CLASSES>
       <root url="file://$PROJECT_DIR$/models/store-compiled.js" />
       <root url="file://$PROJECT_DIR$/models/store-compiled.js" />
-      <root url="file://$PROJECT_DIR$/routes/users.js" />
-      <root url="file://$PROJECT_DIR$/public/javascripts/binder.js" />
-      <root url="file://$PROJECT_DIR$/routes/users/observations.js" />
-      <root url="file://$PROJECT_DIR$/public/javascripts/observations/add-observation.js" />
-      <root url="file://$PROJECT_DIR$/public/javascripts/behaviours/behaviours.js" />
-      <root url="file://$PROJECT_DIR$/models/transactions.js" />
-      <root url="file://$PROJECT_DIR$/public/javascripts/transactions/add-transactions.js" />
-      <root url="file://$PROJECT_DIR$/public/javascripts/transactions/transactions.js" />
-      <root url="file://$PROJECT_DIR$/models/store.js" />
-      <root url="file://$PROJECT_DIR$/routes/users/binder.js" />
       <root url="file://$PROJECT_DIR$/public/javascripts/modify-users.js" />
-      <root url="file://$PROJECT_DIR$/public/javascripts/documentation.js" />
-      <root url="file://$PROJECT_DIR$/routes/users/transactions.js" />
-      <root url="file://$PROJECT_DIR$/public/javascripts/sb-admin-2.js" />
-      <root url="file://$PROJECT_DIR$/public/javascripts/hoe/hoe.js" />
-      <root url="file://$PROJECT_DIR$/public/javascripts/hoe/npm.js" />
+      <root url="file://$PROJECT_DIR$/public/javascripts/transactions/transactions.js" />
+      <root url="file://$PROJECT_DIR$/models/token.js" />
       <root url="file://$PROJECT_DIR$/models/user.js" />
       <root url="file://$PROJECT_DIR$/models/behaviour.js" />
       <root url="file://$PROJECT_DIR$/models/observation.js" />
-      <root url="file://$PROJECT_DIR$/models/token.js" />
-      <root url="file://$PROJECT_DIR$/routes/users/behaviours.js" />
+      <root url="file://$PROJECT_DIR$/routes/users/transactions.js" />
+      <root url="file://$PROJECT_DIR$/models/store.js" />
+      <root url="file://$PROJECT_DIR$/models/transactions.js" />
       <root url="file://$PROJECT_DIR$/public/javascripts/behaviours/add-behaviour.js" />
+      <root url="file://$PROJECT_DIR$/public/javascripts/behaviours/behaviours.js" />
       <root url="file://$PROJECT_DIR$/public/javascripts/observations/observations.js" />
+      <root url="file://$PROJECT_DIR$/public/javascripts/observations/add-observation.js" />
+      <root url="file://$PROJECT_DIR$/public/javascripts/documentation.js" />
+      <root url="file://$PROJECT_DIR$/public/javascripts/hoe/npm.js" />
+      <root url="file://$PROJECT_DIR$/public/javascripts/hoe/hoe.js" />
+      <root url="file://$PROJECT_DIR$/public/javascripts/binder.js" />
+      <root url="file://$PROJECT_DIR$/routes/users/observations.js" />
+      <root url="file://$PROJECT_DIR$/public/javascripts/sb-admin-2.js" />
       <root url="file://$PROJECT_DIR$/routes/index.js" />
+      <root url="file://$PROJECT_DIR$/routes/users.js" />
+      <root url="file://$PROJECT_DIR$/public/javascripts/selling-hours/selling-hours.js" />
+      <root url="file://$PROJECT_DIR$/routes/users/binder.js" />
+      <root url="file://$PROJECT_DIR$/routes/users/selling-hours.js" />
+      <root url="file://$PROJECT_DIR$/routes/users/behaviours.js" />
+      <root url="file://$PROJECT_DIR$/public/javascripts/transactions/add-transactions.js" />
     </CLASSES>
     <SOURCES />
   </library>

@@ -68,7 +68,22 @@ function displayEmployeeHours() {
         }
     }
 }
+function updateUser() {
+    $.post("/users/selling-hours", {
+        t_member: tNumberInput.val(),
+        store_id: firstNameInput.val(),
+        selling_hours: lastNameInput.val()
+    }).done(function (result) {
+        var data = JSON.parse(result);
+        populateRow('#userRow' + data.t_number, data);
+    });
+}
 
+function populateRow(rowId, data) {
+    $(rowId).html('\n        <td>' + data.t_number + '</td>\n        <td>' + data.first_name + '</td>\n        <td>' + data.last_name + '</td>\n        <td>' + data.email + '</td>\n        <td>' + privileges.find(function (privilege) {
+        return privilege.value == data.title;
+    }).name + '</td>\n        <td>\n            <a class="btn btn-primary" href="#" aria-label="Edit" onclick=\'populateEditModal("#userRow' + data.t_number + '")\'>\n                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>\n            </a>\n        </td>\n        <td>\n            <input class="form-control" name=\'remove' + data.t_number + '\' type="checkbox">\n        </td>\n    ');
+}
 //Get the current dates for the week
 function getDaysOfTheWeek() {
     var monday, tuesday, wednesday, thursday, friday, saturday, sunday;

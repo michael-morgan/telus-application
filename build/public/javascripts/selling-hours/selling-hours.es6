@@ -81,7 +81,34 @@ function displayEmployeeHours()
         }
     }
 }
+function updateUser() {
+    $.post("/users/selling-hours", {
+        t_member: tNumberInput.val(),
+        store_id: firstNameInput.val(),
+        selling_hours: lastNameInput.val(),
+    }).done(function(result) {
+        let data = JSON.parse(result);
+        populateRow(`#userRow${data.t_number}`, data);
+    });
+}
 
+function populateRow(rowId, data) {
+    $(rowId).html(`
+        <td>${data.t_number}</td>
+        <td>${data.first_name}</td>
+        <td>${data.last_name}</td>
+        <td>${data.email}</td>
+        <td>${privileges.find((privilege) => privilege.value == data.title).name}</td>
+        <td>
+            <a class="btn btn-primary" href="#" aria-label="Edit" onclick='populateEditModal("#userRow${data.t_number}")'>
+                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+            </a>
+        </td>
+        <td>
+            <input class="form-control" name='remove${data.t_number}' type="checkbox">
+        </td>
+    `);
+}
 //Get the current dates for the week
 function getDaysOfTheWeek()
 {
