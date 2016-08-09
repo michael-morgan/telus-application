@@ -667,3 +667,32 @@ LOCK TABLES `addition_metrics_items` WRITE;
 INSERT INTO `addition_metrics_items` VALUES (1, 1, 1, 2),(2, 2, 2, 1),(3, 3, 5, 3);
 /*!40000 ALTER TABLE `addition_metrics_items` ENABLE KEYS */;
 UNLOCK TABLES;
+
+
+-- -----------------------------------------------------
+-- Table structure for table `budgets'
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `budgets`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `budgets` (
+	`budget_id` int(255) NOT NULL AUTO_INCREMENT,
+	`CTs` float(10,2),
+    `revenue` int(255) NOT NULL,
+    `aotm` float(10,3),
+    `ls` int(255) NOT NULL,
+    `date` date NOT NULL,
+    `store_id` varchar(4) NOT NULL,
+    PRIMARY KEY (`budget_id`)
+
+)	ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `budgets`
+--
+LOCK TABLES `budgets` WRITE;
+/*!40000 ALTER TABLE `budgets` DISABLE KEYS */;
+INSERT INTO `budgets` VALUES (1, 26.00, 2308, 3.25, 2, '2016-08-06', '6529'),(2, 24.00, 3250, 2.50, 4, '2016-08-13', '6529');
+/*!40000 ALTER TABLE `budgets` ENABLE KEYS */;
+UNLOCK TABLES;
