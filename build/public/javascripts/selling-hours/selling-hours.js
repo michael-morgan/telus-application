@@ -268,4 +268,5 @@ $(document).ready(function () {
 });
 function applyFilter() {}
 
+
 //# sourceMappingURL=selling-hours.js.map
