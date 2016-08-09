@@ -14,7 +14,7 @@
         <array />
       </option>
       <option name="outputFromStdout" value="false" />
-      <option name="program" value="$PROJECT_DIR$/node_modules/.bin/babel" />
+      <option name="program" value="$PROJECT_DIR$/node_modules/.bin/runbabel.cmd" />
       <option name="scopeName" value="build_scope" />
       <option name="trackOnlyRoot" value="true" />
       <option name="workingDir" value="$FileDir$" />

@@ -175,7 +175,7 @@ CREATE TABLE `stats` (
 --
 LOCK TABLES `stats` WRITE;
 /*!40000 ALTER TABLE `stats` DISABLE KEYS */;
-INSERT INTO `stats` VALUES (1,'t901159','6529','GNO',1,1,1,1,'0016-02-01'),(2,'t111111','6529','GNO',1,1,1,1,'0016-02-01');
+INSERT INTO `stats` VALUES (1,'t901159','6529','GNO',1,1,1,1,'2016-02-01'),(2,'t111111','6529','GNO',1,1,1,1,'2016-02-01');
 /*!40000 ALTER TABLE `stats` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -320,12 +320,13 @@ DROP TABLE IF EXISTS `selling_hours_schedule`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `selling_hours_schedule` (
-	`hours_id` int(255) NOT NULL AUTO_INCREMENT,
+	`hours_id` int NOT NULL AUTO_INCREMENT,
 	`team_member` varchar(7) NOT NULL,
     `date` date NOT NULL,
 	`store_id` varchar(4) NOT NULL,
     `selling_hours` float, 
-    PRIMARY KEY (`hours_id`)
+    PRIMARY KEY (`hours_id`),
+	CONSTRAINT `selling_hours_ibfk_1` FOREIGN KEY (`team_member`) REFERENCES `stores_util` (`t_number`)
 )	ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -334,7 +335,7 @@ CREATE TABLE `selling_hours_schedule` (
 --
 LOCK TABLES `selling_hours_schedule` WRITE;
 /*!40000 ALTER TABLE `selling_hours_schedule` DISABLE KEYS */;
-INSERT INTO `selling_hours_schedule` VALUES (1,'t123456','0016-02-01', '6587', 5),(2,'t123456','0016-02-02', '6587', 6),(3,'t123456','0016-02-03', '6587', 4),(4,'t123456','0016-02-04', '6587', 9),(5,'t123456','0016-02-05', '6587', 3);
+INSERT INTO `selling_hours_schedule` VALUES (1,'t111111',CURDATE(), '6529', 5),(2,'t1111111','2016-08-08', '6529', 6),(3,'t861370','2016-08-08', '6529', 4),(4,'t846956','2016-08-09', '6529', 9),(5,'t846956','2016-08-10', '6529', 3);
 /*!40000 ALTER TABLE `selling_hours_schedule` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -401,7 +402,7 @@ CREATE TABLE `results_to_send` (
 --
 LOCK TABLES `results_to_send` WRITE;
 /*!40000 ALTER TABLE `results_to_send` DISABLE KEYS */;
-INSERT INTO `results_to_send` VALUES (1,1,1,1,1,1,1,1,1,1,1,75,1,1,'0016-01-02','6587');
+INSERT INTO `results_to_send` VALUES (1,1,1,1,1,1,1,1,1,1,1,75,1,1,'2016-01-02','6587');
 /*!40000 ALTER TABLE `results_to_send` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -448,7 +449,7 @@ CREATE TABLE `wps_day` (
 --
 LOCK TABLES `wps_day` WRITE;
 /*!40000 ALTER TABLE `wps_day` DISABLE KEYS */;
-INSERT INTO `wps_day` VALUES (1,1,1,1,1,1,1,1,1,1,1,1,75,76,77,1,1,1,1,1,1,1,65,'0016-01-02','6587');
+INSERT INTO `wps_day` VALUES (1,1,1,1,1,1,1,1,1,1,1,1,75,76,77,1,1,1,1,1,1,1,65,'2016-01-02','6587');
 /*!40000 ALTER TABLE `wps_day` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -665,4 +666,33 @@ LOCK TABLES `addition_metrics_items` WRITE;
 /*!40000 ALTER TABLE `addition_metrics_items` DISABLE KEYS */;
 INSERT INTO `addition_metrics_items` VALUES (1, 1, 1, 2),(2, 2, 2, 1),(3, 3, 5, 3);
 /*!40000 ALTER TABLE `addition_metrics_items` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+-- -----------------------------------------------------
+-- Table structure for table `budgets'
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `budgets`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `budgets` (
+	`budget_id` int(255) NOT NULL AUTO_INCREMENT,
+	`CTs` float(10,2),
+    `revenue` int(255) NOT NULL,
+    `aotm` float(10,3),
+    `ls` int(255) NOT NULL,
+    `date` date NOT NULL,
+    `store_id` varchar(4) NOT NULL,
+    PRIMARY KEY (`budget_id`)
+
+)	ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `budgets`
+--
+LOCK TABLES `budgets` WRITE;
+/*!40000 ALTER TABLE `budgets` DISABLE KEYS */;
+INSERT INTO `budgets` VALUES (1, 26.00, 2308, 3.25, 2, '2016-08-06', '6529'),(2, 24.00, 3250, 2.50, 4, '2016-08-13', '6529');
+/*!40000 ALTER TABLE `budgets` ENABLE KEYS */;
 UNLOCK TABLES;

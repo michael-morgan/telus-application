@@ -130,6 +130,24 @@ html
                                             a(href='/users/transactions/add-transaction')
                                                 span.menu-text Add Transactions
                                                 span.selected
+                            li.hoe-has-menu
+                                a(href='#')
+                                    i.fa.fa-usd
+                                    span.menu-text Budget
+                                    span.selected
+                                ul.hoe-sub-menu
+                                    li
+                                        a(href='/users/selling-hours')
+                                            span.menu-text Selling Hours
+                                            span.selected
+                                        li
+                                            a(href='/users/wmp')
+                                                span.menu-text WMP
+                                                span.selected
+                                        li
+                                            a(href='/users/budgets')
+                                                span.menu-text Budgets
+                                                span.selected
                             if user.privileged >= 2
                                 li
                                     a(href='/users/settings')
