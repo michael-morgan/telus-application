@@ -2,8 +2,11 @@ build/.idea/
 build/.idea/watcherTasks.xml
 *.xml
 build/.idea/workspace.xml
+<<<<<<< HEAD
 build/.idea/workspace.xml
 *.xml
 build/.idea/workspace.xml
 build/.idea/workspace.xml
 *.xml
+=======
+>>>>>>> origin/build
