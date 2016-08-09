@@ -32,7 +32,16 @@ block content
             .col-xs-12.col-sm-6.col-lg-4.m-b-10.form-group
               label(for='passwordInput') Password
               i.fa.fa-question-circle(data-toggle='tooltip', data-placement='right', title='Leave blank if not updating password', aria-hidden='true', style='margin-left: 10px;')
-              input.form-control#passwordInput(name='passwordInput', type='password', value='', required)
+              input.form-control#passwordInput(name='passwordInput', type='password', value='', style='margin-bottom: 0;', required)
+            .col-xs-12.col-sm-6.col-lg-4.m-b-10.form-group
+              label(for='storeSelect') Store
+              select.form-control(id='storeSelect', name='storeSelect', required)
+                option(value='0') Select Store
+                each store, storeIndex in stores
+                  option(value='#{store.store_id}') #{store.store_name}
+            .col-xs-12.col-sm-6.col-lg-4.m-b-10.form-group
+              label(for='storeList') Store List
+              ul.list-group#storeList
 
         .modal-footer
           .row
@@ -118,3 +127,6 @@ block content
 
 block append script
   script(src='/javascripts/users/edit-users.js')
+  script.
+    var storesObj = JSON.parse('!{storesObj}');
+    var usersObj = JSON.parse('!{usersObj}');

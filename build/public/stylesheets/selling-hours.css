@@ -2,10 +2,12 @@
     width: 100%;
     height:100%;
 }
-
-.edit {
-    width: 100%;
+#store, #dateRange, .edit {
+    width: 100%!important;
 }
-.input-sm .form-control {
-    width: 50%!important;
+.input-sm, .form-control {
+    width: 5em!important;
+}
+.sellinghours {
+    width: 11em!important;
 }
