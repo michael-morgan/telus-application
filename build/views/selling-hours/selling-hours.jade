@@ -39,24 +39,24 @@ block content
                 input.form-control(type='text', id='dateRange', name='dateRange', aria-describedby='iconAddon')
         .col-xs-12.col-lg-10.col-lg-offset-1
             hr
-    .panel.panel-primary
-        .col-md-12
+    .row
+        .col-md-11.col-md-offset-1
             .table-responsive.edit
                 table.table-condensed.table-bordered.table-nonfluid-report
                     thead
-                        tr(data-editable="true")
+                        tr
                             th
-                            th Sunday
-                            th Monday
-                            th Tuesday
-                            th Wednesday
-                            th Thursday
-                            th Friday
-                            th Saturday
-                            th Total
+                            th.sellinghours Sunday
+                            th.sellinghours Monday
+                            th.sellinghours Tuesday
+                            th.sellinghours Wednesday
+                            th.sellinghours Thursday
+                            th.sellinghours Friday
+                            th.sellinghours Saturday
+                            th.sellinghours Total
                     tbody
-                        tr(data-editable="true")
-                            td(data-editable="true")
+                        tr
+                            td
                             th#Sunday
                             th#Monday
                             th#Tuesday
@@ -77,43 +77,44 @@ block content
                                 td(id='FridayHours'+'#{user.t_number}')
                                 td(id='SaturdayHours'+'#{user.t_number}')
                                 td
-
-    .col-md-3
-        .table-responsive.edit
-            table.table-condensed.table-bordered.table-nonfluid-report
-                thead
-                    tr
-                        th CTs
-                        th Revenue
-                        th AOTM
-                        th LS
-                tbody
-                    tr
-                        td#CTs
-                        td#Rev
-                        td#AOTM
-                        td#LS
-    .col-md-8
-        .table-responsive.edit
-            table.table-condensed.table-bordered.table-nonfluid-report
-                thead
-                    tr
-                        th
-                        th CC
-                        th SBS
-                        th Tablets
-                tbody
-                    tr
-                        td % to CTs
-                        th#CTCC
-                        th#CTSBS
-                        th#CTTB
-                    tr
-                        td Budgets
-                        th#BDCC
-                        th#BDSBS
-                        th#BDTB
-
+    br
+    .row
+        .col-md-3.col-md-offset-2
+            .table-responsive.edit
+                table.table-condensed.table-bordered.table-nonfluid-report.pull-right
+                    thead
+                        tr
+                            th.sellinghours CTs
+                            th.sellinghours Revenue
+                            th.sellinghours AOTM
+                            th.sellinghours LS
+                    tbody
+                        tr
+                            td#CTs
+                            td#Rev
+                            td#AOTM
+                            td#LS
+        .col-md-5
+            .table-responsive.edit
+                table.table-condensed.table-bordered.table-nonfluid-report
+                    thead
+                        tr
+                            th
+                            th.sellinghours CC
+                            th.sellinghours SBS
+                            th.sellinghours Tablets
+                    tbody
+                        tr
+                            th % to CTs
+                            td#CTCC
+                            td#CTSBS
+                            td#CTTB
+                        tr
+                            th Budgets
+                            td#BDCC
+                            td#BDSBS
+                            td#BDTB
+    br
 
 block append script
     script(src='//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js')
