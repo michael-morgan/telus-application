@@ -266,7 +266,7 @@ $(document).ready(function () {
         emptytext: '&nbsp;'
     });
 });
-function applyFilter() {}
 
+function applyFilter() {}
 
 //# sourceMappingURL=selling-hours.js.map
