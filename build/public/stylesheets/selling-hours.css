@@ -6,3 +6,6 @@
 .edit {
     width: 100%;
 }
+.input-sm .form-control {
+    width: 50%!important;
+}

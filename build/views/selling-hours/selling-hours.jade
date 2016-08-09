@@ -54,7 +54,6 @@ block content
                             th Friday
                             th Saturday
                             th Total
-                            th Edit
                     tbody
                         tr(data-editable="true")
                             td(data-editable="true")
@@ -65,7 +64,6 @@ block content
                             th#Thursday
                             th#Friday
                             th#Saturday
-                            th
                             th
                         script(src='/bower_components/bootstrap-daterangepicker/moment.min.js')
                         each user, userIndex in users
@@ -79,9 +77,8 @@ block content
                                 td(id='FridayHours'+'#{user.t_number}')
                                 td(id='SaturdayHours'+'#{user.t_number}')
                                 td
-                                td
-                                    button.form-btn.btn.btn-lg.btn-block.btn-success(name='view', type='button') Edit
-    .col-md-12
+
+    .col-md-3
         .table-responsive.edit
             table.table-condensed.table-bordered.table-nonfluid-report
                 thead
@@ -96,7 +93,7 @@ block content
                         td#Rev
                         td#AOTM
                         td#LS
-    .col-md-12
+    .col-md-8
         .table-responsive.edit
             table.table-condensed.table-bordered.table-nonfluid-report
                 thead
