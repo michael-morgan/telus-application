@@ -55,7 +55,6 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
                 } //end if)
                 returnObj['hours'] = result;
                 returnObj['hoursObj'] = JSON.stringify(result);
-                console.log(result);
                 if (req.session.success) {
                     req.flash('success_messages', 'Transaction successfully added!');
                     //res.locals.success_messages = req.flash('success_messages');
@@ -69,7 +68,16 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
 });
 
 router.post('/', ensureAuthenticated, function (req, res, next) {
-    sellingHoursModel.updateHoursByID([req.body.sellinghours, req.body.t_number, req.body.store_id], function (err, result) {
+    var data = req.body.name;
+    console.log(data);
+    data = data.split(',');
+    console.log(data);
+    console.log(req.body.value);
+    console.log(data[1]);
+    console.log(data[2]);
+    console.log(data[3]);
+
+    sellingHoursModel.updateHoursByID([req.body.value, data[1], data[2], data[3]], function (err, result) {
         if (err) {
             return res.end('Error: ' + err.message);
         }

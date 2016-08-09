@@ -62,62 +62,103 @@ function displayEmployeeHours() {
                 type: 'text',
                 pk: 1,
                 url: '/users/selling-hours',
+                name: hourObj[hour].selling_hours + ',' + userObj[user].t_number + ',' + hourObj[hour].store_id + ',' + hourObj[hour].date.substring(0, 10),
                 t_number: userObj[user].t_number,
                 sellinghours: hourObj[hour].selling_hours,
-                store_id: hourObj[hour].store_id
+                store_id: hourObj[hour].store_id,
+                value: hourObj[hour].selling_hours,
+                send: 'always',
+                success: function success(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
             });
             if (moment().add(1, 'days').format("YYYY-MM-DD") == hourObj[hour].date.substring(0, 10) && userObj[user].t_number == hourObj[hour].team_member) $('#MondayHours' + userObj[user].t_number + '').text(hourObj[hour].selling_hours).editable({
                 type: 'text',
                 pk: 1,
                 url: '/users/selling-hours',
+                name: hourObj[hour].selling_hours + ',' + userObj[user].t_number + ',' + hourObj[hour].store_id + ',' + hourObj[hour].date.substring(0, 10),
                 t_number: userObj[user].t_number,
                 sellinghours: hourObj[hour].selling_hours,
-                store_id: hourObj[hour].store_id
+                value: hourObj[hour].selling_hours,
+                store_id: hourObj[hour].store_id,
+                send: 'always',
+                success: function success(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
             });
             if (moment().add(2, 'days').format("YYYY-MM-DD") == hourObj[hour].date.substring(0, 10) && userObj[user].t_number == hourObj[hour].team_member) $('#TuesdayHours' + userObj[user].t_number + '').text(hourObj[hour].selling_hours).editable({
                 type: 'text',
                 pk: 1,
                 url: '/users/selling-hours',
+                name: hourObj[hour].selling_hours + ',' + userObj[user].t_number + ',' + hourObj[hour].store_id + ',' + hourObj[hour].date.substring(0, 10),
                 t_number: userObj[user].t_number,
                 sellinghours: hourObj[hour].selling_hours,
-                store_id: hourObj[hour].store_id
+                value: hourObj[hour].selling_hours,
+                store_id: hourObj[hour].store_id,
+                send: 'always',
+                success: function success(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
 
             });
             if (moment().add(3, 'days').format("YYYY-MM-DD") == hourObj[hour].date.substring(0, 10) && userObj[user].t_number == hourObj[hour].team_member) $('#WednesdayHours' + userObj[user].t_number + '').text(hourObj[hour].selling_hours).editable({
                 type: 'text',
                 pk: 1,
                 url: '/users/selling-hours',
+                name: hourObj[hour].selling_hours + ',' + userObj[user].t_number + ',' + hourObj[hour].store_id + ',' + hourObj[hour].date.substring(0, 10),
                 t_number: userObj[user].t_number,
                 sellinghours: hourObj[hour].selling_hours,
-                store_id: hourObj[hour].store_id
+                value: hourObj[hour].selling_hours,
+                store_id: hourObj[hour].store_id,
+                send: 'always',
+                success: function success(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
 
             });
             if (moment().add(4, 'days').format("YYYY-MM-DD") == hourObj[hour].date.substring(0, 10) && userObj[user].t_number == hourObj[hour].team_member) $('#ThursdayHours' + userObj[user].t_number + '').text(hourObj[hour].selling_hours).editable({
                 type: 'text',
                 pk: 1,
                 url: '/users/selling-hours',
+                name: hourObj[hour].selling_hours + ',' + userObj[user].t_number + ',' + hourObj[hour].store_id + ',' + hourObj[hour].date.substring(0, 10),
                 t_number: userObj[user].t_number,
                 sellinghours: hourObj[hour].selling_hours,
-                store_id: hourObj[hour].store_id
+                value: hourObj[hour].selling_hours,
+                store_id: hourObj[hour].store_id,
+                send: 'always',
+                success: function success(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
 
             });
             if (moment().add(5, 'days').format("YYYY-MM-DD") == hourObj[hour].date.substring(0, 10) && userObj[user].t_number == hourObj[hour].team_member) $('#FridayHours' + userObj[user].t_number + '').text(hourObj[hour].selling_hours).editable({
                 type: 'text',
                 pk: 1,
                 url: '/users/selling-hours',
+                name: hourObj[hour].selling_hours + ',' + userObj[user].t_number + ',' + hourObj[hour].store_id + ',' + hourObj[hour].date.substring(0, 10),
                 t_number: userObj[user].t_number,
                 sellinghours: hourObj[hour].selling_hours,
-                store_id: hourObj[hour].store_id
+                value: hourObj[hour].selling_hours,
+                store_id: hourObj[hour].store_id,
+                send: 'always',
+                success: function success(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
 
             });
             if (moment().add(6, 'days').format("YYYY-MM-DD") == hourObj[hour].date.substring(0, 10) && userObj[user].t_number == hourObj[hour].team_member) $('#SaturdayHours' + userObj[user].t_number + '').text(hourObj[hour].selling_hours).editable({
                 type: 'text',
                 pk: 1,
                 url: '/users/selling-hours',
+                name: hourObj[hour].selling_hours + ',' + userObj[user].t_number + ',' + hourObj[hour].store_id + ',' + hourObj[hour].date.substring(0, 10),
                 t_number: userObj[user].t_number,
                 sellinghours: hourObj[hour].selling_hours,
-                store_id: hourObj[hour].store_id
-
+                value: hourObj[hour].selling_hours,
+                store_id: hourObj[hour].store_id,
+                send: 'always',
+                success: function success(response, newValue) {
+                    if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
             });
         }
     }

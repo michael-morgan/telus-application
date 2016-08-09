@@ -26,7 +26,7 @@ exports.getHoursByStoreIDForCurrentWeek = (id,done) => {
 };
 
 exports.updateHoursByID = (values, done) => {
-    connection.get().query('UPDATE selling_hours_schedule SET selling_hours = ? WHERE team_member = ? AND store_id = ?', values, (error, result) => {
+    connection.get().query('UPDATE selling_hours_schedule SET selling_hours = ? WHERE team_member = ? AND store_id = ? and date = ?', values, (error, result) => {
         if(error) {
             return done(error);
         }

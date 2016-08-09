@@ -16,9 +16,7 @@ exports.create = function (hours, done) {
 };
 
 exports.getHoursByStoreIDForCurrentWeek = function (id, done) {
-    connection.get().query('SELECT * FROM selling_hours_schedule INNER JOIN stores_util ON selling_hours_schedule.team_member = stores_util.t_number '
-        + 'WHERE selling_hours_schedule.store_id = stores_util.store_id AND selling_hours_schedule.store_id = ? '
-        + 'AND YEARWEEK(selling_hours_schedule.date, 0) = YEARWEEK(CURDATE(), 0)', id, function (error, result) {
+    connection.get().query('SELECT * FROM selling_hours_schedule INNER JOIN stores_util ON selling_hours_schedule.team_member = stores_util.t_number ' + 'WHERE selling_hours_schedule.store_id = stores_util.store_id AND selling_hours_schedule.store_id = ? ' + 'AND YEARWEEK(selling_hours_schedule.date, 0) = YEARWEEK(CURDATE(), 0)', id, function (error, result) {
         if (error) {
             return done(error);
         }
@@ -28,7 +26,7 @@ exports.getHoursByStoreIDForCurrentWeek = function (id, done) {
 };
 
 exports.updateHoursByID = function (values, done) {
-    connection.get().query('UPDATE selling_hours_schedule SET selling_hours = ? WHERE team_member = ? AND store_id = ?', values, function (error, result) {
+    connection.get().query('UPDATE selling_hours_schedule SET selling_hours = ? WHERE team_member = ? AND store_id = ? and date = ?', values, function (error, result) {
         if (error) {
             return done(error);
         }
