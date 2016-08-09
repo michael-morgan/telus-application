@@ -18,6 +18,7 @@
         <item url="file://$PROJECT_DIR$/public/javascripts/hoe/npm.js" />
         <item url="file://$PROJECT_DIR$/public/javascripts/hoe/hoe.js" />
         <item url="file://$PROJECT_DIR$/public/javascripts/binder.js" />
+        <item url="file://$PROJECT_DIR$/models/selling-hours.js" />
         <item url="file://$PROJECT_DIR$/routes/users/observations.js" />
         <item url="file://$PROJECT_DIR$/public/javascripts/sb-admin-2.js" />
         <item url="file://$PROJECT_DIR$/routes/index.js" />
@@ -49,6 +50,7 @@
       <root url="file://$PROJECT_DIR$/public/javascripts/hoe/npm.js" />
       <root url="file://$PROJECT_DIR$/public/javascripts/hoe/hoe.js" />
       <root url="file://$PROJECT_DIR$/public/javascripts/binder.js" />
+      <root url="file://$PROJECT_DIR$/models/selling-hours.js" />
       <root url="file://$PROJECT_DIR$/routes/users/observations.js" />
       <root url="file://$PROJECT_DIR$/public/javascripts/sb-admin-2.js" />
       <root url="file://$PROJECT_DIR$/routes/index.js" />
