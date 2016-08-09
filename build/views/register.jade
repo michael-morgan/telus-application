@@ -50,7 +50,7 @@ block content
                 option(value='3') Manager
                 option(value='4') Area Manager
             .col-xs-12.col-sm-10.col-sm-offset-1.m-b-10
-              select.formInput.privilegedDropdown(required id='storeSelect' name='storeSelect')
+              select.formInput.privilegedDropdown(id='storeSelect',  name='storeSelect', required)
                 option(value='0') Select Store
                 each store, storeIndex in stores
                   option(value='#{store.store_id}') #{store.store_name}

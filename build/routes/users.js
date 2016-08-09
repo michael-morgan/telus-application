@@ -262,15 +262,44 @@ router.get('/edit', ensureAuthenticated, function (req, res, next) {
         return res.redirect('/users/');
     }
 
-    //Connect to the database and get all the user to show the user the list of deletable users
-    userModel.getAll(function (err, results) {
+    var returnObj = { title: 'Edit' };
+
+    storesModel.getStores(function (err, storeResults) {
         if (err) {
             throw next(err);
         }
 
-        res.render('edit', {
-            title: 'Edit',
-            users: results
+        returnObj['stores'] = storeResults;
+        returnObj['storesObj'] = JSON.stringify(storeResults);
+
+        storesModel.getStoresUtil(function (err, storesUtilResults) {
+            if (err) {
+                throw next(err);
+            }
+
+            var storesUtilObj = storesUtilResults;
+
+            //Connect to the database and get all the user to show the user the list of deletable users
+            userModel.getAll(function (err, userResults) {
+                if (err) {
+                    throw next(err);
+                }
+
+                returnObj['users'] = [];
+                userResults.forEach(function (user) {
+                    delete user['password'];
+
+                    user['stores'] = storesUtilObj.filter(function (store) {
+                        return store.t_number == user.t_number;
+                    });
+
+                    returnObj['users'].push(user);
+                });
+
+                returnObj['usersObj'] = JSON.stringify(returnObj['users']);
+
+                res.render('edit', returnObj);
+            });
         });
     });
 });
@@ -289,7 +318,34 @@ router.post('/edit', ensureAuthenticated, function (req, res, next) {
         }
 
         console.log('Updated user ' + req.body.t_number);
-        res.send(JSON.stringify(req.body));
+
+        storesModel.deleteStores(req.body.t_number, function (err, result) {
+            //If an error is thrown
+            if (err) {
+                console.log('Error deleting stores');
+            }
+
+            var stores = JSON.parse(req.body.stores);
+
+            //Create a user object
+            var storeObjArr = [];
+
+            for (var store in stores) {
+                if (!stores.hasOwnProperty(store)) {
+                    continue;
+                }
+                storeObjArr[store] = [req.body.t_number, stores[store].store_id];
+            }
+
+            storesModel.addStore(storeObjArr, function (err, result) {
+                //If an error is thrown
+                if (err) {
+                    console.log('Error updating stores');
+                }
+
+                res.send(JSON.stringify(req.body));
+            });
+        });
     });
 });
 
