@@ -61,19 +61,35 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
 
 router.post('/', ensureAuthenticated, (req, res, next) => {
     var data = req.body.name;
-    console.log(data);
     data = data.split(',');
-    console.log(data);
-    console.log(req.body.value);
-    console.log(data[1]);
-    console.log(data[2]);
-    console.log(data[3]);
-
-    sellingHoursModel.updateHoursByID([req.body.value,data[1],data[2],data[3]], (err, result) => {
+    //Update selling hours
+    sellingHoursModel.updateHoursByID([req.body.value,data[0],data[1],data[2]], (err, result) => {
         if (err) {
             return res.end('Error: ' + err.message);
         }
-        res.send(JSON.stringify(req.body));
+        //No rows affected, guess we have to insert
+        if(result == 0)
+        {
+            console.log("Selling Hours: "+req.body.value);
+            console.log("team_member: "+ data[0]);
+            console.log("store_id: "+ data[1]);
+            console.log("date: "+ data[2]);
+
+            var hours = {
+                selling_hours: req.body.value,
+                team_member: data[0],
+                store_id: data[1],
+                date: data[2]
+            };
+            sellingHoursModel.create(hours, (err, result) => {
+                if (err) {
+                    return res.end('Error: ' + err.message);
+                }
+                res.send(JSON.stringify(req.body));
+            });
+        }
+        else
+            res.send(JSON.stringify(req.body));
     });
 });
 
