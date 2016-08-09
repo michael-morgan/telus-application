@@ -676,16 +676,16 @@ DROP TABLE IF EXISTS `budgets`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `budgets` (
-	`budget_id` int(255) NOT NULL AUTO_INCREMENT,
+	`budget_id` int NOT NULL AUTO_INCREMENT,
 	`CTs` float(10,2),
-    `revenue` int(255) NOT NULL,
+    `revenue` int(255) ,
     `aotm` float(10,3),
-    `ls` int(255) NOT NULL,
-    `date` date NOT NULL,
-    `store_id` varchar(4) NOT NULL,
+    `ls` int(255),
+    `date` date,
+    `store_id` varchar(4),
     PRIMARY KEY (`budget_id`)
 
-)	ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+)	ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

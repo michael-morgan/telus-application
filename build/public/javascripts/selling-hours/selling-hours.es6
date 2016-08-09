@@ -12,7 +12,7 @@ $(() => {
     displayEmployeeHours();
     console.debug(storesArray);
     console.debug(userObj);
-    //console.debug(hourObj);
+    console.debug(hourObj);
     //Hide the delete message until a transaction has been removed
     $('#deleteMessage').hide();
 
@@ -30,23 +30,16 @@ $(() => {
 
     $('#dateRange').daterangepicker({
         "showWeekNumbers": true,
-        "showCustomRangeLabel": false,
-        "alwaysShowCalendars": true,
+        "singleDatePicker": true,
         "startDate": startDate = moment().startOf('day'),
-        "endDate": endDate = moment().add(7, 'days'),
         "opens": "center",
-        locale: {
-            format: "MMMM D, YYYY"
-        }
+
     }, function(start, end, label) {
         console.log("New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')");
         startDate = start;
         endDate = end;
 
         applyFilter();//
-
-        //Render the transactions and edit the HTML based on team member drop down
-        renderTransactions(teamMember.val(), userObj, storeObj[0].privileged, filteredArray);
     });
 
     //Trigger the drop down change function to load the HTML
@@ -288,55 +281,52 @@ $.fn.editable.defaults.mode = 'inline';
 $(document).ready(function() {
     $('#CTs').editable({
         type: 'text',
-        url: '',
-        emptytext: '&nbsp;'
+        pk: 1,
+        url: '/users/selling-hours/budgets',
+        name: 'CTs' + ',' + moment().format("YYYY-MM-DD") + ',' +storesArray[0].store_id,
+        value:'',
+        emptytext:'&nbsp;',
+        send: 'always',
+        success: function (response, newValue) {
+            if (response.status == 'error') return response.msg; //msg will be shown in editable form
+        }
     });
     $('#Rev').editable({
         type: 'text',
-        url: '',
-        emptytext: '&nbsp;'
+        pk: 1,
+        url: '/users/selling-hours/budgets',
+        name: 'revenue' + ',' + moment().format("YYYY-MM-DD") + ',' +storesArray[0].store_id,
+        value:'',
+        emptytext:'&nbsp;',
+        send: 'always',
+        success: function (response, newValue) {
+            if (response.status == 'error') return response.msg; //msg will be shown in editable form
+        }
     });
     $('#AOTM').editable({
         type: 'text',
-        url: '',
-        emptytext: '&nbsp;'
+        pk: 1,
+        url: '/users/selling-hours/budgets',
+        name: 'aotm' + ',' + moment().format("YYYY-MM-DD") + ',' +storesArray[0].store_id,
+        value:'',
+        emptytext:'&nbsp;',
+        send: 'always',
+        success: function (response, newValue) {
+            if (response.status == 'error') return response.msg; //msg will be shown in editable form
+        }
     });
     $('#LS').editable({
         type: 'text',
-        url: '',
-        emptytext: '&nbsp;'
+        pk: 1,
+        url: '/users/selling-hours/budgets',
+        name: 'ls' + ',' + moment().format("YYYY-MM-DD") + ',' +storesArray[0].store_id,
+        value:'',
+        emptytext:'&nbsp;',
+        send: 'always',
+        success: function (response, newValue) {
+            if (response.status == 'error') return response.msg; //msg will be shown in editable form
+        }
     });
-    $('#CTCC').editable({
-        type: 'text',
-        url: '',
-        emptytext: '&nbsp;'
-    });
-    $('#CTSBS').editable({
-        type: 'text',
-        url: '',
-        emptytext: '&nbsp;'
-    });
-    $('#CTTB').editable({
-        type: 'text',
-        url: '',
-        emptytext: '&nbsp;'
-    });
-    $('#BDCC').editable({
-        type: 'text',
-        url: '',
-        emptytext: '&nbsp;'
-    });
-    $('#BDSBS').editable({
-        type: 'text',
-        url: '',
-        emptytext: '&nbsp;'
-    });
-    $('#BDTB').editable({
-        type: 'text',
-        url: '',
-        emptytext: '&nbsp;'
-    });
-
 });
 
 function applyFilter() {}

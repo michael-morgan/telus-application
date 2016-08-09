@@ -13,7 +13,6 @@ var sellingHoursModel = require('../../models/selling-hours');
 var returnObj = {};
 var router = express.Router();
 
-// Get for behaviours and show them for each skill
 router.get('/', ensureAuthenticated, function (req, res, next) {
     returnObj['message'] = undefined;
     var storeIds = [];
@@ -48,7 +47,6 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
             returnObj['users'] = result;
             returnObj['usersObj'] = JSON.stringify(result);
             returnObj['selectedEmployee'] = req.user.t_number;
-            //Display success message on adding a transaction
             sellingHoursModel.getHoursByStoreIDForCurrentWeek(req.session.store_id, function (err, result) {
                 if (err) {
                     throw next(err);
@@ -75,6 +73,7 @@ router.post('/', ensureAuthenticated, function (req, res, next) {
         if (err) {
             return res.end('Error: ' + err.message);
         }
+
         //No rows affected, guess we have to insert
         if (result == 0) {
             console.log("Selling Hours: " + req.body.value);
@@ -95,6 +94,69 @@ router.post('/', ensureAuthenticated, function (req, res, next) {
                 res.send(JSON.stringify(req.body));
             });
         } else res.send(JSON.stringify(req.body));
+    });
+});
+
+router.post('/budgets', ensureAuthenticated, function (req, res, next) {
+    var data = req.body.name;
+    data = data.split(',');
+
+    sellingHoursModel.getBudgets([data[1], data[2]], function (err, result) {
+        if (err) {
+            return res.end('Error: ' + err.message);
+        }
+
+        var budget = {
+            CTs: undefined,
+            revenue: undefined,
+            aotm: undefined,
+            ls: undefined,
+            date: data[1],
+            store_id: data[2]
+        };
+
+        //Update
+        if (result != 0) {
+            budget['CTs'] = result[0].CTs;
+            budget['revenue'] = result[0].revenue;
+            budget['aotm'] = result[0].aotm;
+            budget['ls'] = result[0].ls;
+        }
+
+        var budgetType = data[0];
+        switch (budgetType) {
+            case 'CTs':
+                budget['CTs'] = req.body.value;
+                break;
+            case 'revenue':
+                budget['revenue'] = req.body.value;
+                break;
+            case 'aotm':
+                budget['aotm'] = req.body.value;
+                break;
+            case 'ls':
+                budget['ls'] = req.body.value;
+                break;
+        }
+
+        console.log(budget);
+
+        if (result == 0) {
+            sellingHoursModel.createBudgets(budget, function (err, result) {
+                if (err) {
+                    return res.end('Error creating: ' + err.message);
+                }
+                res.send(JSON.stringify(req.body));
+            });
+        } else {
+            sellingHoursModel.updateBudgets([budget['CTs'], budget['revenue'], budget['aotm'], budget['ls'], budget['date'], budget['store_id']], function (err, result) {
+                if (err) {
+                    return res.end('Error updating: ' + err.message);
+                }
+
+                res.send(JSON.stringify(req.body));
+            });
+        }
     });
 });
 

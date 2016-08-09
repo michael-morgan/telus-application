@@ -34,3 +34,46 @@ exports.updateHoursByID = (values, done) => {
         done(null, result.changedRows);
     });
 };
+
+exports.getBudgets = (values, done) => {
+    connection.get().query('SELECT * FROM budgets WHERE date = ? AND store_id = ?', values, (error, result) => {
+        if(error) {
+            return done(error);
+        }
+
+        done(null, result);
+    });
+};
+
+exports.createBudgets = (budget, done) => {
+    connection.get().query('INSERT INTO `budgets` SET ?', [budget], (error, result) => {
+        if(error) {
+            console.log(error)
+            return done(error);
+        }
+
+        done(null, result.insertId);
+    });
+};
+
+exports.updateBudgets = (values, done) => {
+    connection.get().query('UPDATE `budgets` SET CTs = ?, revenue = ?, aotm = ?, ls = ? WHERE date = ? AND store_id = ?', values, (error, result) => {
+        if(error) {
+            console.log(error);
+            return done(error);
+        }
+
+        done(null, result.changedRows);
+    });
+};
+
+exports.getCTs = (values, done) => {
+    connection.get().query('SELECT CTs FROM budgets WHERE date = ? AND store_id = ?', values, (error, result) => {
+        if(error) {
+            return done(error);
+        }
+
+        done(null, result);
+    });
+};
+

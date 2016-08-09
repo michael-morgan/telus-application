@@ -35,4 +35,46 @@ exports.updateHoursByID = function (values, done) {
     });
 };
 
+exports.getBudgets = function (values, done) {
+    connection.get().query('SELECT * FROM budgets WHERE date = ? AND store_id = ?', values, function (error, result) {
+        if (error) {
+            return done(error);
+        }
+
+        done(null, result);
+    });
+};
+
+exports.createBudgets = function (budget, done) {
+    connection.get().query('INSERT INTO `budgets` SET ?', [budget], function (error, result) {
+        if (error) {
+            console.log(error);
+            return done(error);
+        }
+
+        done(null, result.insertId);
+    });
+};
+
+exports.updateBudgets = function (values, done) {
+    connection.get().query('UPDATE `budgets` SET CTs = ?, revenue = ?, aotm = ?, ls = ? WHERE date = ? AND store_id = ?', values, function (error, result) {
+        if (error) {
+            console.log(error);
+            return done(error);
+        }
+
+        done(null, result.changedRows);
+    });
+};
+
+exports.getCTs = function (values, done) {
+    connection.get().query('SELECT CTs FROM budgets WHERE date = ? AND store_id = ?', values, function (error, result) {
+        if (error) {
+            return done(error);
+        }
+
+        done(null, result);
+    });
+};
+
 //# sourceMappingURL=selling-hours.js.map
