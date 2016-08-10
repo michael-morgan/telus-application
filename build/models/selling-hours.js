@@ -15,8 +15,8 @@ exports.create = function (hours, done) {
     });
 };
 
-exports.getHoursByStoreIDForCurrentWeek = function (id, done) {
-    connection.get().query('SELECT * FROM selling_hours_schedule INNER JOIN stores_util ON selling_hours_schedule.team_member = stores_util.t_number ' + 'WHERE selling_hours_schedule.store_id = stores_util.store_id AND selling_hours_schedule.store_id = ? ' + 'AND YEARWEEK(selling_hours_schedule.date, 0) = YEARWEEK(CURDATE(), 0)', id, function (error, result) {
+exports.getAllHours = function (id, done) {
+    connection.get().query('SELECT * FROM selling_hours_schedule INNER JOIN stores_util ON selling_hours_schedule.team_member = stores_util.t_number ' + 'WHERE selling_hours_schedule.store_id = stores_util.store_id ' + 'AND YEARWEEK(selling_hours_schedule.date, 0) = YEARWEEK(CURDATE(), 0)', id, function (error, result) {
         if (error) {
             return done(error);
         }
@@ -35,7 +35,7 @@ exports.updateHoursByID = function (values, done) {
     });
 };
 
-exports.getBudgets = function (values, done) {
+exports.getBudgetsWithStore = function (values, done) {
     connection.get().query('SELECT * FROM budgets WHERE date = ? AND store_id = ?', values, function (error, result) {
         if (error) {
             return done(error);
@@ -68,9 +68,8 @@ exports.updateBudgets = function (values, done) {
 };
 
 exports.getBudgets = function (values, done) {
-    connection.get().query('SELECT CTs, revenue, aotm, ls FROM budgets WHERE date = ? AND store_id = ?', values, function (error, result) {
+    connection.get().query('SELECT * FROM budgets WHERE date = ?', values, function (error, result) {
         if (error) {
-            console.log(error);
             return done(error);
         }
 

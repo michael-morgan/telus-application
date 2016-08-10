@@ -27,7 +27,7 @@ block content
             label(for='store') Store:
             select.form-control(id='store', name='store')
                 each store, storeIndex in stores
-                    option(value='#{store.store_id}' selected) #{store.store_name}
+                    option(value='#{store.store_id}') #{store.store_name}
         .col-xs-12.col-sm-4
             label(for='store') &nbsp;
             button.form-btn.btn.btn-lg.btn-block.btn-success.clearSellingHoursButton(name='view', type='button') Clear Selling Hours
@@ -54,7 +54,7 @@ block content
                             th.sellinghours Friday
                             th.sellinghours Saturday
                             th.sellinghours Total
-                    tbody
+                    tbody#hoursTable
                         tr
                             td
                             th#Sunday
@@ -65,9 +65,8 @@ block content
                             th#Friday
                             th#Saturday
                             th
-                        script(src='/bower_components/bootstrap-daterangepicker/moment.min.js')
                         each user, userIndex in users
-                            tr
+                            tr(id="#{user.t_number}")
                                 td #{user.first_name} #{user.last_name}
                                 td(id='SundayHours'+'#{user.t_number}')
                                 td(id='MondayHours'+'#{user.t_number}')

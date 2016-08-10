@@ -13,9 +13,9 @@ exports.create = (hours, done) => {
     });
 };
 
-exports.getHoursByStoreIDForCurrentWeek = (id,done) => {
+exports.getAllHours = (id,done) => {
     connection.get().query('SELECT * FROM selling_hours_schedule INNER JOIN stores_util ON selling_hours_schedule.team_member = stores_util.t_number '+
-    'WHERE selling_hours_schedule.store_id = stores_util.store_id AND selling_hours_schedule.store_id = ? '+
+    'WHERE selling_hours_schedule.store_id = stores_util.store_id '+
         'AND YEARWEEK(selling_hours_schedule.date, 0) = YEARWEEK(CURDATE(), 0)',id, (error, result) => {
         if(error) {
             return done(error);
@@ -24,6 +24,8 @@ exports.getHoursByStoreIDForCurrentWeek = (id,done) => {
         done(null, result);
     });
 };
+
+
 
 exports.updateHoursByID = (values, done) => {
     connection.get().query('UPDATE selling_hours_schedule SET selling_hours = ? WHERE team_member = ? AND store_id = ? and date = ?', values, (error, result) => {
@@ -35,7 +37,7 @@ exports.updateHoursByID = (values, done) => {
     });
 };
 
-exports.getBudgets = (values, done) => {
+exports.getBudgetsWithStore = (values, done) => {
     connection.get().query('SELECT * FROM budgets WHERE date = ? AND store_id = ?', values, (error, result) => {
         if(error) {
             return done(error);
@@ -68,7 +70,7 @@ exports.updateBudgets = (values, done) => {
 };
 
 exports.getBudgets = (values, done) => {
-    connection.get().query('SELECT CTs, revenue, aotm, ls FROM budgets WHERE date = ? AND store_id = ?', values, (error, result) => {
+    connection.get().query('SELECT * FROM budgets WHERE date = ?', values, (error, result) => {
         if(error) {
             return done(error);
         }

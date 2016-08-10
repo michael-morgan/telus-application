@@ -22,8 +22,6 @@ var endOfWeek = moment().startOf('isoWeek').add(5,'day').format('YYYY-MM-DD');
 router.get('/', ensureAuthenticated, function (req, res, next) {
     returnObj['message'] = undefined;
     let storeIds = [];
-    //Ensure user is logged in
-    if (req.user.privileged <= 2) { return res.redirect('/users/'); }
 
     if (!req.body) { return res.sendStatus(400); }
 
@@ -47,7 +45,7 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
             returnObj['users'] = result;
             returnObj['usersObj'] = JSON.stringify(result);
             returnObj['selectedEmployee'] = req.user.t_number;
-            sellingHoursModel.getHoursByStoreIDForCurrentWeek(req.session.store_id,(err, result) => {
+            sellingHoursModel.getAllHours(req.session.store_id,(err, result) => {
                 if (err) {
                     throw next(err);
                 } //end if)
@@ -58,7 +56,7 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
                     req.session.success = false;
                 }  //end if
 
-                sellingHoursModel.getBudgets([endOfWeek, req.session.store_id],(err, budgetResults) => {
+                sellingHoursModel.getBudgets(endOfWeek,(err, budgetResults) => {
                     if (err) {
                         throw next(err);
                     } //end if
@@ -110,7 +108,9 @@ router.post('/budgets', ensureAuthenticated, (req, res, next) => {
     var data = req.body.name;
     data = data.split(',');
 
-    sellingHoursModel.getBudgets([endOfWeek,data[2]], (err, result) => {
+    console.log(data + 'store id from field');
+
+    sellingHoursModel.getBudgetsWithStore([endOfWeek,data[2]], (err, result) => {
         if (err) {
             return res.end('Error: ' + err.message);
         }

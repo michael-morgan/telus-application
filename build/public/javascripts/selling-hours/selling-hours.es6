@@ -1,5 +1,9 @@
 var storesArray;
-var filteredArray;
+var budgetArray;
+var filteredBudgetArray;
+var filteredUserArray;
+var filteredHoursArray;
+var filteredStoresArray;
 var teamMember;
 var store;
 
@@ -8,8 +12,14 @@ var endDate;
 
 $(() => {
     storesArray = JSON.parse(JSON.stringify(storeObj));
-    getDaysOfTheWeek();
-    displayEmployeeHours();
+    budgetArray = JSON.parse(JSON.stringify(budgetObj));
+
+    //displayEmployeeHours();
+
+    //console.debug(storesArray);
+    //console.debug(userObj);
+    //console.debug(hourObj);
+    //console.debug(budgetObj);
     //Hide the delete message until a transaction has been removed
     $('#deleteMessage').hide();
 
@@ -20,9 +30,23 @@ $(() => {
 
     store.change((event) => {
         //Get the selected user from from the drop down
-        teamMember = $('#store');
+        store = $('#store').val();
 
-        applyFilter();
+        //console.log(store);
+
+        filteredBudgetArray = budgetArray.filter((bud) => bud.store_id == store);
+        filteredHoursArray = hourObj.filter((hour) => hour.store_id == store);
+        filteredUserArray = userObj.filter((user) => user.store_id == store);
+        filteredStoresArray = storeObj.filter((st) => st.store_id == store);
+
+        //console.debug(filteredBudgetArray);
+        //console.debug(filteredHoursArray);
+        //console.debug(filteredStoresArray);
+
+        displayUsers();
+        getDaysOfTheWeek();
+        displayBudgets();
+        displayEmployeeHours(filteredUserArray, filteredHoursArray);
     });
 
     $('#dateRange').daterangepicker({
@@ -43,7 +67,7 @@ $(() => {
     store.trigger('change');
 });
 //Retrieve hours from array and display them in the appropriate row
-function displayEmployeeHours() {
+function displayEmployeeHours(userObj, hourObj) {
     var totalHours = 0, sundayHours = 0, mondayHours = 0, tuesdayHours = 0, wednesdayHours = 0, thursdayHours = 0, fridayHours = 0, saturdayHours = 0;
     var totalStoreHours = 0;
     for(var user in userObj) {
@@ -60,20 +84,17 @@ function displayEmployeeHours() {
                     success: function (response, newValue) {
                         var info = JSON.parse(response);
                         var hours,totalHours,totalWeekHours;
-                        if(parseInt($('#SundayHours'+ info.name.split(',')[0] + '').text()) > parseInt(newValue))
-                        {
+                        if(parseInt($('#SundayHours'+ info.name.split(',')[0] + '').text()) > parseInt(newValue)) {
                             hours  = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) - (parseInt($('#SundayHours'+ info.name.split(',')[0] + '').text()-parseInt(newValue)));
                             totalHours  = parseInt($('#TotalSundayHours').text()) - (parseInt($('#SundayHours'+ info.name.split(',')[0] + '').text())-parseInt(newValue));
                             totalWeekHours  = parseInt($('#TotalWeekHours').text()) - (parseInt($('#SundayHours'+ info.name.split(',')[0] + '').text())-parseInt(newValue));
                         }
-                        else if(parseInt($('#SundayHours'+ info.name.split(',')[0] + '').text()) < parseInt(newValue))
-                        {
+                        else if(parseInt($('#SundayHours'+ info.name.split(',')[0] + '').text()) < parseInt(newValue)) {
                             hours  = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) + (parseInt(newValue) - parseInt($('#SundayHours'+ info.name.split(',')[0] + '').text()));
                             totalHours  = parseInt($('#TotalSundayHours').text()) + (parseInt(newValue) - parseInt($('#SundayHours'+ info.name.split(',')[0] + '').text()));
                             totalWeekHours  = parseInt($('#TotalWeekHours').text()) + (parseInt(newValue) - parseInt($('#SundayHours'+ info.name.split(',')[0] + '').text()));
                         }
-                        else
-                        {
+                        else {
                             hours = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) + (parseInt(newValue));
                             totalHours = parseInt($('#TotalSundayHours').text()) + (parseInt(newValue));
                             totalWeekHours = parseInt($('#TotalWeekHours').text()) + (parseInt(newValue));
@@ -589,17 +610,21 @@ $.fn.editable.defaults.mode = 'inline';
 
 
 
-$(document).ready(function() {
+function displayBudgets() {
     var CTs = '';
     var revenue = '';
     var aotm = '';
     var ls = '';
 
-    if(budgetObj[0] != undefined){
-        CTs = budgetObj[0].CTs;
-        revenue = budgetObj[0].revenue;
-        aotm = budgetObj[0].aotm;
-        ls = budgetObj[0].ls;
+    if(filteredBudgetArray[0] != undefined){
+        CTs = filteredBudgetArray[0].CTs;
+        revenue = filteredBudgetArray[0].revenue;
+        aotm = filteredBudgetArray[0].aotm;
+        ls = filteredBudgetArray[0].ls;
+
+        $('#BDCC').html((8 / 100 * filteredBudgetArray[0].CTs).toFixed(2));
+        $('#BDSBS').html((7 / 100 * filteredBudgetArray[0].CTs).toFixed(2));
+        $('#BDTB').html((7 / 100 * filteredBudgetArray[0].CTs).toFixed(2));
     }
 
 
@@ -607,8 +632,12 @@ $(document).ready(function() {
         type: 'text',
         pk: 1,
         url: '/users/selling-hours/budgets',
-        name: 'CTs' + ',' + moment().format("YYYY-MM-DD") + ',' +storesArray[0].store_id,
+        name: 'CTs' + ',' + moment().format("YYYY-MM-DD") + ',' +filteredStoresArray[0].store_id,
         value: CTs,
+        params: function(params) {  //params already contain `name`, `value` and `pk`
+            params.name = 'CTs' + ',' + moment().format("YYYY-MM-DD") + ',' +filteredStoresArray[0].store_id;
+            return params;
+        },
         emptytext:'&nbsp;',
         send: 'always',
         success: function (response, newValue) {
@@ -617,49 +646,144 @@ $(document).ready(function() {
             $('#BDCC').html((8 / 100 * info.value).toFixed(2));
             $('#BDSBS').html((7 / 100 * info.value).toFixed(2));
             $('#BDTB').html((7 / 100 * info.value).toFixed(2));
+
+            if(filteredBudgetArray[0] != undefined)
+                filteredBudgetArray[0].CTs = info.value;
         }
+
     });
     $('#Rev').editable({
         type: 'text',
         pk: 1,
         url: '/users/selling-hours/budgets',
-        name: 'revenue' + ',' + moment().format("YYYY-MM-DD") + ',' +storesArray[0].store_id,
+        name: 'revenue' + ',' + moment().format("YYYY-MM-DD") + ',' +filteredStoresArray[0].store_id,
         value: revenue,
+        params: function(params) {  //params already contain `name`, `value` and `pk`
+            params.name = 'revenue' + ',' + moment().format("YYYY-MM-DD") + ',' +filteredStoresArray[0].store_id;
+            return params;
+        },
         emptytext:'&nbsp;',
         send: 'always',
         success: function (response, newValue) {
             if (response.status == 'error') return response.msg; //msg will be shown in editable form
+
+            var info = JSON.parse(response);
+            if(filteredBudgetArray[0] != undefined)
+                filteredBudgetArray[0].revenue = info.value;
         }
     });
     $('#AOTM').editable({
         type: 'text',
         pk: 1,
         url: '/users/selling-hours/budgets',
-        name: 'aotm' + ',' + moment().format("YYYY-MM-DD") + ',' +storesArray[0].store_id,
+        name: 'aotm' + ',' + moment().format("YYYY-MM-DD") + ',' +filteredStoresArray[0].store_id,
         value: aotm,
+        params: function(params) {  //params already contain `name`, `value` and `pk`
+            params.name = 'aotm' + ',' + moment().format("YYYY-MM-DD") + ',' +filteredStoresArray[0].store_id;
+            return params;
+        },
         emptytext:'&nbsp;',
         send: 'always',
         success: function (response, newValue) {
             if (response.status == 'error') return response.msg; //msg will be shown in editable form
+
+            var info = JSON.parse(response);
+            if(filteredBudgetArray[0] != undefined)
+                filteredBudgetArray[0].aotm = info.value;
         }
     });
+
     $('#LS').editable({
         type: 'text',
         pk: 1,
         url: '/users/selling-hours/budgets',
-        name: 'ls' + ',' + moment().format("YYYY-MM-DD") + ',' +storesArray[0].store_id,
+        name: 'ls' + ',' + moment().format("YYYY-MM-DD") + ',' +filteredStoresArray[0].store_id,
         value: ls,
+        params: function(params) {  //params already contain `name`, `value` and `pk`
+            params.name = 'ls' + ',' + moment().format("YYYY-MM-DD") + ',' +filteredStoresArray[0].store_id;
+            return params;
+        },
         emptytext:'&nbsp;',
         send: 'always',
         success: function (response, newValue) {
             if (response.status == 'error') return response.msg; //msg will be shown in editable form
+
+            var info = JSON.parse(response);
+            if(filteredBudgetArray[0] != undefined)
+                filteredBudgetArray[0].ls = info.value;
         }
     });
 
-    $('#BDCC').html((8 / 100 * budgetObj[0].CTs).toFixed(2));
-    $('#BDSBS').html((7 / 100 * budgetObj[0].CTs).toFixed(2));
-    $('#BDTB').html((7 / 100 * budgetObj[0].CTs).toFixed(2));
-});
+    
+
+
+    if(filteredBudgetArray[0] != undefined) {
+        $('#CTs').editable('setValue', CTs);
+        $('#Rev').editable('setValue', revenue);
+        $('#AOTM').editable('setValue', aotm);
+        $('#LS').editable('setValue', ls);
+    } else {
+        $('#CTs').editable('setValue', null);
+        $('#Rev').editable('setValue', null);
+        $('#AOTM').editable('setValue', null);
+        $('#LS').editable('setValue', null);
+
+        $('#BDCC').html('');
+        $('#BDSBS').html('');
+        $('#BDTB').html('');
+    }
+
+};
+
+function displayUsers() {
+    var hoursTable = "";
+
+    hoursTable += `
+                <tr>
+                    <td></td>
+                    <th id="Sunday"></th>
+                    <th id="Monday"></th>
+                    <th id="Tuesday"></th>
+                    <th id="Wednesday"></th>
+                    <th id="Thursday"></th>
+                    <th id="Friday"></th>
+                    <th id="Saturday"></th>
+                    <th></th>
+                </tr>`;
+
+
+    for(var userIndex in filteredUserArray){
+        hoursTable += `<tr>
+                        <td>${filteredUserArray[userIndex].first_name}  ${filteredUserArray[userIndex].last_name}</td>
+                        <td id="SundayHours${filteredUserArray[userIndex].t_number}"></td>
+                        <td id="MondayHours${filteredUserArray[userIndex].t_number}"></td>
+                        <td id="TuesdayHours${filteredUserArray[userIndex].t_number}"></td>
+                        <td id="WednesdayHours${filteredUserArray[userIndex].t_number}"></td>
+                        <td id="ThursdayHours${filteredUserArray[userIndex].t_number}"></td>
+                        <td id="FridayHours${filteredUserArray[userIndex].t_number}"></td>
+                        <td id="SaturdayHours${filteredUserArray[userIndex].t_number}"></td>
+                        <td id="TotalHours${filteredUserArray[userIndex].t_number}"></td>
+                      <tr>`;
+    }
+    hoursTable += `
+                <tr>
+                    <td>Total Actual</td>
+                    <td id="TotalSundayHours"></td>
+                    <td id="TotalMondayHours"></td>
+                    <td id="TotalTuesdayHours"></td>
+                    <td id="TotalWednesdayHours"></td>
+                    <td id="TotalThursdayHours"></td>
+                    <td id="TotalFridayHours"></td>
+                    <td id="TotalSaturdayHours"></td>
+                    <td id="TotalWeekHours"></td>
+                </tr>`;
+
+
+    $(`#hoursTable`).html(hoursTable);
+    getDaysOfTheWeek();
+    displayEmployeeHours(filteredUserArray, filteredHoursArray);
+}
+
 
 function applyFilter() {}
 
