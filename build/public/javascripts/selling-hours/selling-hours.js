@@ -15,6 +15,7 @@ $(function () {
     console.debug(storesArray);
     console.debug(userObj);
     console.debug(hourObj);
+    console.debug(budgetObj);
     //Hide the delete message until a transaction has been removed
     $('#deleteMessage').hide();
 
@@ -401,7 +402,7 @@ $(document).ready(function () {
         pk: 1,
         url: '/users/selling-hours/budgets',
         name: 'CTs' + ',' + moment().format("YYYY-MM-DD") + ',' + storesArray[0].store_id,
-        value: '',
+        value: budgetObj[0].CTs,
         emptytext: '&nbsp;',
         send: 'always',
         success: function success(response, newValue) {
@@ -413,7 +414,7 @@ $(document).ready(function () {
         pk: 1,
         url: '/users/selling-hours/budgets',
         name: 'revenue' + ',' + moment().format("YYYY-MM-DD") + ',' + storesArray[0].store_id,
-        value: '',
+        value: budgetObj[0].revenue,
         emptytext: '&nbsp;',
         send: 'always',
         success: function success(response, newValue) {
@@ -425,7 +426,7 @@ $(document).ready(function () {
         pk: 1,
         url: '/users/selling-hours/budgets',
         name: 'aotm' + ',' + moment().format("YYYY-MM-DD") + ',' + storesArray[0].store_id,
-        value: '',
+        value: budgetObj[0].aotm,
         emptytext: '&nbsp;',
         send: 'always',
         success: function success(response, newValue) {
@@ -437,13 +438,17 @@ $(document).ready(function () {
         pk: 1,
         url: '/users/selling-hours/budgets',
         name: 'ls' + ',' + moment().format("YYYY-MM-DD") + ',' + storesArray[0].store_id,
-        value: '',
+        value: budgetObj[0].ls,
         emptytext: '&nbsp;',
         send: 'always',
         success: function success(response, newValue) {
             if (response.status == 'error') return response.msg; //msg will be shown in editable form
         }
     });
+
+    $('#BDCC').html((8 / 100 * budgetObj[0].CTs).toFixed(2));
+    $('#BDSBS').html((7 / 100 * budgetObj[0].CTs).toFixed(2));
+    $('#BDTB').html((7 / 100 * budgetObj[0].CTs).toFixed(2));
 });
 
 function applyFilter() {}

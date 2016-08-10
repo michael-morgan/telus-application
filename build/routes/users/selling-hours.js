@@ -7,11 +7,15 @@ var express = require('express');
 var connection = require('../../connection');
 var passport = require('passport');
 
+var moment = require('../../bower_components/bootstrap-daterangepicker/moment.min.js');
+
 var userModel = require('../../models/user');
 var storeModel = require('../../models/store');
 var sellingHoursModel = require('../../models/selling-hours');
 var returnObj = {};
 var router = express.Router();
+
+var endOfWeek = moment().startOf('isoWeek').add(5, 'day').format('YYYY-MM-DD');
 
 router.get('/', ensureAuthenticated, function (req, res, next) {
     returnObj['message'] = undefined;
@@ -58,13 +62,13 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
                     req.session.success = false;
                 } //end if
 
-
-                var saturday = moment().startOf('isoWeek').add(5, 'day').format('YYYY-MM-DD');
-                sellingHoursModel.getBudgets(saturday, req.session.store_id, function (err, budgetResults) {
+                sellingHoursModel.getBudgets([endOfWeek, req.session.store_id], function (err, budgetResults) {
                     if (err) {
                         throw next(err);
                     } //end if
+                    returnObj['budgets'] = budgetResults;
 
+                    returnObj['budgetsObj'] = JSON.stringify(returnObj['budgets']);
 
                     return res.render('selling-hours/selling-hours', returnObj);
                 });
@@ -87,13 +91,13 @@ router.post('/', ensureAuthenticated, function (req, res, next) {
             console.log("Selling Hours: " + req.body.value);
             console.log("team_member: " + data[0]);
             console.log("store_id: " + data[1]);
-            console.log("date: " + data[2]);
+            console.log("date: " + saturday);
 
             var hours = {
                 selling_hours: req.body.value,
                 team_member: data[0],
                 store_id: data[1],
-                date: data[2]
+                date: endOfWeek
             };
             sellingHoursModel.create(hours, function (err, result) {
                 if (err) {
@@ -109,7 +113,7 @@ router.post('/budgets', ensureAuthenticated, function (req, res, next) {
     var data = req.body.name;
     data = data.split(',');
 
-    sellingHoursModel.getBudgets([data[1], data[2]], function (err, result) {
+    sellingHoursModel.getBudgets([endOfWeek, data[2]], function (err, result) {
         if (err) {
             return res.end('Error: ' + err.message);
         }
@@ -119,7 +123,7 @@ router.post('/budgets', ensureAuthenticated, function (req, res, next) {
             revenue: undefined,
             aotm: undefined,
             ls: undefined,
-            date: data[1],
+            date: endOfWeek,
             store_id: data[2]
         };
 
