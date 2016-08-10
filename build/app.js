@@ -28,6 +28,8 @@ var behaviours = require('./routes/users/behaviours');
 var binder = require('./routes/users/binder');
 var transactions = require('./routes/users/transactions');
 var sellinghours = require('./routes/users/selling-hours');
+var wmp = require('./routes/users/wmp');
+
 var app = express();
 
 // set env variable for test purposes
@@ -135,6 +137,8 @@ app.use('/users/behaviours', behaviours);
 app.use('/users/binder', binder);
 app.use('/users/transactions', transactions);
 app.use('/users/selling-hours', sellinghours);
+app.use('/users/wmp', wmp);
+
 
 
 // catch 404 and forward to error handler

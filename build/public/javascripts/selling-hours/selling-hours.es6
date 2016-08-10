@@ -61,7 +61,18 @@ function displayEmployeeHours()
                     value: hourObj[hour].selling_hours,
                     send: 'always',
                     success: function (response, newValue) {
-                        if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                        var info = JSON.parse(response);
+                        var hours;
+                        if(parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()) > parseInt(newValue))
+                        {
+                            hours  = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) - (parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()-parseInt(newValue)));
+                        }
+                        else if(parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()) < parseInt(newValue))
+                        {
+                            hours  = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) + (parseInt(newValue) - parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()));
+                        }
+                        //Get the t_number from the JSON which is the first index afer the split
+                        $('#TotalHours'+ info.name.split(',')[0] + '').text(hours.toString());
                     }
                 });
                 totalHours += parseInt(hourObj[hour].selling_hours);
@@ -76,7 +87,18 @@ function displayEmployeeHours()
                     value: hourObj[hour].selling_hours,
                     send: 'always',
                     success: function (response, newValue) {
-                        if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                        var info = JSON.parse(response);
+                        var hours;
+                        if(parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()) > parseInt(newValue))
+                        {
+                            hours  = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) - (parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()-parseInt(newValue)));
+                        }
+                        else if(parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()) < parseInt(newValue))
+                        {
+                            hours  = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) + (parseInt(newValue) - parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()));
+                        }
+                        //Get the t_number from the JSON which is the first index afer the split
+                        $('#TotalHours'+ info.name.split(',')[0] + '').text(hours.toString());
                     }
                 });
                 totalHours += parseInt(hourObj[hour].selling_hours);
@@ -91,7 +113,18 @@ function displayEmployeeHours()
                     value: hourObj[hour].selling_hours,
                     send: 'always',
                     success: function (response, newValue) {
-                        if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                        var info = JSON.parse(response);
+                        var hours;
+                        if(parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()) > parseInt(newValue))
+                        {
+                            hours  = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) - (parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()-parseInt(newValue)));
+                        }
+                        else if(parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()) < parseInt(newValue))
+                        {
+                            hours  = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) + (parseInt(newValue) - parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()));
+                        }
+                        //Get the t_number from the JSON which is the first index afer the split
+                        $('#TotalHours'+ info.name.split(',')[0] + '').text(hours.toString());
                     }
 
                 });
@@ -109,7 +142,18 @@ function displayEmployeeHours()
                     value: hourObj[hour].selling_hours,
                     send: 'always',
                     success: function(response, newValue) {
-                        if(response.status == 'error') return response.msg; //msg will be shown in editable form
+                        var info = JSON.parse(response);
+                        var hours;
+                        if(parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()) > parseInt(newValue))
+                        {
+                            hours  = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) - (parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()-parseInt(newValue)));
+                        }
+                        else if(parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()) < parseInt(newValue))
+                        {
+                            hours  = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) + (parseInt(newValue) - parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()));
+                        }
+                        //Get the t_number from the JSON which is the first index afer the split
+                        $('#TotalHours'+ info.name.split(',')[0] + '').text(hours.toString());
                     }
 
                 });
@@ -125,7 +169,18 @@ function displayEmployeeHours()
                     value: hourObj[hour].selling_hours,
                     send: 'always',
                     success: function (response, newValue) {
-                        if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                        var info = JSON.parse(response);
+                        var hours;
+                        if(parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()) > parseInt(newValue))
+                        {
+                            hours  = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) - (parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()-parseInt(newValue)));
+                        }
+                        else if(parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()) < parseInt(newValue))
+                        {
+                            hours  = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) + (parseInt(newValue) - parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()));
+                        }
+                        //Get the t_number from the JSON which is the first index afer the split
+                        $('#TotalHours'+ info.name.split(',')[0] + '').text(hours.toString());
                     }
 
                 });
@@ -141,7 +196,18 @@ function displayEmployeeHours()
                     value: hourObj[hour].selling_hours,
                     send: 'always',
                     success: function (response, newValue) {
-                        if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                        var info = JSON.parse(response);
+                        var hours;
+                        if(parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()) > parseInt(newValue))
+                        {
+                            hours  = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) - (parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()-parseInt(newValue)));
+                        }
+                        else if(parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()) < parseInt(newValue))
+                        {
+                            hours  = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) + (parseInt(newValue) - parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()));
+                        }
+                        //Get the t_number from the JSON which is the first index afer the split
+                        $('#TotalHours'+ info.name.split(',')[0] + '').text(hours.toString());
                     }
 
                 });
@@ -157,15 +223,26 @@ function displayEmployeeHours()
                     value: hourObj[hour].selling_hours,
                     send: 'always',
                     success: function (response, newValue) {
-                        if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                        var info = JSON.parse(response);
+                        var hours;
+                        if(parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()) > parseInt(newValue))
+                        {
+                             hours  = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) - (parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()-parseInt(newValue)));
+                        }
+                        else if(parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()) < parseInt(newValue))
+                        {
+                             hours  = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) + (parseInt(newValue) - parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()));
+                        }
+                        //Get the t_number from the JSON which is the first index afer the split
+                        $('#TotalHours'+ info.name.split(',')[0] + '').text(hours.toString());
                     }
                 });
                 totalHours += parseInt(hourObj[hour].selling_hours);
-                $('#Sunday').text(sunday);
             }
 
         }
-
+        $('#TotalHours'+ userObj[user].t_number + '').text(totalHours);
+        totalHours = 0;
         $('#SundayHours' + userObj[user].t_number + '').editable({
             type: 'text',
             pk: 1,
@@ -175,7 +252,24 @@ function displayEmployeeHours()
             emptytext:'   ',
             send: 'always',
             success: function (response, newValue) {
-                if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                var info = JSON.parse(response);
+                var hours;
+                if($('#SundayHours'+ info.name.split(',')[0] + '').text() != "") {
+                    if (parseInt($('#SaturdayHours' + info.name.split(',')[0] + '').text()) > parseInt(newValue)) {
+                        hours = parseInt($('#TotalHours' + info.name.split(',')[0] + '').text()) - (parseInt($('#SundayHours' + info.name.split(',')[0] + '').text() - parseInt(newValue)));
+                    }
+                    else if (parseInt($('#SundayHours' + info.name.split(',')[0] + '').text()) < parseInt(newValue)) {
+                        hours = parseInt($('#TotalHours' + info.name.split(',')[0] + '').text()) + (parseInt(newValue) - parseInt($('#SundayHours' + info.name.split(',')[0] + '').text()));
+                    }
+                    //Get the t_number from the JSON which is the first index afer the split
+                    $('#TotalHours' + info.name.split(',')[0] + '').text(hours.toString());
+                }
+                else
+                {
+                    hours = parseInt($('#TotalHours' + info.name.split(',')[0] + '').text()) + (parseInt($('#SundayHours' + info.name.split(',')[0] + '').text()));
+                    $('#TotalHours' + info.name.split(',')[0] + '').text(hours.toString());
+
+                }
             }
         });
 
@@ -188,7 +282,24 @@ function displayEmployeeHours()
             emptytext:'   ',
             send: 'always',
             success: function (response, newValue) {
-                if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                var info = JSON.parse(response);
+                var hours;
+                if($('#MondayHours'+ info.name.split(',')[0] + '').text() != "") {
+                    if (parseInt($('#SaturdayHours' + info.name.split(',')[0] + '').text()) > parseInt(newValue)) {
+                        hours = parseInt($('#TotalHours' + info.name.split(',')[0] + '').text()) - (parseInt($('#MondayHours' + info.name.split(',')[0] + '').text() - parseInt(newValue)));
+                    }
+                    else if (parseInt($('#MondayHours' + info.name.split(',')[0] + '').text()) < parseInt(newValue)) {
+                        hours = parseInt($('#TotalHours' + info.name.split(',')[0] + '').text()) + (parseInt(newValue) - parseInt($('#MondayHours' + info.name.split(',')[0] + '').text()));
+                    }
+                    //Get the t_number from the JSON which is the first index afer the split
+                    $('#TotalHours' + info.name.split(',')[0] + '').text(hours.toString());
+                }
+                else
+                {
+                    hours = parseInt($('#TotalHours' + info.name.split(',')[0] + '').text()) + (parseInt($('#MondayHours' + info.name.split(',')[0] + '').text()));
+                    $('#TotalHours' + info.name.split(',')[0] + '').text(hours.toString());
+
+                }
             }
         });
 
@@ -202,7 +313,18 @@ function displayEmployeeHours()
             emptytext:'   ',
             send: 'always',
             success: function (response, newValue) {
-                if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                var info = JSON.parse(response);
+                var hours;
+                if(parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()) > parseInt(newValue))
+                {
+                    hours  = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) - (parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()-parseInt(newValue)));
+                }
+                else if(parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()) < parseInt(newValue))
+                {
+                    hours  = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) + (parseInt(newValue) - parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()));
+                }
+                //Get the t_number from the JSON which is the first index afer the split
+                $('#TotalHours'+ info.name.split(',')[0] + '').text(hours.toString());
             }
 
         });
@@ -215,7 +337,18 @@ function displayEmployeeHours()
             emptytext:'   ',
             send: 'always',
             success: function(response, newValue) {
-                if(response.status == 'error') return response.msg; //msg will be shown in editable form
+                var info = JSON.parse(response);
+                var hours;
+                if(parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()) > parseInt(newValue))
+                {
+                    hours  = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) - (parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()-parseInt(newValue)));
+                }
+                else if(parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()) < parseInt(newValue))
+                {
+                    hours  = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) + (parseInt(newValue) - parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()));
+                }
+                //Get the t_number from the JSON which is the first index afer the split
+                $('#TotalHours'+ info.name.split(',')[0] + '').text(hours.toString());
             }
 
         });
@@ -230,7 +363,18 @@ function displayEmployeeHours()
             emptytext:'   ',
             send: 'always',
             success: function (response, newValue) {
-                if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                var info = JSON.parse(response);
+                var hours;
+                if(parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()) > parseInt(newValue))
+                {
+                    hours  = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) - (parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()-parseInt(newValue)));
+                }
+                else if(parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()) < parseInt(newValue))
+                {
+                    hours  = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) + (parseInt(newValue) - parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()));
+                }
+                //Get the t_number from the JSON which is the first index afer the split
+                $('#TotalHours'+ info.name.split(',')[0] + '').text(hours.toString());
             }
 
         });
@@ -245,7 +389,18 @@ function displayEmployeeHours()
             emptytext:'   ',
             send: 'always',
             success: function (response, newValue) {
-                if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                var info = JSON.parse(response);
+                var hours;
+                if(parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()) > parseInt(newValue))
+                {
+                    hours  = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) - (parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()-parseInt(newValue)));
+                }
+                else if(parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()) < parseInt(newValue))
+                {
+                    hours  = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) + (parseInt(newValue) - parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()));
+                }
+                //Get the t_number from the JSON which is the first index afer the split
+                $('#TotalHours'+ info.name.split(',')[0] + '').text(hours.toString());
             }
         });
 
@@ -259,7 +414,18 @@ function displayEmployeeHours()
             emptytext:'   ',
             send: 'always',
             success: function (response, newValue) {
-                if (response.status == 'error') return response.msg; //msg will be shown in editable form
+                var info = JSON.parse(response);
+                var hours;
+                if(parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()) > parseInt(newValue))
+                {
+                    hours  = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) - (parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()-parseInt(newValue)));
+                }
+                else if(parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()) < parseInt(newValue))
+                {
+                    hours  = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) + (parseInt(newValue) - parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()));
+                }
+                //Get the t_number from the JSON which is the first index afer the split
+                $('#TotalHours'+ info.name.split(',')[0] + '').text(hours.toString());
             }
         });
     }
