@@ -27,7 +27,12 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
             throw next(err);
         } //end if
 
-        returnObj['stores'] = result;
+        var storesResult = result;
+
+        returnObj['stores'] = storesResult;
+        returnObj['currentStore'] = storesResult.find(function (store) {
+            return store.store_id == req.session.store_id;
+        });
         returnObj['storesObj'] = JSON.stringify(returnObj['stores']);
 
         var storeIds = [];
@@ -59,6 +64,10 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
 
                 var storeTotalHours = 0;
                 returnObj['users'].forEach(function (user, userIndex, userArray) {
+                    if (user.privileged == 5) {
+                        return;
+                    }
+
                     userArray[userIndex]['hours'] = hoursResult.filter(function (row) {
                         return row.team_member == user.t_number;
                     });
@@ -75,6 +84,7 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
                 returnObj['stores'][returnObj['stores'].findIndex(function (store) {
                     return store.store_id == req.session.store_id;
                 })]['totalHours'] = storeTotalHours;
+                returnObj['currentStore']['totalHours'] = storeTotalHours;
 
                 res.render('wmp', returnObj);
             });

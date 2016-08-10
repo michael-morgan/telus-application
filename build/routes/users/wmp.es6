@@ -25,7 +25,10 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
             throw next(err);
         } //end if
 
-        returnObj['stores'] = result;
+        let storesResult = result;
+
+        returnObj['stores'] = storesResult;
+        returnObj['currentStore'] = storesResult.find((store) => store.store_id == req.session.store_id);
         returnObj['storesObj'] = JSON.stringify(returnObj['stores']);
 
         let storeIds = [];
@@ -55,6 +58,8 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
 
                 let storeTotalHours = 0;
                 returnObj['users'].forEach((user, userIndex, userArray) => {
+                    if(user.privileged == 5) { return; }
+
                     userArray[userIndex]['hours'] = hoursResult.filter((row) => row.team_member == user.t_number);
 
                     let total = 0;
@@ -69,6 +74,7 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
                 returnObj['stores'][returnObj['stores'].findIndex(
                     (store) => store.store_id == req.session.store_id
                 )]['totalHours'] = storeTotalHours;
+                returnObj['currentStore']['totalHours'] = storeTotalHours;
 
                 res.render('wmp', returnObj);
             });
