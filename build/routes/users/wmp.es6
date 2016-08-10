@@ -53,14 +53,22 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
                 returnObj['hours'] = hoursResult;
                 returnObj['hoursObj'] = JSON.stringify(hoursResult);
 
+                let storeTotalHours = 0;
                 returnObj['users'].forEach((user, userIndex, userArray) => {
                     userArray[userIndex]['hours'] = hoursResult.filter((row) => row.team_member == user.t_number);
+
                     let total = 0;
                     for (let hourIndex in userArray[userIndex]['hours']) {
-                        total += userArray[userIndex]['hours'][hourIndex].selling_hours
+                        total += userArray[userIndex]['hours'][hourIndex].selling_hours;
                     }
+
                     userArray[userIndex]['totalHours'] = total;
+                    storeTotalHours += total;
                 });
+
+                returnObj['stores'][returnObj['stores'].findIndex(
+                    (store) => store.store_id == req.session.store_id
+                )]['totalHours'] = storeTotalHours;
 
                 res.render('wmp', returnObj);
             });
