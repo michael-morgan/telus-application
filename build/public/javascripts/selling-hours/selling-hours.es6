@@ -507,6 +507,7 @@ $(document).ready(function() {
     $('#BDSBS').html((7 / 100 * budgetObj[0].CTs).toFixed(2));
     $('#BDTB').html((7 / 100 * budgetObj[0].CTs).toFixed(2));
 
+    
 });
 
 function applyFilter() {}
