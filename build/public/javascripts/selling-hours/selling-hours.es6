@@ -47,15 +47,9 @@ $(() => {
     store.trigger('change');
 });
 //Retrieve hours from array and display them in the appropriate row
-<<<<<<< HEAD
-function displayEmployeeHours()
-{
+function displayEmployeeHours() {
     var totalHours = 0, sundayHours = 0, mondayHours = 0, tuesdayHours = 0, wednesdayHours = 0, thursdayHours = 0, fridayHours = 0, saturdayHours = 0;
     var totalStoreHours = 0;
-=======
-function displayEmployeeHours() {
-    var totalHours = 0;
->>>>>>> origin/build
     for(var user in userObj) {
         for (var hour in hourObj) {
             if (moment().startOf('isoWeek').subtract(1,'day').format('YYYY-MM-DD') == hourObj[hour].date.substring(0, 10)
