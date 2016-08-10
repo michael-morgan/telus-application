@@ -573,6 +573,10 @@ $(document).ready(function () {
         send: 'always',
         success: function success(response, newValue) {
             if (response.status == 'error') return response.msg; //msg will be shown in editable form
+            var info = JSON.parse(response);
+            $('#BDCC').html((8 / 100 * info.value).toFixed(2));
+            $('#BDSBS').html((7 / 100 * info.value).toFixed(2));
+            $('#BDTB').html((7 / 100 * info.value).toFixed(2));
         }
     });
     $('#Rev').editable({
