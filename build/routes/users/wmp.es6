@@ -62,11 +62,5 @@ function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) { return next(); }
     res.redirect('/');
 }
-$(document).ready(function(){
-
-    fakewaffle.responsiveTabs(['md']);
-    $('.footable').footable();
-
-});
 
 module.exports = router;
