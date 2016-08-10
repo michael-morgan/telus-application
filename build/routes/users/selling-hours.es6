@@ -46,12 +46,20 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
                 returnObj['hours'] = result;
                 returnObj['hoursObj'] = JSON.stringify(result);
                 if (req.session.success) {
-                    req.flash('success_messages', 'Transaction successfully added!');
-                    //res.locals.success_messages = req.flash('success_messages');
+                    req.flash('success_messages', 'success');
                     req.session.success = false;
                 }  //end if
 
-                return res.render('selling-hours/selling-hours', returnObj);
+
+                var saturday = moment().startOf('isoWeek').add(5,'day').format('YYYY-MM-DD');
+                sellingHoursModel.getBudgets(saturday, req.session.store_id,(err, budgetResults) => {
+                    if (err) {
+                        throw next(err);
+                    } //end if
+
+
+                    return res.render('selling-hours/selling-hours', returnObj);
+                });
             });
         });
     });

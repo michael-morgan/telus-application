@@ -72,4 +72,14 @@ exports.deleteStores = function (id, done) {
     });
 };
 
+exports.getAllStoresAndUsers = function (done) {
+    connection.get().query('SELECT * FROM `stores_util` INNER JOIN `stores` ON stores_util.store_id = stores.store_id', function (error, result) {
+        if (error) {
+            return done(error);
+        }
+
+        done(null, result);
+    });
+};
+
 //# sourceMappingURL=store.js.map

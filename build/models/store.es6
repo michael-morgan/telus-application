@@ -75,3 +75,15 @@ exports.deleteStores = (id, done) => {
         done(null, result);
     });
 };
+
+exports.getAllStoresAndUsers = done => {
+    connection.get().query('SELECT * FROM `stores_util` INNER JOIN `stores` ON stores_util.store_id = stores.store_id',(error, result) => {
+        if(error) {
+            return done(error);
+        }
+
+        done(null, result);
+    });
+};
+
+

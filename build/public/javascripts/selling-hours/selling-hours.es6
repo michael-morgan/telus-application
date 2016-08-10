@@ -46,8 +46,7 @@ $(() => {
     store.trigger('change');
 });
 //Retrieve hours from array and display them in the appropriate row
-function displayEmployeeHours()
-{
+function displayEmployeeHours() {
     var totalHours = 0;
     for(var user in userObj) {
         for (var hour in hourObj) {
@@ -267,8 +266,7 @@ function displayEmployeeHours()
 
 
 //Get the current dates for the week
-function getDaysOfTheWeek()
-{
+function getDaysOfTheWeek() {
     var monday,tuesday,wednesday,thursday,friday,saturday, sunday;
 
     sunday = moment().startOf('isoWeek').subtract(1,'day').format('MMMM-DD');

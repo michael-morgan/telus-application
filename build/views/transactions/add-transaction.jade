@@ -30,7 +30,17 @@ block content
                                 option(value='#{user.t_number}' selected) #{user.first_name} #{user.last_name}
                             else
                                 option(value='#{user.t_number}') #{user.first_name} #{user.last_name}
-
+            .form-group
+                .col-sm-2.text-right
+                    span.transaction Store:
+                .col-sm-10#storeList
+                    //select.transact(required id='storeDropdown' name='storeDropdown')
+                    //    //Code gets every user in the employee table of the database for the select employee drop down
+                    //    each store, i in stores
+                    //        if defaultStore && defaultStore == store.store_id
+                    //            option(value='#{store.store_id}' selected) #{store.store_name}
+                    //        else
+                    //            option(value='#{store.store_id}') #{store.store_name}
             //Show only this field on start
             .form-group
                 .col-sm-2.text-right
@@ -196,5 +206,6 @@ block append script
         var warrentyObj = JSON.parse('!{warrentysObj}');
         var deviceObj = JSON.parse('!{devicesObj}');
         var activationObj = JSON.parse('!{activationsObj}');
+        var storeObj = JSON.parse('!{storesObject}');
 
 
