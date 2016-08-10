@@ -13,10 +13,10 @@ exports.create = (hours, done) => {
     });
 };
 
-exports.getAllHours = (id,done) => {
+exports.getAllHours = (id, done) => {
     connection.get().query('SELECT * FROM selling_hours_schedule INNER JOIN stores_util ON selling_hours_schedule.team_member = stores_util.t_number '+
     'WHERE selling_hours_schedule.store_id = stores_util.store_id '+
-        'AND YEARWEEK(selling_hours_schedule.date, 0) = YEARWEEK(CURDATE(), 0)',id, (error, result) => {
+        'AND YEARWEEK(selling_hours_schedule.date, 0) = YEARWEEK(CURDATE(), 0)', id, (error, result) => {
         if(error) {
             return done(error);
         }
@@ -25,6 +25,15 @@ exports.getAllHours = (id,done) => {
     });
 };
 
+exports.getHoursByStoreId = (id, done) => {
+    connection.get().query('SELECT * FROM `selling_hours_schedule` WHERE store_id = ?', id, (error, result) => {
+        if(error) {
+            return done(error);
+        }
+
+        done(null, result);
+    });
+};
 
 
 exports.updateHoursByID = (values, done) => {

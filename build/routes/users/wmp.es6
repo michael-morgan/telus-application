@@ -12,14 +12,14 @@ var returnObj = {};
 var router = express.Router();
 
 router.get('/', ensureAuthenticated, function (req, res, next) {
-    returnObj['message'] = undefined;
-    let storeIds = [];
     //Ensure user is logged in
-    if (req.user.privileged <= 2) { return res.redirect('/users/'); }
-
-    if (!req.body) { return res.sendStatus(400); }
+    if (req.user.privileged <= 2) {
+        return res.redirect('/users/');
+    }
 
     returnObj['title'] = 'Selling Hours';
+    returnObj['message'] = undefined;
+
     storeModel.getStoresByTNumber(req.user.t_number, (err, result) => {
         if (err) {
             throw next(err);
@@ -27,6 +27,8 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
 
         returnObj['stores'] = result;
         returnObj['storesObj'] = JSON.stringify(returnObj['stores']);
+
+        let storeIds = [];
         for(let storeIndex in returnObj['stores']) {
             if(!returnObj['stores'].hasOwnProperty(storeIndex)) { continue; }
             storeIds.push(returnObj['stores'][storeIndex].store_id);
@@ -36,22 +38,31 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
             if (err) {
                 throw next(err);
             } //end if
+
             returnObj['users'] = result;
             returnObj['usersObj'] = JSON.stringify(result);
             returnObj['selectedEmployee'] = req.user.t_number;
-            sellingHoursModel.getAllHours(req.session.store_id,(err, result) => {
+
+            sellingHoursModel.getHoursByStoreId(req.session.store_id, (err, result) => {
                 if (err) {
                     throw next(err);
-                } //end if)
-                returnObj['hours'] = result;
-                returnObj['hoursObj'] = JSON.stringify(result);
-                if (req.session.success) {
-                    req.flash('success_messages', 'Transaction successfully added!');
-                    //res.locals.success_messages = req.flash('success_messages');
-                    req.session.success = false;
-                }  //end if
+                } //end if
 
-                return res.render('wmp', returnObj);
+                let hoursResult = result;
+
+                returnObj['hours'] = hoursResult;
+                returnObj['hoursObj'] = JSON.stringify(hoursResult);
+
+                returnObj['users'].forEach((user, userIndex, userArray) => {
+                    userArray[userIndex]['hours'] = hoursResult.filter((row) => row.team_member == user.t_number);
+                    let total = 0;
+                    for (let hourIndex in userArray[userIndex]['hours']) {
+                        total += userArray[userIndex]['hours'][hourIndex].selling_hours
+                    }
+                    userArray[userIndex]['totalHours'] = total;
+                });
+
+                res.render('wmp', returnObj);
             });
         });
     });

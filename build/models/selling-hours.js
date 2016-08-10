@@ -25,6 +25,16 @@ exports.getAllHours = function (id, done) {
     });
 };
 
+exports.getHoursByStoreId = function (id, done) {
+    connection.get().query('SELECT * FROM `selling_hours_schedule` WHERE store_id = ?', id, function (error, result) {
+        if (error) {
+            return done(error);
+        }
+
+        done(null, result);
+    });
+};
+
 exports.updateHoursByID = function (values, done) {
     connection.get().query('UPDATE selling_hours_schedule SET selling_hours = ? WHERE team_member = ? AND store_id = ? and date = ?', values, function (error, result) {
         if (error) {
