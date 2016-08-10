@@ -3,13 +3,21 @@
  */
 var express = require('express');
 var connection = require('../../connection');
-var passport = require('passport');
+var passport = require('passport')
+
+var moment = require('../../bower_components/bootstrap-daterangepicker/moment.min.js');
+
+
+
 
 var userModel = require('../../models/user');
 var storeModel = require('../../models/store');
 var sellingHoursModel = require('../../models/selling-hours');
 var returnObj = {};
 var router = express.Router();
+
+var endOfWeek = moment().startOf('isoWeek').add(5,'day').format('YYYY-MM-DD');
+
 
 router.get('/', ensureAuthenticated, function (req, res, next) {
     returnObj['message'] = undefined;
@@ -46,12 +54,24 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
                 returnObj['hours'] = result;
                 returnObj['hoursObj'] = JSON.stringify(result);
                 if (req.session.success) {
-                    req.flash('success_messages', 'Transaction successfully added!');
-                    //res.locals.success_messages = req.flash('success_messages');
+                    req.flash('success_messages', 'success');
                     req.session.success = false;
                 }  //end if
 
-                return res.render('selling-hours/selling-hours', returnObj);
+                sellingHoursModel.getBudgets([endOfWeek, req.session.store_id],(err, budgetResults) => {
+                    if (err) {
+                        throw next(err);
+                    } //end if
+
+                    console.log();
+                    returnObj['budgets'] = budgetResults;
+
+                    console.log(returnObj['budgets']);
+
+                    returnObj['budgetsObj'] = JSON.stringify(returnObj['budgets']);
+
+                    return res.render('selling-hours/selling-hours', returnObj);
+                });
             });
         });
     });
@@ -96,7 +116,7 @@ router.post('/budgets', ensureAuthenticated, (req, res, next) => {
     var data = req.body.name;
     data = data.split(',');
 
-    sellingHoursModel.getBudgets([data[1],data[2]], (err, result) => {
+    sellingHoursModel.getBudgets([endOfWeek,data[2]], (err, result) => {
         if (err) {
             return res.end('Error: ' + err.message);
         }
@@ -106,7 +126,7 @@ router.post('/budgets', ensureAuthenticated, (req, res, next) => {
             revenue: undefined,
             aotm: undefined,
             ls: undefined,
-            date: data[1],
+            date: endOfWeek,
             store_id: data[2]
         };
 

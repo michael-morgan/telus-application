@@ -15,6 +15,7 @@ $(function () {
     console.debug(storesArray);
     console.debug(userObj);
     console.debug(hourObj);
+    console.debug(budgetObj);
     //Hide the delete message until a transaction has been removed
     $('#deleteMessage').hide();
 
@@ -548,13 +549,26 @@ function getDaysOfTheWeek() {
     $('#Saturday').text(saturday);
 }
 $.fn.editable.defaults.mode = 'inline';
+
 $(document).ready(function () {
+    var CTs = 0;
+    var revenue = 0;
+    var aotm = 0;
+    var ls = 0;
+
+    if (budgetObj[0] != undefined) {
+        CTs = budgetObj[0].CTs;
+        revenue = budgetObj[0].revenue;
+        aotm = budgetObj[0].aotm;
+        ls = budgetObj[0].ls;
+    }
+
     $('#CTs').editable({
         type: 'text',
         pk: 1,
         url: '/users/selling-hours/budgets',
         name: 'CTs' + ',' + moment().format("YYYY-MM-DD") + ',' + storesArray[0].store_id,
-        value: '',
+        value: CTs,
         emptytext: '&nbsp;',
         send: 'always',
         success: function success(response, newValue) {
@@ -566,7 +580,7 @@ $(document).ready(function () {
         pk: 1,
         url: '/users/selling-hours/budgets',
         name: 'revenue' + ',' + moment().format("YYYY-MM-DD") + ',' + storesArray[0].store_id,
-        value: '',
+        value: revenue,
         emptytext: '&nbsp;',
         send: 'always',
         success: function success(response, newValue) {
@@ -578,7 +592,7 @@ $(document).ready(function () {
         pk: 1,
         url: '/users/selling-hours/budgets',
         name: 'aotm' + ',' + moment().format("YYYY-MM-DD") + ',' + storesArray[0].store_id,
-        value: '',
+        value: aotm,
         emptytext: '&nbsp;',
         send: 'always',
         success: function success(response, newValue) {
@@ -590,13 +604,17 @@ $(document).ready(function () {
         pk: 1,
         url: '/users/selling-hours/budgets',
         name: 'ls' + ',' + moment().format("YYYY-MM-DD") + ',' + storesArray[0].store_id,
-        value: '',
+        value: ls,
         emptytext: '&nbsp;',
         send: 'always',
         success: function success(response, newValue) {
             if (response.status == 'error') return response.msg; //msg will be shown in editable form
         }
     });
+
+    $('#BDCC').html((8 / 100 * budgetObj[0].CTs).toFixed(2));
+    $('#BDSBS').html((7 / 100 * budgetObj[0].CTs).toFixed(2));
+    $('#BDTB').html((7 / 100 * budgetObj[0].CTs).toFixed(2));
 });
 
 function applyFilter() {}

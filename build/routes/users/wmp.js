@@ -72,7 +72,6 @@ function ensureAuthenticated(req, res, next) {
     }
     res.redirect('/');
 }
-
 module.exports = router;
 
 //# sourceMappingURL=wmp.js.map

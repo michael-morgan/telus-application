@@ -13,6 +13,7 @@ $(() => {
     console.debug(storesArray);
     console.debug(userObj);
     console.debug(hourObj);
+    console.debug(budgetObj);
     //Hide the delete message until a transaction has been removed
     $('#deleteMessage').hide();
 
@@ -46,10 +47,15 @@ $(() => {
     store.trigger('change');
 });
 //Retrieve hours from array and display them in the appropriate row
+<<<<<<< HEAD
 function displayEmployeeHours()
 {
     var totalHours = 0, sundayHours = 0, mondayHours = 0, tuesdayHours = 0, wednesdayHours = 0, thursdayHours = 0, fridayHours = 0, saturdayHours = 0;
     var totalStoreHours = 0;
+=======
+function displayEmployeeHours() {
+    var totalHours = 0;
+>>>>>>> origin/build
     for(var user in userObj) {
         for (var hour in hourObj) {
             if (moment().startOf('isoWeek').subtract(1,'day').format('YYYY-MM-DD') == hourObj[hour].date.substring(0, 10)
@@ -612,8 +618,7 @@ function displayEmployeeHours()
 
 
 //Get the current dates for the week
-function getDaysOfTheWeek()
-{
+function getDaysOfTheWeek() {
     var monday,tuesday,wednesday,thursday,friday,saturday, sunday;
 
     sunday = moment().startOf('isoWeek').subtract(1,'day').format('MMMM-DD');
@@ -633,13 +638,29 @@ function getDaysOfTheWeek()
     $('#Saturday').text(saturday);
 }
 $.fn.editable.defaults.mode = 'inline';
+
+
+
 $(document).ready(function() {
+    var CTs = 0;
+    var revenue = 0;
+    var aotm = 0;
+    var ls = 0;
+
+    if(budgetObj[0] != undefined){
+        CTs = budgetObj[0].CTs;
+        revenue = budgetObj[0].revenue;
+        aotm = budgetObj[0].aotm;
+        ls = budgetObj[0].ls;
+    }
+
+
     $('#CTs').editable({
         type: 'text',
         pk: 1,
         url: '/users/selling-hours/budgets',
         name: 'CTs' + ',' + moment().format("YYYY-MM-DD") + ',' +storesArray[0].store_id,
-        value:'',
+        value: CTs,
         emptytext:'&nbsp;',
         send: 'always',
         success: function (response, newValue) {
@@ -651,7 +672,7 @@ $(document).ready(function() {
         pk: 1,
         url: '/users/selling-hours/budgets',
         name: 'revenue' + ',' + moment().format("YYYY-MM-DD") + ',' +storesArray[0].store_id,
-        value:'',
+        value: revenue,
         emptytext:'&nbsp;',
         send: 'always',
         success: function (response, newValue) {
@@ -663,7 +684,7 @@ $(document).ready(function() {
         pk: 1,
         url: '/users/selling-hours/budgets',
         name: 'aotm' + ',' + moment().format("YYYY-MM-DD") + ',' +storesArray[0].store_id,
-        value:'',
+        value: aotm,
         emptytext:'&nbsp;',
         send: 'always',
         success: function (response, newValue) {
@@ -675,13 +696,19 @@ $(document).ready(function() {
         pk: 1,
         url: '/users/selling-hours/budgets',
         name: 'ls' + ',' + moment().format("YYYY-MM-DD") + ',' +storesArray[0].store_id,
-        value:'',
+        value: ls,
         emptytext:'&nbsp;',
         send: 'always',
         success: function (response, newValue) {
             if (response.status == 'error') return response.msg; //msg will be shown in editable form
         }
     });
+
+    $('#BDCC').html((8 / 100 * budgetObj[0].CTs).toFixed(2));
+    $('#BDSBS').html((7 / 100 * budgetObj[0].CTs).toFixed(2));
+    $('#BDTB').html((7 / 100 * budgetObj[0].CTs).toFixed(2));
+
+    
 });
 
 function applyFilter() {}

@@ -70,7 +70,7 @@ router.post('/add-transaction', ensureAuthenticated, (req, res, next) => {
 
     //For transactions
     let t_number = req.body.employeeDropdown;
-    let store_id = undefined;
+    let store_id = req.body.storeDropdown;
     let currentDate = undefined;
     let transaction_type = undefined;
 
@@ -157,29 +157,29 @@ router.post('/add-transaction', ensureAuthenticated, (req, res, next) => {
     transaction_items = data;
 
     //Call the following methods in order
-    async.series([getStoreID, getData, addTransaction, addTransactionItems, addMetrics, pageRedirect]);
+    async.series([getData, addTransaction, addTransactionItems, addMetrics, pageRedirect]);
 
 
-    /**
-     * Second method in the async series
-     * Get the users store number by their t_number
-     * @param fnCallback
-     */
-    function getStoreID(fnCallback) {
-        userModel.getById(t_number, (err, rows) => {
-            if (err) {
-                throw next(err);
-            }
-            else if (rows.length <= 0) {
-                console.error('Invalid profile id.');
-                return res.redirect('/users/');
-            }
-            else {
-                store_id = rows[0].store_id;
-                fnCallback(null);
-            }
-        });
-    } //End getStoreID
+    ///**
+    // * Second method in the async series
+    // * Get the users store number by their t_number
+    // * @param fnCallback
+    // */
+    //function getStoreID(fnCallback) {
+    //    storeModel.getFirstStoreByTNumber(t_number, (err, rows) => {
+    //        if (err) {
+    //            throw next(err);
+    //        }
+    //        else if (rows.length <= 0) {
+    //            console.error('Invalid profile id.');
+    //            return res.redirect('/users/');
+    //        }
+    //        else {
+    //            store_id = rows[0].store_id;
+    //            fnCallback(null);
+    //        }
+    //    });
+    //} //End getStoreID
 
     /**
      * Third method in the async series
@@ -591,7 +591,7 @@ function renderTransactionHistoryPage(returnObj, req, res, next) {
  * @param next
  */
 function renderAddTransactionPage(returnObj, req, res, next) {
-    userModel.getAllUsersByStoreID(req.session.store_id, (err, userResult) => {
+    storeModel.getAllStoresAndUsers((err, storeResults) => {
         //If an error is thrown
         if (err) {
             returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');
@@ -599,7 +599,9 @@ function renderAddTransactionPage(returnObj, req, res, next) {
             return res.render('transactions/add-transaction', returnObj);
         } //End if
 
-        transactionModel.getTransactions((err, transactionResults) => {
+
+
+        userModel.getAllUsersByStoreID(req.session.store_id, (err, userResult) => {
             //If an error is thrown
             if (err) {
                 returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');
@@ -607,7 +609,7 @@ function renderAddTransactionPage(returnObj, req, res, next) {
                 return res.render('transactions/add-transaction', returnObj);
             } //End if
 
-            transactionModel.getActivation((err, activationResults) => {
+            transactionModel.getTransactions((err, transactionResults) => {
                 //If an error is thrown
                 if (err) {
                     returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');
@@ -615,7 +617,7 @@ function renderAddTransactionPage(returnObj, req, res, next) {
                     return res.render('transactions/add-transaction', returnObj);
                 } //End if
 
-                transactionModel.getDevice((err, deviceResults) => {
+                transactionModel.getActivation((err, activationResults) => {
                     //If an error is thrown
                     if (err) {
                         returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');
@@ -623,7 +625,7 @@ function renderAddTransactionPage(returnObj, req, res, next) {
                         return res.render('transactions/add-transaction', returnObj);
                     } //End if
 
-                    transactionModel.getWarranty((err, warrantyResults) => {
+                    transactionModel.getDevice((err, deviceResults) => {
                         //If an error is thrown
                         if (err) {
                             returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');
@@ -631,23 +633,35 @@ function renderAddTransactionPage(returnObj, req, res, next) {
                             return res.render('transactions/add-transaction', returnObj);
                         } //End if
 
-                        returnObj['users'] = userResult;
-                        returnObj['transactions'] = transactionResults;
-                        returnObj['activations'] = activationResults;
-                        returnObj['devices'] = deviceResults;
-                        returnObj['warrantys'] = warrantyResults;
-                        returnObj['selectedEmployee'] = req.user.t_number;
+                        transactionModel.getWarranty((err, warrantyResults) => {
+                            //If an error is thrown
+                            if (err) {
+                                returnObj['message'] = req.flash('Our database servers maybe down. Please try again.');
+                                //Render the page wth error messages
+                                return res.render('transactions/add-transaction', returnObj);
+                            } //End if
 
-                        returnObj['warrentysObj'] = JSON.stringify(returnObj['warrantys']);
-                        returnObj['devicesObj'] = JSON.stringify(returnObj['devices']);
-                        returnObj['activationsObj'] = JSON.stringify(returnObj['activations']);
+                            returnObj['users'] = userResult;
+                            returnObj['transactions'] = transactionResults;
+                            returnObj['activations'] = activationResults;
+                            returnObj['devices'] = deviceResults;
+                            returnObj['warrantys'] = warrantyResults;
+                            returnObj['stores'] = storeResults;
+                            returnObj['selectedEmployee'] = req.user.t_number;
+                            returnObj['defaultStore'] = req.user.store_id;
 
-                        return res.render('transactions/add-transaction', returnObj);
-                    }); //end getWarranty
-                }); //end getDevice
-            }); //end getActivation
-        }); //end getTransactions
-    }); //end getAll
+                            returnObj['warrentysObj'] = JSON.stringify(returnObj['warrantys']);
+                            returnObj['devicesObj'] = JSON.stringify(returnObj['devices']);
+                            returnObj['activationsObj'] = JSON.stringify(returnObj['activations']);
+                            returnObj['storesObject'] = JSON.stringify(returnObj['stores']);
+
+                            return res.render('transactions/add-transaction', returnObj);
+                        }); //end getWarranty
+                    }); //end getDevice
+                }); //end getActivation
+            }); //end getTransactions
+        }); //end getAll
+    }); //end getAllStores
 } //End renderAddTransactionPage
 
 module.exports = router;

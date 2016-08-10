@@ -67,8 +67,8 @@ exports.updateBudgets = (values, done) => {
     });
 };
 
-exports.getCTs = (values, done) => {
-    connection.get().query('SELECT CTs FROM budgets WHERE date = ? AND store_id = ?', values, (error, result) => {
+exports.getBudgets = (values, done) => {
+    connection.get().query('SELECT CTs, revenue, aotm, ls FROM budgets WHERE date = ? AND store_id = ?', values, (error, result) => {
         if(error) {
             return done(error);
         }

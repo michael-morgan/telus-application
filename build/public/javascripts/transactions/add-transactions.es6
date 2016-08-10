@@ -1,9 +1,32 @@
+var storesArray;
+var filteredArray;
 $(function () {
     loadButtons();
+    
+    var teamDropdown = $("#employeeDropdown");
 
-    console.debug(warrentyObj);
-    console.debug(deviceObj);
-    console.debug(activationObj);
+    teamDropdown.change((event) => {
+        //Get the selected user from from the drop down
+        var teamMember = $('#employeeDropdown').val();
+
+        storesArray = JSON.parse(JSON.stringify(storeObj));
+
+        filteredArray = storesArray.filter((store) => store.t_number == teamMember);
+
+        var storesList = '';
+
+        storesList += `<select required="" id="storeDropdown" name="storeDropdown" class="transact">`;
+            for(var storeIndex in filteredArray){
+                storesList += `<option value="${filteredArray[storeIndex].store_id}">${filteredArray[storeIndex].store_name}</option>`;
+            }
+        storesList += `</select>`;
+
+        $(`#storeList`).html(storesList);
+
+    });
+
+    //Trigger the drop down change function to load the HTML
+    teamDropdown.trigger('change');
 });
 
 function loadButtons() {
@@ -276,4 +299,6 @@ function removeDevice(id) {
     $('#device'+id).remove();
     count--;
 };
+
+
 
