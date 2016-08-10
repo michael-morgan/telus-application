@@ -39,7 +39,7 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
             returnObj['users'] = result;
             returnObj['usersObj'] = JSON.stringify(result);
             returnObj['selectedEmployee'] = req.user.t_number;
-            sellingHoursModel.getHoursByStoreIDForCurrentWeek(req.session.store_id,(err, result) => {
+            sellingHoursModel.getAllHours(req.session.store_id,(err, result) => {
                 if (err) {
                     throw next(err);
                 } //end if)
