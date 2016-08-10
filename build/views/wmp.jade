@@ -1,0 +1,30 @@
+extends layout
+
+block append stylesheet
+    link(rel='stylesheet', href='/bower_components/bootstrap-daterangepicker/daterangepicker.css')
+    link(rel='stylesheet', href='/stylesheets/selling-hours.css')
+    link(href='//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css', rel='stylesheet')
+block content
+    .row.form-group
+        .col-xs-12.col-sm-4
+            label(for='store') Store:
+            select.form-control(id='store', name='store')
+                each store, storeIndex in stores
+                    option(value='#{store.store_id}' selected) #{store.store_name}
+
+        .col-xs-12.col-sm-4
+            label(for='dateRange') Date Range:
+            .input-group
+                span.input-group-addon#iconAddon
+                    i.fa.fa-calendar(aria-hidden='true')
+                input.form-control(type='text', id='dateRange', name='dateRange', aria-describedby='iconAddon')
+        .col-xs-12.col-lg-10.col-lg-offset-1
+            hr
+block append script
+    script(src='//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js')
+    script(src='/bower_components/bootstrap-daterangepicker/moment.min.js')
+    script(src='/bower_components/bootstrap-daterangepicker/daterangepicker.js')
+    script(src='/javascripts/selling-hours/selling-hours.js')
+    script.
+        var storeObj = JSON.parse('!{storesObj}');
+        var userObj = JSON.parse('!{usersObj}');
