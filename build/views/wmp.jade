@@ -25,17 +25,20 @@ block content
             .table-responsive.edit
                 table.table-condensed.table-bordered.table-nonfluid-report.teammembers.pull-right
                     thead
-                        tr
-                            th Store #Here
-                            th TM Name
-                            th Selling Hours
-                            th % Hours
+                    each store, storeIndex in stores
+                            tr
+                                th Store: #{store.store_id}
+                                th TM Name
+                                th Selling Hours
+                                th % Hours
                     tbody
-                        tr
-                            td
-                            th Patrick
-                            th 8
-                            th 0%
+                        each user, i in users
+                            if user.privileged != 5
+                                tr
+                                    td
+                                    td #{user.first_name + " " + user.last_name}
+                                    th 8
+                                    th 20%
                     tfoot
                         tr
                             td Store Total

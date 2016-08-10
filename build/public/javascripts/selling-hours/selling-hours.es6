@@ -177,7 +177,6 @@ function displayEmployeeHours(userObj, hourObj) {
                         $('#TotalTuesdayHours').text(totalHours.toString());
                         $('#TotalWeekHours').text(totalWeekHours);
                     }
-
                 });
                 totalHours += parseInt(hourObj[hour].selling_hours);
                 tuesdayHours += parseInt(hourObj[hour].selling_hours);
