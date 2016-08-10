@@ -1,8 +1,16 @@
 .col-md-3 {
     padding-right: 0!important;
-    padding-top: 3.1em;
+    padding-top: 5.85em;
 }
 
 .col-md-9 {
     padding-left: 0!important;
+}
+.pls {
+    text-align: center;
+    padding-right: 20px;
+}
+
+.edit {
+    line-height: 1.9;
 }
