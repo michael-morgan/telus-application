@@ -66,14 +66,8 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
                     if (err) {
                         throw next(err);
                     } //end if
-
-                    console.log();
                     returnObj['budgets'] = budgetResults;
-
-                    console.log(returnObj['budgets']);
-
                     returnObj['budgetsObj'] = JSON.stringify(returnObj['budgets']);
-
                     return res.render('selling-hours/selling-hours', returnObj);
                 });
             });
@@ -154,9 +148,6 @@ router.post('/budgets', ensureAuthenticated, function (req, res, next) {
                 budget['ls'] = req.body.value;
                 break;
         }
-
-        console.log(budget);
-
         if (result == 0) {
             sellingHoursModel.createBudgets(budget, function (err, result) {
                 if (err) {

@@ -10,10 +10,6 @@ $(() => {
     storesArray = JSON.parse(JSON.stringify(storeObj));
     getDaysOfTheWeek();
     displayEmployeeHours();
-    console.debug(storesArray);
-    console.debug(userObj);
-    console.debug(hourObj);
-    console.debug(budgetObj);
     //Hide the delete message until a transaction has been removed
     $('#deleteMessage').hide();
 
@@ -103,20 +99,17 @@ function displayEmployeeHours() {
                     success: function (response, newValue) {
                         var info = JSON.parse(response);
                         var hours,totalHours,totalWeekHours;
-                        if(parseInt($('#MondayHours'+ info.name.split(',')[0] + '').text()) > parseInt(newValue))
-                        {
+                        if(parseInt($('#MondayHours'+ info.name.split(',')[0] + '').text()) > parseInt(newValue)) {
                             hours  = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) - (parseInt($('#MondayHours'+ info.name.split(',')[0] + '').text()-parseInt(newValue)));
                             totalHours  = parseInt($('#TotalMondayHours').text()) - (parseInt($('#MondayHours'+ info.name.split(',')[0] + '').text())-parseInt(newValue));
                             totalWeekHours  = parseInt($('#TotalWeekHours').text()) - (parseInt($('#MondayHours'+ info.name.split(',')[0] + '').text())-parseInt(newValue));
                         }
-                        else if(parseInt($('#MondayHours'+ info.name.split(',')[0] + '').text()) < parseInt(newValue))
-                        {
+                        else if(parseInt($('#MondayHours'+ info.name.split(',')[0] + '').text()) < parseInt(newValue)) {
                             hours  = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) + (parseInt(newValue) - parseInt($('#MondayHours'+ info.name.split(',')[0] + '').text()));
                             totalHours  = parseInt($('#TotalMondayHours').text()) + (parseInt(newValue) - parseInt($('#MondayHours'+ info.name.split(',')[0] + '').text()));
                             totalWeekHours  = parseInt($('#TotalWeekHours').text()) + (parseInt(newValue) - parseInt($('#MondayHours'+ info.name.split(',')[0] + '').text()));
                         }
-                        else
-                        {
+                        else {
                             hours = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) + (parseInt(newValue));
                             totalHours = parseInt($('#TotalMondayHours').text()) + (parseInt(newValue));
                             totalWeekHours = parseInt($('#TotalWeekHours').text()) + (parseInt(newValue));
@@ -143,20 +136,17 @@ function displayEmployeeHours() {
                     success: function (response, newValue) {
                         var info = JSON.parse(response);
                         var hours,totalHours,totalWeekHours;
-                        if(parseInt($('#TuesdayHours'+ info.name.split(',')[0] + '').text()) > parseInt(newValue))
-                        {
+                        if(parseInt($('#TuesdayHours'+ info.name.split(',')[0] + '').text()) > parseInt(newValue)) {
                             hours  = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) - (parseInt($('#TuesdayHours'+ info.name.split(',')[0] + '').text()-parseInt(newValue)));
                             totalHours  = parseInt($('#TotalTuesdayHours').text()) - (parseInt($('#TuesdayHours'+ info.name.split(',')[0] + '').text())-parseInt(newValue));
                             totalWeekHours  = parseInt($('#TotalWeekHours').text()) - (parseInt($('#TuesdayHours'+ info.name.split(',')[0] + '').text())-parseInt(newValue));
                         }
-                        else if(parseInt($('#TuesdayHours'+ info.name.split(',')[0] + '').text()) < parseInt(newValue))
-                        {
+                        else if(parseInt($('#TuesdayHours'+ info.name.split(',')[0] + '').text()) < parseInt(newValue)) {
                             hours  = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) + (parseInt(newValue) - parseInt($('#TuesdayHours'+ info.name.split(',')[0] + '').text()));
                             totalHours  = parseInt($('#TotalTuesdayHours').text()) + (parseInt(newValue) - parseInt($('#TuesdayHours'+ info.name.split(',')[0] + '').text()));
                             totalWeekHours  = parseInt($('#TotalWeekHours').text()) + (parseInt(newValue) - parseInt($('#TuesdayHours'+ info.name.split(',')[0] + '').text()));
                         }
-                        else
-                        {
+                        else {
                             hours = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) + (parseInt(newValue));
                             totalHours = parseInt($('#TotalTuesdayHours').text()) + (parseInt(newValue));
                             totalWeekHours = parseInt($('#TotalWeekHours').text()) + (parseInt(newValue));
@@ -186,20 +176,17 @@ function displayEmployeeHours() {
                     success: function(response, newValue) {
                         var info = JSON.parse(response);
                         var hours,totalHours,totalWeekHours;
-                        if(parseInt($('#WednesdayHours'+ info.name.split(',')[0] + '').text()) > parseInt(newValue))
-                        {
+                        if(parseInt($('#WednesdayHours'+ info.name.split(',')[0] + '').text()) > parseInt(newValue)) {
                             hours  = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) - (parseInt($('#WednesdayHours'+ info.name.split(',')[0] + '').text()-parseInt(newValue)));
                             totalHours  = parseInt($('#TotalWednesdayHours').text()) - (parseInt($('#WednesdayHours'+ info.name.split(',')[0] + '').text())-parseInt(newValue));
                             totalWeekHours  = parseInt($('#TotalWeekHours').text()) - (parseInt($('#WednesdayHours'+ info.name.split(',')[0] + '').text())-parseInt(newValue));
                         }
-                        else if(parseInt($('#WednesdayHours'+ info.name.split(',')[0] + '').text()) < parseInt(newValue))
-                        {
+                        else if(parseInt($('#WednesdayHours'+ info.name.split(',')[0] + '').text()) < parseInt(newValue)) {
                             hours  = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) + (parseInt(newValue) - parseInt($('#WednesdayHours'+ info.name.split(',')[0] + '').text()));
                             totalHours  = parseInt($('#TotalWednesdayHours').text()) + (parseInt(newValue) - parseInt($('#WednesdayHours'+ info.name.split(',')[0] + '').text()));
                             totalWeekHours  = parseInt($('#TotalWeekHours').text()) + (parseInt(newValue) - parseInt($('#WednesdayHours'+ info.name.split(',')[0] + '').text()));
                         }
-                        else
-                        {
+                        else {
                             hours = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) + (parseInt(newValue));
                             totalHours = parseInt($('#TotalWednesdayHours').text()) + (parseInt(newValue));
                             totalWeekHours = parseInt($('#TotalWeekHours').text()) + (parseInt(newValue));
@@ -227,20 +214,17 @@ function displayEmployeeHours() {
                     success: function (response, newValue) {
                         var info = JSON.parse(response);
                         var hours,totalHours,totalWeekHours;
-                        if(parseInt($('#ThursdayHours'+ info.name.split(',')[0] + '').text()) > parseInt(newValue))
-                        {
+                        if(parseInt($('#ThursdayHours'+ info.name.split(',')[0] + '').text()) > parseInt(newValue)) {
                             hours  = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) - (parseInt($('#ThursdayHours'+ info.name.split(',')[0] + '').text()-parseInt(newValue)));
                             totalHours  = parseInt($('#TotalThursdayHours').text()) - (parseInt($('#ThursdayHours'+ info.name.split(',')[0] + '').text())-parseInt(newValue));
                             totalWeekHours  = parseInt($('#TotalWeekHours').text()) - (parseInt($('#ThursdayHours'+ info.name.split(',')[0] + '').text())-parseInt(newValue));
                         }
-                        else if(parseInt($('#ThursdayHours'+ info.name.split(',')[0] + '').text()) < parseInt(newValue))
-                        {
+                        else if(parseInt($('#ThursdayHours'+ info.name.split(',')[0] + '').text()) < parseInt(newValue)) {
                             hours  = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) + (parseInt(newValue) - parseInt($('#ThursdayHours'+ info.name.split(',')[0] + '').text()));
                             totalHours  = parseInt($('#TotalThursdayHours').text()) + (parseInt(newValue) - parseInt($('#ThursdayHours'+ info.name.split(',')[0] + '').text()));
                             totalWeekHours  = parseInt($('#TotalWeekHours').text()) + (parseInt(newValue) - parseInt($('#ThursdayHours'+ info.name.split(',')[0] + '').text()));
                         }
-                        else
-                        {
+                        else {
                             hours = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) + (parseInt(newValue));
                             totalHours = parseInt($('#TotalThursdayHours').text()) + (parseInt(newValue));
                             totalWeekHours = parseInt($('#TotalWeekHours').text()) + (parseInt(newValue));
@@ -250,7 +234,6 @@ function displayEmployeeHours() {
                         $('#TotalThursdayHours').text(totalHours.toString());
                         $('#TotalWeekHours').text(totalWeekHours);
                     }
-
                 });
                 totalHours += parseInt(hourObj[hour].selling_hours);
                 thursdayHours += parseInt(hourObj[hour].selling_hours);
@@ -309,20 +292,17 @@ function displayEmployeeHours() {
                     success: function (response, newValue) {
                         var info = JSON.parse(response);
                         var hours,totalHours,totalWeekHours;
-                        if(parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()) > parseInt(newValue))
-                        {
+                        if(parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()) > parseInt(newValue)) {
                             hours  = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) - (parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()-parseInt(newValue)));
                             totalHours  = parseInt($('#TotalSaturdayHours').text()) - (parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text())-parseInt(newValue));
                             totalWeekHours  = parseInt($('#TotalWeekHours').text()) - (parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text())-parseInt(newValue));
                         }
-                        else if(parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()) < parseInt(newValue))
-                        {
+                        else if(parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()) < parseInt(newValue)) {
                             hours  = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) + (parseInt(newValue) - parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()));
                             totalHours  = parseInt($('#TotalSaturdayHours').text()) + (parseInt(newValue) - parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()));
                             totalWeekHours  = parseInt($('#TotalWeekHours').text()) + (parseInt(newValue) - parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()));
                         }
-                        else
-                        {
+                        else {
                             hours = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) + (parseInt(newValue));
                             totalHours = parseInt($('#TotalSaturdayHours').text()) + (parseInt(newValue));
                             totalWeekHours = parseInt($('#TotalWeekHours').text()) + (parseInt(newValue));
@@ -335,9 +315,7 @@ function displayEmployeeHours() {
                 });
                 totalHours += parseInt(hourObj[hour].selling_hours);
                 saturdayHours += parseInt(hourObj[hour].selling_hours);
-
             }
-
         }//end for loop for hours
         $('#TotalSundayHours').text(sundayHours);
         $('#TotalMondayHours').text(mondayHours);
@@ -360,20 +338,17 @@ function displayEmployeeHours() {
             success: function (response, newValue) {
                 var info = JSON.parse(response);
                 var hours,totalHours,totalWeekHours;
-                if(parseInt($('#SundayHours'+ info.name.split(',')[0] + '').text()) > parseInt(newValue))
-                {
+                if(parseInt($('#SundayHours'+ info.name.split(',')[0] + '').text()) > parseInt(newValue)) {
                     hours  = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) - (parseInt($('#SundayHours'+ info.name.split(',')[0] + '').text()-parseInt(newValue)));
                     totalHours  = parseInt($('#TotalSundayHours').text()) - (parseInt($('#SundayHours'+ info.name.split(',')[0] + '').text())-parseInt(newValue));
                     totalWeekHours  = parseInt($('#TotalWeekHours').text()) - (parseInt($('#SundayHours'+ info.name.split(',')[0] + '').text())-parseInt(newValue));
                 }
-                else if(parseInt($('#SundayHours'+ info.name.split(',')[0] + '').text()) < parseInt(newValue))
-                {
+                else if(parseInt($('#SundayHours'+ info.name.split(',')[0] + '').text()) < parseInt(newValue)) {
                     hours  = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) + (parseInt(newValue) - parseInt($('#SundayHours'+ info.name.split(',')[0] + '').text()));
                     totalHours  = parseInt($('#TotalSundayHours').text()) + (parseInt(newValue) - parseInt($('#SundayHours'+ info.name.split(',')[0] + '').text()));
                     totalWeekHours  = parseInt($('#TotalWeekHours').text()) + (parseInt(newValue) - parseInt($('#SundayHours'+ info.name.split(',')[0] + '').text()));
                 }
-                else
-                {
+                else {
                     hours = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) + (parseInt(newValue));
                     totalHours = parseInt($('#TotalSundayHours').text()) + (parseInt(newValue));
                     totalWeekHours = parseInt($('#TotalWeekHours').text()) + (parseInt(newValue));
@@ -396,20 +371,17 @@ function displayEmployeeHours() {
             success: function (response, newValue) {
                 var info = JSON.parse(response);
                 var hours,totalHours,totalWeekHours;
-                if(parseInt($('#MondayHours'+ info.name.split(',')[0] + '').text()) > parseInt(newValue))
-                {
+                if(parseInt($('#MondayHours'+ info.name.split(',')[0] + '').text()) > parseInt(newValue)) {
                     hours  = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) - (parseInt($('#MondayHours'+ info.name.split(',')[0] + '').text()-parseInt(newValue)));
                     totalHours  = parseInt($('#TotalMondayHours').text()) - (parseInt($('#MondayHours'+ info.name.split(',')[0] + '').text())-parseInt(newValue));
                     totalWeekHours  = parseInt($('#TotalWeekHours').text()) - (parseInt($('#MondayHours'+ info.name.split(',')[0] + '').text())-parseInt(newValue));
                 }
-                else if(parseInt($('#MondayHours'+ info.name.split(',')[0] + '').text()) < parseInt(newValue))
-                {
+                else if(parseInt($('#MondayHours'+ info.name.split(',')[0] + '').text()) < parseInt(newValue)) {
                     hours  = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) + (parseInt(newValue) - parseInt($('#MondayHours'+ info.name.split(',')[0] + '').text()));
                     totalHours  = parseInt($('#TotalMondayHours').text()) + (parseInt(newValue) - parseInt($('#MondayHours'+ info.name.split(',')[0] + '').text()));
                     totalWeekHours  = parseInt($('#TotalWeekHours').text()) + (parseInt(newValue) - parseInt($('#MondayHours'+ info.name.split(',')[0] + '').text()));
                 }
-                else
-                {
+                else {
                     hours = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) + (parseInt(newValue));
                     totalHours = parseInt($('#TotalMondayHours').text()) + (parseInt(newValue));
                     totalWeekHours = parseInt($('#TotalWeekHours').text()) + (parseInt(newValue));
@@ -418,7 +390,6 @@ function displayEmployeeHours() {
                 $('#TotalHours'+ info.name.split(',')[0] + '').text(hours.toString());
                 $('#TotalMondayHours').text(totalHours.toString());
                 $('#TotalWeekHours').text(totalWeekHours);
-                
             }
         });
 
@@ -434,20 +405,17 @@ function displayEmployeeHours() {
             success: function (response, newValue) {
                 var info = JSON.parse(response);
                 var hours,totalHours,totalWeekHours;
-                if(parseInt($('#TuesdayHours'+ info.name.split(',')[0] + '').text()) > parseInt(newValue))
-                {
+                if(parseInt($('#TuesdayHours'+ info.name.split(',')[0] + '').text()) > parseInt(newValue)) {
                     hours  = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) - (parseInt($('#TuesdayHours'+ info.name.split(',')[0] + '').text()-parseInt(newValue)));
                     totalHours  = parseInt($('#TotalTuesdayHours').text()) - (parseInt($('#TuesdayHours'+ info.name.split(',')[0] + '').text())-parseInt(newValue));
                     totalWeekHours  = parseInt($('#TotalWeekHours').text()) - (parseInt($('#TuesdayHours'+ info.name.split(',')[0] + '').text())-parseInt(newValue));
                 }
-                else if(parseInt($('#TuesdayHours'+ info.name.split(',')[0] + '').text()) < parseInt(newValue))
-                {
+                else if(parseInt($('#TuesdayHours'+ info.name.split(',')[0] + '').text()) < parseInt(newValue)) {
                     hours  = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) + (parseInt(newValue) - parseInt($('#TuesdayHours'+ info.name.split(',')[0] + '').text()));
                     totalHours  = parseInt($('#TotalTuesdayHours').text()) + (parseInt(newValue) - parseInt($('#TuesdayHours'+ info.name.split(',')[0] + '').text()));
                     totalWeekHours  = parseInt($('#TotalWeekHours').text()) + (parseInt(newValue) - parseInt($('#TuesdayHours'+ info.name.split(',')[0] + '').text()));
                 }
-                else
-                {
+                else {
                     hours = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) + (parseInt(newValue));
                     totalHours = parseInt($('#TotalTuesdayHours').text()) + (parseInt(newValue));
                     totalWeekHours = parseInt($('#TotalWeekHours').text()) + (parseInt(newValue));
@@ -457,7 +425,6 @@ function displayEmployeeHours() {
                 $('#TotalTuesdayHours').text(totalHours.toString());
                 $('#TotalWeekHours').text(totalWeekHours);
             }
-
         });
         $('#WednesdayHours'+userObj[user].t_number+'').editable({
             type: 'text',
@@ -470,20 +437,17 @@ function displayEmployeeHours() {
             success: function(response, newValue) {
                 var info = JSON.parse(response);
                 var hours,totalHours,totalWeekHours;
-                if(parseInt($('#WednesdayHours'+ info.name.split(',')[0] + '').text()) > parseInt(newValue))
-                {
+                if(parseInt($('#WednesdayHours'+ info.name.split(',')[0] + '').text()) > parseInt(newValue)) {
                     hours  = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) - (parseInt($('#WednesdayHours'+ info.name.split(',')[0] + '').text()-parseInt(newValue)));
                     totalHours  = parseInt($('#TotalWednesdayHours').text()) - (parseInt($('#WednesdayHours'+ info.name.split(',')[0] + '').text())-parseInt(newValue));
                     totalWeekHours  = parseInt($('#TotalWeekHours').text()) - (parseInt($('#WednesdayHours'+ info.name.split(',')[0] + '').text())-parseInt(newValue));
                 }
-                else if(parseInt($('#WednesdayHours'+ info.name.split(',')[0] + '').text()) < parseInt(newValue))
-                {
+                else if(parseInt($('#WednesdayHours'+ info.name.split(',')[0] + '').text()) < parseInt(newValue)) {
                     hours  = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) + (parseInt(newValue) - parseInt($('#WednesdayHours'+ info.name.split(',')[0] + '').text()));
                     totalHours  = parseInt($('#TotalWednesdayHours').text()) + (parseInt(newValue) - parseInt($('#WednesdayHours'+ info.name.split(',')[0] + '').text()));
                     totalWeekHours  = parseInt($('#TotalWeekHours').text()) + (parseInt(newValue) - parseInt($('#WednesdayHours'+ info.name.split(',')[0] + '').text()));
                 }
-                else
-                {
+                else {
                     hours = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) + (parseInt(newValue));
                     totalHours = parseInt($('#TotalWednesdayHours').text()) + (parseInt(newValue));
                     totalWeekHours = parseInt($('#TotalWeekHours').text()) + (parseInt(newValue));
@@ -493,7 +457,6 @@ function displayEmployeeHours() {
                 $('#TotalWednesdayHours').text(totalHours.toString());
                 $('#TotalWeekHours').text(totalWeekHours);
             }
-
         });
 
 
@@ -508,20 +471,17 @@ function displayEmployeeHours() {
             success: function (response, newValue) {
                 var info = JSON.parse(response);
                 var hours,totalHours,totalWeekHours;
-                if(parseInt($('#ThursdayHours'+ info.name.split(',')[0] + '').text()) > parseInt(newValue))
-                {
+                if(parseInt($('#ThursdayHours'+ info.name.split(',')[0] + '').text()) > parseInt(newValue)) {
                     hours  = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) - (parseInt($('#ThursdayHours'+ info.name.split(',')[0] + '').text()-parseInt(newValue)));
                     totalHours  = parseInt($('#TotalThursdayHours').text()) - (parseInt($('#ThursdayHours'+ info.name.split(',')[0] + '').text())-parseInt(newValue));
                     totalWeekHours  = parseInt($('#TotalWeekHours').text()) - (parseInt($('#ThursdayHours'+ info.name.split(',')[0] + '').text())-parseInt(newValue));
                 }
-                else if(parseInt($('#ThursdayHours'+ info.name.split(',')[0] + '').text()) < parseInt(newValue))
-                {
+                else if(parseInt($('#ThursdayHours'+ info.name.split(',')[0] + '').text()) < parseInt(newValue)) {
                     hours  = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) + (parseInt(newValue) - parseInt($('#ThursdayHours'+ info.name.split(',')[0] + '').text()));
                     totalHours  = parseInt($('#TotalThursdayHours').text()) + (parseInt(newValue) - parseInt($('#ThursdayHours'+ info.name.split(',')[0] + '').text()));
                     totalWeekHours  = parseInt($('#TotalWeekHours').text()) + (parseInt(newValue) - parseInt($('#ThursdayHours'+ info.name.split(',')[0] + '').text()));
                 }
-                else
-                {
+                else {
                     hours = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) + (parseInt(newValue));
                     totalHours = parseInt($('#TotalThursdayHours').text()) + (parseInt(newValue));
                     totalWeekHours = parseInt($('#TotalWeekHours').text()) + (parseInt(newValue));
@@ -546,20 +506,17 @@ function displayEmployeeHours() {
             success: function (response, newValue) {
                 var info = JSON.parse(response);
                 var hours,totalHours,totalWeekHours;
-                if(parseInt($('#FridayHours'+ info.name.split(',')[0] + '').text()) > parseInt(newValue))
-                {
+                if(parseInt($('#FridayHours'+ info.name.split(',')[0] + '').text()) > parseInt(newValue)) {
                     hours  = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) - (parseInt($('#FridayHours'+ info.name.split(',')[0] + '').text()-parseInt(newValue)));
                     totalHours  = parseInt($('#TotalFridayHours').text()) - (parseInt($('#FridayHours'+ info.name.split(',')[0] + '').text())-parseInt(newValue));
                     totalWeekHours  = parseInt($('#TotalWeekHours').text()) - (parseInt($('#FridayHours'+ info.name.split(',')[0] + '').text())-parseInt(newValue));
                 }
-                else if(parseInt($('#FridayHours'+ info.name.split(',')[0] + '').text()) < parseInt(newValue))
-                {
+                else if(parseInt($('#FridayHours'+ info.name.split(',')[0] + '').text()) < parseInt(newValue)) {
                     hours  = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) + (parseInt(newValue) - parseInt($('#FridayHours'+ info.name.split(',')[0] + '').text()));
                     totalHours  = parseInt($('#TotalFridayHours').text()) + (parseInt(newValue) - parseInt($('#FridayHours'+ info.name.split(',')[0] + '').text()));
                     totalWeekHours  = parseInt($('#TotalWeekHours').text()) + (parseInt(newValue) - parseInt($('#FridayHours'+ info.name.split(',')[0] + '').text()));
                 }
-                else
-                {
+                else {
                     hours = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) + (parseInt(newValue));
                     totalHours = parseInt($('#TotalFridayHours').text()) + (parseInt(newValue));
                     totalWeekHours = parseInt($('#TotalWeekHours').text()) + (parseInt(newValue));
@@ -583,20 +540,17 @@ function displayEmployeeHours() {
             success: function (response, newValue) {
                 var info = JSON.parse(response);
                 var hours,totalHours,totalWeekHours;
-                if(parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()) > parseInt(newValue))
-                {
+                if(parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()) > parseInt(newValue)) {
                     hours  = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) - (parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()-parseInt(newValue)));
                     totalHours  = parseInt($('#TotalSaturdayHours').text()) - (parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text())-parseInt(newValue));
                     totalWeekHours  = parseInt($('#TotalWeekHours').text()) - (parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text())-parseInt(newValue));
                 }
-                else if(parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()) < parseInt(newValue))
-                {
+                else if(parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()) < parseInt(newValue)) {
                     hours  = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) + (parseInt(newValue) - parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()));
                     totalHours  = parseInt($('#TotalSaturdayHours').text()) + (parseInt(newValue) - parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()));
                     totalWeekHours  = parseInt($('#TotalWeekHours').text()) + (parseInt(newValue) - parseInt($('#SaturdayHours'+ info.name.split(',')[0] + '').text()));
                 }
-                else
-                {
+                else {
                     hours = parseInt($('#TotalHours'+ info.name.split(',')[0] + '').text()) + (parseInt(newValue));
                     totalHours = parseInt($('#TotalSaturdayHours').text()) + (parseInt(newValue));
                     totalWeekHours = parseInt($('#TotalWeekHours').text()) + (parseInt(newValue));
@@ -636,10 +590,10 @@ $.fn.editable.defaults.mode = 'inline';
 
 
 $(document).ready(function() {
-    var CTs = 0;
-    var revenue = 0;
-    var aotm = 0;
-    var ls = 0;
+    var CTs = '';
+    var revenue = '';
+    var aotm = '';
+    var ls = '';
 
     if(budgetObj[0] != undefined){
         CTs = budgetObj[0].CTs;
@@ -705,8 +659,6 @@ $(document).ready(function() {
     $('#BDCC').html((8 / 100 * budgetObj[0].CTs).toFixed(2));
     $('#BDSBS').html((7 / 100 * budgetObj[0].CTs).toFixed(2));
     $('#BDTB').html((7 / 100 * budgetObj[0].CTs).toFixed(2));
-
-    
 });
 
 function applyFilter() {}

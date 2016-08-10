@@ -12,10 +12,6 @@ $(function () {
     storesArray = JSON.parse(JSON.stringify(storeObj));
     getDaysOfTheWeek();
     displayEmployeeHours();
-    console.debug(storesArray);
-    console.debug(userObj);
-    console.debug(hourObj);
-    console.debug(budgetObj);
     //Hide the delete message until a transaction has been removed
     $('#deleteMessage').hide();
 
@@ -224,7 +220,6 @@ function displayEmployeeHours() {
                         $('#TotalThursdayHours').text(totalHours.toString());
                         $('#TotalWeekHours').text(totalWeekHours);
                     }
-
                 });
                 totalHours += parseInt(hourObj[hour].selling_hours);
                 thursdayHours += parseInt(hourObj[hour].selling_hours);
@@ -398,7 +393,6 @@ function displayEmployeeHours() {
                 $('#TotalTuesdayHours').text(totalHours.toString());
                 $('#TotalWeekHours').text(totalWeekHours);
             }
-
         });
         $('#WednesdayHours' + userObj[user].t_number + '').editable({
             type: 'text',
@@ -429,7 +423,6 @@ function displayEmployeeHours() {
                 $('#TotalWednesdayHours').text(totalHours.toString());
                 $('#TotalWeekHours').text(totalWeekHours);
             }
-
         });
 
         $('#ThursdayHours' + userObj[user].t_number + '').editable({
@@ -551,10 +544,10 @@ function getDaysOfTheWeek() {
 $.fn.editable.defaults.mode = 'inline';
 
 $(document).ready(function () {
-    var CTs = 0;
-    var revenue = 0;
-    var aotm = 0;
-    var ls = 0;
+    var CTs = '';
+    var revenue = '';
+    var aotm = '';
+    var ls = '';
 
     if (budgetObj[0] != undefined) {
         CTs = budgetObj[0].CTs;
