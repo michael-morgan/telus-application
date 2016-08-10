@@ -72,6 +72,11 @@ function ensureAuthenticated(req, res, next) {
     }
     res.redirect('/');
 }
+$(document).ready(function () {
+
+    fakewaffle.responsiveTabs(['md']);
+    $('.footable').footable();
+});
 
 module.exports = router;
 

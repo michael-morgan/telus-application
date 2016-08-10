@@ -3,7 +3,6 @@ extends layout
 block append stylesheet
     link(rel='stylesheet', href='/bower_components/bootstrap-daterangepicker/daterangepicker.css')
     link(rel='stylesheet', href='/stylesheets/selling-hours.css')
-    link(href='//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css', rel='stylesheet')
 block content
     .row.form-group
         .col-xs-12.col-sm-4
@@ -20,8 +19,249 @@ block content
                 input.form-control(type='text', id='dateRange', name='dateRange', aria-describedby='iconAddon')
         .col-xs-12.col-lg-10.col-lg-offset-1
             hr
+    .row
+        .col-md-3
+            .table-responsive.edit
+                table.table-condensed.table-bordered.table-nonfluid-report
+                    thead
+                        tr
+                            th Store #?
+                            th TM
+                            th Selling Hours
+                            th % Hours
+                    tbody
+                        tr
+                            td
+                            th Patrick(populate with users)
+                            th 8
+                            th 0%
+                    tfoot
+                        tr
+                            td Store Total
+                            td $180
+                            td 666
+                            td 100%
+        .col-md-9
+            .bs-component
+                ul.nav.nav-tabs.responsive
+                    li.active
+                        a(data-toggle='tab', href='#tab1') CT
+                    li
+                        a(data-toggle='tab', href='#tab2') REV
+                    li
+                        a(data-toggle='tab', href='#tab3') LS
+                    li
+                        a(data-toggle='tab', href='#tab4') KBS
+                    li
+                        a(data-toggle='tab', href='#tab5') Key Metrics
+                .tab-content
+                    #tab1.tab-pane.fade.active.in
+                        table.table.table-striped.table-bordered.table-hover.footable.toggle-medium
+                            thead
+                                tr
+                                    th 26.3
+                                    th(data-hide='all') 31.6
+                                    th(data-hide='all') 3
+                                    th(data-hide='all') 14.26%
+                                tr
+                                    th Budgets
+                                    th Goal
+                                    th Actual
+                                    th % To Budget
+                            tbody
+                                tr
+                                    td Clickme
+                                    td Okay
+                                    td Whatever
+                                    td &nbsp;
+                                tr
+                                    td Second Row
+                                    td Still Okay
+                                    td Still Whatever
+                                    td &nbsp;
+                            tfoot
+                                tr
+                                    th Store
+                                    th Totals
+                                    th Below
+                                    td &nbsp;
+                                tr
+                                    td $180
+                                    td 666
+                                    td 100%
+                                    td &nbsp;
+                    #tab2.tab-pane.fade.active
+                        table.table.table-striped.table-bordered.table-hover.footable.toggle-medium
+                            thead
+                                thead
+                                    tr
+                                        th 26.3
+                                        th(data-hide='all') 31.6
+                                        th(data-hide='all') 3
+                                        th(data-hide='all') 14.26%
+                                    tr
+                                        th Budgets
+                                        th Goal
+                                        th Actual
+                                        th % To Budget
+                                tbody
+                                    tr
+                                        td Clickme
+                                        td Okay
+                                        td Whatever
+                                        td &nbsp;
+                                    tr
+                                        td Second Row
+                                        td Still Okay
+                                        td Still Whatever
+                                        td &nbsp;
+                                tfoot
+                                    tr
+                                        th Store
+                                        th Totals
+                                        th Below
+                                        th &nbsp;
+                                    tr
+                                        td $180
+                                        td 666
+                                        td 100%
+                                        td &nbsp;
+
+                    #tab3.tab-pane.fade.active
+                        table.table.table-striped.table-bordered.table-hover.footable.toggle-medium
+                            thead
+                                thead
+                                    tr
+                                        th 26.3
+                                        th(data-hide='all') 31.6
+                                        th(data-hide='all') 3
+                                        th(data-hide='all') 14.26%
+                                    tr
+                                        th Budgets
+                                        th Goal
+                                        th Actual
+                                        th % To Budget
+                                tbody
+                                    tr
+                                        td Clickme
+                                        td Okay
+                                        td Whatever
+                                        td
+                                    tr
+                                        td Second Row
+                                        td Still Okay
+                                        td Still Whatever
+                                        td &nbsp;
+                                tfoot
+                                    tr
+                                        th Store
+                                        th Totals
+                                        th Below
+                                        td &nbsp;
+                                    tr
+                                        td $180
+                                        td 666
+                                        td 100%
+                                        td &nbsp;
+                    #tab4.tab-pane.fade.active
+                        table.table.table-striped.table-bordered.table-hover.footable.toggle-medium
+                            thead
+                                thead
+                                    tr
+                                        th L33
+                                        th(data-hide='all') $79.99
+                                        th(data-hide='all') 239.98
+                                    tr
+                                        th Accessory Units Per Transaction
+                                        th Basket Size
+                                        th Average $ Per Handset
+                                tbody
+                                    tr
+                                        td Clickme
+                                        td Okay
+                                        td Whatever
+                                    tr
+                                        td Second Row
+                                        td Still Okay
+                                        td Still Whatever
+                                tfoot
+                                    tr
+                                        th Store
+                                        th Totals
+                                        th Below
+                                    tr
+                                        td $180
+                                        td 666
+                                        td 100%
+                    #tab5.tab-pane.fade.active
+                        .table-responsive.edit
+                            table.table.table-striped.table-bordered.table-hover.footable.toggle-medium.table-responsive
+                                thead
+                                    thead
+                                        tr
+                                            th 26.3
+                                            th(data-hide='all') 31.6
+                                            th(data-hide='all') 3
+                                            th(data-hide='all') 14.26%
+                                            th(data-hide='all') 31.6
+                                            th(data-hide='all') 3
+                                            th(data-hide='all') 31.6
+                                            th(data-hide='all') 3
+                                            th(data-hide='all') 14.26%
+                                        tr
+                                            th Budgets
+                                            th Goal
+                                            th Actual
+                                            th % To Budget
+                                            th Goal
+                                            th Actual
+                                            th % To Budget
+                                            th Goal
+                                            th Actual
+                                    tbody
+                                        tr
+                                            td Clickme
+                                            td Okay
+                                            td Whatever
+                                            td Clickme
+                                            td Okay
+                                            td Whatever
+                                            td Okay
+                                            td Whatever
+                                            td Clickme
+                                        tr
+                                            td Second Row
+                                            td Still Okay
+                                            td Still Whatever
+                                            td Clickme
+                                            td Okay
+                                            td Whatever
+                                            td Still Okay
+                                            td Still Whatever
+                                            td Clickme
+                                    tfoot
+                                        tr
+                                            th Store
+                                            th Totals
+                                            th Below
+                                            th Store
+                                            th Totals
+                                            th Below
+                                            th Totals
+                                            th Below
+                                            th Store
+                                        tr
+                                            td 111
+                                            td $180
+                                            td 666
+                                            td 100%
+                                            td 666
+                                            td 100%
+                                            td $180
+                                            td 666
+                                            td 100%
+
 block append script
-    script(src='//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js')
     script(src='/bower_components/bootstrap-daterangepicker/moment.min.js')
     script(src='/bower_components/bootstrap-daterangepicker/daterangepicker.js')
     script(src='/javascripts/selling-hours/selling-hours.js')
