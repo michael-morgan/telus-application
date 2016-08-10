@@ -3,6 +3,7 @@ extends layout
 block append stylesheet
     link(rel='stylesheet', href='/bower_components/bootstrap-daterangepicker/daterangepicker.css')
     link(rel='stylesheet', href='/stylesheets/selling-hours.css')
+    link(rel='stylesheet', href='/stylesheets/wmp.css')
 block content
     .row.form-group
         .col-xs-12.col-sm-4
@@ -262,9 +263,11 @@ block content
                                             td 100%
 
 block append script
+
     script(src='/bower_components/bootstrap-daterangepicker/moment.min.js')
     script(src='/bower_components/bootstrap-daterangepicker/daterangepicker.js')
     script(src='/javascripts/selling-hours/selling-hours.js')
+        script(src='/javascripts/wmp.js')
     script.
         var storeObj = JSON.parse('!{storesObj}');
         var userObj = JSON.parse('!{usersObj}');

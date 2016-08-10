@@ -66,6 +66,12 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
 });
 
 // Ensure sure the user is authenticated
+function ensureAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    res.redirect('/');
+}
 module.exports = router;
 
 //# sourceMappingURL=wmp.js.map
