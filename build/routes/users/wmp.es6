@@ -76,6 +76,10 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
                 )]['totalHours'] = storeTotalHours;
                 returnObj['currentStore']['totalHours'] = storeTotalHours;
 
+                returnObj['users'].forEach((user, userIndex, userArray) => {
+                    userArray[userIndex]['hoursPercent'] = ((userArray[userIndex]['totalHours'] / storeTotalHours) * 100);
+                });
+
                 res.render('wmp', returnObj);
             });
         });
