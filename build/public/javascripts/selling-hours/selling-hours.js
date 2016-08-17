@@ -396,13 +396,26 @@ function getDaysOfTheWeek() {
     $('#Saturday').text(saturday);
 }
 $.fn.editable.defaults.mode = 'inline';
+
 $(document).ready(function () {
+    var CTs = 0;
+    var revenue = 0;
+    var aotm = 0;
+    var ls = 0;
+
+    if (budgetObj[0] != undefined) {
+        CTs = budgetObj[0].CTs;
+        revenue = budgetObj[0].revenue;
+        aotm = budgetObj[0].aotm;
+        ls = budgetObj[0].ls;
+    }
+
     $('#CTs').editable({
         type: 'text',
         pk: 1,
         url: '/users/selling-hours/budgets',
         name: 'CTs' + ',' + moment().format("YYYY-MM-DD") + ',' + storesArray[0].store_id,
-        value: budgetObj[0].CTs,
+        value: CTs,
         emptytext: '&nbsp;',
         send: 'always',
         success: function success(response, newValue) {
@@ -414,7 +427,7 @@ $(document).ready(function () {
         pk: 1,
         url: '/users/selling-hours/budgets',
         name: 'revenue' + ',' + moment().format("YYYY-MM-DD") + ',' + storesArray[0].store_id,
-        value: budgetObj[0].revenue,
+        value: revenue,
         emptytext: '&nbsp;',
         send: 'always',
         success: function success(response, newValue) {
@@ -426,7 +439,7 @@ $(document).ready(function () {
         pk: 1,
         url: '/users/selling-hours/budgets',
         name: 'aotm' + ',' + moment().format("YYYY-MM-DD") + ',' + storesArray[0].store_id,
-        value: budgetObj[0].aotm,
+        value: aotm,
         emptytext: '&nbsp;',
         send: 'always',
         success: function success(response, newValue) {
@@ -438,7 +451,7 @@ $(document).ready(function () {
         pk: 1,
         url: '/users/selling-hours/budgets',
         name: 'ls' + ',' + moment().format("YYYY-MM-DD") + ',' + storesArray[0].store_id,
-        value: budgetObj[0].ls,
+        value: ls,
         emptytext: '&nbsp;',
         send: 'always',
         success: function success(response, newValue) {

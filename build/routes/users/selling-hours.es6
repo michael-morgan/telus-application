@@ -18,6 +18,7 @@ var router = express.Router();
 
 var endOfWeek = moment().startOf('isoWeek').add(5,'day').format('YYYY-MM-DD');
 
+
 router.get('/', ensureAuthenticated, function (req, res, next) {
     returnObj['message'] = undefined;
     let storeIds = [];
@@ -61,7 +62,11 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
                     if (err) {
                         throw next(err);
                     } //end if
+
+                    console.log();
                     returnObj['budgets'] = budgetResults;
+
+                    console.log(returnObj['budgets']);
 
                     returnObj['budgetsObj'] = JSON.stringify(returnObj['budgets']);
 
@@ -86,13 +91,13 @@ router.post('/', ensureAuthenticated, (req, res, next) => {
             console.log("Selling Hours: "+req.body.value);
             console.log("team_member: "+ data[0]);
             console.log("store_id: "+ data[1]);
-            console.log("date: "+ saturday);
+            console.log("date: "+ data[2]);
 
             var hours = {
                 selling_hours: req.body.value,
                 team_member: data[0],
                 store_id: data[1],
-                date: endOfWeek
+                date: data[2]
             };
             sellingHoursModel.create(hours, (err, result) => {
                 if (err) {
