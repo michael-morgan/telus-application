@@ -99,7 +99,7 @@ passport.deserializeUser(function(t_number, done) {
 
 passport.use(new LocalStrategy(
     function(username, password, done) {
-        connection.get().query('SELECT * FROM users WHERE username = ?', [username], function(err, rows) {
+        connection.get().query('SELECT * FROM users WHERE username = ?', [username.toLowerCase()], function(err, rows) {
             if(err) {
                 throw done(err);
             }

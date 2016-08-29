@@ -98,10 +98,18 @@ router.post('/register', ensureAuthenticated, function (req, res, next) {
 
     //Store the variables form the register page
     var first = req.body.firstName;
+    first = first.charAt(0).toUpperCase() + first.substring(1).toLowerCase();
+
     var last = req.body.lastName;
+    last = last.charAt(0).toUpperCase() + last.substring(1).toLowerCase();
+
     var username = req.body.username;
+    username = username.toLowerCase();
+
     var privileged = req.body.privileged;
+
     var email = req.body.email;
+    email = email.toLowerCase();
 
     // return object
     var returnObj = {

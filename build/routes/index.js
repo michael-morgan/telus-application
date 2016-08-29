@@ -18,7 +18,8 @@ router.get('/', function (req, res, next) {
 
     res.render('login', {
         title: 'Login',
-        messages: req.flash('error')
+        messages: req.flash('error'),
+        success_message: req.flash('success')
     });
 });
 
