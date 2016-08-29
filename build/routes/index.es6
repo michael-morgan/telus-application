@@ -99,7 +99,7 @@ router.post('/activate/:token', (req, res, next) => {
                 console.log('Updated user password');
             });
 
-            tokenModel.deleteById([req.params.token], function (err, rows) {
+            tokenModel.deleteById(req.params.token, function (err, rows) {
                 if (err) {
                     req.flash('Our database servers maybe down, please try again','Our database servers maybe down, please try again');
                     res.render('activate', {

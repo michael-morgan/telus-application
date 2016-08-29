@@ -14,7 +14,7 @@ exports.create = function(token, done) {
 };
 
 exports.deleteById = function(token, done) {
-    connection.get().query('DELETE * FROM `tokens` WHERE `token` = ?', [token], function(error, result) {
+    connection.get().query('DELETE FROM `tokens` WHERE `token` = ?', token, function(error, result) {
         if(error) {
             return done(error);
         }
@@ -24,7 +24,7 @@ exports.deleteById = function(token, done) {
 };
 
 exports.deleteByIds = function(tokens, done) {
-    connection.get().query('DELETE * FROM `tokens` WHERE `token` IN (?)', [tokens], function(error, result) {
+    connection.get().query('DELETE FROM `tokens` WHERE `token` IN (?)', [tokens], function(error, result) {
         if(error) {
             return done(error);
         }

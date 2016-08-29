@@ -2,45 +2,52 @@ extends layout
 
 block append stylesheet
 
-
 block content
     .row
         .col-lg-12
             h1.page-header #{title}
-            if(success_messages != null)
-                .row
-                    .col-md-6.col-md-offset-3
-                        div.success.alert-success(role='success')
-                            .alert-title
-                                i.fa.fa-check.fa-2x
-                                strong Great!
-                            p !{success_messages}
-        .row
-            a(href='/users/observations')
+    .row
+        if(success_message.length)
+            .col-md-6.col-md-offset-3
+                div.alert.alert-success(role='alert')
+                    .alert-title
+                        i.fa.fa-check.fa-2x
+                        strong Great!
+                    p !{success_message}
+    .row
+        if(error_message.length)
+            .col-md-6.col-md-offset-3
+                div.alert.alert-danger(role='alert')
+                    .alert-title
+                        i.fa.fa-check.fa-2x
+                        strong Oops!
+                    p !{error_message}
+    .row
+        a(href='/users/observations')
+            .col-lg-6
+                .panel.panel-primary
+                    .panel-heading
+                        h3.panel-title Recent Observations
+                    .panel-body
+                        each recObservation, i in recentObservations
+                            .row(class="#{recObservation.observation_type === 0 ? 'bad-observation' : 'good-observation'}")
+                                .col-lg-2
+                                    h4
+                                        | #{recObservation.first_name}:
+                                .col-lg-7
+                                    div.classWithPad
+                                        | #{recObservation.behaviour_desc}
+                                .col-lg-3.classWithPad
+                                    div
+                                        | Observed on: #{recObservation.observation_date.toLocaleDateString()}
+                                        br
+                                        | By: #{recObservation.assigned_by_name}
+        if user.privileged >= 2
+            a(href='/users/settings')
                 .col-lg-6
-                    .panel.panel-primary
+                    .panel.panel-primary.text-center
                         .panel-heading
-                            h3.panel-title Recent Observations
-                        .panel-body
-                            each recObservation, i in recentObservations
-                                .row(class="#{recObservation.observation_type === 0 ? 'bad-observation' : 'good-observation'}")
-                                    .col-lg-2
-                                        h4
-                                            | #{recObservation.first_name}:
-                                    .col-lg-7
-                                        div.classWithPad
-                                            | #{recObservation.behaviour_desc}
-                                    .col-lg-3.classWithPad
-                                        div
-                                            | Observed on: #{recObservation.observation_date.toLocaleDateString()}
-                                            br
-                                            | By: #{recObservation.assigned_by_name}
-            if user.privileged >= 2
-                a(href='/users/settings')
-                    .col-lg-6
-                        .panel.panel-primary.text-center
-                            .panel-heading
-                                .row
-                                    | Settings
+                            .row
+                                | Settings
 
 block append script

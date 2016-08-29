@@ -3,7 +3,8 @@ var connection = require('../connection');
 var credential = require('../credential');
 var passport = require('passport');
 var nodemailer = require('nodemailer');
-var randtoken = require('rand-token');
+import * as randtoken from "rand-token";
+import * as bcrypt from "bcryptjs";
 var router = express.Router();
 
 var userModel = require('../models/user');
@@ -12,6 +13,7 @@ var storesModel = require('../models/store');
 
 // get the users listing
 router.get('/', ensureAuthenticated, (req, res, next) => {
+
     // Check if store_id session value is set
     // if not then set it
     if(!req.session.store_id) {
@@ -29,7 +31,9 @@ router.get('/', ensureAuthenticated, (req, res, next) => {
     }
 
     var returnObj = {
-        title: 'Dashboard'
+        title: 'Dashboard',
+        success_message: req.flash('success'),
+        error_message: req.flash('error')
     };
 
     //Connection to get all of the observations for each employee ordered by date
@@ -409,6 +413,141 @@ router.post('/remove', ensureAuthenticated, function (req, res, next) {
     });
 });
 
+router.get('/password/:id', ensureAuthenticated, (req, res, next) => {
+    let id = req.params.id.toLowerCase();
+
+    res.render('password', {
+        title: 'New Password',
+        id: id,
+        error_message: req.flash('error')
+    });
+});
+
+router.post('/password', ensureAuthenticated, (req, res, next) => {
+    if (!req.body) { return res.sendStatus(400); }
+
+    console.log('Token: ' + req.body.passwordToken);
+    console.log('Password: ' + req.body.inputPassword);
+    console.log('Password Verify: ' + req.body.inputPasswordVerify);
+
+    //Store the variables form the register page
+    let token = req.body.passwordToken;
+    let password = req.body.inputPassword;
+    let passwordVerify = req.body.inputPasswordVerify;
+
+    if(password !== passwordVerify) {
+        req.flash('error', 'Passwords must match.');
+        return res.redirect('/users/password/' + token);
+    }
+
+    //Custom form validation
+    req.checkBody('inputPassword',
+    `Password must be a minimum of 6 characters. 
+    Password must contain only letters and numbers. 
+    Password must contain at least 1 uppercase letter and number.`).notEmpty().matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/);
+
+    //Check for errors
+    let errors = req.validationErrors();
+
+    if(errors) {
+        req.flash('error', errors[0].msg);
+        return res.redirect('/users/password/' + token);
+    }
+    else {
+        bcrypt.hash(password, 8, (err, hash) => {
+            if(err) {
+                throw next(err);
+            }
+
+            connection.get().query(`UPDATE users 
+                INNER JOIN tokens ON users.t_number = tokens.t_number 
+                SET users.password = ? 
+                WHERE tokens.token = ?`, [hash, token], (err, rows) => {
+                if (err) {
+                    req.flash('error', 'Our database servers maybe down, please try again');
+
+                    return res.redirect('/users/password/' + token);
+                }
+
+                console.log('Changed user password');
+
+                console.log('Token to delete: ' + token);
+
+                tokenModel.deleteById(token, (err, rows) => {
+                    if (err) {
+                        req.flash('error', 'Our database servers maybe down, please try again');
+
+                        return res.redirect('/users/password/' + token);
+                    }
+                    console.log('Token record removed');
+
+                    req.flash('success', 'Password successfully changed.');
+                    res.redirect('/users/');
+                });
+            });
+        });
+    }
+});
+
+router.get('/password-change', ensureAuthenticated, (req, res, next) => {
+    let token = randtoken.generate(16);
+
+    console.log('Token: ' + token);
+    console.log('T_number: ' + req.user.t_number);
+
+    // create a connection to add the password token to the database
+    tokenModel.create({ t_number: req.user.t_number, token: token }, function (err, result) {
+        //If an error is thrown
+        if (err) {
+            req.flash('error', 'Our database servers maybe down, please try again');
+
+            // redirect with error messages
+            return res.redirect('/users/settings/');
+        }
+
+        console.log("Token added");
+
+        // create reusable transporter object using the default SMTP transport
+        let transporter = nodemailer.createTransport({
+            service: 'Gmail',
+            auth: {
+                user: credential.EMAIL_USERNAME,
+                pass: credential.EMAIL_PASSWORD
+            }
+        });
+
+        let email = 'personal.michaelmorgan@gmail.com';
+
+        // setup e-mail data with unicode symbols
+        let mailOptions = {
+            from: 'no-reply <no-reply@telus.com>', // sender address
+            to: email, // list of receivers
+            subject: 'Password Reset', // subject line
+            html: '<p>Hello ' + req.user.first_name + ' ' + req.user.last_name + ', </p>' +
+            '<p>Click the following link to change your password: </p>' +
+            'http://localhost:3000/users/password/' + token
+        };
+
+        // Send mail with defined transport object
+        transporter.sendMail(mailOptions, function (err, info) {
+            //If an error is thrown
+            if (err) {
+                //Check if email can be sent
+                req.flash('error', 'The password reset email did not send, please try again');
+
+                // redirect with error messages
+                return res.redirect('/users/settings/');
+            }
+
+            console.log('Message sent: ' + info.response);
+
+            // successful redirect
+            req.flash('success', 'The password change email has been successfully sent.');
+            res.redirect('/users/settings/');
+        });
+    });
+});
+
 // Get method for the logout page
 router.get('/logout', ensureAuthenticated, function (req, res) {
     req.logout(); //Log the user out
@@ -422,14 +561,16 @@ function ensureAuthenticated(req, res, next) {
     res.redirect('/');
 }
 
-router.get('/settings', ensureAuthenticated, function (req, res, next) {
-    if (req.user.privileged <= 1){
+router.get('/settings', ensureAuthenticated, function(req, res, next) {
+    if (req.user.privileged <= 1) {
         return res.redirect('/users/');
     }
 
     //Show the Settings page
     res.render('settings', {
-        title: 'Settings'
+        title: 'Settings',
+        success_message: req.flash('success'),
+        error_message: req.flash('error')
     });
 });
 
