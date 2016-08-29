@@ -2,6 +2,7 @@
  * Created by jacob on 08/06/16.
  */
 var connection = require('../connection');
+import * as utility from "../utility";
 
 exports.create = (hours, done) => {
     connection.get().query('INSERT INTO `selling_hours_schedule` SET ?', [hours], (error, result) => {
@@ -59,7 +60,7 @@ exports.getBudgetsWithStore = (values, done) => {
 exports.createBudgets = (budget, done) => {
     connection.get().query('INSERT INTO `budgets` SET ?', [budget], (error, result) => {
         if(error) {
-            console.log(error)
+            utility.log({type: 'error', message: error});
             return done(error);
         }
 
@@ -70,7 +71,7 @@ exports.createBudgets = (budget, done) => {
 exports.updateBudgets = (values, done) => {
     connection.get().query('UPDATE `budgets` SET CTs = ?, revenue = ?, aotm = ?, ls = ? WHERE date = ? AND store_id = ?', values, (error, result) => {
         if(error) {
-            console.log(error);
+            utility.log({type: 'error', message: error});
             return done(error);
         }
 

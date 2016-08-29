@@ -1,8 +1,6 @@
 'use strict';
 
 $(function () {
-    console.debug(obsObj);
-
     $('input[name="dateRange"]').daterangepicker({
         locale: {
             format: 'MMMM D, YYYY'

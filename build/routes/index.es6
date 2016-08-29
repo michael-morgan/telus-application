@@ -3,6 +3,7 @@ var express = require('express');
 var connection = require('../connection');
 var passport = require('passport');
 var bcrypt = require('bcryptjs');
+import * as utility from "../utility";
 
 var tokenModel = require('../models/token');
 
@@ -97,7 +98,8 @@ router.post('/activate/:token', (req, res, next) => {
                         message: req.flash('Our database servers maybe down, please try again')});
                     return;
                 }
-                console.log('Updated user password');
+
+                utility.log({ type: 'log', message: 'Updated user password'});
             });
 
             tokenModel.deleteById(req.params.token, function (err, rows) {
@@ -109,7 +111,7 @@ router.post('/activate/:token', (req, res, next) => {
                         message: req.flash('Our database servers maybe down, please try again')});
                     return;
                 }
-                console.log('Token record removed');
+                utility.log({ type: 'log', message: 'Token record removed'});
 
                 if(req.user) {
                     res.redirect('/users/');

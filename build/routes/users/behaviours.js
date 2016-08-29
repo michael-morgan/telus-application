@@ -1,5 +1,11 @@
 'use strict';
 
+var _utility = require('../../utility');
+
+var utility = _interopRequireWildcard(_utility);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 /**
  * Created by Jacob on 2016-05-29.
  */
@@ -7,6 +13,7 @@ var express = require('express');
 var connection = require('../../connection');
 var passport = require('passport');
 var async = require('async');var async = require('async');
+
 
 var behaviourModel = require('../../models/observation');
 var returnObj = {};
@@ -395,7 +402,7 @@ router.post('/add-behaviour', ensureAuthenticated, function (req, res, next) {
     }
 
     async.series([insertSkill, insertBehaviours, redirectUser], function (err, results) {
-        console.log(results);
+        utility.log({ type: 'log', message: results });
     });
 
     function insertSkill(fnCallback) {

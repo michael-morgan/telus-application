@@ -1,9 +1,4 @@
 $(function() {
-    console.debug(obsObj);
-
-
-
-
     $('input[name="dateRange"]').daterangepicker(
         {
             locale: {

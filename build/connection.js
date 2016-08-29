@@ -1,7 +1,3 @@
-/**
- * Created by Michael on 2/8/2016.
- */
-
 /*
     Query result helpers:
     result.insertId -> auto incremented primary key from insert

@@ -26,8 +26,6 @@ $(function () {
         addStoreListItem(name, id);
         $('#storeSelect').val('0');
     });
-
-    console.debug(storesObj);
 });
 
 function addStoreListItem(name, id) {

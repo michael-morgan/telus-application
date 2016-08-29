@@ -1,9 +1,16 @@
 'use strict';
 
+var _utility = require('../utility');
+
+var utility = _interopRequireWildcard(_utility);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 /**
  * Created by jacob on 08/06/16.
  */
 var connection = require('../connection');
+
 
 exports.create = function (hours, done) {
     connection.get().query('INSERT INTO `selling_hours_schedule` SET ?', [hours], function (error, result) {
@@ -58,7 +65,7 @@ exports.getBudgetsWithStore = function (values, done) {
 exports.createBudgets = function (budget, done) {
     connection.get().query('INSERT INTO `budgets` SET ?', [budget], function (error, result) {
         if (error) {
-            console.log(error);
+            utility.log({ type: 'error', message: error });
             return done(error);
         }
 
@@ -69,7 +76,7 @@ exports.createBudgets = function (budget, done) {
 exports.updateBudgets = function (values, done) {
     connection.get().query('UPDATE `budgets` SET CTs = ?, revenue = ?, aotm = ?, ls = ? WHERE date = ? AND store_id = ?', values, function (error, result) {
         if (error) {
-            console.log(error);
+            utility.log({ type: 'error', message: error });
             return done(error);
         }
 

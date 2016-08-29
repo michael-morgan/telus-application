@@ -1,7 +1,14 @@
 'use strict';
 
+var _utility = require('../../utility');
+
+var utility = _interopRequireWildcard(_utility);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 var express = require('express');
 var connection = require('../../connection');
+
 var passport = require('passport');
 var async = require('async');
 
@@ -41,7 +48,7 @@ router.post('/', ensureAuthenticated, function (req, res, next) {
 
     transactionModel.deleteTransaction(transactionId, function (err, result) {
         if (err) {
-            console.log('Error deleting transaction_id ' + transactionId + 'Error: ' + err.message);
+            utility.log({ type: 'error', message: 'Error deleting transaction_id ' + transactionId + 'Error: ' + err.message });
             return res.end('Error: ' + err.message);
         }
 
@@ -56,13 +63,13 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
     };
 
     if (req.body.employeeDropdown == undefined) {
-        console.log("No user selected");
+        utility.log({ type: 'log', message: "No user selected" });
         returnObj['message'] = 'Please select a user';
         return renderAddTransactionPage(returnObj, req, res, next);
     }
 
     if (req.body.transactionDropdown == undefined) {
-        console.log("No transaction selected");
+        utility.log({ type: 'log', message: "No transaction selected" });
         returnObj['message'] = 'Please select a transaction type';
         return renderAddTransactionPage(returnObj, req, res, next);
     }
@@ -330,8 +337,8 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
                             if (!err) {
                                 callback(null);
                             } else {
+                                utility.log({ type: 'error', message: err });
                                 callback(null);
-                                console.log(err);
                             }
                         });
                     } else {
@@ -340,7 +347,7 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
                 });
             })();
         } else {
-            console.log("No Items");
+            utility.log({ type: 'log', message: "No Items" });
         }
 
         fnCallback(null);
@@ -354,24 +361,24 @@ router.post('/add-transaction', ensureAuthenticated, function (req, res, next) {
      */
     function addMetrics(fnCallback) {
         if (hasMetrics) {
-            console.log("Additional Metrics");
+            utility.log({ type: 'log', message: "Additional Metrics" });
 
             //Foreach object in the array of metrics objects
             metrics.forEach(function (item) {
                 if (item.additional_metrics_items_count > 0) {
                     transactionModel.addAdditionalMetrics(item, function (err, result) {
                         if (!err) {
-                            console.log(item + ' added');
+                            utility.log({ type: 'log', message: item + ' added' });
                         } else {
-                            console.log('Error!' + item + ' not added' + err);
+                            utility.log({ type: 'error', message: 'Error!' + item + ' not added' + err });
                         }
                     });
                 } else {
-                    console.log(item + " not added");
+                    utility.log({ type: 'log', message: item + " not added" });
                 }
             });
         } else {
-            console.log("No Metrics");
+            utility.log({ type: 'log', message: "No Metrics" });
         }
 
         fnCallback(null);

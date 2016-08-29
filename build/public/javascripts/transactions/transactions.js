@@ -26,9 +26,6 @@ var filterDate = function filterDate(transaction) {
 $(function () {
     storesArray = JSON.parse(JSON.stringify(storeObj));
 
-    console.debug(storesArray);
-    console.debug(userObj);
-
     //Hide the delete message until a transaction has been removed
     $('#deleteMessage').hide();
 
@@ -60,7 +57,6 @@ $(function () {
             format: "MMMM D, YYYY"
         }
     }, function (start, end, label) {
-        console.log("New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')");
         startDate = start;
         endDate = end;
 

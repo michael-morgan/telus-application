@@ -3,7 +3,8 @@
  */
 var express = require('express');
 var connection = require('../../connection');
-var passport = require('passport')
+import * as utility from "../../utility";
+var passport = require('passport');
 
 var moment = require('../../bower_components/bootstrap-daterangepicker/moment.min.js');
 
@@ -80,10 +81,10 @@ router.post('/', ensureAuthenticated, (req, res, next) => {
 
         //No rows affected, guess we have to insert
         if(result == 0) {
-            console.log("Selling Hours: "+req.body.value);
-            console.log("team_member: "+ data[0]);
-            console.log("store_id: "+ data[1]);
-            console.log("date: "+ data[2]);
+            utility.log({ type: 'log', message: "Selling Hours: "+req.body.value });
+            utility.log({ type: 'log', message: "team_member: "+ data[0] });
+            utility.log({ type: 'log', message: "store_id: "+ data[1] });
+            utility.log({ type: 'log', message: "date: "+ data[2] });
 
             var hours = {
                 selling_hours: req.body.value,
@@ -108,7 +109,7 @@ router.post('/budgets', ensureAuthenticated, (req, res, next) => {
     var data = req.body.name;
     data = data.split(',');
 
-    console.log(data + 'store id from field');
+    utility.log({ type: 'log', message: data + 'store id from field' });
 
     sellingHoursModel.getBudgetsWithStore([endOfWeek,data[2]], (err, result) => {
         if (err) {

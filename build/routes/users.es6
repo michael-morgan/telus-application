@@ -5,6 +5,7 @@ var passport = require('passport');
 var nodemailer = require('nodemailer');
 import * as randtoken from "rand-token";
 import * as bcrypt from "bcryptjs";
+import * as utility from "../utility";
 var router = express.Router();
 
 var userModel = require('../models/user');
@@ -19,14 +20,14 @@ router.get('/', ensureAuthenticated, (req, res, next) => {
     if(!req.session.store_id) {
         storesModel.getFirstStoreByTNumber(req.user.t_number, (err, result) => {
             if(err) {
-                console.log('Error retrieving first store.');
+                utility.log({ type: 'log', message: 'Error retrieving first store.'});
                 return;
             }
 
             req.session.store_id = result[0].store_id;
 
             // log the store id
-            console.log(req.session.store_id);
+            utility.log({ type: 'log', message: req.session.store_id});
         });
     }
 
@@ -183,7 +184,7 @@ router.post('/register', ensureAuthenticated, function (req, res, next) {
                                     //Render the page wth error messages
                                     return res.render('register', returnObj);
                                 }
-                                console.log('Message sent: ' + info.response);
+                                utility.log({ type: 'log', message: 'Message sent: ' + info.response });
                             });
 
                             //Create a user object
@@ -206,7 +207,7 @@ router.post('/register', ensureAuthenticated, function (req, res, next) {
                                     return res.render('register', returnObj);
                                 }
 
-                                console.log("User added successfully.");
+                                utility.log({ type: 'log', message: "User added successfully." });
 
                                 // create a token object
                                 var tokenObj = {
@@ -224,7 +225,7 @@ router.post('/register', ensureAuthenticated, function (req, res, next) {
                                         return res.render('register', returnObj);
                                     }
 
-                                    console.log("Token added");
+                                    utility.log({ type: 'log', message: "Token added" });
 
                                     let stores = req.body['stores[]'];
 
@@ -244,7 +245,7 @@ router.post('/register', ensureAuthenticated, function (req, res, next) {
                                             return res.render('register', returnObj);
                                         }
 
-                                        console.log("Store added successfully.");
+                                        utility.log({ type: 'log', message: "Store added successfully." });
 
                                         req.flash('success_messages', 'User successfully registered, a registration email has been sent');
                                         res.locals.success_messages = req.flash('success_messages');
@@ -322,15 +323,15 @@ router.post('/edit', ensureAuthenticated, function (req, res, next) {
     userModel.update([req.body.t_number, req.body.first_name, req.body.last_name,
                     req.body.email, req.body.title, req.body.t_number], (err, result) => {
         if (err) {
-            console.log('Error updating user ' + req.body.t_number);
+            utility.log({ type: 'error', message: 'Error updating user ' + req.body.t_number });
         }
 
-        console.log('Updated user ' + req.body.t_number);
+        utility.log({ type: 'log', message: 'Updated user ' + req.body.t_number });
 
         storesModel.deleteStores(req.body.t_number, function (err, result) {
             //If an error is thrown
             if (err) {
-                console.log('Error deleting stores');
+                utility.log({ type: 'error', message: 'Error deleting stores' });
             }
 
             let stores = JSON.parse(req.body.stores);
@@ -346,7 +347,7 @@ router.post('/edit', ensureAuthenticated, function (req, res, next) {
             storesModel.addStore(storeObjArr, function (err, result) {
                 //If an error is thrown
                 if (err) {
-                    console.log('Error updating stores');
+                    utility.log({ type: 'error', message: 'Error updating stores' });
                 }
 
                 res.send(JSON.stringify(req.body));
@@ -434,9 +435,9 @@ router.get('/password/:id', ensureAuthenticated, (req, res, next) => {
 router.post('/password', ensureAuthenticated, (req, res, next) => {
     if (!req.body) { return res.sendStatus(400); }
 
-    console.log('Token: ' + req.body.passwordToken);
-    console.log('Password: ' + req.body.inputPassword);
-    console.log('Password Verify: ' + req.body.inputPasswordVerify);
+    utility.log({ type: 'log', message: 'Token: ' + req.body.passwordToken });
+    utility.log({ type: 'log', message: 'Password: ' + req.body.inputPassword });
+    utility.log({ type: 'log', message: 'Password Verify: ' + req.body.inputPasswordVerify });
 
     //Store the variables form the register page
     let token = req.body.passwordToken;
@@ -477,9 +478,8 @@ router.post('/password', ensureAuthenticated, (req, res, next) => {
                     return res.redirect('/users/password/' + token);
                 }
 
-                console.log('Changed user password');
-
-                console.log('Token to delete: ' + token);
+                utility.log({ type: 'log', message: 'Changed user password' });
+                utility.log({ type: 'log', message: 'Token to delete: ' + token });
 
                 tokenModel.deleteById(token, (err, rows) => {
                     if (err) {
@@ -487,7 +487,7 @@ router.post('/password', ensureAuthenticated, (req, res, next) => {
 
                         return res.redirect('/users/password/' + token);
                     }
-                    console.log('Token record removed');
+                    utility.log({ type: 'log', message: 'Token record removed' });
 
                     req.flash('success', 'Password successfully changed.');
                     res.redirect('/users/');
@@ -500,8 +500,8 @@ router.post('/password', ensureAuthenticated, (req, res, next) => {
 router.get('/password-change', ensureAuthenticated, (req, res, next) => {
     let token = randtoken.generate(16);
 
-    console.log('Token: ' + token);
-    console.log('T_number: ' + req.user.t_number);
+    utility.log({ type: 'log', message: 'Token: ' + token });
+    utility.log({ type: 'log', message: 'T_Number: ' + req.user.t_number });
 
     // create a connection to add the password token to the database
     tokenModel.create({ t_number: req.user.t_number, token: token }, function (err, result) {
@@ -513,7 +513,7 @@ router.get('/password-change', ensureAuthenticated, (req, res, next) => {
             return res.redirect('/users/settings/');
         }
 
-        console.log("Token added");
+        utility.log({ type: 'log', message: "Token added" });
 
         // create reusable transporter object using the default SMTP transport
         let transporter = nodemailer.createTransport({
@@ -547,7 +547,7 @@ router.get('/password-change', ensureAuthenticated, (req, res, next) => {
                 return res.redirect('/users/settings/');
             }
 
-            console.log('Message sent: ' + info.response);
+            utility.log({ type: 'log', message: 'Message sent: ' + info.response });
 
             // successful redirect
             req.flash('success', 'The password change email has been successfully sent.');
@@ -590,7 +590,7 @@ router.get('/profile/:id', ensureAuthenticated, function(req, res, next) {
             throw next(err);
         }
         else if(rows.length <= 0) {
-            console.error('Invalid profile id.');
+            utility.log({ type: 'error', message: 'Invalid profile id.' });
             return res.redirect('/users/');
         }
         else {

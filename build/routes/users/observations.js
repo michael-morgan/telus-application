@@ -1,7 +1,14 @@
 'use strict';
 
+var _utility = require('../../utility');
+
+var utility = _interopRequireWildcard(_utility);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 var express = require('express');
 var connection = require('../../connection');
+
 var passport = require('passport');
 
 var observationModel = require('../../models/observation');
@@ -455,7 +462,7 @@ router.post('/add-observation/:employee', ensureAuthenticated, function (req, re
                 observation_comment: observationComment
             };
 
-            console.log(observation);
+            utility.log({ type: 'log', message: observation });
 
             //Inserting the data into the observations table using a JSON array
             observationModel.create(observation, function (err, result) {
@@ -571,11 +578,11 @@ router.post('/remove', ensureAuthenticated, function (req, res, next) {
     var observationId = req.body.id;
     observationModel.deleteById(observationId, function (err, result) {
         if (err) {
-            console.log('Error deleting observation_id ' + observationId);
+            utility.log({ type: 'error', message: 'Error deleting observation_id ' + observationId });
             return res.end('Error: ' + err.message);
         }
 
-        console.log('Removing observation ' + observationId);
+        utility.log({ type: 'log', message: 'Removing observation ' + observationId });
         res.send(observationId);
     });
 });

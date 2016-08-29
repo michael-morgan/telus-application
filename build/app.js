@@ -10,6 +10,7 @@ var session = require('express-session');
 var expressValidator = require('express-validator');
 var expressMessages = require('express-messages');
 var connection = require('./connection');
+var utility = require("./utility");
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var flash = require('connect-flash');
@@ -27,13 +28,10 @@ var observations = require('./routes/users/observations');
 var behaviours = require('./routes/users/behaviours');
 var binder = require('./routes/users/binder');
 var transactions = require('./routes/users/transactions');
-var sellinghours = require('./routes/users/selling-hours');
+var sellingHours = require('./routes/users/selling-hours');
 var wmp = require('./routes/users/wmp');
 
 var app = express();
-
-// set env variable for test purposes
-app.set('env', 'development');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -79,11 +77,11 @@ app.use('/bower_components', express.static(__dirname + '/bower_components'));
 // use mysql connection
 connection.connect(function(err) {
   if (err) {
-    console.log('Unable to connect to MySQL');
+    utility.log({ type: 'log', message: 'Unable to connect to MySQL' });
     process.exit(1);
   }
   else {
-    console.log('Database connection established');
+    utility.log({ type: 'log', message: 'Database connection established' });
   }
 });
 
@@ -136,7 +134,7 @@ app.use('/users/observations', observations);
 app.use('/users/behaviours', behaviours);
 app.use('/users/binder', binder);
 app.use('/users/transactions', transactions);
-app.use('/users/selling-hours', sellinghours);
+app.use('/users/selling-hours', sellingHours);
 app.use('/users/wmp', wmp);
 
 
@@ -152,7 +150,7 @@ app.use(function(req, res, next) {
 
 // development error handler
 // will print stacktrace
-if (app.get('env') === 'development') {
+if(process.env.NODE_ENV === 'development') {
     app.use(function(err, req, res, next) {
         res.status(err.status || 500);
         res.render('error', {
@@ -163,7 +161,7 @@ if (app.get('env') === 'development') {
 }
 else {
     // production error handler
-    // no stacktraces leaked to user
+    // no stack traces leaked to user
     app.use(function(err, req, res, next) {
         if(req.user) {
             return res.redirect('/users/');

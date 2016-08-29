@@ -1,5 +1,6 @@
 var express = require('express');
 var connection = require('../../connection');
+import * as utility from "../../utility";
 var passport = require('passport');
 
 var observationModel = require('../../models/observation');
@@ -467,7 +468,7 @@ router.post('/add-observation/:employee', ensureAuthenticated, (req, res, next) 
             observation_comment: observationComment
         };
 
-        console.log(observation);
+        utility.log({ type: 'log', message: observation });
 
         //Inserting the data into the observations table using a JSON array
         observationModel.create(observation, (err, result) => {
@@ -587,11 +588,11 @@ router.post('/remove', ensureAuthenticated, (req, res, next) => {
     var observationId = req.body.id;
     observationModel.deleteById(observationId, (err, result) => {
         if (err) {
-            console.log('Error deleting observation_id ' + observationId);
+            utility.log({ type: 'error', message: 'Error deleting observation_id ' + observationId });
             return res.end('Error: ' + err.message);
         }
 
-        console.log('Removing observation ' + observationId);
+        utility.log({ type: 'log', message: 'Removing observation ' + observationId });
         res.send(observationId);
     });
 });

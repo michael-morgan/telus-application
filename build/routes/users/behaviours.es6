@@ -5,6 +5,7 @@ var express = require('express');
 var connection = require('../../connection');
 var passport = require('passport');
 var async = require('async');var async = require('async');
+import * as utility from "../../utility";
 
 var behaviourModel = require('../../models/observation');
 var returnObj = {};
@@ -419,9 +420,9 @@ router.post('/add-behaviour', ensureAuthenticated, function (req, res, next) {
         insertSkill,
         insertBehaviours,
         redirectUser
-    ], function(err, results){
-            console.log(results);
-        });
+    ], function(err, results) {
+        utility.log({ type: 'log', message: results });
+    });
 
 
     function insertSkill(fnCallback){
