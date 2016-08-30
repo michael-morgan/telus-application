@@ -8,8 +8,8 @@ block content
             h1.page-header #{title}
 
     if(success_message.length)
-        .row
-            .col-md-6.col-md-offset-3
+        .row.m-b-10
+            .col-xs-12
                 div.alert.alert-success(role='alert')
                     .alert-title
                         i.fa.fa-check.fa-2x
@@ -17,8 +17,8 @@ block content
                     p !{success_message}
 
     if(error_message.length)
-        .row
-            .col-md-6.col-md-offset-3
+        .row.m-b-10
+            .col-xs-12
                 div.alert.alert-danger(role='alert')
                     .alert-title
                         i.fa.fa-check.fa-2x

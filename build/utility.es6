@@ -1,18 +1,11 @@
-'use strict';
-
 // set env variable for test purposes
 //TODO: remove environment variable on live
 process.env.NODE_ENV = "development";
 
-exports.log = function (_ref) {
-    var type = _ref.type;
-    var message = _ref.message;
+exports.log = function({type, message}) {
+    if(process.env.NODE_ENV !== 'development') { return; }
 
-    if (process.env.NODE_ENV !== 'development') {
-        return;
-    }
-
-    switch (type) {
+    switch(type) {
         case 'log':
             console.log(message);
             break;
@@ -27,12 +20,8 @@ exports.log = function (_ref) {
     }
 };
 
-exports.check = function (expression, message) {
-    if (process.env.NODE_ENV !== 'development') {
-        return;
-    }
+exports.check = function(expression, message) {
+    if(process.env.NODE_ENV !== 'development') { return; }
 
     console.log('Result: ' + expression + ' Value: ' + message);
 };
-
-//# sourceMappingURL=utility.js.map

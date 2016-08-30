@@ -1,5 +1,3 @@
-'use strict';
-
 var compression = require('compression');
 var express = require('express');
 var path = require('path');
@@ -57,18 +55,18 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(expressValidator({
-    errorFormatter: function errorFormatter(param, msg, value) {
+    errorFormatter: function(param, msg, value) {
         var namespace = param.split('.'),
             root = namespace.shift(),
             formParam = root;
 
-        while (namespace.length) {
+        while(namespace.length) {
             formParam += '[' + namespace.shift() + ']';
         }
         return {
-            param: formParam,
-            msg: msg,
-            value: value
+            param : formParam,
+            msg   : msg,
+            value : value
         };
     }
 }));
@@ -77,52 +75,55 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/bower_components', express.static(__dirname + '/bower_components'));
 
 // use mysql connection
-connection.connect(function (err) {
+connection.connect(function(err) {
     if (err) {
         utility.log({ type: 'log', message: 'Unable to connect to MySQL' });
         process.exit(1);
-    } else {
+    }
+    else {
         utility.log({ type: 'log', message: 'Database connection established' });
     }
 });
 
-passport.serializeUser(function (user, done) {
+passport.serializeUser(function(user, done) {
     done(null, user.t_number);
 });
 
-passport.deserializeUser(function (t_number, done) {
-    connection.get().query('SELECT * FROM users WHERE t_number = ?', [t_number], function (err, rows) {
+passport.deserializeUser(function(t_number, done) {
+    connection.get().query('SELECT * FROM users WHERE t_number = ?', [t_number], function(err, rows) {
         done(err, rows[0]);
     });
 });
 
-passport.use(new LocalStrategy(function (username, password, done) {
-    connection.get().query('SELECT * FROM users WHERE username = ?', [username.toLowerCase()], function (err, rows) {
-        if (err) {
-            throw done(err);
-        }
-        if (!rows[0]) {
-            return done(null, false, { message: 'Incorrect username' });
-        }
-        if (!bcrypt.compareSync(password, rows[0].password)) {
-            return done(null, false, { message: 'Incorrect password' });
-        }
+passport.use(new LocalStrategy(
+    function(username, password, done) {
+        connection.get().query('SELECT * FROM users WHERE username = ?', [username.toLowerCase()], function(err, rows) {
+            if(err) {
+                throw done(err);
+            }
+            if(!rows[0]) {
+                return done(null, false, { message: 'Incorrect username' });
+            }
+            if(!bcrypt.compareSync(password, rows[0].password)) {
+                return done(null, false, { message: 'Incorrect password' });
+            }
 
-        return done(null, rows[0]);
-    });
-}));
+            return done(null, rows[0]);
+        });
+    }
+));
 
 app.use(function (req, res, next) {
     res.locals.messages = expressMessages(req, res);
     next();
 });
 
-app.get('*', function (req, res, next) {
+app.get('*', function(req, res, next) {
     res.locals.user = req.user || null;
     next();
 });
 
-app.post('*', function (req, res, next) {
+app.post('*', function(req, res, next) {
     res.locals.user = req.user || null;
     next();
 });
@@ -136,8 +137,10 @@ app.use('/users/transactions', transactions);
 app.use('/users/selling-hours', sellingHours);
 app.use('/users/wmp', wmp);
 
+
+
 // catch 404 and forward to error handler
-app.use(function (req, res, next) {
+app.use(function(req, res, next) {
     var err = new Error('Not Found');
     err.status = 404;
     next(err);
@@ -147,21 +150,23 @@ app.use(function (req, res, next) {
 
 // development error handler
 // will print stacktrace
-if (process.env.NODE_ENV === 'development') {
-    app.use(function (err, req, res, next) {
+if(process.env.NODE_ENV === 'development') {
+    app.use(function(err, req, res, next) {
         res.status(err.status || 500);
         res.render('error', {
             message: err.message,
             error: err
         });
     });
-} else {
+}
+else {
     // production error handler
     // no stack traces leaked to user
-    app.use(function (err, req, res, next) {
-        if (req.user) {
+    app.use(function(err, req, res, next) {
+        if(req.user) {
             return res.redirect('/users/');
-        } else {
+        }
+        else {
             return res.redirect('/');
         }
 
@@ -176,5 +181,3 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 module.exports = app;
-
-//# sourceMappingURL=app.js.map
