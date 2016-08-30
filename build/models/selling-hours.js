@@ -52,6 +52,16 @@ exports.updateHoursByID = function (values, done) {
     });
 };
 
+exports.deleteCurrentWeekHours = function (done) {
+    connection.get().query('DELETE s.* FROM selling_hours_schedule s INNER JOIN stores_util ON s.team_member = stores_util.t_number ' + 'WHERE s.store_id = stores_util.store_id AND YEARWEEK(s.date, 0) = YEARWEEK(CURDATE(), 0)', function (error, result) {
+        if (error) {
+            return done(error);
+        }
+
+        done(null, result.affectedRows);
+    });
+};
+
 exports.getBudgetsWithStore = function (values, done) {
     connection.get().query('SELECT * FROM budgets WHERE date = ? AND store_id = ?', values, function (error, result) {
         if (error) {

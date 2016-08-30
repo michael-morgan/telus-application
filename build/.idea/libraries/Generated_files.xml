@@ -4,6 +4,7 @@
       <sourceFilesUrls>
         <item url="file://$PROJECT_DIR$/public/javascripts/transactions/transactions.js" />
         <item url="file://$PROJECT_DIR$/models/token.js" />
+        <item url="file://$PROJECT_DIR$/public/javascripts/users/register-users.js" />
         <item url="file://$PROJECT_DIR$/models/user.js" />
         <item url="file://$PROJECT_DIR$/models/behaviour.js" />
         <item url="file://$PROJECT_DIR$/models/observation.js" />
@@ -25,6 +26,7 @@
         <item url="file://$PROJECT_DIR$/routes/users.js" />
         <item url="file://$PROJECT_DIR$/public/javascripts/selling-hours/selling-hours.js" />
         <item url="file://$PROJECT_DIR$/routes/users/binder.js" />
+        <item url="file://$PROJECT_DIR$/routes/users/wmp.js" />
         <item url="file://$PROJECT_DIR$/routes/users/selling-hours.js" />
         <item url="file://$PROJECT_DIR$/routes/users/behaviours.js" />
         <item url="file://$PROJECT_DIR$/public/javascripts/transactions/add-transactions.js" />
@@ -36,6 +38,7 @@
       <root url="file://$PROJECT_DIR$/public/javascripts/modify-users.js" />
       <root url="file://$PROJECT_DIR$/public/javascripts/transactions/transactions.js" />
       <root url="file://$PROJECT_DIR$/models/token.js" />
+      <root url="file://$PROJECT_DIR$/public/javascripts/users/register-users.js" />
       <root url="file://$PROJECT_DIR$/models/user.js" />
       <root url="file://$PROJECT_DIR$/models/behaviour.js" />
       <root url="file://$PROJECT_DIR$/models/observation.js" />
@@ -57,6 +60,7 @@
       <root url="file://$PROJECT_DIR$/routes/users.js" />
       <root url="file://$PROJECT_DIR$/public/javascripts/selling-hours/selling-hours.js" />
       <root url="file://$PROJECT_DIR$/routes/users/binder.js" />
+      <root url="file://$PROJECT_DIR$/routes/users/wmp.js" />
       <root url="file://$PROJECT_DIR$/routes/users/selling-hours.js" />
       <root url="file://$PROJECT_DIR$/routes/users/behaviours.js" />
       <root url="file://$PROJECT_DIR$/public/javascripts/transactions/add-transactions.js" />

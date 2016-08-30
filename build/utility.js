@@ -2,7 +2,7 @@
 //TODO: remove environment variable on live
 process.env.NODE_ENV = "development";
 
-exports.log = function({type, message}) {
+exports.log = function(type, message) {
     if(process.env.NODE_ENV !== 'development') { return; }
 
     switch(type) {
