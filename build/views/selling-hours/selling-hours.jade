@@ -5,6 +5,23 @@ block append stylesheet
     link(rel='stylesheet', href='/stylesheets/selling-hours.css')
     link(href='//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css', rel='stylesheet')
 block content
+    .modal.fade#editModal(tabindex='-1', role='dialog', aria-labelledby='editModalLabel')
+        .modal-dialog.modal-lg(role='document')
+            .modal-content
+                .modal-header
+                    button.close(type='button', data-dismiss='modal', aria-label='Close')
+                        span(aria-hidden='true') &times;
+                    h4.modal-title#editModalLabel Are you sure?
+                .modal-body
+                    .row
+                        p Are you sure you want to delete all hours for the current week?
+                .modal-footer
+                    .row
+                        .col-xs-6.col-md-3.col-md-offset-6.col-lg-2.col-lg-offset-8
+                            form.form-horizontal(method='post', action='/users/selling-hours/delete-hours', role='form', id='deleteHoursForm' name='deleteHoursForm')
+                                button.btn.btn-default.btn-block(type='submit') Yes
+                        .col-xs-6.col-md-3.col-lg-2
+                            a.btn.btn-primary.btn-block(type='button', data-dismiss='modal') No
     .row
         .col-xs-12.col-md-10.col-md-offset-1
             h1.page-header #{title}
@@ -28,9 +45,9 @@ block content
             select.form-control(id='store', name='store')
                 each store, storeIndex in stores
                     option(value='#{store.store_id}') #{store.store_name}
-        .col-xs-12.col-sm-4
+        .col-xs-12.col-sm-4.text-center
             label(for='store') &nbsp;
-            button.form-btn.btn.btn-lg.btn-block.btn-success.clearSellingHoursButton(name='view', type='button') Clear Selling Hours
+                a.btn.btn-primary.clearSellingHoursButton(name='deleteWeekHours', type='button', onclick='populateDeleteModal()') Clear Selling Hours
         .col-xs-12.col-sm-4
             label(for='dateRange') Date Range:
             .input-group

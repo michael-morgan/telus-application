@@ -103,7 +103,16 @@ router.post('/', ensureAuthenticated, (req, res, next) => {
             res.send(JSON.stringify(req.body));
     });
 });
-
+//Delete weekly hours
+router.post('/delete-hours', ensureAuthenticated, (req, res, next) => {
+    sellingHoursModel.deleteCurrentWeekHours((err,result) =>
+    {
+        if (err) {
+            return res.end('Error: ' + err.message);
+        }
+        return res.redirect('/users/selling-hours');
+    });
+});
 
 router.post('/budgets', ensureAuthenticated, (req, res, next) => {
     var data = req.body.name;

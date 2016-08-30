@@ -336,6 +336,7 @@ function displayEmployeeHours(userObj, hourObj) {
                 saturdayHours += parseInt(hourObj[hour].selling_hours);
             }
         }//end for loop for hours
+        //Set text for hours on each day of the week
         $('#TotalSundayHours').text(sundayHours);
         $('#TotalMondayHours').text(mondayHours);
         $('#TotalTuesdayHours').text(tuesdayHours);
@@ -343,6 +344,7 @@ function displayEmployeeHours(userObj, hourObj) {
         $('#TotalThursdayHours').text(thursdayHours);
         $('#TotalFridayHours').text(fridayHours);
         $('#TotalSaturdayHours').text(saturdayHours);
+        //Total hours, add em up
         $('#TotalHours'+ userObj[user].t_number + '').text(totalHours);
         $('#TotalWeekHours').text(sundayHours+mondayHours+tuesdayHours+wednesdayHours+thursdayHours+fridayHours+saturdayHours);
         totalHours = 0;
@@ -732,6 +734,10 @@ function displayBudgets() {
     }
 
 };
+
+function populateDeleteModal() {
+    $('#editModal').modal('show');
+}
 
 function displayUsers() {
     var hoursTable = "";

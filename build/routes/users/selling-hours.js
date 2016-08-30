@@ -109,6 +109,15 @@ router.post('/', ensureAuthenticated, function (req, res, next) {
         } else res.send(JSON.stringify(req.body));
     });
 });
+//Delete weekly hours
+router.post('/delete-hours', ensureAuthenticated, function (req, res, next) {
+    sellingHoursModel.deleteCurrentWeekHours(function (err, result) {
+        if (err) {
+            return res.end('Error: ' + err.message);
+        }
+        return res.redirect('/users/selling-hours');
+    });
+});
 
 router.post('/budgets', ensureAuthenticated, function (req, res, next) {
     var data = req.body.name;
