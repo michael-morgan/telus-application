@@ -557,22 +557,27 @@ function renderTransactionHistoryPage(returnObj, req, res, next) {
                                     }
 
                                     userModel.getAllUsersByStoreIds(storeIds, (err, result) => {
-                                            if(err) {
-                                                throw next(err);
-                                            } //end if
+                                        if(err) {
+                                            throw next(err);
+                                        } //end if
 
-                                            //Display success message on adding a transaction
-                                            if(req.session.success) {
-                                                req.flash('success_messages', 'Transaction successfully added!');
-                                                res.locals.success_messages = req.flash('success_messages');
-                                                req.session.success = false;
-                                            }  //end if
+                                        //Display success message on adding a transaction
+                                        if(req.session.success) {
+                                            req.flash('success_messages', 'Transaction successfully added!');
+                                            res.locals.success_messages = req.flash('success_messages');
+                                            req.session.success = false;
+                                        }  //end if
 
-                                            returnObj['users'] = result;
-                                            returnObj['usersObj'] = JSON.stringify(result);
-                                            returnObj['selectedEmployee']= req.user.t_number;
+                                        returnObj['users'] = [];
+                                        result.forEach((user) => {
+                                            delete user['password'];
+                                            returnObj['users'].push(user);
+                                        });
 
-                                            return res.render('transactions/transactions', returnObj);
+                                        returnObj['usersObj'] = JSON.stringify(returnObj['users']);
+                                        returnObj['selectedEmployee']= req.user.t_number;
+
+                                        return res.render('transactions/transactions', returnObj);
                                     }); //getAllUsersByStoreID;
                                 }); //getWarranty
                             }); //get devices

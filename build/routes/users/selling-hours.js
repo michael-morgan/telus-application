@@ -51,8 +51,14 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
             if (err) {
                 throw next(err);
             } //end if
-            returnObj['users'] = result;
-            returnObj['usersObj'] = JSON.stringify(result);
+
+            returnObj['users'] = [];
+            result.forEach(function (user) {
+                delete user['password'];
+                returnObj['users'].push(user);
+            });
+
+            returnObj['usersObj'] = JSON.stringify(returnObj['users']);
             returnObj['selectedEmployee'] = req.user.t_number;
             sellingHoursModel.getAllHours(req.session.store_id, function (err, result) {
                 if (err) {

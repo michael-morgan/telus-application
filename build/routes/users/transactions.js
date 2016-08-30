@@ -563,8 +563,13 @@ function renderTransactionHistoryPage(returnObj, req, res, next) {
                                             req.session.success = false;
                                         } //end if
 
-                                        returnObj['users'] = result;
-                                        returnObj['usersObj'] = JSON.stringify(result);
+                                        returnObj['users'] = [];
+                                        result.forEach(function (user) {
+                                            delete user['password'];
+                                            returnObj['users'].push(user);
+                                        });
+
+                                        returnObj['usersObj'] = JSON.stringify(returnObj['users']);
                                         returnObj['selectedEmployee'] = req.user.t_number;
 
                                         return res.render('transactions/transactions', returnObj);

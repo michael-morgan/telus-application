@@ -15,6 +15,7 @@
         <item url="file://$PROJECT_DIR$/public/javascripts/transactions/transactions.js" />
         <item url="file://$PROJECT_DIR$/routes/users/binder.js" />
         <item url="file://$PROJECT_DIR$/public/javascripts/users/edit-users.js" />
+        <item url="file://$PROJECT_DIR$/routes/users/wmp.js" />
         <item url="file://$PROJECT_DIR$/public/javascripts/documentation.js" />
         <item url="file://$PROJECT_DIR$/routes/users/transactions.js" />
         <item url="file://$PROJECT_DIR$/public/javascripts/sb-admin-2.js" />
@@ -52,6 +53,7 @@
       <root url="file://$PROJECT_DIR$/public/javascripts/transactions/transactions.js" />
       <root url="file://$PROJECT_DIR$/routes/users/binder.js" />
       <root url="file://$PROJECT_DIR$/public/javascripts/users/edit-users.js" />
+      <root url="file://$PROJECT_DIR$/routes/users/wmp.js" />
       <root url="file://$PROJECT_DIR$/public/javascripts/documentation.js" />
       <root url="file://$PROJECT_DIR$/routes/users/transactions.js" />
       <root url="file://$PROJECT_DIR$/public/javascripts/sb-admin-2.js" />
