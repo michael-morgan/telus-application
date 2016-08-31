@@ -7,13 +7,13 @@ block content
         .col-xs-12
             h1.page-header #{title}
         if(success_messages != null)
-            .col-sm-10.col-sm-offset-1.col-xs-12
+            .col-sm-10.col-sm-offset-1.col-xs-12.m-b-10
                 div#successMessage.alert.success.alert-success(role='success')
                     .alert-title
                         i.fa.fa-check.fa-2x
                         strong Great!
                     p !{success_messages}
-            script(src='/bower_components/jquery/dist/jquery.min.js')
+
             //Fade out success  after 5 seconds
             script.
                 $(document).ready(function () {

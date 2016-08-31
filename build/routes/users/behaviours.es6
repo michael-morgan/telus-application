@@ -160,6 +160,7 @@ router.get('/add-behaviour/:skill/:canRemove', ensureAuthenticated, function (re
         }
     });
 });
+
 // When we submit the add behaviour page with a skill and a remove parameter
 router.post('/add-behaviour/:skill/:canRemove', ensureAuthenticated, function (req, res, next) {
     if (!req.body) { return res.sendStatus(400); }
@@ -360,7 +361,10 @@ router.post('/add-behaviour/:skill/:canRemove', ensureAuthenticated, function (r
                     });
                 }
             }
-        },fnCallback);
+            else {
+                fnCallback(null);
+            }
+        }, fnCallback);
     }
     //Finally redirect the user back to the behaviours page
     function redirectUser(fnCallback)
