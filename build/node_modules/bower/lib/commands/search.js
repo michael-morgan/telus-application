@@ -1,17 +1,16 @@
 var Q = require('q');
-var RegistryClient = require('bower-registry-client');
+var PackageRepository = require('../core/PackageRepository');
 var defaultConfig = require('../config');
 var cli = require('../util/cli');
+var createError = require('../util/createError');
 
 function search(logger, name, config) {
     var registryClient;
 
-    var json = config ? config.json : undefined;
     config = defaultConfig(config);
-    config.json = config.json || json; // Hack until bower-config is fixed...
-    config.cache = config.storage.registry;
 
-    registryClient = new RegistryClient(config, logger);
+    var repository = new PackageRepository(config, logger);
+    var registryClient = repository.getRegistryClient();
 
     if (name) {
         return Q.nfcall(registryClient.search.bind(registryClient), name);
@@ -19,7 +18,7 @@ function search(logger, name, config) {
         // List all packages when in interactive mode + json enabled, and
         // always when in non-interactive mode
         if (config.interactive && !config.json) {
-            throw cli.createReadOptionsError('search');
+            throw createError('no parameter to bower search', 'EREADOPTIONS');
         }
 
         return Q.nfcall(registryClient.list.bind(registryClient));

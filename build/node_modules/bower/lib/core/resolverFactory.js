@@ -1,10 +1,10 @@
-/*jshint laxbreak:true*/
 var Q = require('q');
 var fs = require('../util/fs');
 var path = require('path');
 var mout = require('mout');
 var resolvers = require('./resolvers');
 var createError = require('../util/createError');
+var resolve = require('../util/resolve');
 
 var pluginResolverFactory = require('./resolvers/pluginResolverFactory');
 
@@ -56,8 +56,19 @@ function getConstructor(decEndpoint, options, registryClient) {
         }
 
         var resolverPromises = resolverNames.map(function (resolverName) {
-            var resolver = resolvers[resolverName]
-                || pluginResolverFactory(require(resolverName), options);
+
+
+            var resolver = resolvers[resolverName];
+
+            if (resolver === undefined) {
+                var resolverPath = resolve(resolverName, { cwd: config.cwd });
+
+                if (resolverPath === undefined) {
+                    throw createError('Bower resolver not found: ' + resolverName, 'ENORESOLVER')
+                }
+
+                resolver = pluginResolverFactory(require(resolverPath), options);
+            }
 
             return function () {
                 if (selectedResolver === undefined) {
@@ -92,7 +103,7 @@ function getConstructor(decEndpoint, options, registryClient) {
     // Git case: git git+ssh, git+http, git+https
     //           .git at the end (probably ssh shorthand)
     //           git@ at the start
-    addResolver(function() {
+    addResolver(function () {
         if (/^git(\+(ssh|https?))?:\/\//i.test(source) || /\.git\/?$/i.test(source) || /^git@/i.test(source)) {
             decEndpoint.source = source.replace(/^git\+/, '');
 

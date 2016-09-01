@@ -18,8 +18,8 @@ var logger;
 var levels = Logger.LEVELS;
 
 options = cli.readOptions({
-    version: { type: Boolean, shorthand: 'v' },
-    help: { type: Boolean, shorthand: 'h' },
+    'version': { type: Boolean, shorthand: 'v' },
+    'help': { type: Boolean, shorthand: 'h' },
     'allow-root': { type: Boolean }
 });
 
@@ -101,7 +101,7 @@ function handleLogger(logger, renderer) {
         }
     })
     .on('error', function (err)  {
-        if (command !== 'help' && err.code === cli.READ_OPTIONS_ERROR_CODE) {
+        if (command !== 'help' && err.code === 'EREADOPTIONS') {
             logger = bower.commands.help(command);
             renderer = cli.getRenderer('help', logger.json, bower.config);
             handleLogger(logger, renderer);

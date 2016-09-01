@@ -45,7 +45,7 @@ Project.prototype.install = function (decEndpoints, options, config) {
     .spread(function (json, tree) {
         // It shows an error when issuing `bower install`
         // and no bower.json is present in current directory
-        if(!that._jsonFile && decEndpoints.length === 0 ) {
+        if (!that._jsonFile && decEndpoints.length === 0 ) {
             throw createError('No bower.json present', 'ENOENT');
         }
 
@@ -82,14 +82,14 @@ Project.prototype.install = function (decEndpoints, options, config) {
     })
     .then(function (installed) {
         // Handle save and saveDev options
-        if (that._options.save || that._options.saveDev || that._options.saveExact) {
+        if (that._options.save || that._options.saveDev || that._options.saveExact || that._config.save || that._config.saveExact) {
             // Cycle through the specified endpoints
             decEndpoints.forEach(function (decEndpoint) {
                 var jsonEndpoint;
 
                 jsonEndpoint = endpointParser.decomposed2json(decEndpoint);
 
-                if (that._options.saveExact) {
+                if (that._options.saveExact || that._config.saveExact) {
                     if (decEndpoint.name !== decEndpoint.source) {
                         jsonEndpoint[decEndpoint.name] = decEndpoint.source + '#' + decEndpoint.pkgMeta.version;
                     } else {
@@ -557,11 +557,11 @@ Project.prototype._readJson = function () {
         return Q.resolve(this._json);
     }
 
-    return Q.fcall(function() {
+    return Q.fcall(function () {
         // This will throw if package.json does not exist
         return fs.readFileSync(path.join(that._config.cwd, 'package.json'));
     })
-    .then(function(buffer) {
+    .then(function (buffer) {
         // If package.json exists, use it's values as defaults
         var defaults = {}, npm = JSON.parse(buffer.toString());
 
@@ -574,12 +574,12 @@ Project.prototype._readJson = function () {
 
         return defaults;
     })
-    .catch(function(err) {
+    .catch(function (err) {
         // Most likely no package.json so just set default name
         return { name: path.basename(that._config.cwd) || 'root' };
     })
-    .then(function(defaults) {
-        return that._json = readJson(that._config.cwd, { assume: defaults });
+    .then(function (defaults) {
+        return that._json = readJson(that._config.cwd, { assume: defaults, logger: that._logger });
     })
     .spread(function (json, deprecated, assumed) {
         var jsonStr;
@@ -741,7 +741,7 @@ Project.prototype._removePackages = function (packages) {
             }
 
             // Remove from json only if successfully deleted
-            if (that._options.save && that._json.dependencies) {
+            if ((that._options.save || that._config.save) && that._json.dependencies) {
                 promise = promise
                 .then(function () {
                     delete that._json.dependencies[name];
