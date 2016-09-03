@@ -15,7 +15,7 @@ var endDate;
 $(function () {
     storesArray = JSON.parse(JSON.stringify(storeObj));
     budgetArray = JSON.parse(JSON.stringify(budgetObj));
-
+    console.log(hourObj);
     //displayEmployeeHours();
 
     //console.debug(storesArray);
@@ -52,31 +52,47 @@ $(function () {
         //console.debug(filteredBudgetArray);
         //console.debug(filteredHoursArray);
         //console.debug(filteredStoresArray);
-
         displayUsers();
-        getDaysOfTheWeek();
         displayBudgets();
-        displayEmployeeHours(filteredUserArray, filteredHoursArray);
+        if (aDate != '') {
+            $('#dateRange').daterangepicker({
+                "showWeekNumbers": true,
+                "singleDatePicker": true,
+                "opens": "center",
+                "startDate": aDate,
+                locale: {
+                    format: 'YYYY-MM-DD'
+                }
+            }, function (start, end, label) {
+                $('#dateRange').val(moment(start).format('YYYY-MM-DD'));
+                $('#hiddenDate').val(moment(start).format('YYYY-MM-DD'));
+                applyFilter();
+            });
+            getDaysOfTheWeek(aDate);
+            displayEmployeeHours(filteredUserArray, filteredHoursArray, aDate);
+        } else {
+            $('#dateRange').daterangepicker({
+                "showWeekNumbers": true,
+                "singleDatePicker": true,
+                "opens": "center",
+                locale: {
+                    format: 'YYYY-MM-DD'
+                }
+            }, function (start, end, label) {
+                $('#dateRange').val(moment(start).format('YYYY-MM-DD'));
+                $('#hiddenDate').val(moment(start).format('YYYY-MM-DD'));
+                applyFilter();
+            });
+            getDaysOfTheWeek(moment().startOf('isoWeek'));
+            displayEmployeeHours(filteredUserArray, filteredHoursArray, moment().startOf('isoWeek'));
+        }
+        $('#hiddenDate').val($('#dateRange').val());
     });
-
-    $('#dateRange').daterangepicker({
-        "showWeekNumbers": true,
-        "singleDatePicker": true,
-        "startDate": startDate = moment().startOf('day'),
-        "opens": "center"
-
-    }, function (start, end, label) {
-        startDate = start;
-        endDate = end;
-
-        applyFilter(); //
-    });
-
     //Trigger the drop down change function to load the HTML
     store.trigger('change');
 });
 //Retrieve hours from array and display them in the appropriate row
-function displayEmployeeHours(userObj, hourObj) {
+function displayEmployeeHours(userObj, hourObj, date) {
     var totalHours = 0,
         sundayHours = 0,
         mondayHours = 0,
@@ -88,12 +104,12 @@ function displayEmployeeHours(userObj, hourObj) {
     var totalStoreHours = 0;
     for (var user in userObj) {
         for (var hour in hourObj) {
-            if (moment().startOf('isoWeek').subtract(1, 'day').format('YYYY-MM-DD') == hourObj[hour].date.substring(0, 10) && userObj[user].t_number == hourObj[hour].team_member) {
+            if (moment(date).day("Sunday").format('YYYY-MM-DD') == hourObj[hour].date.substring(0, 10) && userObj[user].t_number == hourObj[hour].team_member) {
                 $('#SundayHours' + userObj[user].t_number + '').editable({
                     type: 'text',
                     pk: 1,
                     url: '/users/selling-hours',
-                    name: userObj[user].t_number + ',' + hourObj[hour].store_id + ',' + hourObj[hour].date.substring(0, 10),
+                    name: userObj[user].t_number + ',' + hourObj[hour].store_id + ',' + moment(date).day("Sunday").format('YYYY-MM-DD'),
                     value: hourObj[hour].selling_hours,
                     send: 'always',
                     success: function success(response, newValue) {
@@ -121,12 +137,13 @@ function displayEmployeeHours(userObj, hourObj) {
                 totalHours += parseInt(hourObj[hour].selling_hours);
                 sundayHours += parseInt(hourObj[hour].selling_hours);
             }
-            if (moment().startOf('isoWeek').format('YYYY-MM-DD') == hourObj[hour].date.substring(0, 10) && userObj[user].t_number == hourObj[hour].team_member) {
+
+            if (moment(date).day("Monday").format('YYYY-MM-DD') == hourObj[hour].date.substring(0, 10) && userObj[user].t_number == hourObj[hour].team_member) {
                 $('#MondayHours' + userObj[user].t_number + '').editable({
                     type: 'text',
                     pk: 1,
                     url: '/users/selling-hours',
-                    name: userObj[user].t_number + ',' + hourObj[hour].store_id + ',' + hourObj[hour].date.substring(0, 10),
+                    name: userObj[user].t_number + ',' + hourObj[hour].store_id + ',' + moment(date).day("Monday").format('YYYY-MM-DD'),
                     value: hourObj[hour].selling_hours,
                     send: 'always',
                     success: function success(response, newValue) {
@@ -154,12 +171,12 @@ function displayEmployeeHours(userObj, hourObj) {
                 totalHours += parseInt(hourObj[hour].selling_hours);
                 mondayHours += parseInt(hourObj[hour].selling_hours);
             }
-            if (moment().startOf('isoWeek').add(1, 'day').format('YYYY-MM-DD') == hourObj[hour].date.substring(0, 10) && userObj[user].t_number == hourObj[hour].team_member) {
+            if (moment(date).day("Tuesday").format('YYYY-MM-DD') == hourObj[hour].date.substring(0, 10) && userObj[user].t_number == hourObj[hour].team_member) {
                 $('#TuesdayHours' + userObj[user].t_number + '').editable({
                     type: 'text',
                     pk: 1,
                     url: '/users/selling-hours',
-                    name: userObj[user].t_number + ',' + hourObj[hour].store_id + ',' + hourObj[hour].date.substring(0, 10),
+                    name: userObj[user].t_number + ',' + hourObj[hour].store_id + ',' + moment(date).day("Tuesday").format('YYYY-MM-DD'),
                     value: hourObj[hour].selling_hours,
                     send: 'always',
                     success: function success(response, newValue) {
@@ -187,12 +204,12 @@ function displayEmployeeHours(userObj, hourObj) {
                 totalHours += parseInt(hourObj[hour].selling_hours);
                 tuesdayHours += parseInt(hourObj[hour].selling_hours);
             }
-            if (moment().startOf('isoWeek').add(2, 'day').format('YYYY-MM-DD') == hourObj[hour].date.substring(0, 10) && userObj[user].t_number == hourObj[hour].team_member) {
+            if (moment(date).day("Wednesday").format('YYYY-MM-DD') == hourObj[hour].date.substring(0, 10) && userObj[user].t_number == hourObj[hour].team_member) {
                 $('#WednesdayHours' + userObj[user].t_number + '').editable({
                     type: 'text',
                     pk: 1,
                     url: '/users/selling-hours',
-                    name: userObj[user].t_number + ',' + hourObj[hour].store_id + ',' + hourObj[hour].date.substring(0, 10),
+                    name: userObj[user].t_number + ',' + hourObj[hour].store_id + ',' + moment(date).day("Wednesday").format('YYYY-MM-DD'),
                     value: hourObj[hour].selling_hours,
                     send: 'always',
                     success: function success(response, newValue) {
@@ -221,12 +238,12 @@ function displayEmployeeHours(userObj, hourObj) {
                 totalHours += parseInt(hourObj[hour].selling_hours);
                 wednesdayHours += parseInt(hourObj[hour].selling_hours);
             }
-            if (moment().startOf('isoWeek').add(3, 'day').format('YYYY-MM-DD') == hourObj[hour].date.substring(0, 10) && userObj[user].t_number == hourObj[hour].team_member) {
+            if (moment(date).day("Thursday").format('YYYY-MM-DD') == hourObj[hour].date.substring(0, 10) && userObj[user].t_number == hourObj[hour].team_member) {
                 $('#ThursdayHours' + userObj[user].t_number + '').editable({
                     type: 'text',
                     pk: 1,
                     url: '/users/selling-hours',
-                    name: userObj[user].t_number + ',' + hourObj[hour].store_id + ',' + hourObj[hour].date.substring(0, 10),
+                    name: userObj[user].t_number + ',' + hourObj[hour].store_id + ',' + moment(date).day("Thursday").format('YYYY-MM-DD'),
                     value: hourObj[hour].selling_hours,
                     send: 'always',
                     success: function success(response, newValue) {
@@ -254,12 +271,12 @@ function displayEmployeeHours(userObj, hourObj) {
                 totalHours += parseInt(hourObj[hour].selling_hours);
                 thursdayHours += parseInt(hourObj[hour].selling_hours);
             }
-            if (moment().startOf('isoWeek').add(4, 'day').format('YYYY-MM-DD') == hourObj[hour].date.substring(0, 10) && userObj[user].t_number == hourObj[hour].team_member) {
+            if (moment(date).day("Friday").format('YYYY-MM-DD') == hourObj[hour].date.substring(0, 10) && userObj[user].t_number == hourObj[hour].team_member) {
                 $('#FridayHours' + userObj[user].t_number + '').editable({
                     type: 'text',
                     pk: 1,
                     url: '/users/selling-hours',
-                    name: userObj[user].t_number + ',' + hourObj[hour].store_id + ',' + hourObj[hour].date.substring(0, 10),
+                    name: userObj[user].t_number + ',' + hourObj[hour].store_id + ',' + moment(date).day("Friday").format('YYYY-MM-DD'),
                     value: hourObj[hour].selling_hours,
                     send: 'always',
                     success: function success(response, newValue) {
@@ -288,12 +305,12 @@ function displayEmployeeHours(userObj, hourObj) {
                 totalHours += parseInt(hourObj[hour].selling_hours);
                 fridayHours += parseInt(hourObj[hour].selling_hours);
             }
-            if (moment().startOf('isoWeek').add(5, 'day').format('YYYY-MM-DD') == hourObj[hour].date.substring(0, 10) && userObj[user].t_number == hourObj[hour].team_member) {
+            if (moment(date).day("Saturday").format('YYYY-MM-DD') == hourObj[hour].date.substring(0, 10) && userObj[user].t_number == hourObj[hour].team_member) {
                 $('#SaturdayHours' + userObj[user].t_number + '').editable({
                     type: 'text',
                     pk: 1,
                     url: '/users/selling-hours',
-                    name: userObj[user].t_number + ',' + hourObj[hour].store_id + ',' + hourObj[hour].date.substring(0, 10),
+                    name: userObj[user].t_number + ',' + hourObj[hour].store_id + ',' + moment(date).day("Saturday").format('YYYY-MM-DD'),
                     value: hourObj[hour].selling_hours,
                     send: 'always',
                     success: function success(response, newValue) {
@@ -338,7 +355,7 @@ function displayEmployeeHours(userObj, hourObj) {
             type: 'text',
             pk: 1,
             url: '/users/selling-hours',
-            name: userObj[user].t_number + ',' + userObj[user].store_id + ',' + moment().startOf('isoWeek').subtract(1, 'day').format('YYYY-MM-DD'),
+            name: userObj[user].t_number + ',' + userObj[user].store_id + ',' + moment(date).day("Sunday").format('YYYY-MM-DD'),
             value: '   ',
             emptytext: '   ',
             send: 'always',
@@ -369,7 +386,7 @@ function displayEmployeeHours(userObj, hourObj) {
             type: 'text',
             pk: 1,
             url: '/users/selling-hours',
-            name: userObj[user].t_number + ',' + userObj[user].store_id + ',' + moment().startOf('isoWeek').format('YYYY-MM-DD'),
+            name: userObj[user].t_number + ',' + userObj[user].store_id + ',' + moment(date).day("Monday").format('YYYY-MM-DD'),
             value: '   ',
             emptytext: '   ',
             send: 'always',
@@ -400,7 +417,7 @@ function displayEmployeeHours(userObj, hourObj) {
             type: 'text',
             pk: 1,
             url: '/users/selling-hours',
-            name: userObj[user].t_number + ',' + userObj[user].store_id + ',' + moment().startOf('isoWeek').add(1, 'day').format('YYYY-MM-DD'),
+            name: userObj[user].t_number + ',' + userObj[user].store_id + ',' + moment(date).day("Tuesday").format('YYYY-MM-DD'),
             value: '   ',
             emptytext: '   ',
             send: 'always',
@@ -430,7 +447,7 @@ function displayEmployeeHours(userObj, hourObj) {
             type: 'text',
             pk: 1,
             url: '/users/selling-hours',
-            name: userObj[user].t_number + ',' + userObj[user].store_id + ',' + moment().startOf('isoWeek').add(2, 'day').format('YYYY-MM-DD'),
+            name: userObj[user].t_number + ',' + userObj[user].store_id + ',' + moment(date).day("Wednesday").format('YYYY-MM-DD'),
             value: '   ',
             emptytext: '   ',
             send: 'always',
@@ -461,7 +478,7 @@ function displayEmployeeHours(userObj, hourObj) {
             type: 'text',
             pk: 1,
             url: '/users/selling-hours',
-            name: userObj[user].t_number + ',' + userObj[user].store_id + ',' + moment().startOf('isoWeek').add(3, 'day').format('YYYY-MM-DD'),
+            name: userObj[user].t_number + ',' + userObj[user].store_id + ',' + moment(date).day("Thursday").format('YYYY-MM-DD'),
             value: '   ',
             emptytext: '   ',
             send: 'always',
@@ -489,11 +506,13 @@ function displayEmployeeHours(userObj, hourObj) {
 
         });
 
+        // console.log(userObj[user].t_number + ',' +userObj[user].store_id + ',' +moment(date).day("Friday").format('YYYY-MM-DD'));
+
         $('#FridayHours' + userObj[user].t_number + '').editable({
             type: 'text',
             pk: 1,
             url: '/users/selling-hours',
-            name: userObj[user].t_number + ',' + userObj[user].store_id + ',' + moment().startOf('isoWeek').add(4, 'day').format('YYYY-MM-DD'),
+            name: userObj[user].t_number + ',' + userObj[user].store_id + ',' + moment(date).day("Friday").format('YYYY-MM-DD'),
             value: '   ',
             emptytext: '   ',
             send: 'always',
@@ -518,13 +537,14 @@ function displayEmployeeHours(userObj, hourObj) {
                 $('#TotalFridayHours').text(totalHours.toString());
                 $('#TotalWeekHours').text(totalWeekHours);
             }
+
         });
 
         $('#SaturdayHours' + userObj[user].t_number + '').editable({
             type: 'text',
             pk: 1,
             url: '/users/selling-hours',
-            name: userObj[user].t_number + ',' + userObj[user].store_id + ',' + moment().startOf('isoWeek').add(5, 'day').format('YYYY-MM-DD'),
+            name: userObj[user].t_number + ',' + userObj[user].store_id + ',' + moment(date).day("Saturday").format('YYYY-MM-DD'),
             value: '   ',
             emptytext: '   ',
             send: 'always',
@@ -554,16 +574,16 @@ function displayEmployeeHours(userObj, hourObj) {
 }
 
 //Get the current dates for the week
-function getDaysOfTheWeek() {
+function getDaysOfTheWeek(date) {
     var monday, tuesday, wednesday, thursday, friday, saturday, sunday;
 
-    sunday = moment().startOf('isoWeek').subtract(1, 'day').format('MMMM-DD');
-    monday = moment().startOf('isoWeek').format('MMMM-DD');
-    tuesday = moment().startOf('isoWeek').add(1, 'day').format('MMMM-DD');
-    wednesday = moment().startOf('isoWeek').add(2, 'day').format('MMMM-DD');
-    thursday = moment().startOf('isoWeek').add(3, 'day').format('MMMM-DD');
-    friday = moment().startOf('isoWeek').add(4, 'day').format('MMMM-DD');
-    saturday = moment().startOf('isoWeek').add(5, 'day').format('MMMM-DD');
+    sunday = moment(date).day("Sunday").format('MMMM-DD');
+    monday = moment(date).day("Monday").format('MMMM-DD');
+    tuesday = moment(date).day("Tuesday").format('MMMM-DD');
+    wednesday = moment(date).day("Wednesday").format('MMMM-DD');
+    thursday = moment(date).day("Thursday").format('MMMM-DD');
+    friday = moment(date).day("Friday").format('MMMM-DD');
+    saturday = moment(date).day("Saturday").format('MMMM-DD');
 
     $('#Sunday').text(sunday);
     $('#Monday').text(monday);
@@ -711,9 +731,11 @@ function displayUsers() {
 
     $('#hoursTable').html(hoursTable);
     getDaysOfTheWeek();
-    displayEmployeeHours(filteredUserArray, filteredHoursArray);
+    if (aDate != '') displayEmployeeHours(filteredUserArray, filteredHoursArray, aDate);else displayEmployeeHours(filteredUserArray, filteredHoursArray, moment().startOf('isoWeek'));
 }
 
-function applyFilter() {}
+function applyFilter() {
+    document.getElementById("updateWeekForm").submit();
+}
 
 //# sourceMappingURL=selling-hours.js.map

@@ -16,8 +16,20 @@ exports.create = (hours, done) => {
 
 exports.getAllHours = (id, done) => {
     connection.get().query('SELECT * FROM selling_hours_schedule INNER JOIN stores_util ON selling_hours_schedule.team_member = stores_util.t_number '+
-    'WHERE selling_hours_schedule.store_id = stores_util.store_id '+
-        'AND YEARWEEK(selling_hours_schedule.date, 0) = YEARWEEK(CURDATE(), 0)', id, (error, result) => {
+    'WHERE selling_hours_schedule.store_id = stores_util.store_id ', id, (error, result) => {
+        //'AND YEARWEEK(selling_hours_schedule.date, 0) = YEARWEEK(CURDATE(), 0)', id, (error, result) => {
+        if(error) {
+            return done(error);
+        }
+
+        done(null, result);
+    });
+};
+
+exports.getHoursByDate = (id,weekDate, done) => {
+    connection.get().query('SELECT * FROM selling_hours_schedule INNER JOIN stores_util ON selling_hours_schedule.team_member = stores_util.t_number '+
+        'WHERE selling_hours_schedule.store_id = stores_util.store_id '+
+        'AND YEARWEEK(selling_hours_schedule.date, 0) = YEARWEEK(?, 0)', weekDate, (error, result) => {
         if(error) {
             return done(error);
         }
@@ -47,9 +59,9 @@ exports.updateHoursByID = (values, done) => {
     });
 };
 
-exports.deleteCurrentWeekHours = (done) => {
+exports.deleteCurrentWeekHours = (aDate,done) => {
     connection.get().query('DELETE s.* FROM selling_hours_schedule s INNER JOIN stores_util ON s.team_member = stores_util.t_number '+
-    'WHERE s.store_id = stores_util.store_id AND YEARWEEK(s.date, 0) = YEARWEEK(CURDATE(), 0)',(error, result) => {
+    'WHERE s.store_id = stores_util.store_id AND YEARWEEK(s.date, 0) = YEARWEEK(?, 0)',aDate,(error, result) => {
         if(error) {
             return done(error);
         }

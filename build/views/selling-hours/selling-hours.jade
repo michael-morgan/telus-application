@@ -20,6 +20,7 @@ block content
                         .col-xs-6.col-md-3.col-md-offset-6.col-lg-2.col-lg-offset-8
                             form.form-horizontal(method='post', action='/users/selling-hours/delete-hours', role='form', id='deleteHoursForm' name='deleteHoursForm')
                                 button.btn.btn-default.btn-block(type='submit') Yes
+                                input(type="hidden" id="hiddenDate" name="hiddenDate" value="")
                         .col-xs-6.col-md-3.col-lg-2
                             a.btn.btn-primary.btn-block(type='button', data-dismiss='modal') No
     .row
@@ -49,11 +50,13 @@ block content
             label(for='store') &nbsp;
                 a.btn.btn-primary.clearSellingHoursButton(name='deleteWeekHours', type='button', onclick='populateDeleteModal()') Clear Selling Hours
         .col-xs-12.col-sm-4
-            label(for='dateRange') Date Range:
-            .input-group
-                span.input-group-addon#iconAddon
-                    i.fa.fa-calendar(aria-hidden='true')
-                input.form-control(type='text', id='dateRange', name='dateRange', aria-describedby='iconAddon')
+            form.form-horizontal(method='post', action='/users/selling-hours', role='form', id='updateWeekForm' name='updateWeekForm')
+                label(for='dateRange') Date Range:
+                .input-group
+                    span.input-group-addon#iconAddon
+                        i.fa.fa-calendar(aria-hidden='true')
+                    input.form-control(type='text', id='dateRange', name='dateRange', aria-describedby='iconAddon')
+                    //button.form-control(type='submit', id='submit', name='submit', aria-describedby='iconAddon')
         .col-xs-12.col-lg-10.col-lg-offset-1
             hr
     .row
@@ -155,3 +158,4 @@ block append script
         var userObj = JSON.parse('!{usersObj}');
         var hourObj = JSON.parse('!{hoursObj}');
         var budgetObj = JSON.parse('!{budgetsObj}');
+        var aDate = '!{selectedDate}';

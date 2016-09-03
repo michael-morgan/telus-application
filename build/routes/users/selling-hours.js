@@ -85,43 +85,85 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
 });
 
 router.post('/', ensureAuthenticated, function (req, res, next) {
-    var data = req.body.name;
-    data = data.split(',');
-    //Update selling hours
-    sellingHoursModel.updateHoursByID([req.body.value, data[0], data[1], data[2]], function (err, result) {
-        if (err) {
-            return res.end('Error: ' + err.message);
+    if (req.body.dateRange != undefined && req.body.dateRange != '') {
+        var selectedDate = req.body.dateRange;
+        sellingHoursModel.getHoursByDate(req.session.store_id, selectedDate, function (err, result) {
+            if (err) {
+                throw next(err);
+            } //end if)
+            returnObj['hours'] = result;
+            returnObj['hoursObj'] = JSON.stringify(result);
+            returnObj['selectedDate'] = selectedDate;
+            console.log(returnObj['selectedDate']);
+            if (req.session.success) {
+                req.flash('success_messages', 'success');
+                req.session.success = false;
+            } //end if
+            return res.redirect('/users/selling-hours');
+        });
+    } else {
+        var data = req.body.name;
+        data = data.split(',');
+        for (var aData in data) {
+            console.log(aData);
         }
+        //Update selling hours
+        sellingHoursModel.updateHoursByID([req.body.value, data[0], data[1], data[2]], function (err, result) {
+            if (err) {
+                return res.end('Error: ' + err.message);
+            }
 
-        //No rows affected, guess we have to insert
-        if (result == 0) {
-            utility.log({ type: 'log', message: "Selling Hours: " + req.body.value });
-            utility.log({ type: 'log', message: "team_member: " + data[0] });
-            utility.log({ type: 'log', message: "store_id: " + data[1] });
-            utility.log({ type: 'log', message: "date: " + data[2] });
+            //No rows affected, guess we have to insert
+            if (result == 0) {
+                utility.log({ type: 'log', message: "Selling Hours: " + req.body.value });
+                utility.log({ type: 'log', message: "team_member: " + data[0] });
+                utility.log({ type: 'log', message: "store_id: " + data[1] });
+                utility.log({ type: 'log', message: "date: " + data[2] });
 
-            var hours = {
-                selling_hours: req.body.value,
-                team_member: data[0],
-                store_id: data[1],
-                date: data[2]
-            };
-            sellingHoursModel.create(hours, function (err, result) {
-                if (err) {
-                    return res.end('Error: ' + err.message);
-                }
-                res.send(JSON.stringify(req.body));
-            });
-        } else res.send(JSON.stringify(req.body));
-    });
+                var hours = {
+                    selling_hours: req.body.value,
+                    team_member: data[0],
+                    store_id: data[1],
+                    date: data[2]
+                };
+                sellingHoursModel.create(hours, function (err, result) {
+                    if (err) {
+                        return res.end('Error: ' + err.message);
+                    }
+                    res.send(JSON.stringify(req.body));
+                });
+            } else res.send(JSON.stringify(req.body));
+        });
+    }
 });
 //Delete weekly hours
 router.post('/delete-hours', ensureAuthenticated, function (req, res, next) {
-    sellingHoursModel.deleteCurrentWeekHours(function (err, result) {
+    var aDate = moment(req.body.hiddenDate).format("YYYY-MM-DD");
+    console.log(aDate);
+    sellingHoursModel.deleteCurrentWeekHours(aDate, function (err, result) {
         if (err) {
             return res.end('Error: ' + err.message);
         }
         return res.redirect('/users/selling-hours');
+    });
+});
+
+//Filter by week
+router.post('/update-week', ensureAuthenticated, function (req, res, next) {
+    var selectedDate = req.body.dateRange;
+    sellingHoursModel.getHoursByDate(req.session.store_id, selectedDate, function (err, result) {
+        if (err) {
+            throw next(err);
+        } //end if)
+        returnObj['hours'] = result;
+        returnObj['hoursObj'] = JSON.stringify(result);
+        returnObj['selectedDate'] = selectedDate;
+        console.log(returnObj['selectedDate']);
+        if (req.session.success) {
+            req.flash('success_messages', 'success');
+            req.session.success = false;
+        } //end if
+        return res.render('selling-hours/selling-hours', returnObj);
     });
 });
 
