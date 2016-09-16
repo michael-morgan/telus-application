@@ -538,7 +538,7 @@ router.get('/password-change', ensureAuthenticated, function (req, res, next) {
             }
         });
 
-        var email = 'personal.michaelmorgan@gmail.com';
+        var email = req.user.email;
 
         // setup e-mail data with unicode symbols
         var mailOptions = {

@@ -524,7 +524,7 @@ router.get('/password-change', ensureAuthenticated, (req, res, next) => {
             }
         });
 
-        let email = 'personal.michaelmorgan@gmail.com';
+        let email = req.user.email;
 
         // setup e-mail data with unicode symbols
         let mailOptions = {
