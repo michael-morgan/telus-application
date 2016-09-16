@@ -19,7 +19,7 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
         return res.redirect('/users/');
     }
 
-    returnObj['title'] = 'Selling Hours';
+    returnObj['title'] = 'WMP';
     returnObj['message'] = undefined;
 
     storeModel.getStoresByTNumber(req.user.t_number, function (err, result) {

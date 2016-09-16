@@ -26,20 +26,13 @@ block content
     .row
         .col-xs-12.col-md-10.col-md-offset-1
             h1.page-header #{title}
-            if(success_messages)
-                .col-md-10.col-md-offset-1.col-xs-12
-                    div#successMessage.alert.success.alert-success(role='success')
-                        .alert-title
-                            i.fa.fa-check.fa-2x
-                            strong Great!
-                        p#successParagraph !{success_messages}
-            //Deletion message, will only show if a user has removed a transaction
+        if(success_messages)
             .col-md-10.col-md-offset-1.col-xs-12
-                div#deleteMessage.alert.success.alert-success(role='success')
+                div#successMessage.alert.success.alert-success(role='success')
                     .alert-title
                         i.fa.fa-check.fa-2x
                         strong Great!
-                        p#removalMessage
+                    p#successParagraph !{success_messages}
     .row.form-group
         .col-xs-12.col-md-3.col-md-offset-1.col-lg-4
             label(for='store') Store:

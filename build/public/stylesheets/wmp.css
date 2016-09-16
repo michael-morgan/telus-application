@@ -1,11 +1,3 @@
-.col-md-3 {
-    padding-right: 0!important;
-    padding-top: 5.85em;
-}
-
-.col-md-9 {
-    padding-left: 0!important;
-}
 .pls {
     text-align: center;
     padding-right: 20px;
@@ -13,4 +5,23 @@
 
 .edit {
     line-height: 1.9;
+}
+
+.container-fluid .row .bs-component>.nav-tabs > li > a {
+    font-size: 16px;
+    color: #fff;
+    background-color: #49166D;
+    border-left: 1px solid #8c68a6;
+}
+
+.container-fluid .row .bs-component>.nav-tabs>.active > a {
+    background-color: #8c68a6;
+}
+
+.nav-justified > li {
+    display: table-cell;
+    width: 1%;
+}
+.nav-justified > li > a {
+    margin-bottom: 0;
 }

@@ -5,25 +5,35 @@ block append stylesheet
     link(rel='stylesheet', href='/stylesheets/selling-hours.css')
     link(rel='stylesheet', href='/stylesheets/wmp.css')
 block content
+    .row
+        .col-xs-12
+            h1.page-header #{title}
+        if(success_messages)
+            .col-xs-12
+                div#successMessage.alert.success.alert-success(role='success')
+                    .alert-title
+                        i.fa.fa-check.fa-2x
+                        strong Great!
+                    p#successParagraph !{success_messages}
     .row.form-group
-        .col-xs-12.col-sm-4
+        .col-xs-12.col-md-4
             label(for='store') Store:
             select.form-control(id='store', name='store')
                 each store, storeIndex in stores
                     option(value='#{store.store_id}' selected) #{store.store_name}
 
-        .col-xs-12.col-sm-4
+        .col-xs-12.col-md-4.col-md-offset-4
             label(for='dateRange') Date Range:
             .input-group
                 span.input-group-addon#iconAddon
                     i.fa.fa-calendar(aria-hidden='true')
                 input.form-control(type='text', id='dateRange', name='dateRange', aria-describedby='iconAddon')
-        .col-xs-12.col-lg-10.col-lg-offset-1
+        .col-xs-12
             hr
     .row
-        .col-md-3
+        .col-xs-12.col-sm-5.col-md-4.col-lg-3
             .table-responsive.edit
-                table.table-condensed.table-bordered.table-nonfluid-report.teammembers.pull-right
+                table.table-condensed.table-bordered.table-nonfluid-report.teammembers(style="width: 100%; margin-top: 40px;")
                     thead
                     each store, storeIndex in stores
                             tr
@@ -45,9 +55,9 @@ block content
                             td $180
                             td #{currentStore.totalHours}
                             td 100%
-        .col-md-9
+        .col-xs-12.col-sm-7.col-md-8.col-lg-9
             .bs-component
-                ul.nav.nav-tabs.responsive
+                ul.nav.nav-tabs.responsive.nav-justified
                     li.active
                         a(data-toggle='tab', href='#tab1') CT
                     li
@@ -60,7 +70,7 @@ block content
                         a(data-toggle='tab', href='#tab5') Key Metrics
                 .tab-content
                     #tab1.tab-pane.fade.active.in
-                        table.table.table-striped.table-bordered.table-hover.footable.toggle-medium
+                        table.table.table-striped.table-bordered.table-hover.footable.toggle-medium(style="width: 100%;")
                             thead
                                 tr
                                     th 26.3
@@ -85,14 +95,14 @@ block content
                                     td &nbsp;
                             tfoot
                                 tr
-                                    th.pls(colspan='4') --Store Actual Totals Listed Below--
+                                    th.pls(colspan='4') ~ Store Actual Totals Listed Below ~
                                 tr
                                     td $180
                                     td 555
                                     td 100%
                                     td &nbsp;
                     #tab2.tab-pane.fade.active
-                        table.table.table-striped.table-bordered.table-hover.footable.toggle-medium
+                        table.table.table-striped.table-bordered.table-hover.footable.toggle-medium(style="width: 100%;")
                             thead
                                 thead
                                     tr
@@ -118,7 +128,7 @@ block content
                                         td &nbsp;
                                 tfoot
                                     tr
-                                        th.pls(colspan='4') --Store Actual Totals Listed Below--
+                                        th.pls(colspan='4') ~ Store Actual Totals Listed Below ~
                                     tr
                                         td $180
                                         td 555
@@ -126,7 +136,7 @@ block content
                                         td &nbsp;
 
                     #tab3.tab-pane.fade.active
-                        table.table.table-striped.table-bordered.table-hover.footable.toggle-medium
+                        table.table.table-striped.table-bordered.table-hover.footable.toggle-medium(style="width: 100%;")
                             thead
                                 thead
                                     tr
@@ -152,14 +162,14 @@ block content
                                         td &nbsp;
                                 tfoot
                                     tr
-                                        th.pls(colspan='4') --Store Actual Totals Listed Below--
+                                        th.pls(colspan='4') ~ Store Actual Totals Listed Below ~
                                     tr
                                         td $180
                                         td 555
                                         td 100%
                                         td &nbsp;
                     #tab4.tab-pane.fade.active
-                        table.table.table-striped.table-bordered.table-hover.footable.toggle-medium
+                        table.table.table-striped.table-bordered.table-hover.footable.toggle-medium(style="width: 100%;")
                             thead
                                 thead
                                     tr
@@ -181,14 +191,14 @@ block content
                                         td 26.3
                                 tfoot
                                     tr
-                                        th.pls(colspan='3') --Store Actual Totals Listed Below--
+                                        th.pls(colspan='3') ~ Store Actual Totals Listed Below ~
                                     tr
                                         td $180
                                         td 555
                                         td 100%
                     #tab5.tab-pane.fade.active
                         .table-responsive.edit
-                            table.table.table-striped.table-bordered.table-hover.footable.toggle-medium.table-responsive
+                            table.table.table-striped.table-bordered.table-hover.footable.toggle-medium(style="width: 100%;")
                                 thead
                                     thead
                                         tr
@@ -234,7 +244,7 @@ block content
                                             td 26.3
                                     tfoot
                                         tr
-                                            th.pls(colspan='7') --Store Actual Totals Listed Below--
+                                            th.pls(colspan='7') ~ Store Actual Totals Listed Below ~
                                         tr
                                             td 111
                                             td $180
