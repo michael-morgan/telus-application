@@ -25,6 +25,9 @@ var filterDate = function filterDate(transaction) {
 
 $(function () {
     storesArray = JSON.parse(JSON.stringify(storeObj));
+    console.debug(storesArray);
+
+    console.debug(JSON.parse(JSON.stringify(userObj)));
 
     //Hide the delete message until a transaction has been removed
     $('#deleteMessage').hide();
@@ -38,6 +41,7 @@ $(function () {
         //Get the selected user from from the drop down
         teamMember = $('#teamMember');
 
+        console.log("Apply filter");
         applyFilter();
 
         //filteredArray = storeObj[0].transactions.filter(filterTeamMembers);
@@ -72,11 +76,15 @@ $(function () {
 
 function applyFilter() {
     filteredArray = JSON.parse(JSON.stringify(storesArray.filter(filterTNumber)));
+    console.log("Filtered array:");
+    console.debug(filteredArray);
 
     var _loop = function _loop(storeIndex) {
         filteredArray[storeIndex].transactions = JSON.parse(JSON.stringify(storesArray[storesArray.findIndex(function (store) {
             return store.store_id == filteredArray[storeIndex].store_id;
         })].transactions.filter(filterTNumber).filter(filterDate)));
+        console.log("Transactions:");
+        console.debug(filteredArray[storeIndex].transactions);
     };
 
     for (var storeIndex in filteredArray) {
@@ -255,7 +263,7 @@ function renderTransactions(t_num, users, privileged, stores) {
                 style: 'currency',
                 currency: 'CAD'
             });
-        summaryContent += '\n                                    </strong>\n                                </h4>\n                            </div><!--end row-->\n                        </div><!--end -->\n                    </div><!--end panel-heading purpleHead collapsed-->\n                    <div role="tabpanel" aria-labelledby="transactionHeading' + stores[storeIndex].store_id + '" id="transactionCollapse' + stores[storeIndex].store_id + '" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">\n                        <div class="panel-body">\n                            <div class="panel panel-default">\n                                <div class="panel-body">\n                                    <div class="col-xs-12 col-sm-6 col-md-4">\n                                        <strong>Number of Transactions:</strong>\n                                        <span style="margin-left: 5px;">' + transactionCount + '</span>\n                                    </div><!--end col-xs-12 col-sm-6 col-md-4-->\n                                    <div class="col-xs-12 col-sm-6 col-md-4">\n                                        <strong>Device Care:</strong>\n                                        <span style="margin-left: 5px;">';
+        summaryContent += '\n                                    </strong>\n                                    <i class="indicator fa fa-chevron-right pull-right"></i>\n                                </h4>\n                            </div><!--end row-->\n                        </div><!--end -->\n                    </div><!--end panel-heading purpleHead collapsed-->\n                    <div role="tabpanel" aria-labelledby="transactionHeading' + stores[storeIndex].store_id + '" id="transactionCollapse' + stores[storeIndex].store_id + '" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">\n                        <div class="panel-body">\n                            <div class="panel panel-default">\n                                <div class="panel-body">\n                                    <div class="col-xs-12 col-sm-6 col-md-4">\n                                        <strong>Number of Transactions:</strong>\n                                        <span style="margin-left: 5px;">' + transactionCount + '</span>\n                                    </div><!--end col-xs-12 col-sm-6 col-md-4-->\n                                    <div class="col-xs-12 col-sm-6 col-md-4">\n                                        <strong>Device Care:</strong>\n                                        <span style="margin-left: 5px;">';
         //If deviceCount is 0, display 0
         if (deviceCount <= 0) summaryContent += '0%';
         //Else display the value

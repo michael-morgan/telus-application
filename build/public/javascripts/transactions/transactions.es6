@@ -24,6 +24,9 @@ var filterDate = (transaction) => {
 
 $(() => {
     storesArray = JSON.parse(JSON.stringify(storeObj));
+    console.debug(storesArray);
+
+    console.debug(JSON.parse(JSON.stringify(userObj)));
 
     //Hide the delete message until a transaction has been removed
     $('#deleteMessage').hide();
@@ -37,6 +40,7 @@ $(() => {
         //Get the selected user from from the drop down
         teamMember = $('#teamMember');
 
+        console.log("Apply filter");
         applyFilter();
 
         //filteredArray = storeObj[0].transactions.filter(filterTeamMembers);
@@ -71,10 +75,14 @@ $(() => {
 
 function applyFilter() {
     filteredArray = JSON.parse(JSON.stringify(storesArray.filter(filterTNumber)));
+    console.log("Filtered array:");
+    console.debug(filteredArray);
     for(let storeIndex in filteredArray) {
         filteredArray[storeIndex].transactions = JSON.parse(JSON.stringify(storesArray[storesArray.findIndex(
             (store) => store.store_id == filteredArray[storeIndex].store_id
         )].transactions.filter(filterTNumber).filter(filterDate)));
+        console.log("Transactions:");
+        console.debug(filteredArray[storeIndex].transactions);
     }
 }
 
@@ -292,6 +300,7 @@ function renderTransactions(t_num, users, privileged, stores) {
             })}`;
         summaryContent += `
                                     </strong>
+                                    <i class="indicator fa fa-chevron-right pull-right"></i>
                                 </h4>
                             </div><!--end row-->
                         </div><!--end -->

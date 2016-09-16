@@ -34,6 +34,7 @@ block content
               .col-xs-12
                 h3.panel-title
                   | Store #: #{store.store_id} #{store.store_name}
+                  i.indicator.fa.fa-chevron-right.pull-right
           .panel-collapse.collapse(role='tabpanel', aria-labelledby='storeHeading#{s}', id='storeCollapse#{s}')
             .panel-body
               each user, i in users
@@ -41,20 +42,20 @@ block content
                   .panel
                     .panel-heading.purpleHead
                       .row
-                        .col-xs-10
+                        .col-xs-12
                           h3.panel-title(role='tab', id='userHeading#{i}', data-toggle='collapse', data-target='#userCollapse#{i}')
                             | #{user.first_name} #{user.last_name}
-                        .col-xs-2
-                          .dropdown.pull-right
-                            a.dropdown-toggle#ddMoreOptions(type='button', data-toggle='dropdown', aria-haspopup='true' aria-expanded='true')
-                              i.fa.fa-ellipsis-v.fa-2x(aria-hidden='true')
-                            ul.dropdown-menu(aria-labelledby='ddMoreOptions')
-                              li
-                                a(href='/users/profile/' + user.t_number)
-                                  | View Profile
-                              li
-                                a(href='/users/observations/add-observation/' + user.t_number)
-                                  | Add Observation
+                            i.indicator.fa.fa-chevron-right.pull-right
+                            .dropdown.pull-right
+                              a.dropdown-toggle#ddMoreOptions(type='button', data-toggle='dropdown', aria-haspopup='true' aria-expanded='true')
+                                i.fa.fa-ellipsis-v(aria-hidden='true')
+                              ul.dropdown-menu(aria-labelledby='ddMoreOptions')
+                                li
+                                  a(href='/users/profile/' + user.t_number)
+                                    | View Profile
+                                li
+                                  a(href='/users/observations/add-observation/' + user.t_number)
+                                    | Add Observation
                     .panel-collapse.collapse(role='tabpanel', aria-labelledby='userHeading#{i}', id='userCollapse#{i}')
                       .panel-body
                         //Show list of observations recorded for each user
@@ -74,6 +75,7 @@ block content
                                     .col-xs-9.ellipsis.padding10tb
                                       | #{observation.behaviour_desc}
                                   .col-xs-2
+                                    i.indicator.fa.fa-chevron-right.pull-right(style='font-size: 18px; margin-top: 8px;')
                                     .dropdown.pull-right.m-t-5
                                       a.dropdown-toggle#ddMoreOptions(type='button', data-toggle='dropdown', aria-haspopup='true' aria-expanded='true', style='color: initial;')
                                         i.fa.fa-ellipsis-v.fa-2x(aria-hidden='true')
@@ -87,6 +89,7 @@ block content
                                   .col-xs-2.text-center.m-t-5
                                     i.fa(class=((observation.observation_type == 1) ? 'fa-thumbs-up' : 'fa-thumbs-down'))
                                   .col-xs-6
+                                    i.indicator.fa.fa-chevron-right.pull-right(style='font-size: 18px; margin-top: 8px;')
                                     .dropdown.pull-right.m-t-5
                                       a.dropdown-toggle#ddMoreOptions(type='button', data-toggle='dropdown', aria-haspopup='true' aria-expanded='true', style='color: initial;')
                                         i.fa.fa-ellipsis-v.fa-2x(aria-hidden='true')

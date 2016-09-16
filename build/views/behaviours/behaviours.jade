@@ -30,20 +30,20 @@ block content
                 .panel.panel-default
                     .panel-heading.purpleHead(role='tab', id='skillHeading#{s}', data-toggle='collapse', data-target='#skillCollapse#{s}')
                         .row
-                            .col-xs-10
+                            .col-xs-12
                                     h3.panel-title
                                         | #{skill.skill_title}
-                            .col-xs-2
-                                .dropdown.pull-right
-                                    a.dropdown-toggle#ddMoreOptions(type='button', data-toggle='dropdown', aria-haspopup='true' aria-expanded='true')
-                                        i.fa.fa-ellipsis-v.fa-2x(aria-hidden='true')
-                                    ul.dropdown-menu(aria-labelledby='ddMoreOptions')
-                                        li
-                                            a(href='/users/behaviours/add-behaviour/' + skill.skill_id)
-                                                | Edit Skill
-                                        li
-                                            a(href='/users/behaviours/add-behaviour/' + skill.skill_id + '/remove')
-                                                | Remove Skill
+                                        i.indicator.fa.fa-chevron-right.pull-right
+                                        .dropdown.pull-right
+                                            a.dropdown-toggle#ddMoreOptions(type='button', data-toggle='dropdown', aria-haspopup='true' aria-expanded='true')
+                                                i.fa.fa-ellipsis-v.fa-2x(aria-hidden='true')
+                                            ul.dropdown-menu(aria-labelledby='ddMoreOptions')
+                                                li
+                                                    a(href='/users/behaviours/add-behaviour/' + skill.skill_id)
+                                                        | Edit Skill
+                                                li
+                                                    a(href='/users/behaviours/add-behaviour/' + skill.skill_id + '/remove')
+                                                        | Remove Skill
                     .panel-collapse.collapse(role='tabpanel', aria-labelledby='skillHeading#{s}', id='skillCollapse#{s}')
                         .panel-body
                             each behaviour, b in behaviours

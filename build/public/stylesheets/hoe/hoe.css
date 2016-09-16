@@ -245,11 +245,11 @@ body{position:relative;}
     border-top: 0px solid #efefef;
 }
 #hoe-left-panel .panel-list > li > a {
-    background: #FFF;
+    background: #fff;
     border-top: 1px solid #efefef;
     color: #7e7e7e;
     display: block;
-    font-size: 13px;
+    font-size: 16px;
     font-weight: 500;
     padding: 15px;
     position: relative;
@@ -272,8 +272,8 @@ body{position:relative;}
 }
 #hoe-left-panel .panel-list > li > a > i {
     display: inline;
-    font-size: 24px;
-    padding-right: 6px;
+    font-size: 20px;
+    padding-right: 8px;
 }
 #hoe-left-panel .panel-list > li > a span.menu-text {
     display: inline-block;
@@ -281,7 +281,7 @@ body{position:relative;}
 #hoe-left-panel .panel-list > li.hoe-has-menu > a:after {
     font-family: FontAwesome;
     content: "\f107";
-    font-size: 15px;
+    font-size: 24px;
     position: relative;
     float: right;
 }
@@ -292,7 +292,7 @@ body{position:relative;}
 #hoe-left-panel .panel-list > li.hoe-has-menu.opened > a:after {
     font-family: FontAwesome;
     content: "\f106" !important;
-    font-size: 15px;
+    font-size: 24px;
     float: right;
     position: relative;
 }
@@ -319,7 +319,7 @@ body{position:relative;}
     border-top: 1px solid #efefef;
     color: #7e7e7e;
     display: block;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 500;
     padding: 10px 10px;
     position: relative;
@@ -384,30 +384,7 @@ body{position:relative;}
     padding-left: 40px;
     position: relative;
 }
-#hoe-left-panel .panel-list > li.hoe-has-menu > ul.hoe-sub-menu > li > a span.menu-text:before {
-    font-family: FontAwesome;
-    content: "\f0da";
-    font-size: 14px;
-    position: relative;
-    float: left;
-    left: 4px;
-}
-#hoe-left-panel .panel-list > li.hoe-has-menu > ul.hoe-sub-menu > li.hoe-has-menu > ul.hoe-sub-menu > li > a span.menu-text:before {
-    font-family: FontAwesome;
-    content: "\f0da";
-    font-size: 12px;
-    position: relative;
-    float: left;
-    left: 15px;
-}
-#hoe-left-panel .panel-list > li.hoe-has-menu > ul.hoe-sub-menu > li.hoe-has-menu > ul.hoe-sub-menu > li > a span.menu-text:before {
-    font-family: FontAwesome;
-    content: "\f0da";
-    font-size: 14px;
-    position: relative;
-    float: left;
-    left: 18px;
-}
+
 #hoe-left-panel .panel-list > li.hoe-has-menu > ul.hoe-sub-menu > li.hoe-has-menu > ul.hoe-sub-menu > li.hoe-has-menu > ul.hoe-sub-menu > li > a span.menu-text:before {
     font-family: FontAwesome;
     content: "\f0da";
@@ -416,6 +393,7 @@ body{position:relative;}
     float: left;
     left: 30px;
 }
+
 #hoe-left-panel .panel-list li.active > a .selected {
     border-bottom: 7px solid transparent;
     border-right: 7px solid #7e7e7e;

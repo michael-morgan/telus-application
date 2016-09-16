@@ -1,11 +1,13 @@
-$(function() {
-    $('#side-menu').metisMenu();
-});
-
 //Loads the correct sidebar on window load,
 //collapses the sidebar on window resize.
 // Sets the min-height of #page-wrapper to window size
 $(function() {
+    $('#side-menu').metisMenu();
+
+    let accordion = $('#accordion');
+    accordion.on('hidden.bs.collapse', toggleAccordionIndicator);
+    accordion.on('shown.bs.collapse', toggleAccordionIndicator);
+
     $(window).bind("load resize", function() {
         let topOffset = 50;
         let width = (this.window.innerWidth > 0) ? this.window.innerWidth : this.screen.width;
@@ -34,3 +36,10 @@ $(function() {
         element.addClass('active');
     }
 });
+
+function toggleAccordionIndicator(e) {
+    $(e.target)
+        .prev('.panel-heading')
+        .find('i.indicator')
+        .toggleClass('fa-chevron-down fa-chevron-right');
+}

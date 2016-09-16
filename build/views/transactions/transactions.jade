@@ -42,7 +42,7 @@ block content
     .col-xs-12.col-lg-10.col-lg-offset-1
       hr
 
-  .row#transactionList
+  .row#accordion
     .panel-group(role='tablist', aria-multiselectable='true')
       each store, storeIndex in stores
         .col-xs-12.col-lg-10.col-lg-offset-1
@@ -52,6 +52,7 @@ block content
                 .col-xs-12
                   h3.panel-title(style='font-size: 24px;')
                     | #{store.store_name}
+                    i.indicator.fa.fa-chevron-right.pull-right
             .panel-collapse.collapse(role='tabpanel', aria-labelledby='storeHeading#{storeIndex}', id='storeCollapse#{storeIndex}')
               .row(id="summaryContainer#{store.store_id}")
               .panel-body(id='transactionContainer#{store.store_id}')
