@@ -597,6 +597,9 @@ router.get('/settings', ensureAuthenticated, function (req, res, next) {
 });
 
 router.get('/profile/:id', ensureAuthenticated, function (req, res, next) {
+    //TODO: Allow routing once proper view is in place.
+    return res.redirect('/users/');
+
     var id = req.params.id.toLowerCase();
 
     userModel.getById(id, function (err, rows) {
