@@ -252,7 +252,7 @@ function renderTransactions(t_num, users, privileged, stores) {
                         <div role="tab" id="transactionHeading${stores[storeIndex].store_id}" data-toggle="collapse" data-target="#transactionCollapse${stores[storeIndex].store_id}" class="panel-heading purpleHead collapsed" aria-expanded="false">
                             <div class="row">
                                 <div class="col-xs-4 text-center">
-                                    <h4 class="panel-title">Acc. Units per Transaction:
+                                    <h4 class="panel-title" style="padding-top: 0">Acc. Units per Transaction:
                                         <strong style="margin-left: 5px;">
         `;
 
@@ -270,7 +270,7 @@ function renderTransactions(t_num, users, privileged, stores) {
                                 </h4>
                             </div><!--end col-xs-4 text-center-->
                             <div class="col-xs-4 text-center">
-                                <h4 class="panel-title">Basket Size:
+                                <h4 class="panel-title" style="padding-top: 0">Basket Size:
                                     <strong style="margin-left: 5px;">
         `;
         //If transactionsCount is 0, display 0
@@ -287,7 +287,7 @@ function renderTransactions(t_num, users, privileged, stores) {
                                 </h4>
                             </div><!--end col-xs-4 text-center-->
                             <div class="col-xs-4 text-center">
-                                <h4 class="panel-title">Average $ per HS:
+                                <h4 class="panel-title" style="padding-top: 0">Average $ per HS:
                                     <strong style="margin-left: 5px;">`;
         //If totalDeviceCount is 0, display 0
         if (totalDeviceCount <= 0)

@@ -236,7 +236,7 @@ function renderTransactions(t_num, users, privileged, stores) {
         } //end for transactionIndex
 
         var summaryContent = '';
-        summaryContent += '\n            <div role="tablist" aria-multiselectable="true" class="panel-group">\n                <div class="panel">\n                    <div class="panel panel-default">\n                        <div role="tab" id="transactionHeading' + stores[storeIndex].store_id + '" data-toggle="collapse" data-target="#transactionCollapse' + stores[storeIndex].store_id + '" class="panel-heading purpleHead collapsed" aria-expanded="false">\n                            <div class="row">\n                                <div class="col-xs-4 text-center">\n                                    <h4 class="panel-title">Acc. Units per Transaction:\n                                        <strong style="margin-left: 5px;">\n        ';
+        summaryContent += '\n            <div role="tablist" aria-multiselectable="true" class="panel-group">\n                <div class="panel">\n                    <div class="panel panel-default">\n                        <div role="tab" id="transactionHeading' + stores[storeIndex].store_id + '" data-toggle="collapse" data-target="#transactionCollapse' + stores[storeIndex].store_id + '" class="panel-heading purpleHead collapsed" aria-expanded="false">\n                            <div class="row">\n                                <div class="col-xs-4 text-center">\n                                    <h4 class="panel-title" style="padding-top: 0">Acc. Units per Transaction:\n                                        <strong style="margin-left: 5px;">\n        ';
 
         //If transactionsCount is 0, display 0
         if (transactionCount <= 0) {
@@ -247,7 +247,7 @@ function renderTransactions(t_num, users, privileged, stores) {
                 summaryContent += '' + parseFloat(Math.round(accessoriesCount / transactionCount)).toFixed(2);
             }
 
-        summaryContent += '\n                                    </strong>\n                                </h4>\n                            </div><!--end col-xs-4 text-center-->\n                            <div class="col-xs-4 text-center">\n                                <h4 class="panel-title">Basket Size:\n                                    <strong style="margin-left: 5px;">\n        ';
+        summaryContent += '\n                                    </strong>\n                                </h4>\n                            </div><!--end col-xs-4 text-center-->\n                            <div class="col-xs-4 text-center">\n                                <h4 class="panel-title" style="padding-top: 0">Basket Size:\n                                    <strong style="margin-left: 5px;">\n        ';
         //If transactionsCount is 0, display 0
         if (transactionCount <= 0) summaryContent += '' + 0 .toLocaleString('en-CA', { style: 'currency', currency: 'CAD' });
         //Else display the value
@@ -255,7 +255,7 @@ function renderTransactions(t_num, users, privileged, stores) {
                 style: 'currency',
                 currency: 'CAD'
             });
-        summaryContent += '\n                                    </strong>\n                                </h4>\n                            </div><!--end col-xs-4 text-center-->\n                            <div class="col-xs-4 text-center">\n                                <h4 class="panel-title">Average $ per HS:\n                                    <strong style="margin-left: 5px;">';
+        summaryContent += '\n                                    </strong>\n                                </h4>\n                            </div><!--end col-xs-4 text-center-->\n                            <div class="col-xs-4 text-center">\n                                <h4 class="panel-title" style="padding-top: 0">Average $ per HS:\n                                    <strong style="margin-left: 5px;">';
         //If totalDeviceCount is 0, display 0
         if (totalDeviceCount <= 0) summaryContent += '' + 0 .toLocaleString('en-CA', { style: 'currency', currency: 'CAD' });
         //Else display the value

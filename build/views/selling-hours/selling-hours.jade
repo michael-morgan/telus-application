@@ -41,15 +41,12 @@ block content
                         strong Great!
                         p#removalMessage
     .row.form-group
-        .col-xs-12.col-sm-4
+        .col-xs-12.col-md-3.col-md-offset-1.col-lg-4
             label(for='store') Store:
             select.form-control(id='store', name='store')
                 each store, storeIndex in stores
                     option(value='#{store.store_id}') #{store.store_name}
-        .col-xs-12.col-sm-4.text-center
-            label(for='store') &nbsp;
-                a.btn.btn-primary.clearSellingHoursButton(name='deleteWeekHours', type='button', onclick='populateDeleteModal()') Clear Selling Hours
-        .col-xs-12.col-sm-4
+        .col-xs-12.col-md-3.col-lg-4
             form.form-horizontal(method='post', action='/users/selling-hours', role='form', id='updateWeekForm' name='updateWeekForm')
                 label(for='dateRange') Date Range:
                 .input-group
@@ -57,12 +54,13 @@ block content
                         i.fa.fa-calendar(aria-hidden='true')
                     input.form-control(type='text', id='dateRange', name='dateRange', aria-describedby='iconAddon')
                     //button.form-control(type='submit', id='submit', name='submit', aria-describedby='iconAddon')
-        .col-xs-12.col-lg-10.col-lg-offset-1
-            hr
+        .col-xs-12.col-md-4.col-lg-2
+            a.btn.btn-primary.btn-block.m-t-25(name='deleteWeekHours', type='button', onclick='populateDeleteModal()')
+                | Clear Selling Hours
     .row
-        .col-md-11.col-md-offset-1
+        .col-xs-12.col-md-10.col-md-offset-1.m-b-25
             .table-responsive.edit
-                table.table-condensed.table-bordered.table-nonfluid-report
+                table.table-condensed.table-bordered.table-nonfluid-report(style="width: 100%;")
                     thead
                         tr
                             th
@@ -106,12 +104,12 @@ block content
                             td#TotalFridayHours
                             td#TotalSaturdayHours
                             td#TotalWeekHours
-
-    br
     .row
-        .col-md-3.col-md-offset-2
+        .col-xs-12.col-md-10.col-md-offset-1
+            h2 Weekly Budgets
+        .col-xs-12.col-md-5.col-md-offset-1.m-b-25
             .table-responsive.edit
-                table.table-condensed.table-bordered.table-nonfluid-report.pull-right
+                table.table-condensed.table-bordered.table-nonfluid-report(style="width: 100%;")
                     thead
                         tr
                             th.sellinghours CTs
@@ -124,9 +122,9 @@ block content
                             td#Rev
                             td#AOTM
                             td#LS
-        .col-md-5
+        .col-xs-12.col-md-5
             .table-responsive.edit
-                table.table-condensed.table-bordered.table-nonfluid-report
+                table.table-condensed.table-bordered.table-nonfluid-report(style="width: 100%;")
                     thead
                         tr
                             th
@@ -147,7 +145,6 @@ block content
                             td#BDCC
                             td#BDSBS
                             td#BDTB
-    br
 block append script
     script(src='//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js')
     script(src='/bower_components/bootstrap-daterangepicker/moment.min.js')

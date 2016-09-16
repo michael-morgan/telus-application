@@ -31,6 +31,10 @@
 .m-b-20 { margin-bottom: 20px; }
 .m-l-20 { margin-left: 20px; }
 .m-r-20 { margin-right: 20px; }
+.m-t-25 { margin-top: 25px; }
+.m-b-25 { margin-bottom: 25px; }
+.m-l-25 { margin-left: 25px; }
+.m-r-25 { margin-right: 25px; }
 
 .row {
   margin-right: 0 !important;
