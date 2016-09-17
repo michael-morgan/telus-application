@@ -237,7 +237,13 @@ CREATE TABLE `users` (
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` VALUES 
-('t111111','T111111','$2a$10$J7gMv/aF5C.qTfL6EOQFluUiOuAFB7/HyotXpXAiifKhIK9GdK03q','default.user@telus.com','Deafult','User',4);
+('t111111','T111111','$2a$08$MZ8HGYyrdA56JXZBJBJQpOb9fX7fwTxsEK6vAaJWnUBDsJr.dUL0O','super.user@telus.com','Super','User',5),
+('t866502','T866502','$2a$10$J7gMv/aF5C.qTfL6EOQFluUiOuAFB7/HyotXpXAiifKhIK9GdK03q','elaine.king@telus.com','Elaine','King',1),
+('t896347','T896347','$2a$10$J7gMv/aF5C.qTfL6EOQFluUiOuAFB7/HyotXpXAiifKhIK9GdK03q','heather.charles@telus.com','Heather','Charles',1),
+('t913750','T913750','$2a$10$J7gMv/aF5C.qTfL6EOQFluUiOuAFB7/HyotXpXAiifKhIK9GdK03q','cesar.regalado@telus.com','Cesar','Regalado',1),
+('t914435','T914435','$2a$10$J7gMv/aF5C.qTfL6EOQFluUiOuAFB7/HyotXpXAiifKhIK9GdK03q','daniel.bailey@telus.com','Daniel','Bailey',1),
+('t846956','T846956','$2a$10$J7gMv/aF5C.qTfL6EOQFluUiOuAFB7/HyotXpXAiifKhIK9GdK03q','lorna.chapman@telus.com','Lorna','Chapman',3),
+('t901159','T901159','$2a$10$J7gMv/aF5C.qTfL6EOQFluUiOuAFB7/HyotXpXAiifKhIK9GdK03q','patrick.richey@telus.com','Patrick','Richey',1);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -268,7 +274,13 @@ CREATE TABLE `stores_util` (
 LOCK TABLES `stores_util` WRITE;
 /*!40000 ALTER TABLE `stores_util` DISABLE KEYS */;
 INSERT INTO `stores_util` (t_number, store_id) VALUES 
-('t111111','6529');
+('t111111','6529'),
+('t866502','6529'),
+('t896347','6529'),
+('t913750','6529'),
+('t914435','6529'),
+('t846956','6529'),
+('t901159','6529');
 /*!40000 ALTER TABLE `stores_util` ENABLE KEYS */;
 UNLOCK TABLES;
 
