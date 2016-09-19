@@ -2,8 +2,8 @@ extends layout
 
 block append stylesheet
     link(rel='stylesheet', href='/bower_components/bootstrap-daterangepicker/daterangepicker.css')
-    link(rel='stylesheet', href='/stylesheets/selling-hours.css')
     link(rel='stylesheet', href='/stylesheets/wmp.css')
+    link(href='//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css', rel='stylesheet')
 block content
     .row
         .col-xs-12
@@ -22,18 +22,20 @@ block content
                 each store, storeIndex in stores
                     option(value='#{store.store_id}' selected) #{store.store_name}
 
-        .col-xs-12.col-md-4.col-md-offset-4
-            label(for='dateRange') Date Range:
-            .input-group
-                span.input-group-addon#iconAddon
-                    i.fa.fa-calendar(aria-hidden='true')
-                input.form-control(type='text', id='dateRange', name='dateRange', aria-describedby='iconAddon')
+        .col-xs-12.col-sm-4
+            form.form-horizontal(method='post', action='/users/wmp', role='form', id='updateWeekForm' name='updateWeekForm')
+                label(for='dateRange') Date Range:
+                .input-group
+                    span.input-group-addon#iconAddon
+                        i.fa.fa-calendar(aria-hidden='true')
+                    input.form-control(type='text', id='dateRange', name='dateRange', aria-describedby='iconAddon')
+                    //button.form-control(type='submit', id='submit', name='submit', aria-describedby='iconAddon')
         .col-xs-12
             hr
     .row
         .col-xs-12.col-sm-5.col-md-4.col-lg-3
             .table-responsive.edit
-                table.table-condensed.table-bordered.table-nonfluid-report.teammembers(style="width: 100%; margin-top: 40px;")
+                table.table-condensed.table-bordered.table-nonfluid-report.teammembers(id='leftStaticTable', style="width: 100%; margin-top: 40px;")
                     thead
                     each store, storeIndex in stores
                             tr
@@ -44,16 +46,16 @@ block content
                     tbody
                         each user, i in users
                             if user.privileged != 5
-                                tr
+                                tr(id='#{user.t_number}')
                                     td
                                     td #{user.first_name + " " + user.last_name}
-                                    th #{user.totalHours}
-                                    th #{user.hoursPercent}%
+                                    th(id='totalHours_'+'#{user.t_number}')
+                                    th(id='hoursPercentage_'+'#{user.t_number}') %
                     tfoot
                         tr
                             td Store Total
                             td $180
-                            td #{currentStore.totalHours}
+                            td(id='storeTotalHours')
                             td 100%
         .col-xs-12.col-sm-7.col-md-8.col-lg-9
             .bs-component
@@ -258,10 +260,13 @@ block content
 
 block append script
 
+    script(src='//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js')
     script(src='/bower_components/bootstrap-daterangepicker/moment.min.js')
     script(src='/bower_components/bootstrap-daterangepicker/daterangepicker.js')
-    script(src='/javascripts/selling-hours/selling-hours.js')
-        script(src='/javascripts/wmp.js')
+    //script(src='/javascripts/selling-hours/selling-hours.js')
+    script(src='/javascripts/wmp.js')
     script.
         var storeObj = JSON.parse('!{storesObj}');
         var userObj = JSON.parse('!{usersObj}');
+        var hourObj = JSON.parse('!{hoursObj}');
+        var aDate = '!{selectedDate}';

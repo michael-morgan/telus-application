@@ -13,6 +13,10 @@ var sellingHoursModel = require('../../models/selling-hours');
 var returnObj = {};
 var router = express.Router();
 
+var moment = require('../../bower_components/bootstrap-daterangepicker/moment.min.js');
+var endOfWeek = moment().startOf('isoWeek').add(5, 'day').format('YYYY-MM-DD');
+var currentDate = moment().format("yyyy-MM-DD");
+
 router.get('/', ensureAuthenticated, function (req, res, next) {
     //Ensure user is logged in
     if (req.user.privileged <= 2) {
@@ -99,6 +103,72 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
             });
         });
     });
+});
+
+router.post('/', ensureAuthenticated, function (req, res, next) {
+    if (req.body.dateRange != undefined && req.body.dateRange != '') {
+        var selectedDate = req.body.dateRange;
+        sellingHoursModel.getHoursByDate(req.session.store_id, selectedDate, function (err, result) {
+            if (err) {
+                throw next(err);
+            } //end if)
+            returnObj['hours'] = result;
+            returnObj['hoursObj'] = JSON.stringify(result);
+            returnObj['selectedDate'] = selectedDate;
+            console.log(returnObj['selectedDate']);
+            if (req.session.success) {
+                req.flash('success_messages', 'success');
+                req.session.success = false;
+            } //end if
+            return res.redirect('/users/wmp');
+        });
+    } else {
+        var data = req.body.name;
+        data = data.split(',');
+        for (var aData in data) {
+            console.log(aData);
+        }
+        //Update selling hours
+        sellingHoursModel.updateHoursByID([req.body.value, data[0], data[1], data[2]], function (err, result) {
+            if (err) {
+                return res.end('Error: ' + err.message);
+            }
+
+            //No rows affected, guess we have to insert
+            if (result == 0) {
+                utility.log({ type: 'log', message: "Selling Hours: " + req.body.value });
+                utility.log({ type: 'log', message: "team_member: " + data[0] });
+                utility.log({ type: 'log', message: "store_id: " + data[1] });
+                utility.log({ type: 'log', message: "date: " + data[2] });
+
+                var hours = {
+                    selling_hours: req.body.value,
+                    team_member: data[0],
+                    store_id: data[1],
+                    date: data[2]
+                };
+                sellingHoursModel.create(hours, function (err, result) {
+                    if (err) {
+                        return res.end('Error: ' + err.message);
+                    }
+                    res.send(JSON.stringify(req.body));
+                });
+            } else res.send(JSON.stringify(req.body));
+        });
+    }
+});
+
+//When a date is selected in the date picker, it reloads the page
+//Since there is only dummy data on the WMP page, this code doesn't actually update anything
+router.post('/ss', ensureAuthenticated, function (req, res, next) {
+    var selectedDate = req.body.dateRange;
+    returnObj['selectedDate'] = selectedDate;
+    console.log(returnObj['selectedDate']);
+    if (req.session.success) {
+        req.flash('success_messages', 'success');
+        req.session.success = false;
+    } //end if
+    res.redirect('/users/wmp');
 });
 
 // Ensure sure the user is authenticated
