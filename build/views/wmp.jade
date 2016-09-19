@@ -2,6 +2,7 @@ extends layout
 
 block append stylesheet
     link(rel='stylesheet', href='/bower_components/bootstrap-daterangepicker/daterangepicker.css')
+    link(rel='stylesheet', href='/stylesheets/selling-hours.css')
     link(rel='stylesheet', href='/stylesheets/wmp.css')
     link(href='//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css', rel='stylesheet')
 block content
@@ -33,7 +34,7 @@ block content
         .col-xs-12
             hr
     .row
-        .col-xs-12.col-sm-5.col-md-4.col-lg-3
+        .col-xs-12.col-sm-5.col-md-4.col-lg-4
             .table-responsive.edit
                 table.table-condensed.table-bordered.table-nonfluid-report.teammembers(id='leftStaticTable', style="width: 100%; margin-top: 40px;")
                     thead
@@ -49,15 +50,15 @@ block content
                                 tr(id='#{user.t_number}')
                                     td
                                     td #{user.first_name + " " + user.last_name}
-                                    th(id='totalHours_'+'#{user.t_number}')
-                                    th(id='hoursPercentage_'+'#{user.t_number}') %
+                                    td(id='totalHours_'+'#{user.t_number}')
+                                    td(id='hoursPercentage_'+'#{user.t_number}') %
                     tfoot
                         tr
                             td Store Total
                             td $180
                             td(id='storeTotalHours')
                             td 100%
-        .col-xs-12.col-sm-7.col-md-8.col-lg-9
+        .col-xs-12.col-sm-7.col-md-8.col-lg-8
             .bs-component
                 ul.nav.nav-tabs.responsive.nav-justified
                     li.active
@@ -75,10 +76,10 @@ block content
                         table.table.table-striped.table-bordered.table-hover.footable.toggle-medium(style="width: 100%;")
                             thead
                                 tr
-                                    th 26.3
-                                    th(data-hide='all') 31.6
-                                    th(data-hide='all') 3
-                                    th(data-hide='all') 14.26%
+                                    td 26.3
+                                    td(data-hide='all') 31.6
+                                    td(data-hide='all') 3
+                                    td(data-hide='all') 14.26%
                                 tr
                                     th Budgets
                                     th Goal
@@ -108,10 +109,10 @@ block content
                             thead
                                 thead
                                     tr
-                                        th 26.3
-                                        th(data-hide='all') 31.6
-                                        th(data-hide='all') 3
-                                        th(data-hide='all') 14.26%
+                                        td 26.3
+                                        td(data-hide='all') 31.6
+                                        td(data-hide='all') 3
+                                        td(data-hide='all') 14.26%
                                     tr
                                         th Budgets
                                         th Goal
@@ -142,10 +143,10 @@ block content
                             thead
                                 thead
                                     tr
-                                        th 26.3
-                                        th(data-hide='all') 31.6
-                                        th(data-hide='all') 3
-                                        th(data-hide='all') 14.26%
+                                        td 26.3
+                                        td(data-hide='all') 31.6
+                                        td(data-hide='all') 3
+                                        td(data-hide='all') 14.26%
                                     tr
                                         th Budgets
                                         th Goal
@@ -175,9 +176,9 @@ block content
                             thead
                                 thead
                                     tr
-                                        th L33
-                                        th(data-hide='all') $79.99
-                                        th(data-hide='all') 239.98
+                                        td L33
+                                        td(data-hide='all') $79.99
+                                        td(data-hide='all') 239.98
                                     tr
                                         th Accessory Units Per Transaction
                                         th Basket Size
@@ -204,15 +205,15 @@ block content
                                 thead
                                     thead
                                         tr
-                                            th 26.3
-                                            th(data-hide='all') 31.6
-                                            th(data-hide='all') 3
-                                            th(data-hide='all') 14.26%
-                                            th(data-hide='all') 31.6
-                                            th(data-hide='all') 3
-                                            th(data-hide='all') 31.6
-                                            th(data-hide='all') 3
-                                            th(data-hide='all') 14.26%
+                                            td 26.3
+                                            td(data-hide='all') 31.6
+                                            td(data-hide='all') 3
+                                            td(data-hide='all') 14.26%
+                                            td(data-hide='all') 31.6
+                                            td(data-hide='all') 3
+                                            td(data-hide='all') 31.6
+                                            td(data-hide='all') 3
+                                            td(data-hide='all') 14.26%
                                         tr
                                             th AOTM Budget
                                             th AOTM Actual
@@ -263,7 +264,6 @@ block append script
     script(src='//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js')
     script(src='/bower_components/bootstrap-daterangepicker/moment.min.js')
     script(src='/bower_components/bootstrap-daterangepicker/daterangepicker.js')
-    //script(src='/javascripts/selling-hours/selling-hours.js')
     script(src='/javascripts/wmp.js')
     script.
         var storeObj = JSON.parse('!{storesObj}');
