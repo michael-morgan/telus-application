@@ -126,7 +126,9 @@ function renderTransactions(t_num, users, privileged, stores) {
         //Initialize variables for storing data
         var totalDeviceCount = 0;
         var deviceCount = 0;
+        var andriodDeviceCount = 0;
         var appleDeviceCount = 0;
+        var iPhoneDeviceCount = 0;
         var deviceWarrantyCount = 0;
         var appleWarrantyCount = 0;
         var transactionCount = 0;
@@ -165,6 +167,12 @@ function renderTransactions(t_num, users, privileged, stores) {
                 //If device type is 1 (iPhone) or 7 (iPad), increment the appleDeviceCount
                 else if (transactions[transactionIndex].transactionItems[transactionItemsIndex].device_type == 1 || transactions[transactionIndex].transactionItems[transactionItemsIndex].device_type == 7) appleDeviceCount++;
 
+                    //If device type is 1 (iPhone), increment the iPhoneDeviceCount
+                    else if (transactions[transactionIndex].transactionItems[transactionItemsIndex].device_type == 1) iPhoneDeviceCount++;
+
+                        //If device type is 2 (Android), increment andriodDeviceCount
+                        else if (transactions[transactionIndex].transactionItems[transactionItemsIndex].device_type == 1) andriodDeviceCount++;
+
                 //If device type is not 5 (SIM), increment the totalDeviceCount
                 if (transactions[transactionIndex].transactionItems[transactionItemsIndex].device_type != 5) totalDeviceCount++;
 
@@ -188,7 +196,7 @@ function renderTransactions(t_num, users, privileged, stores) {
                     }
 
                 //If the device_type is not 5 (SIM) or 8 (Mobile Internet), increment the warrantyDevices
-                if (transactions[transactionIndex].transactionItems[transactionItemsIndex].device_type != 5 || transactions[transactionIndex].transactionItems[transactionItemsIndex].device_type != 8) warrantyDevices++;
+                if (transactions[transactionIndex].transactionItems[transactionItemsIndex].device_type != 5 && transactions[transactionIndex].transactionItems[transactionItemsIndex].device_type != 8) warrantyDevices++;
 
                 //If the device_type is not 1 (iPhone) or 2 (Android), increment the otherDevices
                 if (transactions[transactionIndex].transactionItems[transactionItemsIndex].device_type != 1 || transactions[transactionIndex].transactionItems[transactionItemsIndex].device_type != 2) otherDevices++;
@@ -267,13 +275,13 @@ function renderTransactions(t_num, users, privileged, stores) {
         //If deviceCount is 0, display 0
         if (deviceCount <= 0) summaryContent += '0%';
         //Else display the value
-        else summaryContent += parseInt(deviceWarrantyCount / deviceCount * 100, 10) + '%';
-        summaryContent += '\n                                        </span>\n                                    </div><!--end col-xs-12 col-sm-6 col-md-4-->\n                                    <div class="col-xs-12 col-sm-6 col-md-4">\n                                        <strong>iPhone:</strong>\n                                        <span style="margin-left: 5px;">' + appleDeviceCount + '</span>\n                                    </div><!--end col-xs-12 col-sm-6 col-md-4-->\n                                    <div class="col-xs-12 col-sm-6 col-md-4">\n                                        <strong>Controllable Transactions:</strong>\n                                        <span style="margin-left: 5px;">' + controllableTransactionsCount + '</span>\n                                    </div><!--end col-xs-12 col-sm-6 col-md-4-->\n                                    <div class="col-xs-12 col-sm-6 col-md-4">\n                                        <strong>AppleCare:</strong>\n                                        <span style="margin-left: 5px;">';
+        else summaryContent += parseInt(deviceWarrantyCount / totalDeviceCount * 100, 10) + '%';
+        summaryContent += '\n                                        </span>\n                                    </div><!--end col-xs-12 col-sm-6 col-md-4-->\n                                    <div class="col-xs-12 col-sm-6 col-md-4">\n                                        <strong>iPhone:</strong>\n                                        <span style="margin-left: 5px;">' + iPhoneDeviceCount + '</span>\n                                    </div><!--end col-xs-12 col-sm-6 col-md-4-->\n                                    <div class="col-xs-12 col-sm-6 col-md-4">\n                                        <strong>Controllable Transactions:</strong>\n                                        <span style="margin-left: 5px;">' + controllableTransactionsCount + '</span>\n                                    </div><!--end col-xs-12 col-sm-6 col-md-4-->\n                                    <div class="col-xs-12 col-sm-6 col-md-4">\n                                        <strong>AppleCare:</strong>\n                                        <span style="margin-left: 5px;">';
         //If appleDeviceCount is 0, display 0
         if (appleDeviceCount <= 0) summaryContent += '0%';
         //Else display the value
         else summaryContent += parseInt(appleWarrantyCount / appleDeviceCount * 100, 10) + '%';
-        summaryContent += '\n                                        </span>\n                                    </div><!--end col-xs-12 col-sm-6 col-md-4-->\n                                    <div class="col-xs-12 col-sm-6 col-md-4">\n                                        <strong>Android:</strong>\n                                        <span style="margin-left: 5px;">' + deviceCount + '</span>\n                                    </div><!--end col-xs-12 col-sm-6 col-md-4-->\n                                    <div class="col-xs-12 col-sm-6 col-md-4">\n                                        <strong>Controllable Revenue:</strong>\n                                        <span style="margin-left: 5px;">' + controllableRevenue.toLocaleString('en-CA', {
+        summaryContent += '\n                                        </span>\n                                    </div><!--end col-xs-12 col-sm-6 col-md-4-->\n                                    <div class="col-xs-12 col-sm-6 col-md-4">\n                                        <strong>Android:</strong>\n                                        <span style="margin-left: 5px;">' + andriodDeviceCount + '</span>\n                                    </div><!--end col-xs-12 col-sm-6 col-md-4-->\n                                    <div class="col-xs-12 col-sm-6 col-md-4">\n                                        <strong>Controllable Revenue:</strong>\n                                        <span style="margin-left: 5px;">' + controllableRevenue.toLocaleString('en-CA', {
             style: 'currency',
             currency: 'CAD'
         }) + '</span>\n                                    </div><!--end col-xs-12 col-sm-6 col-md-4-->\n                                    <div class="col-xs-12 col-sm-6 col-md-4">\n                                        <strong>Warranty:</strong>\n                                        <span style="margin-left: 5px;">';

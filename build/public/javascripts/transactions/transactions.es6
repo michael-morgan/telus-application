@@ -120,7 +120,9 @@ function renderTransactions(t_num, users, privileged, stores) {
         //Initialize variables for storing data
         var totalDeviceCount = 0;
         var deviceCount = 0;
+        var andriodDeviceCount = 0;
         var appleDeviceCount = 0;
+        var iPhoneDeviceCount = 0;
         var deviceWarrantyCount = 0;
         var appleWarrantyCount = 0;
         var transactionCount = 0;
@@ -163,6 +165,14 @@ function renderTransactions(t_num, users, privileged, stores) {
                 else if (transactions[transactionIndex].transactionItems[transactionItemsIndex].device_type == 1 || transactions[transactionIndex].transactionItems[transactionItemsIndex].device_type == 7)
                     appleDeviceCount++;
 
+                //If device type is 1 (iPhone), increment the iPhoneDeviceCount
+                else if (transactions[transactionIndex].transactionItems[transactionItemsIndex].device_type == 1)
+                    iPhoneDeviceCount++;
+
+                //If device type is 2 (Android), increment andriodDeviceCount
+                else if (transactions[transactionIndex].transactionItems[transactionItemsIndex].device_type == 1)
+                    andriodDeviceCount++;
+
                 //If device type is not 5 (SIM), increment the totalDeviceCount
                 if (transactions[transactionIndex].transactionItems[transactionItemsIndex].device_type != 5)
                     totalDeviceCount++;
@@ -193,7 +203,7 @@ function renderTransactions(t_num, users, privileged, stores) {
                 }
 
                 //If the device_type is not 5 (SIM) or 8 (Mobile Internet), increment the warrantyDevices
-                if (transactions[transactionIndex].transactionItems[transactionItemsIndex].device_type != 5 || transactions[transactionIndex].transactionItems[transactionItemsIndex].device_type != 8)
+                if (transactions[transactionIndex].transactionItems[transactionItemsIndex].device_type != 5 && transactions[transactionIndex].transactionItems[transactionItemsIndex].device_type != 8)
                     warrantyDevices++;
 
                 //If the device_type is not 1 (iPhone) or 2 (Android), increment the otherDevices
@@ -321,13 +331,13 @@ function renderTransactions(t_num, users, privileged, stores) {
             summaryContent += `0%`;
         //Else display the value
         else
-            summaryContent += `${parseInt(deviceWarrantyCount / deviceCount * 100, 10)}%`;
+            summaryContent += `${parseInt(deviceWarrantyCount / totalDeviceCount * 100, 10)}%`;
         summaryContent += `
                                         </span>
                                     </div><!--end col-xs-12 col-sm-6 col-md-4-->
                                     <div class="col-xs-12 col-sm-6 col-md-4">
                                         <strong>iPhone:</strong>
-                                        <span style="margin-left: 5px;">${appleDeviceCount}</span>
+                                        <span style="margin-left: 5px;">${iPhoneDeviceCount}</span>
                                     </div><!--end col-xs-12 col-sm-6 col-md-4-->
                                     <div class="col-xs-12 col-sm-6 col-md-4">
                                         <strong>Controllable Transactions:</strong>
@@ -347,7 +357,7 @@ function renderTransactions(t_num, users, privileged, stores) {
                                     </div><!--end col-xs-12 col-sm-6 col-md-4-->
                                     <div class="col-xs-12 col-sm-6 col-md-4">
                                         <strong>Android:</strong>
-                                        <span style="margin-left: 5px;">${deviceCount}</span>
+                                        <span style="margin-left: 5px;">${andriodDeviceCount}</span>
                                     </div><!--end col-xs-12 col-sm-6 col-md-4-->
                                     <div class="col-xs-12 col-sm-6 col-md-4">
                                         <strong>Controllable Revenue:</strong>
