@@ -23,7 +23,7 @@ block content
                 each store, storeIndex in stores
                     option(value='#{store.store_id}' selected) #{store.store_name}
 
-        .col-xs-12.col-sm-4
+        .col-xs-12.col-sm-4.pull-right
             form.form-horizontal(method='post', action='/users/wmp', role='form', id='updateWeekForm' name='updateWeekForm')
                 label(for='dateRange') Date Range:
                 .input-group
@@ -34,31 +34,7 @@ block content
         .col-xs-12
             hr
     .row
-        .col-xs-12.col-sm-5.col-md-4.col-lg-4
-            .table-responsive.edit
-                table.table-condensed.table-bordered.table-nonfluid-report.teammembers(id='leftStaticTable', style="width: 100%; margin-top: 40px;")
-                    thead
-                    each store, storeIndex in stores
-                            tr
-                                th Store: #{store.store_id}
-                                th TM Name
-                                th Selling Hours
-                                th % Hours
-                    tbody
-                        each user, i in users
-                            if user.privileged != 5
-                                tr(id='#{user.t_number}')
-                                    td
-                                    td #{user.first_name + " " + user.last_name}
-                                    td(id='totalHours_'+'#{user.t_number}')
-                                    td(id='hoursPercentage_'+'#{user.t_number}') %
-                    tfoot
-                        tr
-                            td Store Total
-                            td $180
-                            td(id='storeTotalHours')
-                            td 100%
-        .col-xs-12.col-sm-7.col-md-8.col-lg-8
+        .col-xs-12.col-sm-12.col-md-12.col-lg-12
             .bs-component
                 ul.nav.nav-tabs.responsive.nav-justified
                     li.active
@@ -76,135 +52,198 @@ block content
                         table.table.table-striped.table-bordered.table-hover.footable.toggle-medium(style="width: 100%;")
                             thead
                                 tr
+                                    td  &nbsp;
+                                    td  &nbsp;
+                                    td  &nbsp;
+                                    td  &nbsp;
                                     td 26.3
                                     td(data-hide='all') 31.6
                                     td(data-hide='all') 3
                                     td(data-hide='all') 14.26%
+                            each store, storeIndex in stores
                                 tr
+                                    th Store: #{store.store_id}
+                                    th TM Name
+                                    th Selling Hours
+                                    th % Hours
                                     th Budgets
                                     th Goal
                                     th Actual
                                     th % To Budget
                             tbody
-                                tr
-                                    td 26.3
-                                    td 26.3
-                                    td 26.3
-                                    td &nbsp;
-                                tr
-                                    td 26.3
-                                    td 26.3
-                                    td 26.3
-                                    td &nbsp;
+                                each user, i in users
+                                    if user.privileged != 5
+                                        tr(id='#{user.t_number}')
+                                            td
+                                            td #{user.first_name + " " + user.last_name}
+                                            td(id='totalHours_' + '#{user.t_number}')
+                                            td(id='hoursPercentage_' + '#{user.t_number}') %
+                                            td 26.3
+                                            td 26.3
+                                            td 26.3
+                                            td &nbsp;
                             tfoot
                                 tr
-                                    th.pls(colspan='4') ~ Store Actual Totals Listed Below ~
+                                    th.pls(colspan='8') ~ Store Actual Totals Listed Below ~
                                 tr
-                                    td $180
-                                    td 555
+                                    td Store Total
+                                    td
+                                    td(id='storeTotalHours')
                                     td 100%
-                                    td &nbsp;
+                                    td $180
+                                    td $210
+                                    td $555
+                                    td 100%
+
                     #tab2.tab-pane.fade.active
                         table.table.table-striped.table-bordered.table-hover.footable.toggle-medium(style="width: 100%;")
                             thead
                                 thead
                                     tr
+                                        td  &nbsp;
+                                        td  &nbsp;
+                                        td  &nbsp;
+                                        td  &nbsp;
                                         td 26.3
                                         td(data-hide='all') 31.6
                                         td(data-hide='all') 3
                                         td(data-hide='all') 14.26%
+                                each store, storeIndex in stores
                                     tr
+                                        th Store: #{store.store_id}
+                                        th TM Name
+                                        th Selling Hours
+                                        th % Hours
                                         th Budgets
                                         th Goal
                                         th Actual
                                         th % To Budget
                                 tbody
-                                    tr
-                                        td 26.3
-                                        td 26.3
-                                        td 26.3
-                                        td &nbsp;
-                                    tr
-                                        td 26.3
-                                        td 26.3
-                                        td 26.3
-                                        td &nbsp;
+                                    each user, i in users
+                                        if user.privileged != 5
+                                            tr(id='#{user.t_number}')
+                                                td
+                                                td #{user.first_name + " " + user.last_name}
+                                                td(id='totalHours_' + '#{user.t_number}')
+                                                td(id='hoursPercentage_' + '#{user.t_number}') %
+                                                td 26.3
+                                                td 26.3
+                                                td 26.3
+                                                td &nbsp;
+
                                 tfoot
                                     tr
-                                        th.pls(colspan='4') ~ Store Actual Totals Listed Below ~
+                                        th.pls(colspan='8') ~ Store Actual Totals Listed Below ~
                                     tr
-                                        td $180
-                                        td 555
+                                        td Store Total
+                                        td
+                                        td(id='storeTotalHours1')
                                         td 100%
-                                        td &nbsp;
+                                        td $180
+                                        td $210
+                                        td $555
+                                        td 100%
 
                     #tab3.tab-pane.fade.active
                         table.table.table-striped.table-bordered.table-hover.footable.toggle-medium(style="width: 100%;")
                             thead
                                 thead
                                     tr
+                                        td  &nbsp;
+                                        td  &nbsp;
+                                        td  &nbsp;
+                                        td  &nbsp;
                                         td 26.3
                                         td(data-hide='all') 31.6
                                         td(data-hide='all') 3
                                         td(data-hide='all') 14.26%
+                                each store, storeIndex in stores
                                     tr
+                                        th Store: #{store.store_id}
+                                        th TM Name
+                                        th Selling Hours
+                                        th % Hours
                                         th Budgets
                                         th Goal
                                         th Actual
                                         th % To Budget
                                 tbody
-                                    tr
-                                        td 26.3
-                                        td 26.3
-                                        td 26.3
-                                        td
-                                    tr
-                                        td 26.3
-                                        td 26.3
-                                        td 26.3
-                                        td &nbsp;
+                                    each user, i in users
+                                        if user.privileged != 5
+                                            tr(id='#{user.t_number}')
+                                                td
+                                                td #{user.first_name + " " + user.last_name}
+                                                td(id='totalHours_' + '#{user.t_number}')
+                                                td(id='hoursPercentage_' + '#{user.t_number}') %
+                                                td 26.3
+                                                td 26.3
+                                                td 26.3
+                                                td
                                 tfoot
                                     tr
-                                        th.pls(colspan='4') ~ Store Actual Totals Listed Below ~
+                                        th.pls(colspan='8') ~ Store Actual Totals Listed Below ~
                                     tr
-                                        td $180
-                                        td 555
+                                        td Store Total
+                                        td
+                                        td(id='storeTotalHours2')
                                         td 100%
-                                        td &nbsp;
+                                        td $180
+                                        td $210
+                                        td $555
+                                        td 100%
                     #tab4.tab-pane.fade.active
                         table.table.table-striped.table-bordered.table-hover.footable.toggle-medium(style="width: 100%;")
                             thead
                                 thead
                                     tr
+                                        td  &nbsp;
+                                        td  &nbsp;
+                                        td  &nbsp;
+                                        td  &nbsp;
                                         td L33
                                         td(data-hide='all') $79.99
                                         td(data-hide='all') 239.98
+                                each store, storeIndex in stores
                                     tr
+                                        th Store: #{store.store_id}
+                                        th TM Name
+                                        th Selling Hours
+                                        th % Hours
                                         th Accessory Units Per Transaction
                                         th Basket Size
                                         th Average $ Per Handset
                                 tbody
-                                    tr
-                                        td 26.3
-                                        td 26.3
-                                        td 26.3
-                                    tr
-                                        td 26.3
-                                        td 26.3
-                                        td 26.3
+                                    each user, i in users
+                                        if user.privileged != 5
+                                            tr(id='#{user.t_number}')
+                                                td
+                                                td #{user.first_name + " " + user.last_name}
+                                                td(id='totalHours_' + '#{user.t_number}')
+                                                td(id='hoursPercentage_' + '#{user.t_number}') %
+                                                td 26.3
+                                                td 26.3
+                                                td 26.3
                                 tfoot
                                     tr
-                                        th.pls(colspan='3') ~ Store Actual Totals Listed Below ~
+                                        th.pls(colspan='8') ~ Store Actual Totals Listed Below ~
                                     tr
+                                        td Store Total
+                                        td
+                                        td(id='storeTotalHours3')
                                         td $180
                                         td 555
-                                        td 100%
+                                        td 200
+                                        td 205
                     #tab5.tab-pane.fade.active
                         .table-responsive.edit
                             table.table.table-striped.table-bordered.table-hover.footable.toggle-medium(style="width: 100%;")
                                 thead
                                     thead
                                         tr
+                                            td  &nbsp;
+                                            td  &nbsp;
+                                            td  &nbsp;
+                                            td  &nbsp;
                                             td 26.3
                                             td(data-hide='all') 31.6
                                             td(data-hide='all') 3
@@ -214,7 +253,12 @@ block content
                                             td(data-hide='all') 31.6
                                             td(data-hide='all') 3
                                             td(data-hide='all') 14.26%
+                                    each store, storeIndex in stores
                                         tr
+                                            th Store: #{store.store_id}
+                                            th TM Name
+                                            th Selling Hours
+                                            th % Hours
                                             th AOTM Budget
                                             th AOTM Actual
                                             th Telus Credit Card Budget
@@ -225,31 +269,30 @@ block content
                                             th Tablet Actual
                                             th Warranty %
                                     tbody
-                                        tr
-                                            td 26.3
-                                            td 26.3
-                                            td 26.3
-                                            td 26.3
-                                            td 26.3
-                                            td 26.3
-                                            td 26.3
-                                            td 26.3
-                                            td 26.3
-                                        tr
-                                            td 26.3
-                                            td 26.3
-                                            td 26.3
-                                            td 26.3
-                                            td O26.3
-                                            td 26.3
-                                            td 26.3
-                                            td 26.3
-                                            td 26.3
+                                        each user, i in users
+                                            if user.privileged != 5
+                                                tr(id='#{user.t_number}')
+                                                    td
+                                                    td #{user.first_name + " " + user.last_name}
+                                                    td(id='totalHours_' + '#{user.t_number}')
+                                                    td(id='hoursPercentage_' + '#{user.t_number}') %
+                                                    td 26.3
+                                                    td 26.3
+                                                    td 26.3
+                                                    td 26.3
+                                                    td 26.3
+                                                    td 26.3
+                                                    td 26.3
+                                                    td 26.3
+                                                    td 26.3
                                     tfoot
                                         tr
-                                            th.pls(colspan='7') ~ Store Actual Totals Listed Below ~
+                                            th.pls(colspan='13') ~ Store Actual Totals Listed Below ~
                                         tr
-                                            td 111
+                                            td Store Total
+                                            td
+                                            td(id='storeTotalHours4')
+                                            td 100%
                                             td $180
                                             td 55
                                             td 100%
@@ -257,6 +300,7 @@ block content
                                             td 100%
                                             td $180
                                             td 55
+                                            td 200
                                             td 100%
 
 block append script

@@ -68,4 +68,10 @@ td:last-child {
     text-align: right;
     padding-right: 10px;
 }
+table.table.table-striped.table-bordered.table-hover.footable.toggle-medium {
+    margin-top: 0;
+}
+ul.nav.nav-tabs.responsive.nav-justified {
+    margin-bottom: 0 !IMPORTANT;
+}
 
