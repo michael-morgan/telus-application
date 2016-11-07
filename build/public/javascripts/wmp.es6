@@ -1,17 +1,20 @@
 var storesArray;
 var usersArray;
 var hoursArray;
+var budgetObj;
 var startDate;
 var endDate;
 var filteredUserArray;
 var filteredStoresArray;
 var filteredHoursArray;
+var filteredBudgetArray;
 var daysOfWeekArray = [];
 
 $(() => {
     storesArray = JSON.parse(JSON.stringify(storeObj));
     usersArray = JSON.parse(JSON.stringify(userObj));
     hoursArray = JSON.parse(JSON.stringify(hourObj));
+    budgetObj = JSON.parse(JSON.stringify(budgetObj));
 
     var store = $("#store");
 
@@ -22,6 +25,7 @@ $(() => {
         filteredUserArray = userObj.filter((user) => user.store_id == store);
         filteredStoresArray = storeObj.filter((st) => st.store_id == store);
         filteredHoursArray = hourObj.filter((hour) => hour.store_id == store);
+        filteredBudgetArray = budgetObj.filter((budget) => budget.store_id == store);
 
         displayUsers();
 
@@ -101,18 +105,25 @@ function calculateHours(){
             }
         }
         $('#totalHours_'+ userObj[user].t_number).text(userTotalHours);
+        $('#budget'+ userObj[user].t_number).text(budgetObj[0].CTs); //TODO Need to get this weeks CTs, Currently pulling the first record
+
     }
 
-    var leftStaticTable = document.getElementById("leftStaticTable");
-    for(var i= 1, row; row = leftStaticTable.rows[i]; i++){
-        var sellingHours = parseInt(row.cells[2].innerHTML);
-        if (sellingHours != 0 && sellingHours < storeTotalHours){
-            row.cells[3].innerHTML = Math.round((sellingHours/storeTotalHours)*100) + '%'
+    //TODO this method broke when we combine the to tables, I think micheal made this method? Maybe he can help. We basically need to run this method for each tabe to show the total hours and hour percent age
+        var leftStaticTable = document.getElementById("countTable");
+        for(var i = 1, row; row = leftStaticTable.rows[i]; i++){
+            var sellingHours = parseInt(row.cells[2].innerHTML);
+            if (sellingHours != 0 && sellingHours < storeTotalHours){
+                row.cells[3].innerHTML = Math.round((sellingHours/storeTotalHours)*100) + '%'
+            }
+            else if (sellingHours == 0){
+                row.cells[3].innerHTML = '0%'
+            }
         }
-        else if (sellingHours == 0){
-            row.cells[3].innerHTML = '0%'
-        }
-    }
+
+
+
+
 
     $('#storeTotalHours').text(storeTotalHours);
 }

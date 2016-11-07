@@ -49,7 +49,7 @@ block content
                         a(data-toggle='tab', href='#tab5') Key Metrics
                 .tab-content
                     #tab1.tab-pane.fade.active.in
-                        table.table.table-striped.table-bordered.table-hover.footable.toggle-medium(style="width: 100%;")
+                        table.metricTable.table.table-striped.table-bordered.table-hover.footable.toggle-medium(style="width: 100%;", id="countTable1")
                             thead
                                 tr
                                     td  &nbsp;
@@ -78,7 +78,7 @@ block content
                                             td #{user.first_name + " " + user.last_name}
                                             td(id='totalHours_' + '#{user.t_number}')
                                             td(id='hoursPercentage_' + '#{user.t_number}') %
-                                            td 26.3
+                                            td(id='budget' + '#{user.t_number}') %
                                             td 26.3
                                             td 26.3
                                             td &nbsp;
@@ -96,7 +96,7 @@ block content
                                     td 100%
 
                     #tab2.tab-pane.fade.active
-                        table.table.table-striped.table-bordered.table-hover.footable.toggle-medium(style="width: 100%;")
+                        table.metricTable.table.table-striped.table-bordered.table-hover.footable.toggle-medium(style="width: 100%;", id="countTable2")
                             thead
                                 thead
                                     tr
@@ -145,7 +145,7 @@ block content
                                         td 100%
 
                     #tab3.tab-pane.fade.active
-                        table.table.table-striped.table-bordered.table-hover.footable.toggle-medium(style="width: 100%;")
+                        table.metricTable.table.table-striped.table-bordered.table-hover.footable.toggle-medium(style="width: 100%;", id="countTable3")
                             thead
                                 thead
                                     tr
@@ -192,7 +192,7 @@ block content
                                         td $555
                                         td 100%
                     #tab4.tab-pane.fade.active
-                        table.table.table-striped.table-bordered.table-hover.footable.toggle-medium(style="width: 100%;")
+                        table.metricTable.table.table-striped.table-bordered.table-hover.footable.toggle-medium(style="width: 100%;", id="countTable4")
                             thead
                                 thead
                                     tr
@@ -236,7 +236,7 @@ block content
                                         td 205
                     #tab5.tab-pane.fade.active
                         .table-responsive.edit
-                            table.table.table-striped.table-bordered.table-hover.footable.toggle-medium(style="width: 100%;")
+                            table.metricTable.table.table-striped.table-bordered.table-hover.footable.toggle-medium(style="width: 100%;", id="countTable5")
                                 thead
                                     thead
                                         tr
@@ -313,4 +313,5 @@ block append script
         var storeObj = JSON.parse('!{storesObj}');
         var userObj = JSON.parse('!{usersObj}');
         var hourObj = JSON.parse('!{hoursObj}');
+        var budgetObj = JSON.parse('!{budgetsObj}');
         var aDate = '!{selectedDate}';

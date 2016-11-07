@@ -80,6 +80,16 @@ exports.getBudgetsWithStore = (values, done) => {
     });
 };
 
+exports.getStoreBudget = (values, done) => {
+    connection.get().query('SELECT * FROM budgets WHERE store_id = ?', values, (error, result) => {
+        if(error) {
+            return done(error);
+        }
+
+        done(null, result);
+    });
+};
+
 exports.createBudgets = (budget, done) => {
     connection.get().query('INSERT INTO `budgets` SET ?', [budget], (error, result) => {
         if(error) {

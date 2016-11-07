@@ -3,17 +3,20 @@
 var storesArray;
 var usersArray;
 var hoursArray;
+var budgetObj;
 var startDate;
 var endDate;
 var filteredUserArray;
 var filteredStoresArray;
 var filteredHoursArray;
+var filteredBudgetArray;
 var daysOfWeekArray = [];
 
 $(function () {
     storesArray = JSON.parse(JSON.stringify(storeObj));
     usersArray = JSON.parse(JSON.stringify(userObj));
     hoursArray = JSON.parse(JSON.stringify(hourObj));
+    budgetObj = JSON.parse(JSON.stringify(budgetObj));
 
     var store = $("#store");
 
@@ -29,6 +32,9 @@ $(function () {
         });
         filteredHoursArray = hourObj.filter(function (hour) {
             return hour.store_id == store;
+        });
+        filteredBudgetArray = budgetObj.filter(function (budget) {
+            return budget.store_id == store;
         });
 
         displayUsers();
@@ -104,9 +110,11 @@ function calculateHours() {
             }
         }
         $('#totalHours_' + userObj[user].t_number).text(userTotalHours);
+        $('#budget' + userObj[user].t_number).text(budgetObj[0].CTs); //TODO Need to get this weeks CTs, Currently pulling the first record
     }
 
-    var leftStaticTable = document.getElementById("leftStaticTable");
+    //TODO this method broke when we combine the to tables, I think micheal made this method? Maybe he can help. We basically need to run this method for each tabe to show the total hours and hour percent age
+    var leftStaticTable = document.getElementById("countTable");
     for (var i = 1, row; row = leftStaticTable.rows[i]; i++) {
         var sellingHours = parseInt(row.cells[2].innerHTML);
         if (sellingHours != 0 && sellingHours < storeTotalHours) {

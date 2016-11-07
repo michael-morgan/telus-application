@@ -99,7 +99,19 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
                     userArray[userIndex]['hoursPercent'] = userArray[userIndex]['totalHours'] / storeTotalHours * 100;
                 });
 
-                res.render('wmp', returnObj);
+                //Bradley wrote this
+                sellingHoursModel.getStoreBudget(req.session.store_id, function (err, result) {
+                    if (err) {
+                        throw next(err);
+                    } //end if
+
+                    var budgetsResult = result;
+
+                    returnObj['budgets'] = budgetsResult;
+                    returnObj['budgetsObj'] = JSON.stringify(budgetsResult);
+
+                    res.render('wmp', returnObj);
+                });
             });
         });
     });
