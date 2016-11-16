@@ -16,6 +16,7 @@
     "debug": "^2.2.0",
     "express": "^4.13.1",
     "express-messages": "^1.0.0",
+    "express-mysql-session": "^1.2.0",
     "express-session": "^1.13.0",
     "express-validator": "^2.19.1",
     "jade": "^1.11.0",

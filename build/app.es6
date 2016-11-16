@@ -7,6 +7,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var session = require('express-session');
+var MySQLStore = require('express-mysql-session')(session);
 var expressValidator = require('express-validator');
 var expressMessages = require('express-messages');
 var connection = require('./connection');
@@ -33,6 +34,19 @@ var wmp = require('./routes/users/wmp');
 
 var app = express();
 
+// use mysql connection
+connection.connect(function(err) {
+	if (err) {
+		utility.log({ type: 'log', message: 'Unable to connect to MySQL' });
+		process.exit(1);
+	}
+	else {
+		utility.log({ type: 'log', message: 'Database connection established' });
+	}
+});
+
+var sessionStore = new MySQLStore(connection.options, connection.get());
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -48,6 +62,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(session({
     secret: 'telus_build',
+	store: sessionStore,
     saveUninitialized: true,
     resave: true
 }));
@@ -73,17 +88,6 @@ app.use(expressValidator({
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/bower_components', express.static(__dirname + '/bower_components'));
-
-// use mysql connection
-connection.connect(function(err) {
-    if (err) {
-        utility.log({ type: 'log', message: 'Unable to connect to MySQL' });
-        process.exit(1);
-    }
-    else {
-        utility.log({ type: 'log', message: 'Database connection established' });
-    }
-});
 
 passport.serializeUser(function(user, done) {
     done(null, user.t_number);
