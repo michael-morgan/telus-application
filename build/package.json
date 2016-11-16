@@ -19,6 +19,7 @@
     "express-session": "^1.13.0",
     "express-validator": "^2.19.1",
     "jade": "^1.11.0",
+    "lodash": "^4.17.1",
     "morgan": "^1.6.1",
     "mysql": "^2.10.2",
     "nodemailer": "^2.1.0",

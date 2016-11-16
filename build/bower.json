@@ -30,6 +30,7 @@
     "datatables-responsive": "^2.0.2",
     "bootstrap-social": "^4.12.0",
     "flot.tooltip": "^0.8.5",
-    "jquery": "^2.2.0"
+    "jquery": "^2.2.0",
+    "lodash": "^4.17.1"
   }
 }

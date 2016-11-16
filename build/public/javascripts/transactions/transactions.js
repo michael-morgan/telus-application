@@ -1,11 +1,11 @@
 'use strict';
 
-var storesArray;
-var filteredArray;
-var teamMember;
+var storesArray = void 0;
+var filteredArray = void 0;
+var teamMember = void 0;
 
-var startDate;
-var endDate;
+var startDate = void 0;
+var endDate = void 0;
 
 var filterTNumber = function filterTNumber(obj) {
     teamMember = $('#teamMember');
@@ -24,10 +24,9 @@ var filterDate = function filterDate(transaction) {
 };
 
 $(function () {
-    storesArray = JSON.parse(JSON.stringify(storeObj));
+    //storesArray = JSON.parse(JSON.stringify(storeObj));
+    storesArray = _.cloneDeep(storeObj);
     console.debug(storesArray);
-
-    console.debug(JSON.parse(JSON.stringify(userObj)));
 
     //Hide the delete message until a transaction has been removed
     $('#deleteMessage').hide();
@@ -75,14 +74,16 @@ $(function () {
 });
 
 function applyFilter() {
-    filteredArray = JSON.parse(JSON.stringify(storesArray.filter(filterTNumber)));
+    //filteredArray = JSON.parse(JSON.stringify(storesArray.filter(filterTNumber)));
+    filteredArray = _.cloneDeep(_.filter(storesArray, filterTNumber));
     console.log("Filtered array:");
     console.debug(filteredArray);
 
     var _loop = function _loop(storeIndex) {
-        filteredArray[storeIndex].transactions = JSON.parse(JSON.stringify(storesArray[storesArray.findIndex(function (store) {
+        filteredArray[storeIndex].transactions = _.cloneDeep(_.filter(_.filter(storesArray[storesArray.findIndex(function (store) {
             return store.store_id == filteredArray[storeIndex].store_id;
-        })].transactions.filter(filterTNumber).filter(filterDate)));
+        })].transactions, filterTNumber), filterDate));
+
         console.log("Transactions:");
         console.debug(filteredArray[storeIndex].transactions);
     };
@@ -309,29 +310,29 @@ function renderTransactions(t_num, users, privileged, stores) {
             content += '\n                           </div><!-- end col-xs-8 -->\n                       </div><!-- end pull-right -->\n                  </div><!-- end col-xs-4 -->\n               </div><!-- end row -->\n           </div><!-- end panel heading -->';
             content += '\n           <div class="panel-collapse collapse" role="tabpanel" aria-labelledby="' + stores[storeIndex].store_id + 'transactionHeading' + _transactions[_transactionIndex].transaction_id + '" id="' + stores[storeIndex].store_id + 'transactionCollapse' + _transactions[_transactionIndex].transaction_id + '">\n               <div class="panel-body">';
             //For each transactionItem in a trasactions
-            for (var transactionItemsIndex in _transactions[_transactionIndex].transactionItems) {
-                content += '\n                   <div class="col-xs-12 col-sm-6 col-md-4">\n                       <strong>Transaction Type:</strong>\n                       <span style="margin-left: 5px;">' + _transactions[_transactionIndex].transactionItems[transactionItemsIndex].transactionType + '</span>\n                   </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                   <div class="col-xs-12 col-sm-6 col-md-4">\n                       <strong>Warranty Type:</strong>\n                       <span style="margin-left: 5px;">';
-                if (_transactions[_transactionIndex].transactionItems[transactionItemsIndex].warranty) {
-                    content += '' + _transactions[_transactionIndex].transactionItems[transactionItemsIndex].warranty;
+            for (var _transactionItemsIndex in _transactions[_transactionIndex].transactionItems) {
+                content += '\n                   <div class="col-xs-12 col-sm-6 col-md-4">\n                       <strong>Transaction Type:</strong>\n                       <span style="margin-left: 5px;">' + _transactions[_transactionIndex].transactionItems[_transactionItemsIndex].transactionType + '</span>\n                   </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                   <div class="col-xs-12 col-sm-6 col-md-4">\n                       <strong>Warranty Type:</strong>\n                       <span style="margin-left: 5px;">';
+                if (_transactions[_transactionIndex].transactionItems[_transactionItemsIndex].warranty) {
+                    content += '' + _transactions[_transactionIndex].transactionItems[_transactionItemsIndex].warranty;
                 } else {
                     content += 'None';
                 }
                 content += '</span>\n                   </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                   <div class="col-xs-12 col-sm-6 col-md-4">\n                       <strong>Sale Type:</strong>\n                       <span style="margin-left: 5px;">';
-                if (_transactions[_transactionIndex].transactionItems[transactionItemsIndex].activation) {
-                    content += '' + _transactions[_transactionIndex].transactionItems[transactionItemsIndex].activation;
+                if (_transactions[_transactionIndex].transactionItems[_transactionItemsIndex].activation) {
+                    content += '' + _transactions[_transactionIndex].transactionItems[_transactionItemsIndex].activation;
                 } else {
                     content += 'None';
                 }
-                content += '</span>\n                   </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                   <div class="col-xs-12 col-sm-6 col-md-4">\n                       <strong>Attach (Yes/No):</strong>\n                       <span style="margin-left: 5px;">' + (_transactions[_transactionIndex].transactionItems[transactionItemsIndex].attached === 1 ? 'Yes' : 'No') + '</span>\n                   </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                   <div class="col-xs-12 col-sm-6 col-md-4">\n                       <strong>Device Type:</strong>\n                       <span style="margin-left: 5px;">';
-                if (_transactions[_transactionIndex].transactionItems[transactionItemsIndex].device) {
-                    content += '' + _transactions[_transactionIndex].transactionItems[transactionItemsIndex].device;
+                content += '</span>\n                   </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                   <div class="col-xs-12 col-sm-6 col-md-4">\n                       <strong>Attach (Yes/No):</strong>\n                       <span style="margin-left: 5px;">' + (_transactions[_transactionIndex].transactionItems[_transactionItemsIndex].attached === 1 ? 'Yes' : 'No') + '</span>\n                   </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                   <div class="col-xs-12 col-sm-6 col-md-4">\n                       <strong>Device Type:</strong>\n                       <span style="margin-left: 5px;">';
+                if (_transactions[_transactionIndex].transactionItems[_transactionItemsIndex].device) {
+                    content += '' + _transactions[_transactionIndex].transactionItems[_transactionItemsIndex].device;
                 } else {
                     content += 'None';
                 }
-                content += '</span>\n                   </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                   <div class="col-xs-12 col-sm-6 col-md-4">\n                       <strong>Revenue:</strong>\n                       <span style="margin-left: 5px;">' + _transactions[_transactionIndex].transactionItems[transactionItemsIndex].revenue.toLocaleString('en-CA', {
+                content += '</span>\n                   </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                   <div class="col-xs-12 col-sm-6 col-md-4">\n                       <strong>Revenue:</strong>\n                       <span style="margin-left: 5px;">' + _transactions[_transactionIndex].transactionItems[_transactionItemsIndex].revenue.toLocaleString('en-CA', {
                     style: 'currency',
                     currency: 'CAD'
-                }) + '</span>\n                   </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                   <div class="col-xs-12 col-sm-6 col-md-4">\n                       <strong>SBS Activation (Yes/No):</strong>\n                       <span style="margin-left: 5px;">' + (_transactions[_transactionIndex].transactionItems[transactionItemsIndex].sbs_activation === 1 ? 'Yes' : 'No') + '</span>\n                   </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                   <div class="col-xs-12 col-sm-6 col-md-4">\n                       <strong>Number of Accessories:</strong>\n                       <span style="margin-left: 5px;">' + _transactions[_transactionIndex].transactionItems[transactionItemsIndex].num_of_accessories + '</span>\n                   </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                   <div class="col-xs-12">\n                       <hr />\n                   </div><!-- end col-xs-12 -->\n               ';
+                }) + '</span>\n                   </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                   <div class="col-xs-12 col-sm-6 col-md-4">\n                       <strong>SBS Activation (Yes/No):</strong>\n                       <span style="margin-left: 5px;">' + (_transactions[_transactionIndex].transactionItems[_transactionItemsIndex].sbs_activation === 1 ? 'Yes' : 'No') + '</span>\n                   </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                   <div class="col-xs-12 col-sm-6 col-md-4">\n                       <strong>Number of Accessories:</strong>\n                       <span style="margin-left: 5px;">' + _transactions[_transactionIndex].transactionItems[_transactionItemsIndex].num_of_accessories + '</span>\n                   </div><!-- end col-xs-12 col-sm-6 col-md-4 -->\n                   <div class="col-xs-12">\n                       <hr />\n                   </div><!-- end col-xs-12 -->\n               ';
             } //end for transactionItems
             //For each additionalMetric
             for (var additionalMetricIndex in _transactions[_transactionIndex].additionalMetricItems) {

@@ -83,7 +83,6 @@ exports.getBudgetsWithStore = function (values, done) {
     });
 };
 
-
 exports.getStoreBudget = function (values, done) {
     connection.get().query('SELECT * FROM budgets WHERE store_id = ?', values, function (error, result) {
         if (error) {

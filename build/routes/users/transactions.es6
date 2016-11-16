@@ -1,31 +1,251 @@
-var express = require('express');
-var connection = require('../../connection');
-import * as utility from "../../utility";
-var passport = require('passport');
-var async = require('async');
+import * as express from 'express';
+import * as connection from '../../connection';
+import * as utility from '../../utility';
+import * as passport from 'passport';
+import * as async from 'async';
 
-var userModel = require('../../models/user');
-var storeModel = require('../../models/store');
-var transactionModel = require('../../models/transactions');
+import * as userModel from '../../models/user';
+import * as storeModel from '../../models/store';
+import * as transactionModel from '../../models/transactions';
 
-var router = express.Router();
+let router = express.Router();
 
 // Ensure sure the user is authenticated
 function ensureAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-
-    res.redirect('/');
+	return req.isAuthenticated()
+		? next()
+		: res.redirect('/');
 }
 
 router.get('/', ensureAuthenticated, (req, res, next) => {
-    renderTransactionHistoryPage({ title: 'Transaction History' }, req, res, next);
+
+	// locals
+	let returnObj = { title: 'Transaction History' };
+	let storeIds = [];
+
+	// functions for async series
+	let setStores = function(callback) {
+		storeModel.getStoresByTNumber(req.user.t_number, (err, result) => {
+			if (err) {
+				throw next(err);
+			}
+
+			returnObj['stores'] = result;
+			callback(null);
+		});
+	};
+
+	let setTransactions = function(callback) {
+		transactionModel.getTransactionss((err, result) => {
+			if (err) {
+				throw next(err);
+			}
+
+			returnObj['transactions'] = result;
+			callback(null);
+		});
+	};
+
+	let setTransactionTypes = function(callback) {
+		transactionModel.getTransactionTypes((err, result) => {
+			if (err) {
+				throw next(err);
+			}
+
+			returnObj['transactionTypes'] = {};
+
+			async.each(result, function(item, cb) {
+				returnObj['transactionTypes'][item.transaction_type_id] = item.transaction_types;
+				cb();
+			}, function(itemError) {
+				if(itemError) {
+					throw next(itemError);
+				}
+			});
+
+			callback(null);
+		});
+	};
+
+	let setTransactionItems = function(callback) {
+		transactionModel.getTransactionItems((err, result) => {
+			if (err) {
+				throw next(err);
+			}
+
+			returnObj['transactionItems'] = result;
+			callback(null);
+		});
+	};
+
+	let setAdditionalMetricItems = function(callback) {
+		transactionModel.getAdditionalMetricItems((err, result) => {
+			if (err) {
+				throw next(err);
+			}
+
+			returnObj['additionalMetricItems'] = result;
+			callback(null);
+		});
+	};
+
+	let setActivation = function(callback) {
+		transactionModel.getActivation((err, result) => {
+			if (err) {
+				throw next(err);
+			}
+
+			returnObj['activationTypes'] = {};
+
+			async.each(result, function(item, cb) {
+				returnObj['activationTypes'][item.activation_type_id] = item.activation_types;
+				cb();
+			}, function(itemError) {
+				if(itemError) {
+					throw next(itemError);
+				}
+			});
+
+			callback(null);
+		});
+	};
+
+	let setDevices = function(callback) {
+		transactionModel.getDevice((err, result) => {
+			if (err) {
+				throw next(err);
+			}
+
+			returnObj['deviceTypes'] = {};
+
+			async.each(result, function(item, cb) {
+				returnObj['deviceTypes'][item.device_type_id] = item.device_types;
+				cb();
+			}, function(itemError) {
+				if(itemError) {
+					throw next(itemError);
+				}
+			});
+
+			callback(null);
+		});
+	};
+
+	let setWarranties = function(callback) {
+		transactionModel.getWarranty((err, result) => {
+			if (err) {
+				throw next(err);
+			}
+
+			returnObj['warrantyTypes'] = {};
+
+			async.each(result, function(item, cb) {
+				returnObj['warrantyTypes'][item.warranty_type_id] = item.warranty_types;
+				cb();
+			}, function(itemError) {
+				if(itemError) {
+					throw next(itemError);
+				}
+			});
+
+			returnObj['stores'].forEach((storeVal, storeIndex) => {
+				returnObj['stores'][storeIndex]['transactions'] = returnObj['transactions'].filter(
+					(transVal) => transVal.store_id === storeVal.store_id
+				);
+
+				returnObj['stores'][storeIndex]['transactions'].forEach((transVal, transIndex) => {
+					returnObj['stores'][storeIndex]['transactions'][transIndex]['transactionItems'] = returnObj['transactionItems']
+						.filter((transItemVal) => transItemVal.transaction_id === transVal.transaction_id);
+
+					returnObj['stores'][storeIndex]['transactions'][transIndex]['additionalMetricItems'] = returnObj['additionalMetricItems']
+						.filter((addMetricItemVal) => addMetricItemVal.transaction_id === transVal.transaction_id);
+
+					returnObj['stores'][storeIndex]['transactions'][transIndex]['totalRevenue'] = 0;
+					returnObj['stores'][storeIndex]
+						['transactions'][transIndex]['transactionItems'].forEach((transItemVal, transItemIndex) => {
+						returnObj['stores'][storeIndex]
+							['transactions'][transIndex]
+							['transactionItems'][transItemIndex]
+							['activation'] = returnObj['activationTypes'][transItemVal.activation_type];
+						returnObj['stores'][storeIndex]
+							['transactions'][transIndex]
+							['transactionItems'][transItemIndex]
+							['device'] = returnObj['deviceTypes'][transItemVal.device_type];
+						returnObj['stores'][storeIndex]
+							['transactions'][transIndex]
+							['transactionItems'][transItemIndex]
+							['warranty'] = returnObj['warrantyTypes'][transItemVal.warranty_type];
+						returnObj['stores'][storeIndex]
+							['transactions'][transIndex]
+							['transactionItems'][transItemIndex]
+							['transactionType'] = returnObj['transactionTypes'][transVal.transaction_type];
+						returnObj['stores'][storeIndex]['transactions'][transIndex]['totalRevenue'] += transItemVal.revenue;
+					});
+				});
+			});
+
+			returnObj['storesObj'] = JSON.stringify(returnObj['stores']);
+
+			async.each(returnObj['stores'], function(item, cb) {
+				storeIds.push(item.store_id);
+				cb();
+			}, function(itemError) {
+				if(itemError) {
+					throw next(itemError);
+				}
+			});
+
+			callback(null);
+		});
+	};
+
+	let setUsers = function(callback) {
+		userModel.getAllUsersByStoreIds(storeIds, (err, result) => {
+			if(err) {
+				throw next(err);
+			}
+
+			//Display success message on adding a transaction
+			if(req.session.success) {
+				req.flash('success_messages', 'Transaction successfully added!');
+				res.locals.success_messages = req.flash('success_messages');
+				req.session.success = false;
+			}  //end if
+
+			returnObj['users'] = [];
+			result.forEach((user) => {
+				delete user['password'];
+				returnObj['users'].push(user);
+			});
+
+			returnObj['usersObj'] = JSON.stringify(returnObj['users']);
+			returnObj['selectedEmployee']= req.user.t_number;
+
+			callback(null);
+		}); //getAllUsersByStoreID;
+	};
+
+	// async series
+	async.series([
+		setStores,
+		setTransactions,
+		setTransactionTypes,
+		setTransactionItems,
+		setAdditionalMetricItems,
+		setActivation,
+		setDevices,
+		setWarranties,
+		setUsers
+	], function(err, results) {
+		res.render('transactions/transactions', returnObj);
+	});
 });
 
 router.get('/add-transaction', ensureAuthenticated, (req, res, next) => {
+
+
     renderAddTransactionPage({title: 'Add Transaction'}, req, res, next);
-}); //end get for /add-transaction
+});
 
 router.get('/add-transaction/:employee', ensureAuthenticated, (req, res, next) => {
     if (req.user.privileged <= 2) {
@@ -33,7 +253,7 @@ router.get('/add-transaction/:employee', ensureAuthenticated, (req, res, next) =
     }
 
     renderAddTransactionPage({title: 'Add Transaction'}, req, res, next);
-}); //End get for add-transaction/:employee
+});
 
 router.post('/', ensureAuthenticated, (req, res, next) => {
     let transactionId = req.body.id;
@@ -50,7 +270,7 @@ router.post('/', ensureAuthenticated, (req, res, next) => {
 
 //When the add transaction page is submitted
 router.post('/add-transaction', ensureAuthenticated, (req, res, next) => {
-    var returnObj = {
+    let returnObj = {
         title: 'Add Transaction'
     };
 
@@ -188,7 +408,7 @@ router.post('/add-transaction', ensureAuthenticated, (req, res, next) => {
      * @param fnCallback
      */
     function getData(fnCallback) {
-        currentDate = getCurrentDate();
+        currentDate = utility.currentDate();
         transaction_type = data.transactionDropdown;
 
         //Transaction Items
@@ -404,190 +624,6 @@ router.post('/add-transaction', ensureAuthenticated, (req, res, next) => {
     }
 
 }); //end post for add-transaction
-
-/**
- * Custom function that return the current date and time
- * @returns {string} in yyyy:mm:dd hh:mm:ss format
- */
-function getCurrentDate() {
-    let date = new Date();
-
-    let hour = date.getHours();
-    hour = (hour < 10 ? "0" : "") + hour;
-
-    let min = date.getMinutes();
-    min = (min < 10 ? "0" : "") + min;
-
-    let sec = date.getSeconds();
-    sec = (sec < 10 ? "0" : "") + sec;
-
-    let year = date.getFullYear();
-
-    let month = date.getMonth() + 1;
-    month = (month < 10 ? "0" : "") + month;
-
-    let day = date.getDate();
-    day = (day < 10 ? "0" : "") + day;
-
-    return year + ":" + month + ":" + day + " " + hour + ":" + min + ":" + sec;
-} //end getCurrentDate
-
-/**
- * This method pulls all the data required to load the transaction history page from the database and loads the page
- * @param returnObj
- * @param req
- * @param res
- * @param next
- */
-function renderTransactionHistoryPage(returnObj, req, res, next) {
-    storeModel.getStoresByTNumber(req.user.t_number, (err, result) => {
-        if(err) {
-            throw next(err);
-        } //end if
-
-        returnObj['stores'] = result;
-
-        transactionModel.getTransactionss((err, result) => {
-            if(err) {
-                throw next(err);
-            } //end if
-
-            returnObj['transactions'] = result;
-
-            transactionModel.getTransactionTypes((err, result) => {
-                if (err) {
-                    throw next(err);
-                } ///end if
-
-                returnObj['transactionTypes'] = {};
-                for(let index in result) {
-                    if(!result.hasOwnProperty(index)) { continue; }
-                    returnObj['transactionTypes'][result[index].transaction_type_id] = result[index].transaction_types;
-                } //end for
-
-                transactionModel.getTransactionItems((err, result) => {
-                    if(err) {
-                        throw next(err);
-                    } //end if
-
-                    returnObj['transactionItems'] = result;
-
-                    transactionModel.getAdditionalMetricItems((err, result) => {
-                        if (err) {
-                            throw next(err);
-                        } //end if
-
-                        returnObj['additionalMetricItems'] = result;
-
-                        transactionModel.getActivation((err, result) => {
-                            if (err) {
-                                throw next(err);
-                            } //end if
-
-                            returnObj['activationTypes'] = {};
-                            for(let index in result) {
-                                if(!result.hasOwnProperty(index)) { continue; }
-                                returnObj['activationTypes'][result[index].activation_type_id] = result[index].activation_types;
-                            } //end if
-
-                            transactionModel.getDevice((err, result) => {
-                                if (err) {
-                                    throw next(err);
-                                } //end if
-
-                                returnObj['deviceTypes'] = {};
-                                for(let index in result) {
-                                    if(!result.hasOwnProperty(index)) { continue; }
-                                    returnObj['deviceTypes'][result[index].device_type_id] = result[index].device_types;
-                                } //end for
-
-                                transactionModel.getWarranty((err, result) => {
-                                    if (err) {
-                                        throw next(err);
-                                    } //end if
-
-                                    returnObj['warrantyTypes'] = {};
-                                    for(let index in result) {
-                                        if(!result.hasOwnProperty(index)) { continue; }
-                                        returnObj['warrantyTypes'][result[index].warranty_type_id] = result[index].warranty_types;
-                                    } //end for
-
-                                    returnObj['stores'].forEach((storeVal, storeIndex) => {
-                                        returnObj['stores'][storeIndex]['transactions'] = returnObj['transactions'].filter(
-                                            (transVal) => transVal.store_id === storeVal.store_id
-                                        ); //end filter;
-
-                                        returnObj['stores'][storeIndex]['transactions'].forEach((transVal, transIndex) => {
-                                            returnObj['stores'][storeIndex]['transactions'][transIndex]['transactionItems'] = returnObj['transactionItems']
-                                                .filter((transItemVal) => transItemVal.transaction_id === transVal.transaction_id);
-
-                                            returnObj['stores'][storeIndex]['transactions'][transIndex]['additionalMetricItems'] = returnObj['additionalMetricItems']
-                                                .filter((addMetricItemVal) => addMetricItemVal.transaction_id === transVal.transaction_id);
-
-                                            returnObj['stores'][storeIndex]['transactions'][transIndex]['totalRevenue'] = 0;
-                                            returnObj['stores'][storeIndex]
-                                                ['transactions'][transIndex]['transactionItems'].forEach((transItemVal, transItemIndex) => {
-                                                returnObj['stores'][storeIndex]
-                                                    ['transactions'][transIndex]
-                                                    ['transactionItems'][transItemIndex]
-                                                    ['activation'] = returnObj['activationTypes'][transItemVal.activation_type];
-                                                returnObj['stores'][storeIndex]
-                                                    ['transactions'][transIndex]
-                                                    ['transactionItems'][transItemIndex]
-                                                    ['device'] = returnObj['deviceTypes'][transItemVal.device_type];
-                                                returnObj['stores'][storeIndex]
-                                                    ['transactions'][transIndex]
-                                                    ['transactionItems'][transItemIndex]
-                                                    ['warranty'] = returnObj['warrantyTypes'][transItemVal.warranty_type];
-                                                returnObj['stores'][storeIndex]
-                                                    ['transactions'][transIndex]
-                                                    ['transactionItems'][transItemIndex]
-                                                    ['transactionType'] = returnObj['transactionTypes'][transVal.transaction_type];
-                                                returnObj['stores'][storeIndex]['transactions'][transIndex]['totalRevenue'] += transItemVal.revenue;
-                                            }); //end for each
-                                        }); //end for each
-                                    }); //end for each
-
-                                    returnObj['storesObj'] = JSON.stringify(returnObj['stores']);
-
-                                    let storeIds = [];
-                                    for(let storeIndex in returnObj['stores']) {
-                                        if(!returnObj['stores'].hasOwnProperty(storeIndex)) { continue; }
-                                        storeIds.push(returnObj['stores'][storeIndex].store_id);
-                                    }
-
-                                    userModel.getAllUsersByStoreIds(storeIds, (err, result) => {
-                                        if(err) {
-                                            throw next(err);
-                                        } //end if
-
-                                        //Display success message on adding a transaction
-                                        if(req.session.success) {
-                                            req.flash('success_messages', 'Transaction successfully added!');
-                                            res.locals.success_messages = req.flash('success_messages');
-                                            req.session.success = false;
-                                        }  //end if
-
-                                        returnObj['users'] = [];
-                                        result.forEach((user) => {
-                                            delete user['password'];
-                                            returnObj['users'].push(user);
-                                        });
-
-                                        returnObj['usersObj'] = JSON.stringify(returnObj['users']);
-                                        returnObj['selectedEmployee']= req.user.t_number;
-
-                                        return res.render('transactions/transactions', returnObj);
-                                    }); //getAllUsersByStoreID;
-                                }); //getWarranty
-                            }); //get devices
-                        }); //end getActivation
-                    }); //end getAdditionalMetricItems
-                }); //end getTransactionItems
-            }); //end getTransactionTypes
-        }); //end getTransactions
-    }); //end getStoresByTNumber
-} //End renderTransactionHistoryPage
 
 /**
  * This method pulls all the data required to load the add-transaction page from the database and loads the page

@@ -35,4 +35,30 @@ exports.check = function (expression, message) {
     console.log('Result: ' + expression + ' Value: ' + message);
 };
 
+exports.currentDate = function () {
+    var date = new Date();
+    var format = function format(value) {
+        return value < 10 ? "0" : "";
+    };
+
+    var hour = date.getHours();
+    hour = format(hour) + hour;
+
+    var min = date.getMinutes();
+    min = format(min) + min;
+
+    var sec = date.getSeconds();
+    sec = format(sec) + sec;
+
+    var year = date.getFullYear();
+
+    var month = date.getMonth() + 1;
+    month = format(month) + month;
+
+    var day = date.getDate();
+    day = format(day) + day;
+
+    return year + ':' + month + ':' + day + ' ' + hour + ':' + min + ':' + sec;
+};
+
 //# sourceMappingURL=utility.js.map

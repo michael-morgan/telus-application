@@ -1,11 +1,11 @@
-var storesArray;
-var filteredArray;
-var teamMember;
+let storesArray;
+let filteredArray;
+let teamMember;
 
-var startDate;
-var endDate;
+let startDate;
+let endDate;
 
-var filterTNumber = (obj) => {
+let filterTNumber = (obj) => {
     teamMember = $('#teamMember');
 
     if(teamMember.val() == 'all') {
@@ -16,17 +16,16 @@ var filterTNumber = (obj) => {
     }
 };
 
-var filterDate = (transaction) => {
-    var transactionDate = new Date(transaction.transaction_date);
+let filterDate = (transaction) => {
+    let transactionDate = new Date(transaction.transaction_date);
 
     return ((transactionDate >= startDate) && (transactionDate <= endDate));
 };
 
 $(() => {
-    storesArray = JSON.parse(JSON.stringify(storeObj));
+    //storesArray = JSON.parse(JSON.stringify(storeObj));
+	storesArray = _.cloneDeep(storeObj);
     console.debug(storesArray);
-
-    console.debug(JSON.parse(JSON.stringify(userObj)));
 
     //Hide the delete message until a transaction has been removed
     $('#deleteMessage').hide();
@@ -34,7 +33,7 @@ $(() => {
     //Fade out success message after 5 seconds
     $('#successMessage').fadeOut(5000);
 
-    var teamDropdown = $("#teamMember");
+    let teamDropdown = $("#teamMember");
 
     teamDropdown.change((event) => {
         //Get the selected user from from the drop down
@@ -74,13 +73,22 @@ $(() => {
 });
 
 function applyFilter() {
-    filteredArray = JSON.parse(JSON.stringify(storesArray.filter(filterTNumber)));
+    //filteredArray = JSON.parse(JSON.stringify(storesArray.filter(filterTNumber)));
+	filteredArray = _.cloneDeep(_.filter(storesArray, filterTNumber));
     console.log("Filtered array:");
     console.debug(filteredArray);
     for(let storeIndex in filteredArray) {
-        filteredArray[storeIndex].transactions = JSON.parse(JSON.stringify(storesArray[storesArray.findIndex(
-            (store) => store.store_id == filteredArray[storeIndex].store_id
-        )].transactions.filter(filterTNumber).filter(filterDate)));
+        filteredArray[storeIndex].transactions = _.cloneDeep(
+        	_.filter(
+        		_.filter(
+        			storesArray[
+        			storesArray.findIndex(
+						(store) => store.store_id == filteredArray[storeIndex].store_id
+					)].transactions
+					, filterTNumber
+				)
+				, filterDate));
+
         console.log("Transactions:");
         console.debug(filteredArray[storeIndex].transactions);
     }
@@ -118,28 +126,28 @@ function renderTransactions(t_num, users, privileged, stores) {
     for(let storeIndex in stores) {
 
         //Initialize variables for storing data
-        var totalDeviceCount = 0;
-        var deviceCount = 0;
-        var andriodDeviceCount = 0;
-        var appleDeviceCount = 0;
-        var iPhoneDeviceCount = 0;
-        var deviceWarrantyCount = 0;
-        var appleWarrantyCount = 0;
-        var transactionCount = 0;
-        var accessoriesCount = 0;
-        var controllableTransactionsCount = 0;
-        var controllableRevenue = 0;
-        var warrantyDevices = 0;
-        var otherDevices = 0;
-        var sbsCount = 0;
-        var tabletCount = 0;
-        var hsRevenue = 0;
-        var learningSessions = 0;
-        var critters = 0;
-        var appointments = 0;
-        var aotm = 0;
-        var donations = 0;
-        var creditCards = 0;
+        let totalDeviceCount = 0;
+        let deviceCount = 0;
+        let andriodDeviceCount = 0;
+        let appleDeviceCount = 0;
+        let iPhoneDeviceCount = 0;
+        let deviceWarrantyCount = 0;
+        let appleWarrantyCount = 0;
+        let transactionCount = 0;
+        let accessoriesCount = 0;
+        let controllableTransactionsCount = 0;
+        let controllableRevenue = 0;
+        let warrantyDevices = 0;
+        let otherDevices = 0;
+        let sbsCount = 0;
+        let tabletCount = 0;
+        let hsRevenue = 0;
+        let learningSessions = 0;
+        let critters = 0;
+        let appointments = 0;
+        let aotm = 0;
+        let donations = 0;
+        let creditCards = 0;
 
         //Loop through all the transactions
         for (let transactionIndex in stores[storeIndex].transactions) {
@@ -155,7 +163,7 @@ function renderTransactions(t_num, users, privileged, stores) {
             } //end if
 
             //Loop through the transactionsItems for each transactions
-            for (var transactionItemsIndex in transactions[transactionIndex].transactionItems) {
+            for (let transactionItemsIndex in transactions[transactionIndex].transactionItems) {
 
                 //If device type is 2 (Android) or 3 (Blackberry), increment the deviceCount
                 if (transactions[transactionIndex].transactionItems[transactionItemsIndex].device_type == 2 || transactions[transactionIndex].transactionItems[transactionItemsIndex].device_type == 3)
@@ -223,7 +231,7 @@ function renderTransactions(t_num, users, privileged, stores) {
             }//end for transactionItemsIndex
 
             //Loop through all the additionalMetricItems per transaction
-            for (var metricItemsIndex in transactions[transactionIndex].additionalMetricItems) {
+            for (let metricItemsIndex in transactions[transactionIndex].additionalMetricItems) {
                 //Check based on the additional metric type
                 switch (transactions[transactionIndex].additionalMetricItems[metricItemsIndex].additional_metrics_items_type) {
                     //If metric type is 1 (Learning Sessions), add the metric count to learningSessions
@@ -254,7 +262,7 @@ function renderTransactions(t_num, users, privileged, stores) {
             } //end for metricItemsIndex
         } //end for transactionIndex
 
-        var summaryContent = '';
+        let summaryContent = '';
         summaryContent += `
             <div role="tablist" aria-multiselectable="true" class="panel-group">
                 <div class="panel">
@@ -427,7 +435,7 @@ function renderTransactions(t_num, users, privileged, stores) {
         $(`#summaryContainer${stores[storeIndex].store_id}`).html(summaryContent);
 
         //For each store
-        var content = '';
+        let content = '';
         for (let transactionIndex in stores[storeIndex].transactions) {
             let transactions = stores[storeIndex].transactions;
 
@@ -476,7 +484,7 @@ function renderTransactions(t_num, users, privileged, stores) {
            <div class="panel-collapse collapse" role="tabpanel" aria-labelledby="${stores[storeIndex].store_id}transactionHeading${transactions[transactionIndex].transaction_id}" id="${stores[storeIndex].store_id}transactionCollapse${transactions[transactionIndex].transaction_id}">
                <div class="panel-body">`;
             //For each transactionItem in a trasactions
-            for (var transactionItemsIndex in transactions[transactionIndex].transactionItems) {
+            for (let transactionItemsIndex in transactions[transactionIndex].transactionItems) {
                 content += `
                    <div class="col-xs-12 col-sm-6 col-md-4">
                        <strong>Transaction Type:</strong>
@@ -537,7 +545,7 @@ function renderTransactions(t_num, users, privileged, stores) {
                `;
             }  //end for transactionItems
             //For each additionalMetric
-            for (var additionalMetricIndex in transactions[transactionIndex].additionalMetricItems) {
+            for (let additionalMetricIndex in transactions[transactionIndex].additionalMetricItems) {
                 if (transactions[transactionIndex].additionalMetricItems[additionalMetricIndex].additional_metrics_items_type === 1) {
                     content += `
                            <div class="col-xs-12 col-sm-6 col-md-4">
@@ -600,7 +608,7 @@ function renderTransactions(t_num, users, privileged, stores) {
                    <div class="pull-right">
                        <strong>Completed By:</strong>
                        <span style="margin-left: 5px;">`;
-            for (var userIndex in users) {
+            for (let userIndex in users) {
                 if (users[userIndex].t_number === transactions[transactionIndex].t_number) {
                     content += `${users[userIndex].first_name} ${users[userIndex].last_name}`;
                 } //end if

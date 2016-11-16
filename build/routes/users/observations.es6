@@ -1,13 +1,14 @@
-var express = require('express');
-var connection = require('../../connection');
-import * as utility from "../../utility";
-var passport = require('passport');
+import * as express from 'express';
+import * as connection from '../../connection';
+import * as utility from '../../utility';
+import * as passport from 'passport';
 
-var observationModel = require('../../models/observation');
-var userModel = require('../../models/user');
-var storeModel = require('../../models/store');
+import * as observationModel from '../../models/observation';
+import * as userModel from '../../models/user';
+import * as storeModel from '../../models/store';
 
-var router = express.Router();
+let router = express.Router();
+
 // Get for observations when the page is loaded, show the observations for each user
 router.get('/', ensureAuthenticated, (req, res, next) => {
     if (!req.body) { return res.sendStatus(400); }
@@ -290,11 +291,11 @@ router.post('/add-observation', ensureAuthenticated, (req, res, next) => {
     //Check that the user has selected an employee
     if (req.body.employeeDropdown != undefined && req.body.goodorbad != undefined) {
         //Store form variables
-        var behaviour = req.body.goodorbad.replace("bad", "").replace("good", "");
-        var assignedTo = req.body.employeeDropdown;
-        var assignedBy = req.user.t_number;
-        var observationDate = getCurrentDate();
-        var observationType = req.body.goodorbad;
+        let behaviour = req.body.goodorbad.replace("bad", "").replace("good", "");
+        let assignedTo = req.body.employeeDropdown;
+        let assignedBy = req.user.t_number;
+        let observationDate = utility.currentDate();
+        let observationType = req.body.goodorbad;
 
         //Assign observationType
         if (observationType.indexOf("good") != -1) {
@@ -304,10 +305,10 @@ router.post('/add-observation', ensureAuthenticated, (req, res, next) => {
             observationType = "0";
         }
 
-        var observationComment = req.body.commentBox;
+        let observationComment = req.body.commentBox;
 
         //Creating the JSON array to store the observation data
-        var observation = {
+        let observation = {
             behaviour_id: behaviour,
             assigned_to: assignedTo,
             assigned_by: assignedBy,
@@ -394,7 +395,7 @@ router.post('/add-observation', ensureAuthenticated, (req, res, next) => {
                     }
 
                     //JSON array to hold behaviour info
-                    var behaviour = {
+                    let behaviour = {
                         behaviour_desc: undefined,
                         behaviour_id: undefined,
                         skill_id: undefined
@@ -445,7 +446,7 @@ router.post('/add-observation/:employee', ensureAuthenticated, (req, res, next) 
         let behaviour = req.body.goodorbad.replace("bad", "").replace("good", "");
         let assignedTo = req.body.employeeDropdown;
         let assignedBy = req.user.t_number;
-        let observationDate = getCurrentDate();
+        let observationDate = utility.currentDate();
         let observationType = req.body.goodorbad;
 
         //Assign observationType
@@ -585,7 +586,7 @@ router.post('/add-observation/:employee', ensureAuthenticated, (req, res, next) 
 });
 
 router.post('/remove', ensureAuthenticated, (req, res, next) => {
-    var observationId = req.body.id;
+    let observationId = req.body.id;
     observationModel.deleteById(observationId, (err, result) => {
         if (err) {
             utility.log({ type: 'error', message: 'Error deleting observation_id ' + observationId });
@@ -650,33 +651,6 @@ function getAllBehaviours(callback) {
         } else
             callback(null, rows);
     });
-}
-
-/**
- * Custom function that return the current date and time
- * @returns {string} in yyyy:mm:dd hh:mm:ss format
- */
-function getCurrentDate() {
-    let date = new Date();
-
-    let hour = date.getHours();
-    hour = (hour < 10 ? "0" : "") + hour;
-
-    let min = date.getMinutes();
-    min = (min < 10 ? "0" : "") + min;
-
-    let sec = date.getSeconds();
-    sec = (sec < 10 ? "0" : "") + sec;
-
-    let year = date.getFullYear();
-
-    let month = date.getMonth() + 1;
-    month = (month < 10 ? "0" : "") + month;
-
-    let day = date.getDate();
-    day = (day < 10 ? "0" : "") + day;
-
-    return year + ":" + month + ":" + day + " " + hour + ":" + min + ":" + sec;
 }
 
 module.exports = router;
