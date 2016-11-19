@@ -100,7 +100,7 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
                 });
 
                 //Bradley wrote this
-                sellingHoursModel.getStoreBudget(req.session.store_id, function (err, result) {
+                sellingHoursModel.getBudgetsWithStore([endOfWeek, req.session.store_id], function (err, result) {
                     if (err) {
                         throw next(err);
                     } //end if

@@ -105,7 +105,7 @@ function calculateHours(){
             }
         }
         $('#totalHours_'+ userObj[user].t_number).text(userTotalHours);
-        $('#budget'+ userObj[user].t_number).text(budgetObj[0].CTs); //TODO Need to get this weeks CTs, Currently pulling the first record
+        $('#budget'+ userObj[user].t_number).text(budgetObj[0].CTs);
 
     }
 

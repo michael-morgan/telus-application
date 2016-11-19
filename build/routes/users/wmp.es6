@@ -90,7 +90,7 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
                 });
 
                 //Bradley wrote this
-                sellingHoursModel.getStoreBudget(req.session.store_id, (err, result) => {
+                sellingHoursModel.getBudgetsWithStore([endOfWeek, req.session.store_id], (err, result) => {
                     if (err) {
                         throw next(err);
                     } //end if

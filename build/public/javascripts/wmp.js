@@ -110,7 +110,7 @@ function calculateHours() {
             }
         }
         $('#totalHours_' + userObj[user].t_number).text(userTotalHours);
-        $('#budget' + userObj[user].t_number).text(budgetObj[0].CTs); //TODO Need to get this weeks CTs, Currently pulling the first record
+        $('#budget' + userObj[user].t_number).text(budgetObj[0].CTs);
     }
 
     //TODO this method broke when we combine the to tables, I think micheal made this method? Maybe he can help. We basically need to run this method for each tabe to show the total hours and hour percent age
