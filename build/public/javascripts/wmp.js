@@ -113,7 +113,7 @@ function calculateHours() {
         $('#budget' + userObj[user].t_number).text(budgetObj[0].CTs);
     }
 
-    //TODO this method broke when we combine the to tables, I think micheal made this method? Maybe he can help. We basically need to run this method for each tabe to show the total hours and hour percent age
+    //TODO this method broke when we combine the to tables, I think micheal made this method? Maybe he can help. We basically need to run this method for each table to show the total hours and hour percentage
     var leftStaticTable = document.getElementById("countTable");
     for (var i = 1, row; row = leftStaticTable.rows[i]; i++) {
         var sellingHours = parseInt(row.cells[2].innerHTML);
@@ -123,7 +123,6 @@ function calculateHours() {
             row.cells[3].innerHTML = '0%';
         }
     }
-
     $('#storeTotalHours').text(storeTotalHours);
 }
 
@@ -131,7 +130,7 @@ function displayUsers() {
     var employeeList = "";
 
     for (var userIndex in filteredUserArray) {
-        employeeList += '<tr>\n                        <td></td>\n                        <td>' + filteredUserArray[userIndex].first_name + '  ' + filteredUserArray[userIndex].last_name + '</td>\n                        <th>' + filteredUserArray[userIndex].totalHours + '</th>\n                        <th>' + filteredUserArray[userIndex].hoursPercent + '%</th>\n                      <tr>';
+        employeeList += '<tr>\n                            <td></td>\n                            <td>' + filteredUserArray[userIndex].first_name + '  ' + filteredUserArray[userIndex].last_name + '</td>\n                            <th>' + filteredUserArray[userIndex].totalHours + '</th>\n                            <th>' + filteredUserArray[userIndex].hoursPercent + '%</th>\n                         <tr>';
     }
 
     $('#employeeList').html(employeeList);

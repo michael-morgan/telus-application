@@ -38,7 +38,7 @@ th:first-child, td:first-child {padding: 0 15px 0 20px;}
 thead tr:last-child th {border-bottom: 3px solid #ddd;}
 
 tbody tr:hover {background-color: #dbffdb;}
-tbody tr:last-child td {border: none;}
+
 tbody td {border-bottom: 1px solid #ddd;}
 
 td:last-child {
