@@ -23,15 +23,11 @@ let filterDate = (transaction) => {
 };
 
 $(() => {
+	//Fade out success message after 5 seconds
+	$('#successMessage').fadeOut(5000);
+
     //storesArray = JSON.parse(JSON.stringify(storeObj));
 	storesArray = _.cloneDeep(storeObj);
-    console.debug(storesArray);
-
-    //Hide the delete message until a transaction has been removed
-    $('#deleteMessage').hide();
-
-    //Fade out success message after 5 seconds
-    $('#successMessage').fadeOut(5000);
 
     let teamDropdown = $("#teamMember");
 
@@ -39,7 +35,6 @@ $(() => {
         //Get the selected user from from the drop down
         teamMember = $('#teamMember');
 
-        console.log("Apply filter");
         applyFilter();
 
         //filteredArray = storeObj[0].transactions.filter(filterTeamMembers);
@@ -75,8 +70,7 @@ $(() => {
 function applyFilter() {
     //filteredArray = JSON.parse(JSON.stringify(storesArray.filter(filterTNumber)));
 	filteredArray = _.cloneDeep(_.filter(storesArray, filterTNumber));
-    console.log("Filtered array:");
-    console.debug(filteredArray);
+
     for(let storeIndex in filteredArray) {
         filteredArray[storeIndex].transactions = _.cloneDeep(
         	_.filter(
@@ -88,9 +82,6 @@ function applyFilter() {
 					, filterTNumber
 				)
 				, filterDate));
-
-        console.log("Transactions:");
-        console.debug(filteredArray[storeIndex].transactions);
     }
 }
 
