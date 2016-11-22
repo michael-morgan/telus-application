@@ -113,9 +113,9 @@ function calculateHours() {
         $('#budget' + userObj[user].t_number).text(budgetObj[0].CTs);
     }
 
-    //TODO this method broke when we combine the to tables, I think micheal made this method? Maybe he can help. We basically need to run this method for each table to show the total hours and hour percentage
-    var leftStaticTable = document.getElementById("countTable");
-    for (var i = 1, row; row = leftStaticTable.rows[i]; i++) {
+    //TODO this method broke when we combine the to tables, I think micheal made this method? Maybe he can help.
+    var countTable1 = document.getElementById("countTable1");
+    for (var i = 1, row; row = countTable1.rows[i]; i++) {
         var sellingHours = parseInt(row.cells[2].innerHTML);
         if (sellingHours != 0 && sellingHours < storeTotalHours) {
             row.cells[3].innerHTML = Math.round(sellingHours / storeTotalHours * 100) + '%';
@@ -124,6 +124,7 @@ function calculateHours() {
         }
     }
     $('#storeTotalHours').text(storeTotalHours);
+    console.log(storeTotalHours);
 }
 
 function displayUsers() {
