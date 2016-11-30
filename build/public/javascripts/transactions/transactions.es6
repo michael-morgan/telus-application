@@ -8,12 +8,11 @@ let endDate;
 let filterTNumber = (obj) => {
     teamMember = $('#teamMember');
 
-    if(teamMember.val() == 'all') {
-        return obj.t_number != teamMember.val();
-    }
-    else {
-        return obj.t_number == teamMember.val();
-    }
+	if(teamMember.val() == 'all') {
+		return true;
+	}
+
+	return obj.t_number == teamMember.val();
 };
 
 let filterDate = (transaction) => {
@@ -23,6 +22,7 @@ let filterDate = (transaction) => {
 };
 
 $(() => {
+
 	//Fade out success message after 5 seconds
 	$('#successMessage').fadeOut(5000);
 
@@ -69,7 +69,7 @@ $(() => {
 
 function applyFilter() {
     //filteredArray = JSON.parse(JSON.stringify(storesArray.filter(filterTNumber)));
-	filteredArray = _.cloneDeep(_.filter(storesArray, filterTNumber));
+	filteredArray = _.cloneDeep(storesArray);
 
     for(let storeIndex in filteredArray) {
         filteredArray[storeIndex].transactions = _.cloneDeep(
