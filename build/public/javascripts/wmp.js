@@ -22,8 +22,8 @@ $(function () {
 
 	store.change(function (event) {
 
-		applyFilter();
-		renderTables();
+		//applyFilter();
+		//renderTables();
 
 		/*displayUsers();
    if(aDate) {
@@ -77,12 +77,12 @@ $(function () {
 		startDate = start;
 		endDate = end;
 
-		applyFilter();
-		renderTables();
+		//applyFilter();
+		//renderTables();
 	});
 
 	// Trigger the drop down change function to load the HTML
-	store.trigger('change');
+	//store.trigger('change');
 });
 
 /*function getDaysOfTheWeek(date) {
