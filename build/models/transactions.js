@@ -111,6 +111,7 @@ exports.addTransactionItems = function (transactions_items, done) {
         done(null, result);
     });
 };
+
 exports.deleteTransaction = function (id, done) {
     connection.get().query('DELETE FROM `addition_metrics_items` WHERE transaction_id = ?', id, function (error, result) {
         if (error) {
@@ -129,8 +130,19 @@ exports.deleteTransaction = function (id, done) {
         });
     });
 };
+
 exports.addAdditionalMetrics = function (metrics, done) {
     connection.get().query('INSERT INTO `addition_metrics_items` SET ?', [metrics], function (error, result) {
+        if (error) {
+            return done(error);
+        }
+
+        done(null, result);
+    });
+};
+
+exports.getUserTransactions = function (done) {
+    connection.get().query('SELECT t_number, COUNT(*) AS count FROM `transactions` GROUP BY t_number', function (error, result) {
         if (error) {
             return done(error);
         }

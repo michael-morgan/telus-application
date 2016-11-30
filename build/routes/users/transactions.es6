@@ -24,7 +24,7 @@ router.get('/', ensureAuthenticated, (req, res, next) => {
 	let storeIds = [];
 
 	// functions for async series
-	let setStores = function(callback) {
+	let setStores = (callback) => {
 		storeModel.getStoresByTNumber(req.user.t_number, (err, result) => {
 			if (err) {
 				throw next(err);
@@ -35,7 +35,7 @@ router.get('/', ensureAuthenticated, (req, res, next) => {
 		});
 	};
 
-	let setTransactions = function(callback) {
+	let setTransactions = (callback) => {
 		transactionModel.getTransactionss((err, result) => {
 			if (err) {
 				throw next(err);
@@ -46,7 +46,7 @@ router.get('/', ensureAuthenticated, (req, res, next) => {
 		});
 	};
 
-	let setTransactionTypes = function(callback) {
+	let setTransactionTypes = (callback) => {
 		transactionModel.getTransactionTypes((err, result) => {
 			if (err) {
 				throw next(err);
@@ -54,10 +54,10 @@ router.get('/', ensureAuthenticated, (req, res, next) => {
 
 			returnObj['transactionTypes'] = {};
 
-			async.each(result, function(item, cb) {
+			async.each(result, (item, cb) => {
 				returnObj['transactionTypes'][item.transaction_type_id] = item.transaction_types;
 				cb();
-			}, function(itemError) {
+			}, (itemError) => {
 				if(itemError) {
 					throw next(itemError);
 				}
@@ -67,7 +67,7 @@ router.get('/', ensureAuthenticated, (req, res, next) => {
 		});
 	};
 
-	let setTransactionItems = function(callback) {
+	let setTransactionItems = (callback) => {
 		transactionModel.getTransactionItems((err, result) => {
 			if (err) {
 				throw next(err);
@@ -78,7 +78,7 @@ router.get('/', ensureAuthenticated, (req, res, next) => {
 		});
 	};
 
-	let setAdditionalMetricItems = function(callback) {
+	let setAdditionalMetricItems = (callback) => {
 		transactionModel.getAdditionalMetricItems((err, result) => {
 			if (err) {
 				throw next(err);
@@ -89,7 +89,7 @@ router.get('/', ensureAuthenticated, (req, res, next) => {
 		});
 	};
 
-	let setActivation = function(callback) {
+	let setActivation = (callback) => {
 		transactionModel.getActivation((err, result) => {
 			if (err) {
 				throw next(err);
@@ -97,10 +97,10 @@ router.get('/', ensureAuthenticated, (req, res, next) => {
 
 			returnObj['activationTypes'] = {};
 
-			async.each(result, function(item, cb) {
+			async.each(result, (item, cb) => {
 				returnObj['activationTypes'][item.activation_type_id] = item.activation_types;
 				cb();
-			}, function(itemError) {
+			}, (itemError) => {
 				if(itemError) {
 					throw next(itemError);
 				}
@@ -110,7 +110,7 @@ router.get('/', ensureAuthenticated, (req, res, next) => {
 		});
 	};
 
-	let setDevices = function(callback) {
+	let setDevices = (callback) => {
 		transactionModel.getDevice((err, result) => {
 			if (err) {
 				throw next(err);
@@ -118,10 +118,10 @@ router.get('/', ensureAuthenticated, (req, res, next) => {
 
 			returnObj['deviceTypes'] = {};
 
-			async.each(result, function(item, cb) {
+			async.each(result, (item, cb) => {
 				returnObj['deviceTypes'][item.device_type_id] = item.device_types;
 				cb();
-			}, function(itemError) {
+			}, (itemError) => {
 				if(itemError) {
 					throw next(itemError);
 				}
@@ -131,7 +131,7 @@ router.get('/', ensureAuthenticated, (req, res, next) => {
 		});
 	};
 
-	let setWarranties = function(callback) {
+	let setWarranties = (callback) => {
 		transactionModel.getWarranty((err, result) => {
 			if (err) {
 				throw next(err);
@@ -139,10 +139,10 @@ router.get('/', ensureAuthenticated, (req, res, next) => {
 
 			returnObj['warrantyTypes'] = {};
 
-			async.each(result, function(item, cb) {
+			async.each(result, (item, cb) => {
 				returnObj['warrantyTypes'][item.warranty_type_id] = item.warranty_types;
 				cb();
-			}, function(itemError) {
+			}, (itemError) => {
 				if(itemError) {
 					throw next(itemError);
 				}
@@ -186,10 +186,10 @@ router.get('/', ensureAuthenticated, (req, res, next) => {
 
 			returnObj['storesObj'] = JSON.stringify(returnObj['stores']);
 
-			async.each(returnObj['stores'], function(item, cb) {
+			async.each(returnObj['stores'], (item, cb) => {
 				storeIds.push(item.store_id);
 				cb();
-			}, function(itemError) {
+			}, (itemError) => {
 				if(itemError) {
 					throw next(itemError);
 				}
@@ -199,7 +199,7 @@ router.get('/', ensureAuthenticated, (req, res, next) => {
 		});
 	};
 
-	let setUsers = function(callback) {
+	let setUsers = (callback) => {
 		userModel.getAllUsersByStoreIds(storeIds, (err, result) => {
 			if(err) {
 				throw next(err);
@@ -236,7 +236,7 @@ router.get('/', ensureAuthenticated, (req, res, next) => {
 		setDevices,
 		setWarranties,
 		setUsers
-	], function(err, results) {
+	], (err, results) => {
 		res.render('transactions/transactions', returnObj);
 	});
 });

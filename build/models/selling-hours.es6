@@ -122,3 +122,13 @@ exports.getBudgets = (values, done) => {
     });
 };
 
+exports.getAllBudgets = (done) => {
+	connection.get().query('SELECT * FROM budgets', (error, result) => {
+		if(error) {
+			return done(error);
+		}
+
+		done(null, result);
+	});
+};
+

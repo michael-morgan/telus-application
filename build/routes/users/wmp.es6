@@ -1,114 +1,183 @@
-/**
- * Created by Jacob on 2016-05-29.
- */
-var express = require('express');
-var connection = require('../../connection');
-var passport = require('passport');
+import * as express from 'express';
+//import * as moment from '../../bower_components/bootstrap-daterangepicker/moment.min.js';
+import * as _ from 'lodash';
+import * as async from 'async';
 
-var userModel = require('../../models/user');
-var storeModel = require('../../models/store');
-var sellingHoursModel = require('../../models/selling-hours');
-var returnObj = {};
-var router = express.Router();
+// model imports
+import * as userModel from '../../models/user';
+import * as storeModel from '../../models/store';
+import * as transactionModel from '../../models/transactions';
+import * as sellingHoursModel from '../../models/selling-hours';
 
-var moment = require('../../bower_components/bootstrap-daterangepicker/moment.min.js');
-var endOfWeek = moment().startOf('isoWeek').add(5,'day').format('YYYY-MM-DD');
-var currentDate = moment().format("yyyy-MM-DD")
+
+//let endOfWeek = moment().startOf('isoWeek').add(5,'day').format('YYYY-MM-DD');
+//let currentDate = moment().format("yyyy-MM-DD");
+
+let router = express.Router();
 
 router.get('/', ensureAuthenticated, function (req, res, next) {
-    //Ensure user is logged in
-    if (req.user.privileged <= 2) {
-        return res.redirect('/users/');
-    }
+    if (req.user.privileged <= 2) { return res.redirect('/users/'); }
 
-    returnObj['title'] = 'WMP';
-    returnObj['message'] = undefined;
+	// locals
+	let returnObj = { title: 'WMP', message: undefined };
+	let storeIds = [];
 
-    storeModel.getStoresByTNumber(req.user.t_number, (err, result) => {
-        if (err) {
-            throw next(err);
-        } //end if
+    let setStores = (callback) => {
+		storeModel.getStoresByTNumber(req.user.t_number, (err, result) => {
+			if(err) {
+				throw next(err);
+			}
 
-        let storesResult = result;
+			returnObj['stores'] = result;
+			returnObj['currentStore'] = _.find(result, (store) => store.store_id == req.session.store_id);
 
-        returnObj['stores'] = storesResult;
-        returnObj['currentStore'] = storesResult.find((store) => store.store_id == req.session.store_id);
-        returnObj['storesObj'] = JSON.stringify(returnObj['stores']);
+			async.each(result, (item, cb) => {
+				storeIds.push(item.store_id);
+				cb();
+			}, (itemError) => {
+				if(itemError) {
+					throw next(itemError);
+				}
+			});
 
-        let storeIds = [];
-        for(let storeIndex in returnObj['stores']) {
-            if(!returnObj['stores'].hasOwnProperty(storeIndex)) { continue; }
-            storeIds.push(returnObj['stores'][storeIndex].store_id);
-        }
+			callback(null);
+		});
+	};
 
-        userModel.getAllUsersByStoreIds(storeIds, (err, result) => {
-            if (err) {
-                throw next(err);
-            } //end if
+    let setUsers = (callback) => {
+		userModel.getAllUsersByStoreIds(storeIds, (err, result) => {
+			if(err) {
+				throw next(err);
+			}
 
-            returnObj['users'] = [];
-            result.forEach((user) => {
-                delete user['password'];
-                returnObj['users'].push(user);
-            });
+			returnObj['users'] = [];
 
-            returnObj['usersObj'] = JSON.stringify(returnObj['users']);
-            returnObj['selectedEmployee'] = req.user.t_number;
+			async.each(result, (item, cb) => {
+				delete item['password'];
+				returnObj['users'].push(item);
+				cb();
+			}, (itemError) => {
+				if(itemError) {
+					throw next(itemError);
+				}
+			});
+			
+			returnObj['selectedEmployee'] = req.user.t_number;
 
-            sellingHoursModel.getHoursByStoreId(req.session.store_id, (err, result) => {
-                if (err) {
-                    throw next(err);
-                } //end if
+			callback(null);
+		});
+	};
 
-                let hoursResult = result;
+    let setUserTransactions = (callback) => {
+		transactionModel.getUserTransactions((err, result) => {
+			if(err) {
+				throw next(err);
+			}
 
-                returnObj['hours'] = hoursResult;
-                returnObj['hoursObj'] = JSON.stringify(hoursResult);
+			async.each(returnObj['users'], (item, cb) => {
+				let userTransaction = _.find(
+					result,
+					userTransactions => userTransactions.t_number === item.t_number
+				);
 
-                let storeTotalHours = 0;
-                returnObj['users'].forEach((user, userIndex, userArray) => {
-                    if(user.privileged == 5) { return; }
+				item['transactions'] =
+					userTransaction
+						? userTransaction.count
+						: 0;
+				cb();
+			}, (itemError) => {
+				if(itemError) {
+					throw next(itemError);
+				}
+			});
 
-                    userArray[userIndex]['hours'] = hoursResult.filter((row) => row.team_member == user.t_number);
+			callback(null);
+		});
+	};
+	
+    let setHours = (callback) => {
+		sellingHoursModel.getHoursByStoreId(req.session.store_id, (err, result) => {
+			if(err) {
+				throw next(err);
+			}
 
-                    let total = 0;
-                    for (let hourIndex in userArray[userIndex]['hours']) {
-                        total += userArray[userIndex]['hours'][hourIndex].selling_hours;
-                    }
+			returnObj['hours'] = result;
 
-                    userArray[userIndex]['totalHours'] = total;
-                    storeTotalHours += total;
-                });
+			let storeTotalHours = 0;
 
-                returnObj['stores'][returnObj['stores'].findIndex(
-                    (store) => store.store_id == req.session.store_id
-                )]['totalHours'] = storeTotalHours;
-                returnObj['currentStore']['totalHours'] = storeTotalHours;
+			async.each(returnObj['users'], (item, cb) => {
 
-                returnObj['users'].forEach((user, userIndex, userArray) => {
-                    userArray[userIndex]['hoursPercent'] = ((userArray[userIndex]['totalHours'] / storeTotalHours) * 100);
-                });
+				item['hours'] = _.filter(result, row => row.team_member == item.t_number);
 
-                //Bradley wrote this
-                sellingHoursModel.getBudgetsWithStore([endOfWeek, req.session.store_id], (err, result) => {
-                    if (err) {
-                        throw next(err);
-                    } //end if
+				let total = 0;
+				for (let hourIndex in item['hours']) {
+					total += item['hours'][hourIndex].selling_hours;
+				}
 
-                    let budgetsResult = result;
+				item['totalHours'] = total;
+				storeTotalHours += total;
 
-                    returnObj['budgets'] = budgetsResult;
-                    returnObj['budgetsObj'] = JSON.stringify(budgetsResult);
+				cb();
+			}, (itemError) => {
+				if(itemError) {
+					throw next(itemError);
+				}
+			});
+
+			returnObj['stores'][
+				_.findIndex(
+					returnObj['stores'],
+					store => store.store_id === req.session.store_id
+				)
+			]['totalHours'] = storeTotalHours;
+
+			returnObj['currentStore']['totalHours'] = storeTotalHours;
 
 
-                    res.render('wmp', returnObj);
+			async.each(returnObj['users'], (item, cb) => {
+				item['hoursPercent'] = ((item['totalHours'] / storeTotalHours) * 100);
+				cb();
+			}, (itemError) => {
+				if(itemError) {
+					throw next(itemError);
+				}
+			});
 
-                });
-            });
-        });
-    });
+			callback(null);
+		});
+	};
+
+    let setBudgets = (callback) => {
+		sellingHoursModel.getAllBudgets((err, result) => {
+			if(err) {
+				throw next(err);
+			}
+
+			returnObj['budgets'] = result;
+
+			callback(null);
+		});
+	};
+
+	// async series
+	async.series([
+		setStores,
+		setUsers,
+		setUserTransactions,
+		setHours,
+		setBudgets
+	], (err, results) => {
+
+		returnObj['storesObj'] = JSON.stringify(returnObj['stores']);
+		returnObj['usersObj'] = JSON.stringify(returnObj['users']);
+		returnObj['hoursObj'] = JSON.stringify(returnObj['hours']);
+		returnObj['budgetsObj'] = JSON.stringify(returnObj['budgets']);
+
+		res.render('wmp', returnObj);
+	});
 });
 
+/*
 router.post('/', ensureAuthenticated, (req, res, next) => {
     if(req.body.dateRange != undefined && req.body.dateRange != '') {
         var selectedDate = req.body.dateRange;
@@ -176,11 +245,12 @@ router.post('/ss', ensureAuthenticated, (req, res, next) => {
         req.session.success = false;
     }  //end if
     res.redirect('/users/wmp');
-});
+});*/
 
 // Ensure sure the user is authenticated
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) { return next(); }
     res.redirect('/');
 }
+
 module.exports = router;

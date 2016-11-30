@@ -4,7 +4,8 @@ block append stylesheet
     link(rel='stylesheet', href='/bower_components/bootstrap-daterangepicker/daterangepicker.css')
     link(rel='stylesheet', href='/stylesheets/selling-hours.css')
     link(rel='stylesheet', href='/stylesheets/wmp.css')
-    link(href='//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css', rel='stylesheet')
+    //link(href='//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css', rel='stylesheet')
+
 block content
     .row
         .col-xs-12
@@ -30,7 +31,6 @@ block content
                     span.input-group-addon#iconAddon
                         i.fa.fa-calendar(aria-hidden='true')
                     input.form-control(type='text', id='dateRange', name='dateRange', aria-describedby='iconAddon')
-                    //button.form-control(type='submit', id='submit', name='submit', aria-describedby='iconAddon')
         .col-xs-12
             hr
     .row
@@ -304,8 +304,7 @@ block content
                                             td 100%
 
 block append script
-
-    script(src='//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js')
+    //script(src='//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js')
     script(src='/bower_components/bootstrap-daterangepicker/moment.min.js')
     script(src='/bower_components/bootstrap-daterangepicker/daterangepicker.js')
     script(src='/javascripts/wmp.js')
@@ -314,4 +313,4 @@ block append script
         var userObj = JSON.parse('!{usersObj}');
         var hourObj = JSON.parse('!{hoursObj}');
         var budgetObj = JSON.parse('!{budgetsObj}');
-        var aDate = '!{selectedDate}';
+        //var aDate = '!{selectedDate}';

@@ -1,35 +1,31 @@
-var storesArray;
-var usersArray;
-var hoursArray;
-var budgetObj;
-var startDate;
-var endDate;
-var filteredUserArray;
-var filteredStoresArray;
-var filteredHoursArray;
-var filteredBudgetArray;
-var daysOfWeekArray = [];
+let filteredUsers;
+let filteredStore;
+let filteredHours;
+let filteredBudget;
+
+let store;
+
+let startDate;
+let endDate;
+
+//let daysOfWeekArray = [];
 
 $(() => {
-    storesArray = JSON.parse(JSON.stringify(storeObj));
-    usersArray = JSON.parse(JSON.stringify(userObj));
-    hoursArray = JSON.parse(JSON.stringify(hourObj));
-    budgetObj = JSON.parse(JSON.stringify(budgetObj));
+	console.debug(storeObj);
+	console.debug(userObj);
+	console.debug(hourObj);
+	console.debug(budgetObj);
 
-    var store = $("#store");
+	store = $("#store");
 
-    store.change((event) => {
-        //Get the selected user from from the drop down
-        store = $('#store').val();
+    store.change(event => {
 
-        filteredUserArray = userObj.filter((user) => user.store_id == store);
-        filteredStoresArray = storeObj.filter((st) => st.store_id == store);
-        filteredHoursArray = hourObj.filter((hour) => hour.store_id == store);
-        filteredBudgetArray = budgetObj.filter((budget) => budget.store_id == store);
+		applyFilter();
+		renderTables();
 
-        displayUsers();
+        /*displayUsers();
 
-        if(aDate != '') {
+        if(aDate) {
             $('#dateRange').daterangepicker({
                 "showWeekNumbers": true,
                 "singleDatePicker": true,
@@ -60,19 +56,38 @@ $(() => {
             });
             getDaysOfTheWeek(moment().startOf('isoWeek'));
         }
-        $('#hiddenDate').val($('#dateRange').val());
-        calculateHours();
+		*/
 
+        //$('#hiddenDate').val($('#dateRange').val());
+		//calculateHours();
     });
-    //Trigger the drop down change function to load the HTML
-    store.trigger('change');
 
+	$('#dateRange').daterangepicker({
+		"showWeekNumbers": true,
+		"showCustomRangeLabel": false,
+		"alwaysShowCalendars": true,
+		"startDate": startDate = moment().startOf('day'),
+		"endDate": endDate = moment().add(7, 'days'),
+		"opens": "center",
+		locale: {
+			format: "MMMM D, YYYY"
+		}
+	}, function(start, end, label) {
+		startDate = start;
+		endDate = end;
+
+		applyFilter();
+		renderTables();
+	});
+
+    // Trigger the drop down change function to load the HTML
+    store.trigger('change');
 });
 
-function getDaysOfTheWeek(date) {
-    var monday,tuesday,wednesday,thursday,friday,saturday, sunday;
+/*function getDaysOfTheWeek(date) {
+    let monday,tuesday,wednesday,thursday,friday,saturday, sunday;
 
-    sunday =moment(date).day("Sunday").format('YYYY-MM-DD');
+    sunday = moment(date).day("Sunday").format('YYYY-MM-DD');
     monday = moment(date).day("Monday").format('YYYY-MM-DD');
     tuesday = moment(date).day("Tuesday").format('YYYY-MM-DD');
     wednesday = moment(date).day("Wednesday").format('YYYY-MM-DD');
@@ -80,22 +95,22 @@ function getDaysOfTheWeek(date) {
     friday = moment(date).day("Friday").format('YYYY-MM-DD');
     saturday = moment(date).day("Saturday").format('YYYY-MM-DD');
 
-    daysOfWeekArray[daysOfWeekArray.length]=(sunday);
-    daysOfWeekArray[daysOfWeekArray.length]=(monday);
-    daysOfWeekArray[daysOfWeekArray.length]=(tuesday);
-    daysOfWeekArray[daysOfWeekArray.length]=(wednesday);
-    daysOfWeekArray[daysOfWeekArray.length]=(thursday);
-    daysOfWeekArray[daysOfWeekArray.length]=(friday);
-    daysOfWeekArray[daysOfWeekArray.length]=(saturday);
-}
+    daysOfWeekArray[daysOfWeekArray.length]= (sunday);
+    daysOfWeekArray[daysOfWeekArray.length]= (monday);
+    daysOfWeekArray[daysOfWeekArray.length]= (tuesday);
+    daysOfWeekArray[daysOfWeekArray.length]= (wednesday);
+    daysOfWeekArray[daysOfWeekArray.length]= (thursday);
+    daysOfWeekArray[daysOfWeekArray.length]= (friday);
+    daysOfWeekArray[daysOfWeekArray.length]= (saturday);
+}*/
 
-function calculateHours(){
-    var storeTotalHours = 0;
+/*function calculateHours() {
+    let storeTotalHours = 0;
 
-    for(var user in userObj) {
-        var userTotalHours = 0;
-        for (var day in daysOfWeekArray) {
-            for (var hour in hourObj) {
+    for(let user in userObj) {
+        let userTotalHours = 0;
+        for (let day in daysOfWeekArray) {
+            for (let hour in hourObj) {
                 if (hourObj[hour].date.substring(0, 10) == daysOfWeekArray[day]
                     && userObj[user].t_number == hourObj[hour].team_member
                     && userObj[user].privileged != 5) {
@@ -104,15 +119,15 @@ function calculateHours(){
                 }
             }
         }
+
         $('#totalHours_'+ userObj[user].t_number).text(userTotalHours);
         $('#budget'+ userObj[user].t_number).text(budgetObj[0].CTs);
-
     }
 
     //TODO this method broke when we combine the to tables, I think micheal made this method? Maybe he can help.
-        var countTable1 = document.getElementById("countTable1");
-        for(var i = 1, row; row = countTable1.rows[i]; i++){
-            var sellingHours = parseInt(row.cells[2].innerHTML);
+        let countTable1 = document.getElementById("countTable1");
+        for(let i = 1, row; row = countTable1.rows[i]; i++){
+            let sellingHours = parseInt(row.cells[2].innerHTML);
             if (sellingHours != 0 && sellingHours < storeTotalHours){
                 row.cells[3].innerHTML = Math.round((sellingHours/storeTotalHours)*100) + '%'
             }
@@ -122,15 +137,15 @@ function calculateHours(){
         }
     $('#storeTotalHours').text(storeTotalHours);
     console.log(storeTotalHours);
-}
+}*/
 
-function displayUsers() {
-    var employeeList = "";
+/*function displayUsers() {
+    let employeeList = "";
 
-    for(var userIndex in filteredUserArray){
+    for(let userIndex in filteredUserArray) {
         employeeList += `<tr>
                             <td></td>
-                            <td>${filteredUserArray[userIndex].first_name}  ${filteredUserArray[userIndex].last_name}</td>
+                            <td>${filteredUserArray[userIndex].first_name} ${filteredUserArray[userIndex].last_name}</td>
                             <th>${filteredUserArray[userIndex].totalHours}</th>
                             <th>${filteredUserArray[userIndex].hoursPercent}%</th>
                          <tr>`;
@@ -142,12 +157,130 @@ function displayUsers() {
     //    displayEmployeeHours(filteredUserArray, filteredHoursArray, aDate);
     //else
     //    displayEmployeeHours(filteredUserArray, filteredHoursArray, moment().startOf('isoWeek'));
+}*/
+
+function applyFilter() {
+	let storeValue = store.val();
+	console.log("Value: " + storeValue);
+
+	filteredUsers = _.cloneDeep(_.filter(userObj, user => user.store_id == storeValue));
+	filteredStore = _.cloneDeep(_.filter(storeObj, store => store.store_id == storeValue))[0];
+	filteredHours = _.cloneDeep(
+		_.filter(
+			_.filter(hourObj, hour => hour.store_id == storeValue),
+			hour => {
+				let hourDate = new Date(hour.date);
+
+				return ((hourDate >= startDate) && (hourDate <= endDate));
+			}
+		)
+	);
+	filteredBudget = _.cloneDeep(
+		_.filter(
+			_.filter(budgetObj, budget => budget.store_id == storeValue),
+			budget => {
+				let budgetDate = new Date(budget.date);
+
+				return ((budgetDate >= startDate) && (budgetDate <= endDate));
+			}
+		)
+	);
 }
 
-function applyFilter() { document.getElementById("updateWeekForm").submit(); }
+function renderTables() {
+	for(let index = 1; index <= 5; index++) {
+		$(`countTable${index}`).html('');
+	}
 
-/*$(document).ready(function(){
-    fakewaffle.responsiveTabs(['md']);
-    $('.footable').footable();
-});*/
+	$('#countTable1').html(getCTContent());
+	$('#countTable2').html(getRevContent());
+	$('#countTable3').html(getLSContent());
+	$('#countTable4').html(getKBSContent());
+	$('#countTable5').html(getKeyMetrics());
+}
 
+function getCTContent() {
+	let content = "";
+
+	content += `
+		<thead>
+			<tr>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>26.3</td>
+				<td data-hide="all">31.6</td>
+				<td data-hide="all">3</td>
+				<td data-hide="all">14.26%</td>
+			</tr>
+			<tr>
+				<th>Store ${filteredStore.store_id}</th>
+				<th>TM Name</th>
+				<th>Selling Hours</th>
+				<th>% Hours</th>
+				<th>Budgets</th>
+				<th>Goal</th>
+				<th>Actual</th>
+				<th>% To Budget</th>
+			</tr>
+		</thead>
+	`;
+
+	content += "<tbody>";
+
+	for(let user of filteredUsers) {
+		if(user.privileged == 5) { continue; }
+
+		content += `
+			<tr id="${user.t_number}">
+				<td></td>
+				<td>${user.first_name} ${user.last_name}</td>
+				<td>${user.totalHours}</td>
+				<td>${user.hoursPercent}</td>
+				<td>${filteredBudget.length ? filteredBudget[0].CTs : 0}</td>
+				<td>26.3</td>
+				<td>26.3</td>
+				<td>&nbsp;</td>
+			</tr>
+		`;
+	}
+
+	content += "</tbody>";
+
+	content += `
+		<tfoot>
+			<tr>
+				<th class="pls" colspan="8">~ Store Actual Totals Listed Below ~</th>
+			</tr>
+			<tr>
+				<td>Store Total</td>
+				<td></td>
+				<td id="storeTotalHours"></td>
+				<td>100%</td>
+				<td>$180</td>
+				<td>$210</td>
+				<td>$555</td>
+				<td>100%</td>
+			</tr>
+		</tfoot>
+	`;
+
+	return content;
+}
+
+function getRevContent() {
+	return ``;
+}
+
+function getLSContent() {
+	return ``;
+}
+
+function getKBSContent() {
+	return ``;
+}
+
+function getKeyMetrics() {
+	return ``;
+}

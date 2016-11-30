@@ -125,4 +125,14 @@ exports.getBudgets = function (values, done) {
     });
 };
 
+exports.getAllBudgets = function (done) {
+    connection.get().query('SELECT * FROM budgets', function (error, result) {
+        if (error) {
+            return done(error);
+        }
+
+        done(null, result);
+    });
+};
+
 //# sourceMappingURL=selling-hours.js.map
