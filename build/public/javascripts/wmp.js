@@ -26,7 +26,7 @@ $(function () {
 		renderTables();
 
 		/*displayUsers();
-    if(aDate) {
+   if(aDate) {
       $('#dateRange').daterangepicker({
           "showWeekNumbers": true,
           "singleDatePicker": true,
@@ -170,6 +170,7 @@ function applyFilter() {
 	filteredStore = _.cloneDeep(_.filter(storeObj, function (store) {
 		return store.store_id == storeValue;
 	}))[0];
+
 	filteredHours = _.cloneDeep(_.filter(_.filter(hourObj, function (hour) {
 		return hour.store_id == storeValue;
 	}), function (hour) {
@@ -177,8 +178,6 @@ function applyFilter() {
 
 		return hourDate >= startDate && hourDate <= endDate;
 	}));
-
-	console.debug(filteredHours);
 
 	filteredBudget = _.cloneDeep(_.filter(_.filter(budgetObj, function (budget) {
 		return budget.store_id == storeValue;
@@ -220,11 +219,21 @@ function getCTContent() {
 				return "continue";
 			}
 
-			content += "\n\t\t\t<tr id=\"" + user.t_number + "\">\n\t\t\t\t<td></td>\n\t\t\t\t<td>" + user.first_name + " " + user.last_name + "</td>\n\t\t\t\t<td>" + filteredHours.filter(function (hourObj) {
+			content += "\n\t\t\t<tr id=\"" + user.t_number + "\">\n\t\t\t\t<td></td>\n\t\t\t\t<td>" + user.first_name + " " + user.last_name + "</td>\n\t\t\t\t<td>" + _.reduce(_.filter(filteredHours, function (hourObj) {
 				return user.t_number == hourObj.team_member;
-			}).reduce(function (total, hour) {
+			}), function (total, hour) {
 				return total + hour.selling_hours;
-			}, 0) + "</td>\n\t\t\t\t<td>" + parseFloat(user.hoursPercent).toFixed(2) + "</td>\n\t\t\t\t<td>" + (filteredBudget.length ? filteredBudget[0].CTs : 0) + "</td>\n\t\t\t\t<td>26.3</td>\n\t\t\t\t<td>26.3</td>\n\t\t\t\t<td>&nbsp;</td>\n\t\t\t</tr>\n\t\t";
+			}, 0) + "</td>\n\t\t\t\t<td>" + _.reduce(_.filter(filteredHours, function (hourObj) {
+				return user.t_number == hourObj.team_member;
+			}), function (total, hour) {
+				return total + hour.selling_hours;
+			}, 0) / _.reduce(_.filter(filteredHours, function (hour) {
+				return hour.team_member == (_.find(filteredUsers, function (user) {
+					return user.t_number == hour.team_member && user.privileged < 5;
+				}) || { t_number: '' }).t_number;
+			}), function (total, hour) {
+				return total + hour.selling_hours;
+			}, 0) * 100 + "</td>\n\t\t\t\t<td>" + (filteredBudget.length ? filteredBudget[0].CTs : 0) + "</td>\n\t\t\t\t<td>26.3</td>\n\t\t\t\t<td>26.3</td>\n\t\t\t\t<td>&nbsp;</td>\n\t\t\t</tr>\n\t\t";
 		};
 
 		for (var _iterator = filteredUsers[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {

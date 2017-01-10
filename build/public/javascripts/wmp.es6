@@ -165,20 +165,17 @@ function applyFilter() {
 
 	filteredUsers = _.cloneDeep(_.filter(userObj, user => user.store_id == storeValue));
 	filteredStore = _.cloneDeep(_.filter(storeObj, store => store.store_id == storeValue))[0];
+
 	filteredHours = _.cloneDeep(
 		_.filter(
 			_.filter(hourObj, hour => hour.store_id == storeValue),
 			hour => {
 				let hourDate = new Date(hour.date);
 
-
-
 				return ((hourDate >= startDate) && (hourDate <= endDate));
 			}
 		)
 	);
-
-	console.debug(filteredHours);
 
 	filteredBudget = _.cloneDeep(
 		_.filter(
@@ -241,8 +238,33 @@ function getCTContent() {
 			<tr id="${user.t_number}">
 				<td></td>
 				<td>${user.first_name} ${user.last_name}</td>
-				<td>${filteredHours.filter(hourObj => user.t_number == hourObj.team_member).reduce((total, hour) => total + hour.selling_hours, 0)}</td>
-				<td>${parseFloat(user.hoursPercent).toFixed(2)}</td>
+				<td>${
+					_.reduce(
+						_.filter(filteredHours, hourObj => user.t_number == hourObj.team_member), 
+						(total, hour) => total + hour.selling_hours,
+						0
+					)
+				}</td>
+				<td>${
+					(_.reduce(
+						_.filter(filteredHours, hourObj => user.t_number == hourObj.team_member), 
+						(total, hour) => total + hour.selling_hours,
+						0
+					) /
+					_.reduce(
+						_.filter(
+							filteredHours,
+							hour => hour.team_member == (
+								_.find(
+									filteredUsers,
+									user => (user.t_number == hour.team_member) && (user.privileged < 5)
+								)
+								|| { t_number: '' }
+							).t_number
+						),
+						(total, hour) => total + hour.selling_hours, 0
+					)) * 100
+				}</td>
 				<td>${filteredBudget.length ? filteredBudget[0].CTs : 0}</td>
 				<td>26.3</td>
 				<td>26.3</td>
