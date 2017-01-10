@@ -20,8 +20,8 @@ $(() => {
 
     store.change(event => {
 
-		//applyFilter();
-		//renderTables();
+		applyFilter();
+		renderTables();
 
         /*displayUsers();
 
@@ -76,12 +76,12 @@ $(() => {
 		startDate = start;
 		endDate = end;
 
-		//applyFilter();
-		//renderTables();
+		applyFilter();
+		renderTables();
 	});
 
-    // Trigger the drop down change function to load the HTML
-    //store.trigger('change');
+    //Trigger the drop down change function to load the HTML
+    store.trigger('change');
 });
 
 /*function getDaysOfTheWeek(date) {
@@ -171,10 +171,15 @@ function applyFilter() {
 			hour => {
 				let hourDate = new Date(hour.date);
 
+
+
 				return ((hourDate >= startDate) && (hourDate <= endDate));
 			}
 		)
 	);
+
+	console.debug(filteredHours);
+
 	filteredBudget = _.cloneDeep(
 		_.filter(
 			_.filter(budgetObj, budget => budget.store_id == storeValue),
@@ -189,7 +194,7 @@ function applyFilter() {
 
 function renderTables() {
 	for(let index = 1; index <= 5; index++) {
-		$(`countTable${index}`).html('');
+		$(`#countTable${index}`).html('');
 	}
 
 	$('#countTable1').html(getCTContent());
@@ -236,8 +241,8 @@ function getCTContent() {
 			<tr id="${user.t_number}">
 				<td></td>
 				<td>${user.first_name} ${user.last_name}</td>
-				<td>${user.totalHours}</td>
-				<td>${user.hoursPercent}</td>
+				<td>${filteredHours.filter(hourObj => user.t_number == hourObj.team_member).reduce((total, hour) => total + hour.selling_hours, 0)}</td>
+				<td>${parseFloat(user.hoursPercent).toFixed(2)}</td>
 				<td>${filteredBudget.length ? filteredBudget[0].CTs : 0}</td>
 				<td>26.3</td>
 				<td>26.3</td>

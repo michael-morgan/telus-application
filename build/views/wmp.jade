@@ -50,7 +50,7 @@ block content
                 .tab-content
                     #tab1.tab-pane.fade.active.in
                         table.metricTable.table.table-striped.table-bordered.table-hover.footable.toggle-medium(style="width: 100%;", id="countTable1")
-                            thead
+                            //thead
                                 tr
                                     td  &nbsp;
                                     td  &nbsp;
@@ -69,19 +69,19 @@ block content
                                     th Goal
                                     th Actual
                                     th % To Budget
-                            tbody
+                            //tbody
                                 each user, i in users
                                     if user.privileged != 5
                                         tr(id='#{user.t_number}')
                                             td
                                             td #{user.first_name + " " + user.last_name}
-                                            td 40
+                                            td
                                             td 46.16 %
                                             td 11.1 %
                                             td 13.6
                                             td 2
                                             td 26.12%
-                            tfoot
+                            //tfoot
                                 tr
                                     th.pls(colspan='8') ~ Store Actual Totals Listed Below ~
                                 tr

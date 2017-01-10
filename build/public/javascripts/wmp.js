@@ -22,11 +22,11 @@ $(function () {
 
 	store.change(function (event) {
 
-		//applyFilter();
-		//renderTables();
+		applyFilter();
+		renderTables();
 
 		/*displayUsers();
-   if(aDate) {
+    if(aDate) {
       $('#dateRange').daterangepicker({
           "showWeekNumbers": true,
           "singleDatePicker": true,
@@ -77,12 +77,12 @@ $(function () {
 		startDate = start;
 		endDate = end;
 
-		//applyFilter();
-		//renderTables();
+		applyFilter();
+		renderTables();
 	});
 
-	// Trigger the drop down change function to load the HTML
-	//store.trigger('change');
+	//Trigger the drop down change function to load the HTML
+	store.trigger('change');
 });
 
 /*function getDaysOfTheWeek(date) {
@@ -177,6 +177,9 @@ function applyFilter() {
 
 		return hourDate >= startDate && hourDate <= endDate;
 	}));
+
+	console.debug(filteredHours);
+
 	filteredBudget = _.cloneDeep(_.filter(_.filter(budgetObj, function (budget) {
 		return budget.store_id == storeValue;
 	}), function (budget) {
@@ -188,7 +191,7 @@ function applyFilter() {
 
 function renderTables() {
 	for (var index = 1; index <= 5; index++) {
-		$("countTable" + index).html('');
+		$("#countTable" + index).html('');
 	}
 
 	$('#countTable1').html(getCTContent());
@@ -210,14 +213,24 @@ function getCTContent() {
 	var _iteratorError = undefined;
 
 	try {
-		for (var _iterator = filteredUsers[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+		var _loop = function _loop() {
 			var user = _step.value;
 
 			if (user.privileged == 5) {
-				continue;
+				return "continue";
 			}
 
-			content += "\n\t\t\t<tr id=\"" + user.t_number + "\">\n\t\t\t\t<td></td>\n\t\t\t\t<td>" + user.first_name + " " + user.last_name + "</td>\n\t\t\t\t<td>" + user.totalHours + "</td>\n\t\t\t\t<td>" + user.hoursPercent + "</td>\n\t\t\t\t<td>" + (filteredBudget.length ? filteredBudget[0].CTs : 0) + "</td>\n\t\t\t\t<td>26.3</td>\n\t\t\t\t<td>26.3</td>\n\t\t\t\t<td>&nbsp;</td>\n\t\t\t</tr>\n\t\t";
+			content += "\n\t\t\t<tr id=\"" + user.t_number + "\">\n\t\t\t\t<td></td>\n\t\t\t\t<td>" + user.first_name + " " + user.last_name + "</td>\n\t\t\t\t<td>" + filteredHours.filter(function (hourObj) {
+				return user.t_number == hourObj.team_member;
+			}).reduce(function (total, hour) {
+				return total + hour.selling_hours;
+			}, 0) + "</td>\n\t\t\t\t<td>" + parseFloat(user.hoursPercent).toFixed(2) + "</td>\n\t\t\t\t<td>" + (filteredBudget.length ? filteredBudget[0].CTs : 0) + "</td>\n\t\t\t\t<td>26.3</td>\n\t\t\t\t<td>26.3</td>\n\t\t\t\t<td>&nbsp;</td>\n\t\t\t</tr>\n\t\t";
+		};
+
+		for (var _iterator = filteredUsers[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+			var _ret = _loop();
+
+			if (_ret === "continue") continue;
 		}
 	} catch (err) {
 		_didIteratorError = true;
