@@ -1,8 +1,8 @@
 'use strict';
 
 // email
-var EMAIL_USERNAME = 'maplefssb@gmail.com';
-var EMAIL_PASSWORD = '123Maple123';
+var EMAIL_USERNAME = '';
+var EMAIL_PASSWORD = '';
 
 exports.EMAIL_USERNAME = EMAIL_USERNAME;
 exports.EMAIL_PASSWORD = EMAIL_PASSWORD;
